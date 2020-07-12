@@ -25,8 +25,12 @@ import java.util.Properties;
 @PropertySource("classpath:database.properties")
 public class JPAConfig {
 
-    @Autowired
     private Environment environment;
+
+    @Autowired
+    public JPAConfig(Environment environment) {
+        this.environment = environment;
+    }
 
     @Bean
     public DataSource dataSource() {
@@ -56,18 +60,21 @@ public class JPAConfig {
 
 
     @Bean(destroyMethod = "")
-    public EntityManagerFactory entityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource());
         factoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
         factoryBean.setJpaProperties(hibernateProperties());
         factoryBean.setPackagesToScan("com.tsystems.rehaklinik.entities");
-        return factoryBean.getNativeEntityManagerFactory();
+        return factoryBean;
     }
 
     @Bean
     public PlatformTransactionManager transactionManager() {
-       return new JpaTransactionManager(entityManagerFactory());
+        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
+        jpaTransactionManager.setDataSource(dataSource());
+        jpaTransactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+        return jpaTransactionManager;
     }
 }
