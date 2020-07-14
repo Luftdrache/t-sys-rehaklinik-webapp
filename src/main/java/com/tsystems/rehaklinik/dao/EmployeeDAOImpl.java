@@ -1,8 +1,8 @@
 package com.tsystems.rehaklinik.dao;
 
 import com.tsystems.rehaklinik.entities.Employee;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,13 +13,14 @@ import java.util.List;
 @Repository
 @Transactional
 public class EmployeeDAOImpl implements EmployeeDAO{
-    private static final Log LOG = LogFactory.getLog(EmployeeDAOImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(EmployeeDAOImpl.class);
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     public void insertEmployee(Employee employee) {
+        logger.info("--- Add new employee ---");
         entityManager.persist(employee);
     }
 
@@ -50,6 +51,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     @Override
     @Transactional(readOnly = true)
     public List<Employee> findAll() {
+        logger.info("--- Find all employees ---");
         return entityManager.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
     }
 

@@ -30,7 +30,7 @@ PRIMARY KEY employees_id_PK (id),
 FOREIGN KEY position_FK (position_id) REFERENCES rehaklinik.positions(id), 
 FOREIGN KEY qualification_category_FK (qualification_category_id) REFERENCES rehaklinik.qualification_category(id), 
 UNIQUE KEY login_UK (login), 
-UNIQUE KEY password (password)
+UNIQUE KEY password_UK (password)
 );
 
 

@@ -9,16 +9,16 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
-
 @Controller
 public class AdminController {
 
-    private static Logger logger = LoggerFactory.getLogger(AdminService.class);
+    private Logger logger = LoggerFactory.getLogger(AdminController.class);
+
     private AdminService adminService;
 
     @GetMapping("/admin-page")
     public String showAllEmployees(ModelMap model){
-        //Test
+        logger.info("**TEST**");
         model.addAttribute("message", "Test message!");
         return "admin_page";
     }
