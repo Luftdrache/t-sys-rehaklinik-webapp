@@ -51,7 +51,7 @@ public class JPAConfig {
         hibernateProperties.put("hibernate.max_fetch_depth", environment.getRequiredProperty("hibernate.max_fetch_depth"));
         hibernateProperties.put("hibernate.max_fetch_size", environment.getRequiredProperty("hibernate.max_fetch_size"));
         hibernateProperties.put("hibernate.max_batch_size", environment.getRequiredProperty("hibernate.max_batch_size"));
-        hibernateProperties.put("hibernate.ddl-auto", environment.getRequiredProperty("hibernate.ddl-auto"));
+        hibernateProperties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
         return hibernateProperties;
     }
 

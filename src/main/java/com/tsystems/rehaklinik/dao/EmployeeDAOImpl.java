@@ -1,6 +1,6 @@
 package com.tsystems.rehaklinik.dao;
 
-import com.tsystems.rehaklinik.entities.Employee;
+import com.tsystems.rehaklinik.entities.Employees;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -19,7 +19,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     private EntityManager entityManager;
 
     @Override
-    public void insertEmployee(Employee employee) {
+    public void insertEmployee(Employees employee) {
         logger.info("--- Add new employee ---");
         entityManager.persist(employee);
     }
@@ -30,35 +30,35 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     @Override
-    public void updateEmployee(Employee employee) {
+    public void updateEmployee(Employees employee) {
 
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Employee findById(int employeeId) {
+    public Employees findById(int employeeId) {
         return null;
     }
 
 
     @Override
     @Transactional(readOnly = true)
-    public Employee findBySurname(String employeeName) {
+    public Employees findBySurname(String employeeName) {
         return null;
     }
 
 
     @Override
     @Transactional(readOnly = true)
-    public List<Employee> findAll() {
+    public List<Employees> findAll() {
         logger.info("--- Find all employees ---");
-        return entityManager.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
+        return entityManager.createQuery("SELECT e FROM Employees e", Employees.class).getResultList();
     }
 
 
     @Override
     @Transactional(readOnly = true)
-    public List<Employee> findByEmployeePosition(String employeesPosition) {
+    public List<Employees> findByEmployeePosition(String employeesPosition) {
         return null;
     }
 }
