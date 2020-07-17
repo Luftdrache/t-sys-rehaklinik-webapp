@@ -23,7 +23,7 @@ public class Patients implements Serializable {
     private int passportId;
     private String insurancePolicyCode;
     private String insuranceCompany;
-    private boolean сonsentToPersonalDataProcessing;
+    private boolean consentToPersonalDataProcessing;
     private Employees attendingDoctorId;
     private MedicalRecords medicalRecord;
     private List<Prescriptions> prescriptions;
