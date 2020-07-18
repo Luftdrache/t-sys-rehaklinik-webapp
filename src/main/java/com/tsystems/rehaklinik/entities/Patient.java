@@ -59,7 +59,7 @@ public class Patient implements Serializable {
 
     @NotBlank(message = "Patient's address mustn't be blank or null")
     @Size(min = 10, max = 255, message = "Patient's address length must be no less than 10 and no more than 255 characters")
-    @Column(name = "address", nullable = false, length = 250)
+    @Column(name = "address", nullable = false)
     private String address;
 
     @NotNull(message = "Patient's passport id must be set")
