@@ -2,6 +2,26 @@ DROP database rehaklinik;
 
 CREATE DATABASE IF NOT EXISTS rehaklinik CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+CREATE TABLE IF NOT EXISTS rehaklinik.authentication_data (
+authentication_data_id int (11) NOT NULL AUTO_INCREMENT,
+login varchar (35) NOT NULL,
+password varchar (35) NOT NULL,
+-- last_login_date timestamp NOT NULL, 
+-- salt varchar (50) NOT NULL,
+-- count int (11) NOT NULL,
+PRIMARY KEY authentication_data_id_PK (authentication_data_id), 
+UNIQUE KEY login_UK (login), 
+UNIQUE KEY password_UK (password) 
+);
+
+
+CREATE TABLE IF NOT EXISTS rehaklinik.roles (
+role_id int (11) NOT NULL AUTO_INCREMENT,
+role varchar(25) NOT NULL, 
+PRIMARY KEY role_id_PK (role_id),
+UNIQUE KEY role_UK (role)
+);
+
 CREATE TABLE IF NOT EXISTS rehaklinik.positions (
 position_id int (11) NOT NULL AUTO_INCREMENT,
 position varchar (50) NOT NULL, 
@@ -16,22 +36,15 @@ PRIMARY KEY qualification_category_id_PK (qualification_category_id),
 UNIQUE KEY qualification_category_UK (qualification_category)
 );
 
-CREATE TABLE IF NOT EXISTS rehaklinik.roles (
-role_id int (11) NOT NULL AUTO_INCREMENT,
-role varchar(25) NOT NULL, 
-PRIMARY KEY role_id_PK (role_id),
-UNIQUE KEY role_UK (role)
-);
-
 CREATE TABLE IF NOT EXISTS rehaklinik.working_schedules (
 working_schedule_id int (11) NOT NULL AUTO_INCREMENT,	
-Sunday bool default false,
-Monday bool default false,
-Tuesday bool default false,
-Wednesday bool default false,
-Thursday bool default false,
-Friday bool default false,
-Saturday bool default false,
+Sunday bool,
+Monday bool,
+Tuesday bool,
+Wednesday bool,
+Thursday bool,
+Friday bool,
+Saturday bool,
 working_start_time time NOT NULL,
 working_end_time time NOT NULL, 
 PRIMARY KEY working_schedule_id_PK (working_schedule_id)
@@ -42,13 +55,12 @@ employee_id int (11) NOT NULL AUTO_INCREMENT,
 first_name varchar (50) NOT NULL,
 second_name varchar (50), 
 surname varchar (50) NOT NULL,
-login varchar (35) NOT NULL,
-password varchar (35) NOT NULL,
+employee_authentication_data_id int NOT NULL UNIQUE, 
 date_of_birth date NOT NULL, 
 passport_id int NOT NULL, 
-address varchar (100),
+address varchar (255) NOT NULL,
 phone_number varchar (25) NOT NULL,
-email varchar (80), 
+email varchar (100) UNIQUE, 
 position_id int (11) NOT NULL,
 qualification_category_id int (11),
 working_schedule_id int (11),
@@ -59,8 +71,8 @@ FOREIGN KEY position_FK (position_id) REFERENCES rehaklinik.positions(position_i
 FOREIGN KEY qualification_category_FK (qualification_category_id) REFERENCES rehaklinik.qualification_categories(qualification_category_id), 
 FOREIGN KEY working_schedule_id_FK (working_schedule_id) REFERENCES rehaklinik.working_schedules(working_schedule_id), 
 FOREIGN KEY role_FK (role_id) REFERENCES rehaklinik.roles(role_id), 
-UNIQUE KEY login_UK (login), 
-UNIQUE KEY password_UK (password), 
+FOREIGN KEY employee_authentication_data_id_FK (employee_authentication_data_id) 
+REFERENCES rehaklinik.authentication_data(authentication_data_id), 
 UNIQUE KEY passport_id_UK (passport_id)
 );
 
@@ -90,22 +102,21 @@ second_name varchar (50),
 surname varchar (50) NOT NULL,
 date_of_birth Date NOT NULL,
 gender varchar (6) NOT NULL, 
-login varchar (35) NOT NULL,
-password varchar (35) NOT NULL,
-phone_number varchar (25),
-email varchar (80), 
-address varchar (100),
+patient_authentication_data_id int NOT NULL UNIQUE, 
+phone_number varchar (25) NOT NULL,
+email varchar (100) UNIQUE, 
+address varchar (255) NOT NULL,
 passport_id int NOT NULL, 
 insurance_policy_code varchar(50) NOT NULL UNIQUE, 
-insurance_company varchar(50) NOT NULL UNIQUE, 
+insurance_company varchar(50) NOT NULL, 
 attending_doctor_id int (11) NOT NULL, 
 medical_record_id int(11),
 сonsent_to_personal_data_processing bool NOT NULL,
 PRIMARY KEY patient_id_PK (patient_id), 
 FOREIGN KEY attending_doctor_FK (attending_doctor_id) REFERENCES rehaklinik.employees(employee_id), 
 FOREIGN KEY medical_record_id_FK (medical_record_id) REFERENCES rehaklinik.medical_records(medical_record_id), 
-UNIQUE KEY patient_login_UK (login), 
-UNIQUE KEY patient_password_UK (password), 
+FOREIGN KEY patient_authentication_data_id_FK (patient_authentication_data_id) 
+			REFERENCES rehaklinik.authentication_data(authentication_data_id), 
 UNIQUE KEY passport_id_UK (passport_id),
 UNIQUE KEY medical_record_id_UK (medical_record_id )
 );
@@ -113,9 +124,9 @@ UNIQUE KEY medical_record_id_UK (medical_record_id )
 CREATE TABLE IF NOT EXISTS rehaklinik.treatment_time_patterns(
 treatment_time_pattern_id int (11) NOT NULL AUTO_INCREMENT,
 count_per_day int (2), 
-before_meals bool default false,
-at_meals bool default false,
-after_meals bool default false,
+-- before_meals bool default false,
+-- at_meals bool default false,
+-- after_meals bool default false,
 Sunday bool default false,
 Monday bool default false,
 Tuesday bool default false,

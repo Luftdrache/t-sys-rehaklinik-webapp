@@ -1,22 +1,22 @@
 package com.tsystems.rehaklinik.dao;
 
-import com.tsystems.rehaklinik.entities.Employees;
+import com.tsystems.rehaklinik.entities.Employee;
 
 import java.util.List;
 
 public interface EmployeeDAO {
-    void insertEmployee(Employees employee);
+    Employee createEmployee(Employee employee);
 
     void deleteEmployee(int employeeId);
 
-    void updateEmployee(Employees employee);
+    void updateEmployee(Employee employee);
 
-    Employees findById(int employeeId);
+    Employee findById(int employeeId);
 
-    Employees findBySurname(String employeeName);
+    Employee findBySurname(String employeeName);
 
-    List<Employees> findAll();
+    List<Employee> findAll();
 
-    List<Employees> findByEmployeePosition(String employeesPosition);
+    List<Employee> findByEmployeePosition(String employeesPosition);
 
 }

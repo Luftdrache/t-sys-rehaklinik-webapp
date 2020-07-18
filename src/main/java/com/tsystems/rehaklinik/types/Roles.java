@@ -1,6 +1,6 @@
 package com.tsystems.rehaklinik.types;
 
-public enum Role {
+public enum Roles {
     ADMIN,
     RECEPTIONIST,
     DOCTOR,
