@@ -27,8 +27,7 @@ public class Patient implements Serializable {
     @Column(name = "patient_id", nullable = false, length = 11)
     private int patientId;
 
-    @NotNull(message = "Patient's first name must be set")
-    @NotBlank(message = "Patient's first name mustn't be blank")
+    @NotBlank(message = "Patient's first name mustn't be blank or null")
     @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
 
@@ -36,8 +35,7 @@ public class Patient implements Serializable {
     @Column(name = "second_name", length = 50)
     private String secondName;
 
-    @NotNull(message = "Patient's surname must be set")
-    @NotBlank(message = "Patient's surname mustn't be blank")
+    @NotBlank(message = "Patient's surname mustn't be blank or null")
     @Column(name = "surname", nullable = false, length = 50)
     private String surname;
 

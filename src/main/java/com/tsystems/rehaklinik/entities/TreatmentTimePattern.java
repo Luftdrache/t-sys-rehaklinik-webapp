@@ -21,6 +21,7 @@ public class TreatmentTimePattern implements Serializable {
     @Column(name = "count_per_day", length = 2)
     private int countPerDay;
 
+
     @Column(name = "before_meals", columnDefinition = "BIT(1)")
     private boolean beforeMeals;
     @Column(name = "at_meals", columnDefinition = "BIT(1)")

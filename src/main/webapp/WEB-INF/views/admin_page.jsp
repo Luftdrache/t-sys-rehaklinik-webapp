@@ -8,6 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="https://img.lovepik.com/free_png/28/91/88/36a58PICtV0Zf67j9cRpE_PIC2018.png_300.png" sizes="any" type="image/png">
     <title>Admin Page</title>
 </head>
 <body>
