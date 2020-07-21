@@ -30,11 +30,9 @@ public class MedicineAndProcedure implements Serializable {
 
     @NotNull(message = "Treatment type must be set")
     @Enumerated(EnumType.STRING)
-    @Column(name = "treatment_type", nullable = false, length = 9)
+    @Column(name = "treatment_type", columnDefinition ="ENUM ('MEDICINE', 'PROCEDURE')", nullable = false, length = 9)
     private TreatmentType treatmentType;
 
     @OneToMany(mappedBy = "medicineAndProcedure")
     private List<Prescription> prescriptions;
-
-
 }

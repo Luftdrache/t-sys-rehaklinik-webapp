@@ -1,7 +1,13 @@
 package com.tsystems.rehaklinik.types;
 
 public enum HospitalStayStatus {
-    NEW,
-    BEING_TREATED,
-    DISCHARGED
+    NEW("New"),
+    BEING_TREATED("Being Treated"),
+    DISCHARGED("Discharged");
+
+    private String hospitalStayStatus;
+
+    HospitalStayStatus(String hospitalStayStatus) {
+        this.hospitalStayStatus = hospitalStayStatus;
+    }
 }

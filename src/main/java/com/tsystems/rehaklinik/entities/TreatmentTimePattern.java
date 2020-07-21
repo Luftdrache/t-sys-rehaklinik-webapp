@@ -22,11 +22,11 @@ public class TreatmentTimePattern implements Serializable {
     private int countPerDay;
 
 
-    @Column(name = "before_meals", columnDefinition = "BIT(1)")
+    @Column(name = "before_meals")
     private boolean beforeMeals;
-    @Column(name = "at_meals", columnDefinition = "BIT(1)")
+    @Column(name = "at_meals")
     private boolean atMeals;
-    @Column(name = "after_meals", columnDefinition = "BIT(1)")
+    @Column(name = "after_meals")
     private boolean afterMeals;
 
     @Column(name = "Sunday")

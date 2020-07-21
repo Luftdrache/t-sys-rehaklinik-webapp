@@ -27,7 +27,7 @@ public class QualificationCategory implements Serializable {
     @NotBlank(message = "Employee's qualification category mustn't be blank or null")
     @Enumerated(EnumType.STRING)
 //    @Size(max=50, message = "Qualification category length must be no more than 25 characters")
-    @Column(name = "qualification_category", nullable = false)
+    @Column(name = "qualification_category", columnDefinition = "ENUM('SECOND', 'FIRST', 'HIGHER')",  nullable = false)
     private QualificationCategories qualificationCategory;
 
     @OneToMany(mappedBy = "qualificationCategory")

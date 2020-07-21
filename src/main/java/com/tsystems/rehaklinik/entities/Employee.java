@@ -1,6 +1,7 @@
 package com.tsystems.rehaklinik.entities;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -16,6 +17,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +30,8 @@ public class Employee implements Serializable {
     private String firstName;
 
     @Size(min = 2, max = 50, message = "Employees second name length must be no less than 2 and no more than 50 characters")
-    @Column(name = "second_name", length = 50)
-    private String secondName;
+    @Column(name = "middle_name", length = 50)
+    private String middleName;
 
     @NotBlank(message = "Employee's surname mustn't be blank or null")
     @Size(min = 2, max = 50, message = "Employees surname length must be no less than 2 and no more than 50 characters")
@@ -37,13 +39,13 @@ public class Employee implements Serializable {
     private String surname;
 
     @NotNull(message = "Employee's date of birth must be set")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 
     @NotNull(message = "Employee's passport id must be set")
-    @Pattern(regexp = "\\d{4}\\s\\d{6}", message = "Wrong employees's passport id")
     @Column(name = "passport_id", nullable = false)
-    private int passportId;
+    private String passportId;
 
     @NotBlank(message = "Employee's address mustn't be blank or null")
     @Size(min = 10, max = 255, message = "Employee's address length must be no less than 10 and no more than 255 characters")
@@ -57,10 +59,6 @@ public class Employee implements Serializable {
     @Pattern(regexp ="(\\w+\\.)*\\w+@(\\w+\\.)+[a-zA-z]{2,}", message = "Wrong employee's email")
     @Column(name = "email", length = 100)
     private String email;
-
-    @Positive(message = "Cabinet or ward number must be positive")
-    @Column(name = "cabinet_or_ward_number", length = 3)
-    private int cabinetOrWardNumber;
 
     @NotNull (message = "Employee's authentication data must be set")
     @OneToOne
@@ -76,6 +74,10 @@ public class Employee implements Serializable {
     @JoinColumn(name = "qualification_category_id", referencedColumnName = "qualification_category_id")
     private QualificationCategory qualificationCategory;
 
+    @Positive(message = "Doctor's office or ward number must be positive")
+    @Column(name = "office_or_ward_number", length = 3)
+    private int officeOrWardNumber;
+
     @ManyToOne
     @JoinColumn(name = "working_schedule_id", referencedColumnName = "working_schedule_id")
     private WorkingSchedule workingSchedule;
@@ -85,7 +87,7 @@ public class Employee implements Serializable {
     @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "attendingDoctorId")
+    @OneToMany(mappedBy = "attendingDoctorId", fetch = FetchType.LAZY)
     private List<Patient> patients;
 
 }

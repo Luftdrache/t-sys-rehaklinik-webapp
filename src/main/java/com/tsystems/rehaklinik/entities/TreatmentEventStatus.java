@@ -23,10 +23,13 @@ public class TreatmentEventStatus implements Serializable {
 
     @NotNull(message = "Treatment event status must be set")
     @Enumerated(EnumType.STRING)
-    @Column(name = "treatment_event_status", nullable = false, length = 100)
+    @Column(name = "treatment_event_status", columnDefinition ="ENUM (' PLANNED', 'COMPLETED', 'CANCELLED')",
+            nullable = false, length = 100)
     private EventStatus treatmentEventStatus;
 
     @OneToMany(mappedBy = "treatmentEventStatus")
     private List<TreatmentEvent> treatmentEvents;
 
 }
+
+

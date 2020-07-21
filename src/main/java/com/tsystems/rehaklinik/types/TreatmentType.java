@@ -1,6 +1,12 @@
 package com.tsystems.rehaklinik.types;
 
 public enum TreatmentType {
-    MEDICINE,
-    PROCEDURE
+    MEDICINE("Medicine"),
+    PROCEDURE("Procedure");
+
+    private String treatmentType;
+
+    TreatmentType(String treatmentType) {
+        this.treatmentType = treatmentType;
+    }
 }

@@ -22,7 +22,8 @@ public class MedicalRecord implements Serializable{
 
     @NotNull(message = "Hospital stay status must be set")
     @Enumerated(EnumType.STRING)
-    @Column(name = "hospital_stay_status", nullable = false)
+    @Column(name = "hospital_stay_status", columnDefinition ="ENUM ('NEW', 'BEING_TREATED', 'DISCHARGED')",
+            nullable = false)
     private HospitalStayStatus hospitalStayStatus;
 
     @NotNull(message = "Hospital warn number must be set")
@@ -36,5 +37,4 @@ public class MedicalRecord implements Serializable{
 
     @OneToMany(mappedBy = "medicalRecord")
     private List<Patient> patients;
-
 }

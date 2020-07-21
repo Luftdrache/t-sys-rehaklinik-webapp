@@ -51,7 +51,7 @@ public class Patient implements Serializable {
     @Column(name = "phone_number", nullable = false, length = 25)
     private String phoneNumber;
 
-    @Pattern(regexp ="(\\w+\\.)*\\w+@(\\w+\\.)+[a-zA-z]{2,}", message = "Wrong patient's email")
+    @Pattern(regexp = "(\\w+\\.)*\\w+@(\\w+\\.)+[a-zA-z]{2,}", message = "Wrong patient's email")
     @Column(name = "email", length = 80)
     private String email;
 
@@ -61,7 +61,6 @@ public class Patient implements Serializable {
     private String address;
 
     @NotNull(message = "Patient's passport id must be set")
-    @Pattern(regexp = "\\d{4}\\s\\d{6}", message = "Wrong patient's passport id")
     @Column(name = "passport_id", nullable = false)
     private int passportId;
 
@@ -90,10 +89,10 @@ public class Patient implements Serializable {
     @JoinColumn(name = "medical_record_id", referencedColumnName = "medical_record_id")
     private MedicalRecord medicalRecord;
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Prescription> prescriptions;
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TreatmentEvent> treatmentEvents;
 
 }
