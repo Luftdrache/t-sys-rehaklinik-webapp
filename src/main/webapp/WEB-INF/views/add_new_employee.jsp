@@ -8,6 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page import="com.tsystems.rehaklinik.types.QualificationCategories" %>
+<%@ page import="com.tsystems.rehaklinik.types.Roles" %>
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -30,7 +34,8 @@
 <body>
 <div class="container-fluid">
     <div content="container" class="col-sm-7 col-sm-offset-4" style="background-color: #c9e9ff">
-        <form action="${pageContext.request.contextPath}/admin/add-employee" modelAttribute="addEmployee" method="post" class="form-horizontal"
+        <form action="${pageContext.request.contextPath}/admin/add-employee" modelAttribute="addEmployee" method="post"
+              class="form-horizontal"
               role="form">
             <div style="padding-left: 10%">
                 <h2>Add New Employee</h2>
@@ -60,13 +65,15 @@
             <div class="form-group">
                 <label for="login" class="col-sm-4 control-label">Login*</label>
                 <div class="col-sm-5">
-                    <input type="text" id="login" name="login" placeholder="Login" class="form-control">
+                    <input type="text" id="login" name="authenticationDataEmployee.login" placeholder="Login"
+                           class="form-control">
                 </div>
             </div>
             <div class="form-group">
                 <label for="password" class="col-sm-4 control-label">Password*</label>
                 <div class="col-sm-5">
-                    <input type="password" id="password" name="password" placeholder="Password" class="form-control">
+                    <input type="password" id="password" name="authenticationDataEmployee.password"
+                           placeholder="Password" class="form-control">
                 </div>
             </div>
             <div class="form-group">
@@ -102,52 +109,51 @@
             <div class="form-group">
                 <label for="position" class="col-sm-4 control-label">Position*</label>
                 <div class="col-sm-5">
-                    <input type="text" id="position" name="email" placeholder="Position" class="form-control">
+                    <input type="text" id="position" name="position.positionName" placeholder="Position"
+                           class="form-control">
                 </div>
             </div>
             <div class="form-group">
-                <label for="qualificationCategory" class="col-sm-4 control-label">Qualification category</label>
+                <label for="qualificationCategory2" class="col-sm-4 control-label">Qualification category</label>
                 <div class="col-sm-5">
-                    <select id="qualificationCategory" name="qualificationCategory" class="form-control">
-                        <c:forEach items="${qCategories}" var="qCategory">
-                                <option selected>${qCategory}</option>
+                    <select id="qualificationCategory2" name="qualificationCategory.qualificationCategoryName"
+                            class="form-control">
+                        <c:forEach items="${QualificationCategories.values()}" var="qCategory">
+                            <option selected>${qCategory.toString()}</option>
                         </c:forEach>
                     </select>
                 </div>
             </div>
-<%--            <div class="form-group">--%>
-<%--                <label for="qualificationCategory" class="col-sm-4 control-label">Qualification category</label>--%>
-<%--                <div class="col-sm-5">--%>
-<%--                    <input type="number" id="qualificationCategory" name="qualificationCategory"--%>
-<%--                           placeholder="Qualification category"--%>
-<%--                           class="form-control">--%>
-<%--                </div>--%>
-<%--            </div>--%>
             <div class="form-group">
                 <label for="officeOrWardNumber" class="col-sm-4 control-label">Doctor's office or ward number</label>
                 <div class="col-sm-5">
                     <input type="number" id="officeOrWardNumber" name="officeOrWardNumber"
                            placeholder="Doctor's office or ward number"
-                           class="form-control">
+                           class="form-control" value="0" min="0">
                 </div>
             </div>
             <div class="form-group">
-                <label for="role" class="col-sm-4 control-label">ROLE*</label>
+                <label for="role2" class="col-sm-4 control-label">ROLE*</label>
                 <div class="col-sm-5">
-                <select id="role" name="role" class="form-control">
-                    <c:forEach items="${roles}" var="role">
-                        <c:if test="${role != 'PATIENT'}">
-                        <option selected>${role}</option>
-                        </c:if>
-                    </c:forEach>
-                </select>
+                    <select id="role2" name="role.roleName" class="form-control">
+                        <c:forEach items="${Roles.values()}" var="role">
+                            <c:if test="${role != 'PATIENT'}">
+                                <option selected>${role.toString()}</option>
+                            </c:if>
+                        </c:forEach>
+                    </select>
                 </div>
             </div>
             <input type="submit" class="btn login_btn" value="Add New Employee"
                    style="background-color: orange; opacity: 0.9;"/>
         </form>
-        <div><h5> ${message}</h5></div>
+        <div>
+            <h4> ${message}</h4>
+            <h5>${newEmployee.toString()}</h5>
+        </div>
     </div>
 </div>
 </body>
 </html>
+
+
