@@ -1,4 +1,4 @@
-package converters;
+package com.tsystems.rehaklinik.converters;
 
 import com.tsystems.rehaklinik.types.TreatmentType;
 import org.springframework.core.convert.converter.Converter;
