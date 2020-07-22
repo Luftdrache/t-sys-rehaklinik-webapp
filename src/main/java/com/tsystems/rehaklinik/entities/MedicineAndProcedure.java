@@ -33,6 +33,6 @@ public class MedicineAndProcedure implements Serializable {
     @Column(name = "treatment_type", columnDefinition ="ENUM ('MEDICINE', 'PROCEDURE')", nullable = false, length = 9)
     private TreatmentType treatmentType;
 
-    @OneToMany(mappedBy = "medicineAndProcedure")
+    @OneToMany(mappedBy = "medicineAndProcedure", cascade = CascadeType.ALL)
     private List<Prescription> prescriptions;
 }

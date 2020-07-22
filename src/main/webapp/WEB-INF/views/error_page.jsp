@@ -13,6 +13,6 @@
 <body>
 <h2>Error occurred! Please enter the correct details</h2>
 <p> ${message}</p>
-<a href="/admin/show-all-employees">Retry</a>
+<a href="${pageContext.request.contextPath}/admin/add-employee">Retry</a>
 </body>
 </html>

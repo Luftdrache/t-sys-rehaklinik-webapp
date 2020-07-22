@@ -10,4 +10,17 @@ public enum HospitalStayStatus {
     HospitalStayStatus(String hospitalStayStatus) {
         this.hospitalStayStatus = hospitalStayStatus;
     }
+
+    public String getHospitalStayStatus() {
+        return hospitalStayStatus;
+    }
+
+    public void setHospitalStayStatus(String hospitalStayStatus) {
+        this.hospitalStayStatus = hospitalStayStatus;
+    }
+
+    @Override
+    public String toString() {
+        return hospitalStayStatus;
+    }
 }

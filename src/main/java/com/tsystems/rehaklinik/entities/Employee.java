@@ -1,5 +1,6 @@
 package com.tsystems.rehaklinik.entities;
 
+import com.tsystems.rehaklinik.types.QualificationCategories;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -66,7 +67,7 @@ public class Employee implements Serializable {
     private AuthenticationData authenticationDataEmployee;
 
     @NotNull(message = "Employee's position must be set")
-    @ManyToOne
+    @ManyToOne (cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinColumn(name = "position_id", referencedColumnName = "position_id", nullable = false)
     private Position position;
 
@@ -83,11 +84,10 @@ public class Employee implements Serializable {
     private WorkingSchedule workingSchedule;
 
     @NotNull(message = "Employee's role must be set")
-    @ManyToOne
+    @ManyToOne (cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false)
     private Role role;
 
     @OneToMany(mappedBy = "attendingDoctorId", fetch = FetchType.LAZY)
     private List<Patient> patients;
-
 }

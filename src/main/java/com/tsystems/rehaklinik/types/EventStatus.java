@@ -10,4 +10,17 @@ public enum EventStatus {
     EventStatus(String eventStatus) {
         this.eventStatus = eventStatus;
     }
+
+    public String getEventStatus() {
+        return eventStatus;
+    }
+
+    public void setEventStatus(String eventStatus) {
+        this.eventStatus = eventStatus;
+    }
+
+    @Override
+    public String toString() {
+        return eventStatus;
+    }
 }

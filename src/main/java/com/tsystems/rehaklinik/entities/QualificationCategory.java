@@ -28,9 +28,10 @@ public class QualificationCategory implements Serializable {
     @Enumerated(EnumType.STRING)
 //    @Size(max=50, message = "Qualification category length must be no more than 25 characters")
     @Column(name = "qualification_category", columnDefinition = "ENUM('SECOND', 'FIRST', 'HIGHER')",  nullable = false)
-    private QualificationCategories qualificationCategory;
+    private QualificationCategories qualificationCategoryName;
 
-    @OneToMany(mappedBy = "qualificationCategory")
+    @OneToMany(mappedBy = "qualificationCategory", fetch = FetchType.LAZY)
     private List<Employee> employees;
 
 }
+

@@ -25,11 +25,9 @@ public class Position implements Serializable {
     @NotBlank(message = "Employee's position mustn't be blank or null")
     @Size(max=50, message = "Position length must be no more than 50 characters")
     @Column(name = "position", nullable = false, length = 50)
-    private String position;
+    private String positionName;
 
     @OneToMany(mappedBy = "position")
     private List<Employee> employees;
-
-
 
 }

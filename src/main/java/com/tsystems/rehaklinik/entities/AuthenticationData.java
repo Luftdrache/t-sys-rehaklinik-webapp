@@ -34,6 +34,4 @@ public class AuthenticationData implements Serializable {
     @Column(name = "password", nullable = false, length = 35)
     private String password;
 
-
-
 }

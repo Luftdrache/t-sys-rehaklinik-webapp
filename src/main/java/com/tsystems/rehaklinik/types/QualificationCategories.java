@@ -1,10 +1,10 @@
 package com.tsystems.rehaklinik.types;
 
 public enum QualificationCategories {
-    NONE("None"),
     SECOND("Second"),
     FIRST("First"),
-    HIGHER("Higher");
+    HIGHER("Higher"),
+    NONE("None");
 
     private String qualificationCategory;
 
@@ -13,6 +13,16 @@ public enum QualificationCategories {
     }
 
     public String getQualificationCategory() {
+        return qualificationCategory;
+    }
+
+
+    public void setQualificationCategory(String qualificationCategory) {
+        this.qualificationCategory = qualificationCategory;
+    }
+
+    @Override
+    public String toString() {
         return qualificationCategory;
     }
 }

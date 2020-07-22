@@ -24,9 +24,9 @@ public class Role implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", columnDefinition = "ENUM('ADMIN', 'RECEPTIONIST', 'DOCTOR', 'NURSE', 'PATIENT')",
             nullable = false, length = 25)
-    private Roles role;
+    private Roles roleName;
 
-    @OneToMany(mappedBy = "role")
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private List<Employee> employees;
 
 }

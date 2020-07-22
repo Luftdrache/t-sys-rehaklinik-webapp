@@ -9,4 +9,17 @@ public enum TreatmentType {
     TreatmentType(String treatmentType) {
         this.treatmentType = treatmentType;
     }
+
+    public String getTreatmentType() {
+        return treatmentType;
+    }
+
+    public void setTreatmentType(String treatmentType) {
+        this.treatmentType = treatmentType;
+    }
+
+    @Override
+    public String toString() {
+        return treatmentType;
+    }
 }
