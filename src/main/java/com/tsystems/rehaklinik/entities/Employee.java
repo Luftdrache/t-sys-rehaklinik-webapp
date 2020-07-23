@@ -14,7 +14,8 @@ import java.util.List;
 @Table(name = "employees", schema = "rehaklinik",
         uniqueConstraints =
                 {@UniqueConstraint(columnNames = "passport_id", name = "UNQ_EMPLOYEE_PASSPORT_ID"),
-                        @UniqueConstraint(columnNames = "email", name = "UNQ_EMPLOYEE_EMAIL")})
+                        @UniqueConstraint(columnNames = "email", name = "UNQ_EMPLOYEE_EMAIL"),
+                        @UniqueConstraint(columnNames = "employee_authentication_data_id", name = "UNQ_EMPLOYEE_AUTH_DATA")})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -57,21 +58,21 @@ public class Employee implements Serializable {
     @Column(name = "phone_number", nullable = false, length = 25)
     private String phoneNumber;
 
-    @Pattern(regexp ="(\\w+\\.)*\\w+@(\\w+\\.)+[a-zA-z]{2,}", message = "Wrong employee's email")
+    @Pattern(regexp = "(\\w+\\.)*\\w+@(\\w+\\.)+[a-zA-z]{2,}", message = "Wrong employee's email")
     @Column(name = "email", length = 100)
     private String email;
 
-    @NotNull (message = "Employee's authentication data must be set")
-    @OneToOne
+    @NotNull(message = "Employee's authentication data must be set")
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_authentication_data_id", referencedColumnName = "authentication_data_id", nullable = false)
     private AuthenticationData authenticationDataEmployee;
 
     @NotNull(message = "Employee's position must be set")
-    @ManyToOne (cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "position_id", referencedColumnName = "position_id", nullable = false)
     private Position position;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "qualification_category_id", referencedColumnName = "qualification_category_id")
     private QualificationCategory qualificationCategory;
 
@@ -84,7 +85,7 @@ public class Employee implements Serializable {
     private WorkingSchedule workingSchedule;
 
     @NotNull(message = "Employee's role must be set")
-    @ManyToOne (cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false)
     private Role role;
 

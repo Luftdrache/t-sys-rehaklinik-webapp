@@ -11,9 +11,9 @@ public interface EmployeeDAO {
 
     void updateEmployee(Employee employee);
 
-    Employee findById(int employeeId);
+    Employee findEmployeeById(int employeeId);
 
-    Employee findBySurname(String employeeName);
+    Employee findEmployeeBySurname(String employeeName);
 
     List<Employee> findAll();
 

@@ -12,9 +12,10 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "qualification_categories", schema = "rehaklinik",
-        uniqueConstraints = @UniqueConstraint(columnNames = "qualification_category",
-                name = "UNQ_QUALIFICATION_CATEGORY"))
+@Table(name = "qualification_categories", schema = "rehaklinik"
+//        , uniqueConstraints = @UniqueConstraint(columnNames = "qualification_category",
+//                name = "UNQ_QUALIFICATION_CATEGORY")
+)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,12 +27,11 @@ public class QualificationCategory implements Serializable {
 
     @NotBlank(message = "Employee's qualification category mustn't be blank or null")
     @Enumerated(EnumType.STRING)
-//    @Size(max=50, message = "Qualification category length must be no more than 25 characters")
-    @Column(name = "qualification_category", columnDefinition = "ENUM('SECOND', 'FIRST', 'HIGHER')",  nullable = false)
+    @Column(name = "qualification_category", columnDefinition = "ENUM('SECOND', 'FIRST', 'HIGHER', 'NONE')",
+            nullable = false)
     private QualificationCategories qualificationCategoryName;
 
-    @OneToMany(mappedBy = "qualificationCategory", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "qualificationCategory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Employee> employees;
-
 }
 

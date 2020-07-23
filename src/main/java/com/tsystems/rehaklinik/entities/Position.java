@@ -11,8 +11,9 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "positions", schema = "rehaklinik",
-uniqueConstraints = @UniqueConstraint(columnNames = "position", name = "INQ_POSITION"))
+@Table(name = "positions", schema = "rehaklinik"
+//        , uniqueConstraints = @UniqueConstraint(columnNames = "position", name = "INQ_POSITION")
+      )
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,7 +28,6 @@ public class Position implements Serializable {
     @Column(name = "position", nullable = false, length = 50)
     private String positionName;
 
-    @OneToMany(mappedBy = "position")
+    @OneToMany(mappedBy = "position", fetch = FetchType.LAZY)
     private List<Employee> employees;
-
 }

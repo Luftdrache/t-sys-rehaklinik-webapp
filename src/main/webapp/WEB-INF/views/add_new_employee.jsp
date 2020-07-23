@@ -22,7 +22,7 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/icon_med_helper.png"
           type="image/png">
-    <title>Admin Page</title>
+    <title>MedHelper</title>
 
     <style>
         body {
@@ -114,14 +114,17 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="qualificationCategory2" class="col-sm-4 control-label">Qualification category</label>
+<%--                <c:set var="qualificationCategoryIdChoice" value="1"/>--%>
+                <label for="qualificationCategory" class="col-sm-4 control-label">Qualification category</label>
                 <div class="col-sm-5">
-                    <select id="qualificationCategory2" name="qualificationCategory.qualificationCategoryName"
-                            class="form-control">
+                    <select id="qualificationCategory" name="qualificationCategory.qualificationCategoryName"
+                            class="form-control" onchange="setQCategoryId()">
                         <c:forEach items="${QualificationCategories.values()}" var="qCategory">
                             <option selected>${qCategory.toString()}</option>
                         </c:forEach>
                     </select>
+<%--                    <input type="number" hidden name="qualificationCategory.qualificationCategoryId"--%>
+<%--                           value=${qualificationCategoryIdChoice}>--%>
                 </div>
             </div>
             <div class="form-group">
@@ -153,6 +156,15 @@
         </div>
     </div>
 </div>
+
+<%--<script type="text/javascript">--%>
+<%--    function setQCategoryId() {--%>
+<%--        var qCategoryId = document.getElementById("qualificationCategory").selectedIndex;--%>
+<%--        alert(qCategoryId);--%>
+<%--        ${qualificationCategoryIdChoice} = qCategoryId;--%>
+<%--    }--%>
+<%--</script>--%>
+
 </body>
 </html>
 

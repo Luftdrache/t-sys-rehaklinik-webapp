@@ -50,9 +50,9 @@
             </div>
         </form>
     </div>
-    <div class=container">
+    <footer>
         © 2020 Julia Dalskaya
-    </div>
+    </footer>
 </div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

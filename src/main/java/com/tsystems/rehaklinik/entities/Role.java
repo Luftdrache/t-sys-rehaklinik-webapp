@@ -9,8 +9,9 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "roles", schema = "rehaklinik",
-        uniqueConstraints = @UniqueConstraint(columnNames = "role", name = "UNQ_ROLE"))
+@Table(name = "roles", schema = "rehaklinik"
+//        , uniqueConstraints = @UniqueConstraint(columnNames = "role", name = "UNQ_ROLE")
+)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,7 +27,6 @@ public class Role implements Serializable {
             nullable = false, length = 25)
     private Roles roleName;
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Employee> employees;
-
 }

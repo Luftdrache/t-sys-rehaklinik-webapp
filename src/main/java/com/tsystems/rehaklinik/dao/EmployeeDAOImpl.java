@@ -18,12 +18,20 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     @PersistenceContext
     private EntityManager entityManager;
 
+
     @Override
     public Employee createEmployee(Employee employee) {
-        logger.info("--- Add new employee ---");
+        logger.info("--- DAO: Add new employee ---");
         entityManager.persist(employee);
-        return null;
+        return employee;
     }
+
+    @Override
+    public List<Employee> findAll() {
+        logger.info("--- Find all employees ---");
+        return entityManager.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
+    }
+
 
     @Override
     public void deleteEmployee(int employeeId) {
@@ -36,26 +44,22 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     @Override
-    public Employee findById(int employeeId) {
-        return null;
-    }
-
-
-    @Override
-    public Employee findBySurname(String employeeName) {
-        return null;
-    }
-
-
-    @Override
-    public List<Employee> findAll() {
-        logger.info("--- Find all employees ---");
-        return entityManager.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
-    }
-
-
-    @Override
     public List<Employee> findByEmployeePosition(String employeesPosition) {
         return null;
     }
+
+
+    @Override
+    public Employee findEmployeeById(int employeeId) {
+        return null;
+    }
+
+
+    @Override
+    public Employee findEmployeeBySurname(String employeeName) {
+        return null;
+    }
+
+
+
 }
