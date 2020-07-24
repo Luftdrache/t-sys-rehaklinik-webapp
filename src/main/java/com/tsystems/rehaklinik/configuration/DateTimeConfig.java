@@ -17,7 +17,7 @@ public class DateTimeConfig {
                 new DefaultFormattingConversionService(false);
 
         DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
-        registrar.setDateFormatter(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        registrar.setDateFormatter(DateTimeFormatter.ofPattern("yyyy-MMMM-dd"));
         registrar.setDateTimeFormatter(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
         registrar.registerFormatters(conversionService);
         return conversionService;

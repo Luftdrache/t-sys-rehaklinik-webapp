@@ -38,9 +38,9 @@ public class AdminController {
 
 
     /**
-     * Returns admin page with all employees list on it
+     * Returns admin page after admin sign in with all employees list on it
      *
-     * @param model model
+     * @param model ModelMap model
      * @return admin_page.jsp to view
      */
     @GetMapping("/start-page")
@@ -62,12 +62,12 @@ public class AdminController {
     /**
      * Returns page for new employees adding
      *
-     * @param model model
+     * @param model ModelMap model
      * @return form page for new employees adding
      */
     @GetMapping("/add-employee")
     public String addEmployeeForm(ModelMap model) {
-        logger.info("MedHelper_LOGS: In AdminController - handler method addEmployeeForm()");
+        logger.info("MedHelper_LOGS: In AdminController - handler method addEmployeeForm() GET");
         return "add_new_employee";
     }
 
@@ -77,7 +77,7 @@ public class AdminController {
      *
      * @param employee      the new employee from admin page
      * @param bindingResult the binding results
-     * @param model         model
+     * @param model         ModelMap model
      * @return the next view name to display or an error page in case of error occurred
      */
     @PostMapping("/add-employee")
@@ -99,6 +99,91 @@ public class AdminController {
         model.addAttribute("message", "The new employee added successfully: ");
         model.addAttribute("newEmployee", newEmployee);
         return "add_new_employee";
+    }
+
+
+    /**
+     * Delete an employee by their ID
+     *
+     * @param employeeIdToDelete - ID of an employee to delete
+     * @param modelMap           ModelMap
+     * @return admin_page.jsp to view all employees without one deleted
+     */
+    @PostMapping("/delete-employee")
+    public String deleteEmployeeById(@RequestParam("employeeIdToDelete") int employeeIdToDelete, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In AdminController - handler method deleteEmployeeById()");
+        String deleteEmployeeByIdActionResultMessage = adminService.deleteEmployeeById(employeeIdToDelete);
+        modelMap.addAttribute("message", deleteEmployeeByIdActionResultMessage);
+        logger.info("MedHelper_LOGS: Result of deleteEmployeeById() action is " + deleteEmployeeByIdActionResultMessage);
+        return "redirect:/admin/start-page";
+    }
+
+
+    /**
+     * Returns an employee/employees with specified surname
+     *
+     * @param surname  Employee surname
+     * @param modelMap ModelMap
+     * @return
+     */
+    @GetMapping("/find-employee-by-surname/{surname}")
+    public String findEmployeeBySurname(@PathVariable("surname") String surname, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In AdminController - handler method findEmployeeBySurname()");
+        List<EmployeeDTO> employeesFoundBySurname = adminService.findEmployeeBySurname(surname);
+        if (employeesFoundBySurname != null) {
+            modelMap.addAttribute("employeesFoundBySurname", employeesFoundBySurname);
+            logger.info("MedHelper_LOGS: The employee(-s) with surname = " + surname + " was(were) found successfully:");
+            for (EmployeeDTO empl : employeesFoundBySurname) {
+                logger.info(empl.toString());
+            }
+        } else {
+            modelMap.addAttribute("message", "There is no employee with surname = " + surname +
+                    "  in database");
+            logger.info("MedHelper_LOGS: There is no employee with surname = " + surname + " in database");
+        }
+        //*************PAGE! *********
+        return null;
+    }
+
+
+    /**
+     * Returns an employee with specified id
+     *
+     * @param id       Employee ID
+     * @param modelMap ModelMap
+     * @return
+     */
+    @GetMapping("/find-employee-by-id/{id:\\d+}")
+    public String findEmployeeById(@PathVariable("id") int id, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In AdminController - handler method findEmployeeById()");
+        EmployeeDTO employeeFoundById = adminService.findEmployeeById(id);
+        if (employeeFoundById != null) {
+            modelMap.addAttribute("employeeFoundById", employeeFoundById);
+            logger.info("MedHelper_LOGS: The employee with id = " + id + " was found successfully");
+        } else {
+            modelMap.addAttribute("message", "There is no employee with id = " + id + "  in database");
+            logger.info("MedHelper_LOGS: There is no employee with id = " + id + " in database");
+        }
+//*************PAGE! *********
+        return null;
+    }
+
+
+    //************ not finished yet **********
+    @GetMapping("/edit/{id}")
+    public String editEmployeeDataForm(@PathVariable("id") int id, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In AdminController - handler method editEmployeeDataForm() GET");
+        Employee employeeToEdit = adminService.getEmployee(id);
+        modelMap.addAttribute("employeeToEdit", employeeToEdit);
+        return "edit_employee_page";
+    }
+
+
+    //************ not finished yet**********
+    @PostMapping("/edit")
+    public String editEmployeeData(@Valid @ModelAttribute("editEmployee") Employee employee, BindingResult bindingResult, ModelMap model) {
+
+        return null;
     }
 
 

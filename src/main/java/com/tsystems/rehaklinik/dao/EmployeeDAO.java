@@ -7,13 +7,13 @@ import java.util.List;
 public interface EmployeeDAO {
     Employee createEmployee(Employee employee);
 
-    void deleteEmployee(int employeeId);
+    String deleteEmployee(int employeeId);
 
-    void updateEmployee(Employee employee);
+    String updateEmployee(Employee employee);
 
     Employee findEmployeeById(int employeeId);
 
-    Employee findEmployeeBySurname(String employeeName);
+    List<Employee> findEmployeeBySurname(String employeeSurname);
 
     List<Employee> findAll();
 

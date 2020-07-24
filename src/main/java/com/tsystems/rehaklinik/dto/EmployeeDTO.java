@@ -111,4 +111,20 @@ public class EmployeeDTO {
     public void setRole(Roles role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "EmployeeDTO{" +
+                "employeeId=" + employeeId +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", position='" + position + '\'' +
+                ", qualificationCategory=" + qualificationCategory +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                '}';
+    }
 }

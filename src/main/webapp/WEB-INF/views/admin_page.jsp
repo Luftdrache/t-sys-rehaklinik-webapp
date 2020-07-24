@@ -41,54 +41,74 @@
         </div>
     </div>
 </div>
+<div content="container-fluid" class="col-sm-10 col-sm-offset-2" style="background-color: #c9e9ff">
+    <nav class="navbar navbar-expand-lg navbar-dark blue lighten-2 mb-4">
+        <div class="col-sm-4 col-sm-offset-8" id="navbarSupportedContent">
+            <form class="form-inline mr-auto" action="/admin/find-employee-by-id/${id}" method="get">
+                <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="id">
+                <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2" style="background-color: orange"
+                        type="submit">Search
+                </button>
+            </form>
+
+        </div>
+    </nav>
+</div>
 <div>
-    <div class="container-fluid">
-        <div content="container" class="col-sm-10 col-sm-offset-2" style="background-color: #c9e9ff">
-            <p>Employees: </p>
-            <table class="table table-striped">
-                <thead>
+    <div content="container-fluid" class="col-sm-10 col-sm-offset-2" style="background-color: #c9e9ff">
+        <p>Employees: </p>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Position</th>
+                <th scope="col">Category</th>
+                <th scope="col">Address</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody class="table table-hover">
+            <c:forEach items="${allEmployees}" var="empl">
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Surname</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Actions</th>
+                    <th>${empl.employeeId}</th>
+                    <th>${empl.name}</th>
+                    <td>${empl.surname}</td>
+                    <td>${empl.position}</td>
+                    <td>${empl.qualificationCategory}</td>
+                    <td>${empl.address}</td>
+                    <td>${empl.phone}</td>
+                    <td>${empl.email}</td>
+                    <td>${empl.role}</td>
+                    <td>
+                        <form action="${pageContext.request.contextPath}/admin/edit" method="post">
+                            <input type="hidden" name="employeeIdToEdit" value="${empl.employeeId}">
+                            <input type="submit" class="btn btn-primary btn-sm" value="Edit">
+                        </form>
+                        <form action="${pageContext.request.contextPath}/admin/delete-employee" method="post">
+                            <input type="hidden" name="employeeIdToDelete" value="${empl.employeeId}">
+                            <input type="submit" class="btn btn-primary btn-sm" value="Delete">
+                        </form>
+                    </td>
                 </tr>
-                </thead>
-                <tbody class="table table-hover">
-                <c:forEach items="${allEmployees}" var="empl">
-                    <tr>
-                        <th>${empl.employeeId}</th>
-                        <th>${empl.name}</th>
-                        <td>${empl.surname}</td>
-                        <td>${empl.position}</td>
-                        <td>${empl.qualificationCategory}</td>
-                        <td>${empl.address}</td>
-                        <td>${empl.phone}</td>
-                        <td>${empl.email}</td>
-                        <td>${empl.role}</td>
-                        <td>Buttons</td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
-        <div content="container" class="col-sm-10 col-sm-offset-2">
-            <p>${messageAboutEmployees}</p>
-        </div>
-        <footer class="page-footer font-small mdb-color pt-4">
-            <div class="col-md-7 col-lg-8">
-                <p class="text-center text-md-left">
-                    <strong>© 2020 Julia Dalskaya</strong>
-                </p>
-            </div>
-        </footer>
+            </c:forEach>
+            </tbody>
+        </table>
     </div>
+    <div content="container" class="col-sm-10 col-sm-offset-2">
+        <p>${messageAboutEmployees}</p>
+    </div>
+    <footer class="page-footer font-small mdb-color pt-4">
+        <div class="col-md-7 col-lg-8">
+            <p class="text-center text-md-left">
+                <strong>© 2020 Julia Dalskaya</strong>
+            </p>
+        </div>
+    </footer>
 </div>
 </body>
 </html>
