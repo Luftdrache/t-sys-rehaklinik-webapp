@@ -23,12 +23,12 @@ public class EmployeeDTO {
         this.name = employeeFromDao.getFirstName() + " " + employeeFromDao.getMiddleName();
         this.surname = employeeFromDao.getSurname();
         this.dateOfBirth = employeeFromDao.getDateOfBirth();
-        this.position = employeeFromDao.getPosition().getPositionName();
-        this.qualificationCategory = employeeFromDao.getQualificationCategory().getQualificationCategoryName();
+        this.position = employeeFromDao.getPosition();
+        this.qualificationCategory = employeeFromDao.getQualificationCategory();
         this.address = employeeFromDao.getAddress();
         this.phone = employeeFromDao.getPhoneNumber();
         this.email = employeeFromDao.getEmail();
-        this.role = employeeFromDao.getRole().getRoleName();
+        this.role = employeeFromDao.getRole();
     }
 
 

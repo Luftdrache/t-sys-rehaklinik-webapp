@@ -109,22 +109,19 @@
             <div class="form-group">
                 <label for="position" class="col-sm-4 control-label">Position*</label>
                 <div class="col-sm-5">
-                    <input type="text" id="position" name="position.positionName" placeholder="Position"
+                    <input type="text" id="position" name="position" placeholder="Position"
                            class="form-control">
                 </div>
             </div>
             <div class="form-group">
-<%--                <c:set var="qualificationCategoryIdChoice" value="1"/>--%>
                 <label for="qualificationCategory" class="col-sm-4 control-label">Qualification category</label>
                 <div class="col-sm-5">
-                    <select id="qualificationCategory" name="qualificationCategory.qualificationCategoryName"
-                            class="form-control" onchange="setQCategoryId()">
+                    <select id="qualificationCategory" name="qualificationCategory"
+                            class="form-control">
                         <c:forEach items="${QualificationCategories.values()}" var="qCategory">
                             <option selected>${qCategory.toString()}</option>
                         </c:forEach>
                     </select>
-<%--                    <input type="number" hidden name="qualificationCategory.qualificationCategoryId"--%>
-<%--                           value=${qualificationCategoryIdChoice}>--%>
                 </div>
             </div>
             <div class="form-group">
@@ -136,9 +133,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="role2" class="col-sm-4 control-label">ROLE*</label>
+                <label for="role" class="col-sm-4 control-label">ROLE*</label>
                 <div class="col-sm-5">
-                    <select id="role2" name="role.roleName" class="form-control">
+                    <select id="role" name="role" class="form-control">
                         <c:forEach items="${Roles.values()}" var="role">
                             <c:if test="${role != 'PATIENT'}">
                                 <option selected>${role.toString()}</option>
@@ -156,15 +153,6 @@
         </div>
     </div>
 </div>
-
-<%--<script type="text/javascript">--%>
-<%--    function setQCategoryId() {--%>
-<%--        var qCategoryId = document.getElementById("qualificationCategory").selectedIndex;--%>
-<%--        alert(qCategoryId);--%>
-<%--        ${qualificationCategoryIdChoice} = qCategoryId;--%>
-<%--    }--%>
-<%--</script>--%>
-
 </body>
 </html>
 

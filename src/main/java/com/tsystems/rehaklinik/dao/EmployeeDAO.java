@@ -9,7 +9,7 @@ public interface EmployeeDAO {
 
     String deleteEmployee(int employeeId);
 
-    String updateEmployee(Employee employee);
+    Employee updateEmployee(Employee employee);
 
     Employee findEmployeeById(int employeeId);
 

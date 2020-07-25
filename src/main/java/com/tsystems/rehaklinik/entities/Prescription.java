@@ -51,6 +51,4 @@ public class Prescription implements Serializable {
 
     @OneToMany(mappedBy = "prescription")
     private List<TreatmentEvent> treatmentEvents;
-
-
 }

@@ -35,7 +35,7 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public String editEmployee(Employee editedEmployee) {
+    public Employee editEmployee(Employee editedEmployee) {
         return employeeDAO.updateEmployee(editedEmployee);
     }
 

@@ -36,4 +36,7 @@ public class AuthenticationData implements Serializable {
 
     @OneToOne(mappedBy = "authenticationDataEmployee")
     private Employee employee;
+
+    @OneToOne(mappedBy = "authenticationDataPatient")
+    private Patient patient;
 }

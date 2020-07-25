@@ -1,33 +1,26 @@
 package com.tsystems.rehaklinik.controllers;
 
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
-import com.tsystems.rehaklinik.entities.AuthenticationData;
 import com.tsystems.rehaklinik.entities.Employee;
-import com.tsystems.rehaklinik.entities.Position;
 import com.tsystems.rehaklinik.services.AdminService;
-import com.tsystems.rehaklinik.types.QualificationCategories;
-import com.tsystems.rehaklinik.types.Roles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 
+/**
+ * Processes requests from an administrator
+ *
+ * @author Julia Dalskaya
+ */
 @Controller
 @RequestMapping(("/admin"))
 public class AdminController {
@@ -35,6 +28,11 @@ public class AdminController {
     private Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     private AdminService adminService;
+
+    private static final String MAIN_ADMIN_JSP = "admin_page";
+    private static final String ADD_NEW_EMPLOYEE_JSP = "add_new_employee";
+    private static final String EDIT_EMPLOYEE_JSP = "edit_employee_page";
+    private static final String EMPLOYEE_DETAILS_JSP = "employee_details";
 
 
     /**
@@ -55,7 +53,7 @@ public class AdminController {
                     "INFO: There is no information about employees in the database");
             logger.info("MedHelper_LOGS: The action showAllEmployees() completed without result");
         }
-        return "admin_page";
+        return MAIN_ADMIN_JSP;
     }
 
 
@@ -68,7 +66,7 @@ public class AdminController {
     @GetMapping("/add-employee")
     public String addEmployeeForm(ModelMap model) {
         logger.info("MedHelper_LOGS: In AdminController - handler method addEmployeeForm() GET");
-        return "add_new_employee";
+        return ADD_NEW_EMPLOYEE_JSP;
     }
 
 
@@ -84,21 +82,14 @@ public class AdminController {
     public String addEmployee(@Valid @ModelAttribute("addEmployee") Employee employee, BindingResult bindingResult, ModelMap model) {
         logger.info("MedHelper_LOGS: In AdminController:  handler method addEmployee()");
         logger.info("MedHelper_LOGS: New employee from JSP = " + employee.toString());
-        if (bindingResult.hasErrors()) {
-            for (Object object : bindingResult.getAllErrors()) {
-                if (object instanceof FieldError) {
-                    FieldError fieldError = (FieldError) object;
-                    model.addAttribute("message", "<p>Details: </p>" + fieldError.getDefaultMessage());
-                    logger.debug("BindingResult Error: " + fieldError.getCode() + ". Details: " + fieldError.getDefaultMessage());
-                }
-                return "error_page";
-            }
+        if (bindingResultCheck(bindingResult, model)) {
+            return "error_page";
         }
         Employee newEmployee = adminService.addNewEmployee(employee);
         logger.info("MedHelper_LOGS: the new employee added successfully(" + employee.toString() + ")");
         model.addAttribute("message", "The new employee added successfully: ");
         model.addAttribute("newEmployee", newEmployee);
-        return "add_new_employee";
+        return ADD_NEW_EMPLOYEE_JSP;
     }
 
 
@@ -124,7 +115,7 @@ public class AdminController {
      *
      * @param surname  Employee surname
      * @param modelMap ModelMap
-     * @return
+     * @return an employee/employees with specified surname
      */
     @GetMapping("/find-employee-by-surname/{surname}")
     public String findEmployeeBySurname(@PathVariable("surname") String surname, ModelMap modelMap) {
@@ -151,7 +142,7 @@ public class AdminController {
      *
      * @param id       Employee ID
      * @param modelMap ModelMap
-     * @return
+     * @return an employee with specified id
      */
     @GetMapping("/find-employee-by-id/{id:\\d+}")
     public String findEmployeeById(@PathVariable("id") int id, ModelMap modelMap) {
@@ -169,21 +160,82 @@ public class AdminController {
     }
 
 
-    //************ not finished yet **********
+    /**
+     * Returns page with form for editing an employee data
+     *
+     * @param id       Employee id to edit
+     * @param modelMap ModelMap
+     * @return page with form for editing an employee data
+     */
     @GetMapping("/edit/{id}")
     public String editEmployeeDataForm(@PathVariable("id") int id, ModelMap modelMap) {
-        logger.info("MedHelper_LOGS: In AdminController - handler method editEmployeeDataForm() GET");
+        logger.info("MedHelper_LOGS: In AdminController - handler method editEmployeeDataForm(), GET");
         Employee employeeToEdit = adminService.getEmployee(id);
         modelMap.addAttribute("employeeToEdit", employeeToEdit);
-        return "edit_employee_page";
+        return EDIT_EMPLOYEE_JSP;
+    }
+
+    /**
+     * Sends edited employee's data to the database
+     *
+     * @param employee      employee data to edit
+     * @param bindingResult the binding results
+     * @param modelMap      ModelMap
+     * @return page with current employee details
+     */
+    @PostMapping("/edit")
+    public String editEmployeeData(@Valid @ModelAttribute("editEmployee") Employee employee, BindingResult bindingResult, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In AdminController - handler method editEmployeeData(), POST");
+        if (bindingResultCheck(bindingResult, modelMap)) {
+            return "error_page";
+        }
+        Employee editedEmployee = adminService.editEmployee(employee);
+        if (editedEmployee == null) {
+            logger.info("MedHelper_LOGS: Error in the editing process of the employee" + editedEmployee.toString() + ")");
+            return EDIT_EMPLOYEE_JSP;
+        }
+        logger.info("MedHelper_LOGS: Employee edited successfully(" + editedEmployee.toString() + ")");
+        modelMap.addAttribute("message", "The new employee added successfully: ");
+        modelMap.addAttribute("employee", editedEmployee);
+        return EMPLOYEE_DETAILS_JSP;
     }
 
 
-    //************ not finished yet**********
-    @PostMapping("/edit")
-    public String editEmployeeData(@Valid @ModelAttribute("editEmployee") Employee employee, BindingResult bindingResult, ModelMap model) {
+    /**
+     * Returns page with employee details
+     *
+     * @param id
+     * @param modelMap ModelMap
+     * @return page with employee details
+     */
+    @GetMapping("/employee-details/{id:\\d+}")
+    public String seeEmployeeDetails(@PathVariable("id") int id, ModelMap modelMap) {
+        if (modelMap.isEmpty()) {
+            modelMap.addAttribute("employee", adminService.getEmployee(id));
+        }
+        return EMPLOYEE_DETAILS_JSP;
+    }
 
-        return null;
+
+    /**
+     * Checks if there is any binding errors
+     *
+     * @param bindingResult the binding results
+     * @param modelMap ModelMap
+     * @return boolean result
+     */
+    private boolean bindingResultCheck(BindingResult bindingResult, ModelMap modelMap) {
+        if (bindingResult.hasErrors()) {
+            for (Object object : bindingResult.getAllErrors()) {
+                if (object instanceof FieldError) {
+                    FieldError fieldError = (FieldError) object;
+                    modelMap.addAttribute("message", "<p>Details: </p>" + fieldError.getDefaultMessage());
+                    logger.debug("BindingResult Error: " + fieldError.getCode() + ". Details: " + fieldError.getDefaultMessage());
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -191,16 +243,4 @@ public class AdminController {
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
     }
-
-
-    //    @InitBinder
-//    public void initBinder(WebDataBinder binder) {
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-//        dateFormat.setLenient(false);
-//        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
-//        logger.info("initBinder works");
-//    }
-
-
-//    https://stackoverflow.com/questions/44924656/how-to-register-global-databinding-for-localdate-in-spring-mvc
 }

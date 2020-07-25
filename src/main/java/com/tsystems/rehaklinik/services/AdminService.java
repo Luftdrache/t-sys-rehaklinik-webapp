@@ -20,6 +20,6 @@ public interface AdminService {
 
     List<EmployeeDTO> findEmployeeBySurname(String surname);
 
-    String editEmployee(Employee editedEmployee);
+    Employee editEmployee(Employee editedEmployee);
 
 }

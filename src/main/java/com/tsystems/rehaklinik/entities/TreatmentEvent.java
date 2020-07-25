@@ -1,5 +1,6 @@
 package com.tsystems.rehaklinik.entities;
 
+import com.tsystems.rehaklinik.types.EventStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,9 +43,9 @@ public class TreatmentEvent implements Serializable {
     @JoinColumn(name = "prescription_id", referencedColumnName = "prescription_id", nullable = false)
     private Prescription prescription;
 
-    @NotNull(message = "Treatment event status must be set (for treatment event)")
-    @ManyToOne
-    @JoinColumn(name = "treatment_event_status_id", referencedColumnName = "treatment_event_status_id", nullable = false)
-    private TreatmentEventStatus treatmentEventStatus;
-    
+    @NotNull(message = "Treatment event status must be set")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "treatment_event_status", columnDefinition ="ENUM (' PLANNED', 'COMPLETED', 'CANCELLED')",
+            nullable = false, length = 100)
+    private EventStatus treatmentEventStatus;
 }

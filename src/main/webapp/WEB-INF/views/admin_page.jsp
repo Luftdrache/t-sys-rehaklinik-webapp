@@ -44,7 +44,7 @@
 <div content="container-fluid" class="col-sm-10 col-sm-offset-2" style="background-color: #c9e9ff">
     <nav class="navbar navbar-expand-lg navbar-dark blue lighten-2 mb-4">
         <div class="col-sm-4 col-sm-offset-8" id="navbarSupportedContent">
-            <form class="form-inline mr-auto" action="/admin/find-employee-by-id/${id}" method="get">
+            <form class="form-inline mr-auto" action="/admin/find-employee-by-id/{id}" method="get">
                 <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="id">
                 <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2" style="background-color: orange"
                         type="submit">Search
@@ -85,8 +85,11 @@
                     <td>${empl.email}</td>
                     <td>${empl.role}</td>
                     <td>
-                        <form action="${pageContext.request.contextPath}/admin/edit" method="post">
-                            <input type="hidden" name="employeeIdToEdit" value="${empl.employeeId}">
+                        <form action="${pageContext.request.contextPath}/admin/employee-details/${empl.employeeId}" method="get">
+                            <input type="submit" class="btn btn-primary btn-sm" value="See more">
+                        </form>
+                        <form action="${pageContext.request.contextPath}/admin/edit/${empl.employeeId}" method="get">
+<%--                            <input type="hidden" name="employeeIdToEdit" value="${empl.employeeId}">--%>
                             <input type="submit" class="btn btn-primary btn-sm" value="Edit">
                         </form>
                         <form action="${pageContext.request.contextPath}/admin/delete-employee" method="post">

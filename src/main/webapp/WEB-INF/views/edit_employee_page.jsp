@@ -34,11 +34,12 @@
 <body>
 <div class="container-fluid">
     <div content="container" class="col-sm-7 col-sm-offset-4" style="background-color: #c9e9ff">
-        <form action="${pageContext.request.contextPath}/admin/add-employee" method="post" class="form-horizontal" role="form">
+        <form action="${pageContext.request.contextPath}/admin/edit" method="post" class="form-horizontal" role="form">
             <div style="padding-left: 10%">
                 <h2>Edit Employee</h2>
                 <span class="help-block">*Required fields</span>
             </div>
+            <input type="hidden" id="employeeId" name="employeeId" value="${employeeToEdit.employeeId}" />
             <div class="form-group">
                 <label for="firstName" class="col-sm-4 control-label">First Name*</label>
                 <div class="col-sm-5">
@@ -60,6 +61,10 @@
                            autofocus>
                 </div>
             </div>
+
+            <input type="hidden" id="authenticationDataEmployee" name="authenticationDataEmployee.authenticationDataId"
+                   value="${employeeToEdit.authenticationDataEmployee.authenticationDataId}" />
+
             <div class="form-group">
                 <label for="login" class="col-sm-4 control-label">Login*</label>
                 <div class="col-sm-5">
@@ -108,15 +113,15 @@
             <div class="form-group">
                 <label for="position" class="col-sm-4 control-label">Position*</label>
                 <div class="col-sm-5">
-                    <input type="text" id="position" name="position.positionName" value="${employeeToEdit.position.positionName}" placeholder="Position"
+                    <input type="text" id="position" name="position.positionName" value="${employeeToEdit.position}" placeholder="Position"
                            class="form-control">
                 </div>
             </div>
             <div class="form-group">
                 <label for="qualificationCategory" class="col-sm-4 control-label">Qualification category</label>
                 <div class="col-sm-5">
-                    <select id="qualificationCategory" name="qualificationCategory.qualificationCategoryName"
-                            value="${employeeToEdit.qualificationCategory.qualificationCategoryName}" class="form-control">
+                    <select id="qualificationCategory" name="qualificationCategory"
+                            value="${employeeToEdit.qualificationCategory}" class="form-control">
                         <c:forEach items="${QualificationCategories.values()}" var="qCategory">
                             <option selected>${qCategory.toString()}</option>
                         </c:forEach>
@@ -133,9 +138,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="role2" class="col-sm-4 control-label">ROLE*</label>
+                <label for="role" class="col-sm-4 control-label">ROLE*</label>
                 <div class="col-sm-5">
-                    <select id="role2" name="role.roleName" value="${employeeToEdit.role.roleName}" class="form-control">
+                    <select id="role" name="role" value="${employeeToEdit.role}" class="form-control">
                         <c:forEach items="${Roles.values()}" var="role">
                             <c:if test="${role != 'PATIENT'}">
                                 <option selected>${role.toString()}</option>
@@ -144,13 +149,9 @@
                     </select>
                 </div>
             </div>
-            <input type="submit" class="btn login_btn" value="Add New Employee"
+            <input type="submit" class="btn login_btn" value="Edit"
                    style="background-color: orange; opacity: 0.9;"/>
         </form>
-<%--        <div>--%>
-<%--            <h4> ${message}</h4>--%>
-<%--            <h5>${editedEmployee.toString()}</h5>--%>
-<%--        </div>--%>
     </div>
 </div>
 </body>

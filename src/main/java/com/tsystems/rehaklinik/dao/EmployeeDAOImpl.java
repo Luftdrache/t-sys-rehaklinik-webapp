@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -30,30 +31,33 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 
     @Override
-    public String updateEmployee(Employee employee) {
-        if(employee.getEmployeeId() !=0 && entityManager.find(Employee.class, employee.getEmployeeId())!=null) {
-            entityManager.merge(employee);
-            logger.info("MedHelper_LOGS: EmployeeDAO: Employee updated with id: " + employee.getEmployeeId());
-            return "Employee updated with id: " + employee.getEmployeeId();
+    public Employee updateEmployee(Employee employee) {
+        logger.info("MedHelper_LOGS: EmployeeDAO: Data about an employee with the id = " + employee.getEmployeeId() + " is updated");
+        if (employee.getEmployeeId() != 0 && entityManager.find(Employee.class, employee.getEmployeeId()) != null) {
+            try {
+                Employee editedEmployee = entityManager.merge(employee);
+                logger.info("MedHelper_LOGS: EmployeeDAO: Successful attempt to edit an employee with an id = " + employee.getEmployeeId());
+                return editedEmployee;
+            } catch (PersistenceException exception) {
+                logger.info(exception.getMessage());
+            }
         }
         logger.info("MedHelper_LOGS: EmployeeDAO: Failed attempt to edit an employee with an id = " + employee.getEmployeeId());
-        return "Failed attempt to edit an employee with an id = " + employee.getEmployeeId();
+        return null;
     }
 
 
     @Override
     public String deleteEmployee(int employeeId) {
         logger.info("MedHelper_LOGS: EmployeeDAO: Delete an employee by id");
-        String deletingEmployeeMessage;
-//        int count = entityManager.createQuery("SELECT count(e) from Employee e WHERE e.employee_id = employeeId");
         Employee employee = entityManager.find(Employee.class, employeeId);
         if (employee != null) {
             entityManager.remove(employee);
             logger.info("MedHelper_LOGS: EmployeeDAO: Employee with id = " + employeeId + " deleted");
-            return deletingEmployeeMessage = "Employee deleted successfully";
+            return "Employee deleted successfully";
         }
         logger.info("MedHelper_LOGS: EmployeeDAO: Employee with id = " + employeeId + " does not exist");
-        return deletingEmployeeMessage = "The specified employee with id= " + employeeId + " does not exist";
+        return "The specified employee with id= " + employeeId + " does not exist";
     }
 
 
@@ -82,7 +86,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         logger.info("MedHelper_LOGS: EmployeeDAO: Find an employee by surname");
         TypedQuery<Employee> query = entityManager.createQuery(
                 "select e from Employee e where e.surname LIKE :employeeSurname", Employee.class);
-        query.setParameter("employeeSurname", "%"+employeeSurname+"%");
+        query.setParameter("employeeSurname", "%" + employeeSurname + "%");
         return query.getResultList();
     }
 
