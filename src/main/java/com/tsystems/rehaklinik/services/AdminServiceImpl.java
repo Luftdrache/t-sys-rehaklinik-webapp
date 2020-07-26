@@ -47,7 +47,7 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public EmployeeDTO findEmployeeById(int id) {
+    public EmployeeDTO findEmployeeByIdDTO(int id) {
         Employee employee = employeeDAO.findEmployeeById(id);
         if (employee != null) {
             EmployeeDTO employeeDTO = new EmployeeDTO(employee);

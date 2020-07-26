@@ -40,7 +40,6 @@ public class ClinicalDiagnose implements Serializable {
     @Column(name = "full_diagnosis_description")
     private String fullDiagnosisDescription;
 
-    @OneToMany(mappedBy = "clinicalDiagnosis")
-    private List<MedicalRecord> medicalRecords;
-
+    @OneToOne(mappedBy = "clinicalDiagnosis")
+    private MedicalRecord medicalRecords;
 }

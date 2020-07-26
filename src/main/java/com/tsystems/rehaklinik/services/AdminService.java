@@ -16,7 +16,7 @@ public interface AdminService {
 
     String deleteEmployeeById(int id);
 
-    EmployeeDTO findEmployeeById(int id);
+    EmployeeDTO findEmployeeByIdDTO(int id);
 
     List<EmployeeDTO> findEmployeeBySurname(String surname);
 

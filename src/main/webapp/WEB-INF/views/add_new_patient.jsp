@@ -1,16 +1,16 @@
 <%--
   Created by IntelliJ IDEA.
   User: Julia
-  Date: 21.07.2020
-  Time: 16:12
+  Date: 26.07.2020
+  Time: 18:55
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ page import="com.tsystems.rehaklinik.types.QualificationCategories" %>
 <%@ page import="com.tsystems.rehaklinik.types.Roles" %>
+<%@ page import="com.tsystems.rehaklinik.types.Gender" %>
+
 
 <html>
 <head>
@@ -34,11 +34,11 @@
 <body>
 <div class="container-fluid">
     <div content="container" class="col-sm-7 col-sm-offset-4" style="background-color: #c9e9ff">
-        <form action="${pageContext.request.contextPath}/admin/add-employee" modelAttribute="addEmployee" method="post"
+        <form action="${pageContext.request.contextPath}/reception/add-patient" modelAttribute="addPatient" method="post"
               class="form-horizontal"
               role="form">
             <div style="padding-left: 10%">
-                <h2>Add New Employee</h2>
+                <h2>Add Patient</h2>
                 <span class="help-block">*Required fields</span>
             </div>
             <div class="form-group">
@@ -51,29 +51,24 @@
             <div class="form-group">
                 <label for="middleName" class="col-sm-4 control-label">Middle Name</label>
                 <div class="col-sm-5">
-                    <input type="text" id="middleName" name="middleName" placeholder="Middle Name" class="form-control"
-                           autofocus>
+                    <input type="text" id="middleName" name="middleName" placeholder="Middle Name" class="form-control">
                 </div>
             </div>
             <div class="form-group">
                 <label for="surname" class="col-sm-4 control-label">Last Name*</label>
                 <div class="col-sm-5">
-                    <input type="text" id="surname" name="surname" placeholder="Last Name" class="form-control"
-                           autofocus>
+                    <input type="text" id="surname" name="surname" placeholder="Last Name" class="form-control">
                 </div>
             </div>
             <div class="form-group">
-                <label for="login" class="col-sm-4 control-label">Login*</label>
+                <label for="gender" class="col-sm-4 control-label">Gender*</label>
                 <div class="col-sm-5">
-                    <input type="text" id="login" name="authenticationDataEmployee.login" placeholder="Login"
-                           class="form-control">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="password" class="col-sm-4 control-label">Password*</label>
-                <div class="col-sm-5">
-                    <input type="password" id="password" name="authenticationDataEmployee.password"
-                           placeholder="Password" class="form-control">
+                    <select id="gender" name="gender"
+                            class="form-control">
+                        <c:forEach items="${Gender.values()}" var="gen">
+                            <option selected>${gen.toString()}</option>
+                        </c:forEach>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -107,53 +102,48 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="position" class="col-sm-4 control-label">Position*</label>
+                <label for="insurancePolicyCode" class="col-sm-4 control-label">Insurance Policy Code*</label>
                 <div class="col-sm-5">
-                    <input type="text" id="position" name="position" placeholder="Position"
+                    <input type="text" id="insurancePolicyCode" placeholder="Insurance Policy Code"
+                           name="insurancePolicyCode" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="insuranceCompany" class="col-sm-4 control-label">Insurance Company*</label>
+                <div class="col-sm-5">
+                    <input type="text" id="insuranceCompany" placeholder="Insurance Company"
+                           name="insuranceCompany" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="consentToPersonalDataProcessing" class="col-sm-4 control-label"></label>
+                <div class="col-sm-5">
+                    <input type="checkbox" id="consentToPersonalDataProcessing"
+                           name="consentToPersonalDataProcessing" class="form-control">Consent To Personal Data Processing*</input>
+                </div>
+            </div>
+<%--            *****HIDDEN:*****--%>
+            <input type="hidden" id="role" name="role" value="PATIENT">
+            <input type="hidden" id="medicalRecord" name="medicalRecord.hospitalStayStatus" value="NEW">
+<%--            *****HIDDEN:*****--%>
+            <div class="form-group">
+                <label for="login" class="col-sm-4 control-label">Login</label>
+                <div class="col-sm-5">
+                    <input type="text" id="login" name="authenticationDataPatient.login" placeholder="Login"
                            class="form-control">
                 </div>
             </div>
             <div class="form-group">
-                <label for="qualificationCategory" class="col-sm-4 control-label">Qualification category</label>
+                <label for="password" class="col-sm-4 control-label">Password</label>
                 <div class="col-sm-5">
-                    <select id="qualificationCategory" name="qualificationCategory"
-                            class="form-control">
-                        <c:forEach items="${QualificationCategories.values()}" var="qCategory">
-                            <option selected>${qCategory.toString()}</option>
-                        </c:forEach>
-                    </select>
+                    <input type="password" id="password" name="authenticationDataPatient.password"
+                           placeholder="Password" class="form-control">
                 </div>
             </div>
-            <div class="form-group">
-                <label for="officeOrWardNumber" class="col-sm-4 control-label">Doctor's office or ward number</label>
-                <div class="col-sm-5">
-                    <input type="number" id="officeOrWardNumber" name="officeOrWardNumber"
-                           placeholder="Doctor's office or ward number"
-                           class="form-control" value="0" min="0">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="role" class="col-sm-4 control-label">ROLE*</label>
-                <div class="col-sm-5">
-                    <select id="role" name="role" class="form-control">
-                        <c:forEach items="${Roles.values()}" var="role">
-                            <c:if test="${role != 'PATIENT'}">
-                                <option selected>${role.toString()}</option>
-                            </c:if>
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
-            <input type="submit" class="btn login_btn" value="Add New Employee"
+            <input type="submit" class="btn login_btn" value="Add Patient"
                    style="background-color: orange; opacity: 0.9;"/>
         </form>
-        <div>
-            <h4> ${message}</h4>
-            <h5>${newEmployee.toString()}</h5>
-        </div>
     </div>
 </div>
 </body>
 </html>
-
-

@@ -20,21 +20,23 @@ public class MedicalRecord implements Serializable{
     @Column(name = "medical_record_id", nullable = false, length = 11)
     private int medicalRecordId;
 
+    @OneToOne(mappedBy = "medicalRecord")
+    private Patient patient;
+
+    @OneToOne
+    @JoinColumn(name = "clinical_diagnosis_id", referencedColumnName = "clinical_diagnosis_id") //Eager
+    private ClinicalDiagnose clinicalDiagnosis;
+
     @NotNull(message = "Hospital stay status must be set")
     @Enumerated(EnumType.STRING)
-    @Column(name = "hospital_stay_status", columnDefinition ="ENUM ('NEW', 'BEING_TREATED', 'DISCHARGED')",
+    @Column(name = "hospital_stay_status", columnDefinition ="ENUM ('NEW', 'BEING_TREATED', 'DISCHARGED') default 'NEW'",
             nullable = false)
     private HospitalStayStatus hospitalStayStatus;
 
-    @NotNull(message = "Hospital warn number must be set")
+    @Column (name = "hospital_department")
+    private String hospitalDepartment;
+
     @Positive(message = "Ward number must be positive")
-    @Column(name = "hospital_ward", nullable = false)
+    @Column(name = "hospital_ward")
     private int hospitalWard;
-
-    @ManyToOne
-    @JoinColumn(name = "clinical_diagnosis_id", referencedColumnName = "clinical_diagnosis_id")
-    private ClinicalDiagnose clinicalDiagnosis;
-
-    @OneToMany(mappedBy = "medicalRecord")
-    private List<Patient> patients;
 }

@@ -92,7 +92,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public List<Employee> findByEmployeePosition(String employeesPosition) {
-        return null;
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
 

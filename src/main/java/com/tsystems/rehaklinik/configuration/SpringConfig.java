@@ -52,9 +52,9 @@ public class SpringConfig implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new QCategoriesStringToEnumConverter());
         registry.addConverter(new RolesStringToEnumConverter());
+        registry.addConverter(new GenderStringToEnumConverter());
         registry.addConverter(new EventStatusStringToEnumConverter());
         registry.addConverter(new HospitalStayStatusStringToEnumConverter());
         registry.addConverter(new TreatmentTypeStringToEnumConverter());
     }
-
 }

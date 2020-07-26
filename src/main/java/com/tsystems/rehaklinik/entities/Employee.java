@@ -73,7 +73,7 @@ public class Employee implements Serializable {
 
 
     @NotNull(message = "Employee's authentication data must be set")
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "employee_authentication_data_id", referencedColumnName = "authentication_data_id", nullable = false)
     private AuthenticationData authenticationDataEmployee;
 
@@ -96,14 +96,14 @@ public class Employee implements Serializable {
     private int officeOrWardNumber;
 
 
-    @ManyToOne (fetch = FetchType.LAZY,  cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToOne (fetch = FetchType.LAZY,  cascade = CascadeType.ALL)
     @JoinColumn(name = "working_schedule_id", referencedColumnName = "working_schedule_id")
     private WorkingSchedule workingSchedule;
 
 
     @NotNull(message = "Role must be set")
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", columnDefinition = "ENUM('ADMIN', 'RECEPTIONIST', 'DOCTOR', 'NURSE', 'PATIENT')",
+    @Column(name = "role", columnDefinition = "ENUM('ADMIN', 'RECEPTIONIST', 'DOCTOR', 'NURSE')",
             nullable = false, length = 25)
     private Roles role;
 

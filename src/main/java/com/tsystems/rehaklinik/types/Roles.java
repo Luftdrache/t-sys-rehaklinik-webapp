@@ -1,7 +1,7 @@
 package com.tsystems.rehaklinik.types;
 
 public enum Roles {
-    ADMIN("Administrator"),
+    ADMIN("Admin"),
     DOCTOR("Doctor"),
     NURSE("Nurse"),
     PATIENT("Patient"),

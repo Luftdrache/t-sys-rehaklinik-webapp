@@ -1,5 +1,6 @@
 package com.tsystems.rehaklinik.controllers;
 
+import Util.BindingCheck;
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.services.AdminService;
@@ -22,7 +23,7 @@ import java.util.List;
  * @author Julia Dalskaya
  */
 @Controller
-@RequestMapping(("/admin"))
+@RequestMapping("/admin")
 public class AdminController {
 
     private Logger logger = LoggerFactory.getLogger(AdminController.class);
@@ -60,11 +61,10 @@ public class AdminController {
     /**
      * Returns page for new employees adding
      *
-     * @param model ModelMap model
      * @return form page for new employees adding
      */
     @GetMapping("/add-employee")
-    public String addEmployeeForm(ModelMap model) {
+    public String addEmployeeForm() {
         logger.info("MedHelper_LOGS: In AdminController - handler method addEmployeeForm() GET");
         return ADD_NEW_EMPLOYEE_JSP;
     }
@@ -82,7 +82,7 @@ public class AdminController {
     public String addEmployee(@Valid @ModelAttribute("addEmployee") Employee employee, BindingResult bindingResult, ModelMap model) {
         logger.info("MedHelper_LOGS: In AdminController:  handler method addEmployee()");
         logger.info("MedHelper_LOGS: New employee from JSP = " + employee.toString());
-        if (bindingResultCheck(bindingResult, model)) {
+        if (BindingCheck.bindingResultCheck(bindingResult, model)) {
             return "error_page";
         }
         Employee newEmployee = adminService.addNewEmployee(employee);
@@ -147,7 +147,7 @@ public class AdminController {
     @GetMapping("/find-employee-by-id/{id:\\d+}")
     public String findEmployeeById(@PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In AdminController - handler method findEmployeeById()");
-        EmployeeDTO employeeFoundById = adminService.findEmployeeById(id);
+        EmployeeDTO employeeFoundById = adminService.findEmployeeByIdDTO(id);
         if (employeeFoundById != null) {
             modelMap.addAttribute("employeeFoundById", employeeFoundById);
             logger.info("MedHelper_LOGS: The employee with id = " + id + " was found successfully");
@@ -186,7 +186,7 @@ public class AdminController {
     @PostMapping("/edit")
     public String editEmployeeData(@Valid @ModelAttribute("editEmployee") Employee employee, BindingResult bindingResult, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In AdminController - handler method editEmployeeData(), POST");
-        if (bindingResultCheck(bindingResult, modelMap)) {
+        if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
             return "error_page";
         }
         Employee editedEmployee = adminService.editEmployee(employee);
@@ -215,29 +215,6 @@ public class AdminController {
         }
         return EMPLOYEE_DETAILS_JSP;
     }
-
-
-    /**
-     * Checks if there is any binding errors
-     *
-     * @param bindingResult the binding results
-     * @param modelMap ModelMap
-     * @return boolean result
-     */
-    private boolean bindingResultCheck(BindingResult bindingResult, ModelMap modelMap) {
-        if (bindingResult.hasErrors()) {
-            for (Object object : bindingResult.getAllErrors()) {
-                if (object instanceof FieldError) {
-                    FieldError fieldError = (FieldError) object;
-                    modelMap.addAttribute("message", "<p>Details: </p>" + fieldError.getDefaultMessage());
-                    logger.debug("BindingResult Error: " + fieldError.getCode() + ". Details: " + fieldError.getDefaultMessage());
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     @Autowired
     public AdminController(AdminService adminService) {
