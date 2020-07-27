@@ -1,7 +1,6 @@
 package com.tsystems.rehaklinik.services;
 
-import com.tsystems.rehaklinik.dto.EmployeeDTO;
-import com.tsystems.rehaklinik.entities.Employee;
+import com.tsystems.rehaklinik.dto.PatientReceptionViewDTO;
 import com.tsystems.rehaklinik.entities.Patient;
 
 import java.util.List;
@@ -12,7 +11,7 @@ public interface HospitalReceptionService {
 
     String deletePatientById(int id);
 
-    List<Patient> showAllPatients();
+    List<PatientReceptionViewDTO> showAllPatients();
 
     Patient getPatientById(int id);
 

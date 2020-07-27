@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Julia
-  Date: 13.07.2020
-  Time: 12:38
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -86,7 +79,7 @@
                     <td>${empl.role}</td>
                     <td>
                         <form action="${pageContext.request.contextPath}/admin/employee-details/${empl.employeeId}" method="get">
-                            <input type="submit" class="btn btn-primary btn-sm" value="See more">
+                            <input type="submit" class="btn btn-primary btn-sm" value="Profile">
                         </form>
                         <form action="${pageContext.request.contextPath}/admin/edit/${empl.employeeId}" method="get">
 <%--                            <input type="hidden" name="employeeIdToEdit" value="${empl.employeeId}">--%>

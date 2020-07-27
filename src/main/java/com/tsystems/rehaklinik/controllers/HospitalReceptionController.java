@@ -1,6 +1,7 @@
 package com.tsystems.rehaklinik.controllers;
 
 import Util.BindingCheck;
+import com.tsystems.rehaklinik.dto.PatientReceptionViewDTO;
 import com.tsystems.rehaklinik.entities.Patient;
 import com.tsystems.rehaklinik.services.HospitalReceptionService;
 import org.slf4j.Logger;
@@ -9,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -27,16 +25,25 @@ public class HospitalReceptionController {
 
     private static final String RECEPTION_MAIN_JSP = "hospital_reception_page";
     private static final String ADD_NEW_PATIENT_JSP = "add_new_patient";
+    private  static final String PATIENT_DETAILS_JSP = "patient_details.jsp";
+
 
     /**
-     *
-      * @param modelMap
-     * @return
+     * Returns list of all patients found in database
+     * @param modelMap
+     * @return list of all patients found in database
      */
     @GetMapping("/start-page")
     public String showAllPatients(ModelMap modelMap) {
-        List<Patient> patients = receptionService.showAllPatients();
-        modelMap.addAttribute("patients", patients);
+        logger.info("MedHelper_LOGS: In HospitalReceptionController:  handler method showAllPatients(), GET");
+        List<PatientReceptionViewDTO> allPatients = receptionService.showAllPatients();
+        if (allPatients != null) {
+            modelMap.addAttribute("allPatients",allPatients);
+            logger.info("MedHelper_LOGS: The action showAllPatients() completed successfully");
+        } else {
+            modelMap.addAttribute("message", "INFO: There is no information about patients in the database");
+            logger.info("MedHelper_LOGS: The action showAllPatients() returned nothing");
+        }
         return RECEPTION_MAIN_JSP;
     }
 
@@ -75,6 +82,15 @@ public class HospitalReceptionController {
         model.addAttribute("message", "The new patient added successfully: ");
         model.addAttribute("newPatient", newPatient);
         return ADD_NEW_PATIENT_JSP;
+    }
+
+
+    @GetMapping("/patient-details/{id}")
+    public String seePatientDetails(@PathVariable("id") int id, ModelMap modelMap) {
+        if (modelMap.isEmpty()) {
+            modelMap.addAttribute("patient", receptionService.getPatientById(id));
+        }
+        return PATIENT_DETAILS_JSP;
     }
 
 
