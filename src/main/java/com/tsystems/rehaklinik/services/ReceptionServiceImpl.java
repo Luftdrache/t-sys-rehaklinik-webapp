@@ -1,7 +1,6 @@
 package com.tsystems.rehaklinik.services;
 
 
-import com.tsystems.rehaklinik.dao.EmployeeDAOImpl;
 import com.tsystems.rehaklinik.dao.PatientDAO;
 import com.tsystems.rehaklinik.dto.PatientReceptionViewDTO;
 import com.tsystems.rehaklinik.entities.Patient;
@@ -15,19 +14,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Service ("HospitalReceptionService")
+@Service ("ReceptionService")
 @Transactional
-public class HospitalReceptionServiceImpl implements HospitalReceptionService {
+public class ReceptionServiceImpl implements ReceptionService {
 
-    private static Logger logger = LoggerFactory.getLogger(EmployeeDAOImpl.class);
-
+    private static Logger logger = LoggerFactory.getLogger(ReceptionServiceImpl.class);
     private final PatientDAO patientDAO;
 
 
+
     @Override
-    public Patient addNewPatient(Patient patient) {
-        return patientDAO.createPatient(patient);
+    public List<Patient> findPatientBySurname(String surname) {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
+
 
     @Override
     public String deletePatientById(int id) {
@@ -35,6 +35,24 @@ public class HospitalReceptionServiceImpl implements HospitalReceptionService {
     }
 
 
+
+
+    @Override
+    public Patient getPatientById(int id) {
+        return patientDAO.findPatientById(id);
+    }
+
+    //OK
+    @Override
+    public Patient editPatient(Patient editedPatient) {
+        return patientDAO.updatePatient(editedPatient);
+    }
+    //OK
+    @Override
+    public Patient addNewPatient(Patient patient) {
+        return patientDAO.createPatient(patient);
+    }
+    //OK
     @Override
     public List<PatientReceptionViewDTO> showAllPatients() {
         List<Patient> allPatients = patientDAO.findAll();
@@ -49,26 +67,8 @@ public class HospitalReceptionServiceImpl implements HospitalReceptionService {
     }
 
 
-    @Override
-    public Patient editPatient(Patient editedPatient) {
-        return null;
-    }
-
-    @Override
-    public Patient getPatientById(int id) {
-        return null;
-    }
-
-    @Override
-    public List<Patient> findPatientBySurname(String surname) {
-        return null;
-    }
-
-
-
-
     @Autowired
-    public HospitalReceptionServiceImpl(PatientDAO patientDAO) {
+    public ReceptionServiceImpl(PatientDAO patientDAO) {
         this.patientDAO = patientDAO;
     }
 }

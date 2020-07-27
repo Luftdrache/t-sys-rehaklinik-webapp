@@ -4,23 +4,24 @@ import com.tsystems.rehaklinik.entities.Patient;
 import com.tsystems.rehaklinik.types.Gender;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 public class PatientReceptionViewDTO {
     private int patientId;
     private String name;
-    private String surname;
     private Gender gender;
-    private LocalDate dateOfBirth;
+    private int age;
+    private String phone;
     private String insuranceCompany;
     private String insurancePolicyCode;
     private String attendingDoctor;
 
     public PatientReceptionViewDTO(Patient patient) {
         this.patientId = patient.getPatientId();
-        this.name = patient.getFirstName() + " " + patient.getMiddleName();
-        this.surname = patient.getSurname();
+        this.name = patient.getFirstName() + " " + patient.getMiddleName() + " " + patient.getSurname();
         this.gender = patient.getGender();
-        this.dateOfBirth = patient.getDateOfBirth();
+        this.age = Period.between(patient.getDateOfBirth(), LocalDate.now()).getYears();
+        this.phone = patient.getPhoneNumber();
         this.insuranceCompany = patient.getInsuranceCompany();
         this.insurancePolicyCode = patient.getInsurancePolicyCode();
         if (patient.getAttendingDoctorId() != null) {
@@ -28,10 +29,9 @@ public class PatientReceptionViewDTO {
                     + patient.getAttendingDoctorId().getMiddleName() + " "
                     + patient.getAttendingDoctorId().getSurname();
         } else {
-            this.attendingDoctor = "- None - ";
+            this.attendingDoctor = "None";
         }
     }
-
 
     public int getPatientId() {
         return patientId;
@@ -49,14 +49,6 @@ public class PatientReceptionViewDTO {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
     public Gender getGender() {
         return gender;
     }
@@ -65,12 +57,20 @@ public class PatientReceptionViewDTO {
         this.gender = gender;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
+    public int getAge() {
+        return age;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getInsuranceCompany() {
@@ -97,14 +97,15 @@ public class PatientReceptionViewDTO {
         this.attendingDoctor = attendingDoctor;
     }
 
+
     @Override
     public String toString() {
-        return "PatientHospitalReceptionViewDTO{" +
+        return "PatientReceptionViewDTO{" +
                 "patientId=" + patientId +
                 ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
                 ", gender=" + gender +
-                ", dateOfBirth=" + dateOfBirth +
+                ", age=" + age +
+                ", phone='" + phone + '\'' +
                 ", insuranceCompany='" + insuranceCompany + '\'' +
                 ", insurancePolicyCode='" + insurancePolicyCode + '\'' +
                 ", attendingDoctor='" + attendingDoctor + '\'' +

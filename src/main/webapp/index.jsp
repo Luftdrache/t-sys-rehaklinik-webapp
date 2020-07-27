@@ -51,7 +51,7 @@
         </form>
     </div>
     <footer>
-        © 2020 Julia Dalskaya
+        © 2020 MedHelper. Professional hospital management system.
     </footer>
 </div>
 <!-- Optional JavaScript -->

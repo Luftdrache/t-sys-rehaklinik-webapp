@@ -34,7 +34,6 @@ public class Employee implements Serializable {
     private String firstName;
 
 
-    @Size(min = 2, max = 50, message = "Employees second name length must be no less than 2 and no more than 50 characters")
     @Column(name = "middle_name", length = 50)
     private String middleName;
 
@@ -46,6 +45,7 @@ public class Employee implements Serializable {
 
 
     @NotNull(message = "Employee's date of birth must be set")
+    @Past(message = "Employee's date of birth must be in the past")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
@@ -78,13 +78,13 @@ public class Employee implements Serializable {
     private AuthenticationData authenticationDataEmployee;
 
 
-    @NotBlank(message = "Employee's position mustn't be blank or null")
+//    @NotBlank(message = "Employee's position mustn't be blank or null") //Doesn't work correctly!?
     @Size(max=50, message = "Position length must be no more than 50 characters")
     @Column(name = "position", nullable = false, length = 50)
     private String position;
 
 
-    @NotBlank(message = "Employee's qualification category mustn't be blank or null")
+    @NotNull(message = "Employee's qualification category mustn't be blank or null")
     @Enumerated(EnumType.STRING)
     @Column(name = "qualification_category", columnDefinition = "ENUM('SECOND', 'FIRST', 'HIGHER', 'NONE')",
             nullable = false)

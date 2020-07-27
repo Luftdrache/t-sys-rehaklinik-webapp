@@ -1,0 +1,152 @@
+package com.tsystems.rehaklinik.controllers;
+
+import com.tsystems.rehaklinik.Util.BindingCheck;
+import com.tsystems.rehaklinik.dto.PatientReceptionViewDTO;
+import com.tsystems.rehaklinik.entities.Patient;
+import com.tsystems.rehaklinik.services.ReceptionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.PositiveOrZero;
+import java.util.List;
+
+
+/**
+ * Processes requests from hospital reception
+ *
+ * @author Julia Dalskaya
+ */
+@Controller
+@RequestMapping("/reception")
+public class ReceptionController {
+
+    private Logger logger = LoggerFactory.getLogger(ReceptionController.class);
+    private final ReceptionService receptionService;
+
+
+    private static final String RECEPTION_START_PAGE_JSP = "reception_main_page";
+    private static final String ADD_NEW_PATIENT_JSP = "reception_add_new_patient";
+    private  static final String PATIENT_DETAILS_JSP = "reception_patient_details";
+    private static final String RECEPTION_ERROR_PAGE = "reception_error_page";
+    private static final String EDIT_PATIENT_JSP = "reception_edit_patient";
+
+
+
+    @GetMapping("/edit-patient-data/{id}")
+    public String editPatientDataForm(@PathVariable("id") int id, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In ReceptionController - handler method editPatientDataForm(), GET");
+        Patient patientToEdit = receptionService.getPatientById(id);
+        modelMap.addAttribute("patientToEdit", patientToEdit);
+        return EDIT_PATIENT_JSP;
+    }
+
+
+    @PostMapping("/edit")
+    public String editPatientData(@Valid @ModelAttribute("editPatient") Patient patient, BindingResult bindingResult, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In ReceptionController  - handler method editPatientData(), POST");
+        if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
+            return RECEPTION_ERROR_PAGE;
+        }
+        Patient editedPatient = receptionService.editPatient(patient);
+        if (editedPatient == null) {
+            logger.info("MedHelper_LOGS: Error in the editing process of the patient" + editedPatient.toString() + ")");
+            return EDIT_PATIENT_JSP;
+        }
+        logger.info("MedHelper_LOGS: Patient edited successfully");
+        modelMap.addAttribute("message", "Patient edited successfully: ");
+        modelMap.addAttribute("patient", editedPatient);
+        return PATIENT_DETAILS_JSP;
+    }
+
+
+    @GetMapping("/patient-details/{id}")
+    public String seePatientDetails(@PathVariable("id") int id, ModelMap modelMap) {
+        if (modelMap.isEmpty()) {
+            modelMap.addAttribute("patient", receptionService.getPatientById(id));
+        }
+        return PATIENT_DETAILS_JSP;
+    }
+
+    /**
+     * Returns list of all patients found in database
+     * @param modelMap
+     * @return list of all patients found in database
+     */
+    @GetMapping("/start-page")
+    public String showAllPatients(ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In HospitalReceptionController:  handler method showAllPatients(), GET");
+        List<PatientReceptionViewDTO> allPatients = receptionService.showAllPatients();
+        if (allPatients != null) {
+            modelMap.addAttribute("allPatients",allPatients);
+            logger.info("MedHelper_LOGS: The action showAllPatients() completed successfully");
+        } else {
+            modelMap.addAttribute("message", "INFO: There is no information about patients in the database");
+            logger.info("MedHelper_LOGS: The action showAllPatients() returned nothing");
+        }
+        return RECEPTION_START_PAGE_JSP;
+    }
+
+
+    /**
+     * Returns page for new patient adding
+     *
+     * @return form page for new patient adding
+     */
+    @GetMapping("/add-patient")
+    public String addPatientGetForm() {
+        logger.info("MedHelper_LOGS: In HospitalReceptionController - handler method addPatientGetForm(), GET");
+        return ADD_NEW_PATIENT_JSP;
+    }
+
+
+    /**
+     * Is used to add a new patient to the database
+     *
+     * @param patient     the new patient
+     * @param bindingResult the binding results
+     * @param model         ModelMap model
+     * @return the next view name to display or an error page in case of error occurred
+     */
+    @PostMapping("/add-patient")
+    public String addPatient(@Valid @ModelAttribute("addPatient") Patient patient, BindingResult bindingResult, ModelMap model) {
+        logger.info("MedHelper_LOGS: In HospitalReceptionController:  handler method addPatient()");
+        logger.info("MedHelper_LOGS: New patient from JSP = " + patient.toString());
+
+        if (BindingCheck.bindingResultCheck(bindingResult, model)) {
+            return RECEPTION_ERROR_PAGE;
+        }
+
+        Patient newPatient = receptionService.addNewPatient(patient);
+        logger.info("MedHelper_LOGS: the new patient added successfully(" + patient.toString() + ")");
+        model.addAttribute("message", "The new patient added successfully: ");
+        model.addAttribute("newPatient", newPatient);
+        return ADD_NEW_PATIENT_JSP;
+    }
+
+
+    /**
+     * Deletes patient with specified id
+     * @param patientIdToDelete Patient id to delete
+     * @param modelMap modelMap
+     * @return redirects to main hospital reception page
+     */
+    @PostMapping("/delete-patient")
+    public String deletePatientById(@RequestParam("patientIdToDelete") int patientIdToDelete, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In AdminController - handler method deletePatientById()");
+        String deletePatientByIdMessage = receptionService.deletePatientById(patientIdToDelete);
+        modelMap.addAttribute("message", deletePatientByIdMessage);
+        logger.info("MedHelper_LOGS: Result of deletePatientById action is " + deletePatientByIdMessage);
+        return "redirect:/reception/start-page";
+    }
+
+    @Autowired
+    public ReceptionController(ReceptionService receptionService) {
+        this.receptionService = receptionService;
+    }
+}

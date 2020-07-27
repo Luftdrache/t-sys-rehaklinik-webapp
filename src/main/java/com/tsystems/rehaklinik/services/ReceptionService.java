@@ -5,7 +5,7 @@ import com.tsystems.rehaklinik.entities.Patient;
 
 import java.util.List;
 
-public interface HospitalReceptionService {
+public interface ReceptionService {
 
     Patient addNewPatient(Patient patient);
 

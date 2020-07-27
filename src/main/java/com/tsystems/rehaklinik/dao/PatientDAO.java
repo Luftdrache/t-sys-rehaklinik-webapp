@@ -15,7 +15,7 @@ public interface PatientDAO {
 
     Patient findPatientById(int patientId);
 
-    List<Employee> findPatientBySurname(String patientSurname);
+    List<Patient> findPatientBySurname(String patientSurname);
 
     List<Patient> findAll();
 

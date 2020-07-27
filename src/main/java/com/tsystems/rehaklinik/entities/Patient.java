@@ -6,10 +6,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
@@ -34,7 +31,6 @@ public class Patient implements Serializable {
     @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
 
-    @NotBlank(message = "Patient's second name mustn't be blank")
     @Column(name = "second_name", length = 50)
     private String middleName;
 
@@ -42,12 +38,13 @@ public class Patient implements Serializable {
     @Column(name = "surname", nullable = false, length = 50)
     private String surname;
 
-    @NotBlank(message = "Patient's gender mustn't be blank or null")
+    @NotNull(message = "Patient's gender mustn't be null")
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", columnDefinition = "ENUM('MALE', 'FEMALE')", nullable = false)
     private Gender gender;
 
     @NotNull(message = "Patient's date of birth must be set")
+    @Past(message = "Patient's date of birth must be in the past")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
@@ -89,7 +86,7 @@ public class Patient implements Serializable {
             nullable = false, length = 25)
     private Roles role;
 
-    @OneToOne (cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne (cascade=CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "patient_authentication_data_id", referencedColumnName = "authentication_data_id", nullable = false)
     private AuthenticationData authenticationDataPatient;
 
@@ -97,7 +94,7 @@ public class Patient implements Serializable {
     @JoinColumn(name = "attending_doctor_id", referencedColumnName = "employee_id")
     private Employee attendingDoctorId;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "medical_record_id", referencedColumnName = "medical_record_id",  nullable = false)
     private MedicalRecord medicalRecord;
 

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Julia
-  Date: 24.07.2020
-  Time: 23:34
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -48,10 +41,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="middleName" class="col-sm-4 control-label">Second Name</label>
+                <label for="middleName" class="col-sm-4 control-label">Middle Name</label>
                 <div class="col-sm-5">
-                    <input type="text" id="middleName" value="${employeeToEdit.middleName}"  name="middleName" placeholder="Second Name" class="form-control"
-                           autofocus>
+                    <input type="text" id="middleName" value="${employeeToEdit.middleName}"  name="middleName"
+                           placeholder="Middle Name" class="form-control" autofocus>
                 </div>
             </div>
             <div class="form-group">
@@ -113,7 +106,8 @@
             <div class="form-group">
                 <label for="position" class="col-sm-4 control-label">Position*</label>
                 <div class="col-sm-5">
-                    <input type="text" id="position" name="position.positionName" value="${employeeToEdit.position}" placeholder="Position"
+                    <input type="text" id="position" name="position.positionName"
+                           value="${employeeToEdit.position}" placeholder="Position"
                            class="form-control">
                 </div>
             </div>

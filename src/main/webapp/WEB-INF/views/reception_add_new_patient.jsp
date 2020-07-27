@@ -33,7 +33,7 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div content="container" class="col-sm-7 col-sm-offset-4" style="background-color: #c9e9ff">
+    <div content="container" class="col-sm-8 col-sm-offset-2" style="margin-top: 10px ;background-color: #c9e9ff; border-radius: 20px">
         <form action="${pageContext.request.contextPath}/reception/add-patient" modelAttribute="addPatient" method="post"
               class="form-horizontal"
               role="form">
@@ -119,7 +119,8 @@
                 <label for="consentToPersonalDataProcessing" class="col-sm-4 control-label"></label>
                 <div class="col-sm-5">
                     <input type="checkbox" id="consentToPersonalDataProcessing"
-                           name="consentToPersonalDataProcessing" class="form-control">Consent To Personal Data Processing*</input>
+                           name="consentToPersonalDataProcessing">
+                    Consent To Personal Data Processing*
                 </div>
             </div>
 <%--            *****HIDDEN:*****--%>
@@ -127,23 +128,33 @@
             <input type="hidden" id="medicalRecord" name="medicalRecord.hospitalStayStatus" value="NEW">
 <%--            *****HIDDEN:*****--%>
             <div class="form-group">
-                <label for="login" class="col-sm-4 control-label">Login</label>
+                <label for="login" class="col-sm-4 control-label">Login*</label>
                 <div class="col-sm-5">
                     <input type="text" id="login" name="authenticationDataPatient.login" placeholder="Login"
                            class="form-control">
                 </div>
             </div>
             <div class="form-group">
-                <label for="password" class="col-sm-4 control-label">Password</label>
+                <label for="password" class="col-sm-4 control-label">Password*</label>
                 <div class="col-sm-5">
                     <input type="password" id="password" name="authenticationDataPatient.password"
                            placeholder="Password" class="form-control">
                 </div>
             </div>
+            <div style="padding-left: 50%">
             <input type="submit" class="btn login_btn" value="Add Patient"
                    style="background-color: orange; opacity: 0.9;"/>
+            </div>
+        </form>
+        <form action="${pageContext.request.contextPath}/reception/start-page" method="get">
+            <button type="submit" class="btn btn-primary">To main page</button>
         </form>
     </div>
 </div>
+<footer class="page-footer mdb-color pt-4" style="font-size: small; color: #c9e9ff">
+    <p class="text-center text-md-left">
+        © 2020 MedHelper. Professional hospital management system.
+    </p>
+</footer>
 </body>
 </html>

@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class MedicalRecord implements Serializable{
     @Column (name = "hospital_department")
     private String hospitalDepartment;
 
-    @Positive(message = "Ward number must be positive")
+    @PositiveOrZero(message = "Ward number must be positive or zero")
     @Column(name = "hospital_ward")
     private int hospitalWard;
 }

@@ -9,23 +9,17 @@ import java.time.LocalDate;
 public class EmployeeDTO {
     private int employeeId;
     private String name;
-    private String surname;
-    private LocalDate dateOfBirth;
     private String position;
     private QualificationCategories qualificationCategory;
-    private String address;
     private String phone;
     private String email;
     private Roles role;
 
     public EmployeeDTO(Employee employeeFromDao) {
         this.employeeId = employeeFromDao.getEmployeeId();
-        this.name = employeeFromDao.getFirstName() + " " + employeeFromDao.getMiddleName();
-        this.surname = employeeFromDao.getSurname();
-        this.dateOfBirth = employeeFromDao.getDateOfBirth();
+        this.name = employeeFromDao.getFirstName() + " " + employeeFromDao.getMiddleName() + " " + employeeFromDao.getSurname();
         this.position = employeeFromDao.getPosition();
         this.qualificationCategory = employeeFromDao.getQualificationCategory();
-        this.address = employeeFromDao.getAddress();
         this.phone = employeeFromDao.getPhoneNumber();
         this.email = employeeFromDao.getEmail();
         this.role = employeeFromDao.getRole();
@@ -48,22 +42,6 @@ public class EmployeeDTO {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
     public String getPosition() {
         return position;
     }
@@ -78,14 +56,6 @@ public class EmployeeDTO {
 
     public void setQualificationCategory(QualificationCategories qualificationCategory) {
         this.qualificationCategory = qualificationCategory;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getPhone() {
@@ -117,11 +87,8 @@ public class EmployeeDTO {
         return "EmployeeDTO{" +
                 "employeeId=" + employeeId +
                 ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
                 ", position='" + position + '\'' +
                 ", qualificationCategory=" + qualificationCategory +
-                ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", role=" + role +
