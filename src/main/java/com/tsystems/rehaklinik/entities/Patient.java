@@ -18,7 +18,9 @@ import java.util.List;
                 {@UniqueConstraint(columnNames = "passport_id", name = "UNQ_PATIENT_PASSPORT_ID"),
                         @UniqueConstraint(columnNames = "email", name = "UNQ_PATIENT_EMAIL"),
                         @UniqueConstraint(columnNames = "insurance_policy_code", name = "UNQ_INSURANCE_POLICY_CODE")})
-@Data
+//@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Patient implements Serializable {

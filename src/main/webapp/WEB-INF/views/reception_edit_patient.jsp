@@ -95,7 +95,7 @@
             <div class="form-group">
                 <label for="email" class="col-sm-4 control-label">Email</label>
                 <div class="col-sm-5">
-                    <input type="email" id="email" name="email" value="${patientToEdit}" placeholder="Email" class="form-control">
+                    <input type="email" id="email" name="email" value="${patientToEdit.email}" placeholder="Email" class="form-control">
                 </div>
             </div>
             <div class="form-group">
