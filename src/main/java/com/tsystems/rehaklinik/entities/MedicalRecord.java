@@ -24,7 +24,7 @@ public class MedicalRecord implements Serializable{
     @OneToOne(mappedBy = "medicalRecord")
     private Patient patient;
 
-    @OneToOne
+    @OneToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "clinical_diagnosis_id", referencedColumnName = "clinical_diagnosis_id") //Eager
     private ClinicalDiagnose clinicalDiagnosis;
 

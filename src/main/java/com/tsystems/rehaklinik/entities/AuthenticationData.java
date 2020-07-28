@@ -13,9 +13,7 @@ import java.io.Serializable;
 @Table(name = "authentication_data", schema = "rehaklinik",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"login"},
-                        name = "UNQ_LOGIN"),
-                @UniqueConstraint(columnNames = "password",
-                        name = "UNQ_PASSWORD")})
+                        name = "UNQ_LOGIN")})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,8 +29,8 @@ public class AuthenticationData implements Serializable {
     private String login;
 
     @NotBlank(message = "Password must be set, not blank")
-    @Size(min = 5, max = 35, message = "Password length must be no less than 5 and no more than 35 characters")
-    @Column(name = "password", nullable = false, length = 35)
+    @Size(min = 8, message = "Password length must be no less than 8 characters")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @OneToOne(mappedBy = "authenticationDataEmployee")

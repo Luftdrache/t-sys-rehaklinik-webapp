@@ -44,9 +44,15 @@ public interface EmployeeDAO {
 
     /**
      * Finds all employees from the database
-     * @return all employees from database
+     * @return list of all employees from database
      */
     List<Employee> findAll();
+
+    /**
+     * Finds all doctors from the database
+     * @return List of all doctors from the database
+     */
+    List<Employee> findAllDoctors();
 
 
 

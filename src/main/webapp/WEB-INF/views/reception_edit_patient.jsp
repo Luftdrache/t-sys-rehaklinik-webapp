@@ -26,13 +26,15 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div content="container" class="col-sm-8 col-sm-offset-2" style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
-        <form action="${pageContext.request.contextPath}/reception/edit" method="post" class="form-horizontal" role="form">
+    <div content="container" class="col-sm-8 col-sm-offset-2"
+         style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
+        <form action="${pageContext.request.contextPath}/reception/edit" method="post" class="form-horizontal"
+              role="form">
             <div style="padding-left: 10%">
                 <h2>Edit Patient Data</h2>
                 <span class="help-block">*Required fields</span>
             </div>
-            <input type="hidden" id="patientId" name="patientId" value="${patientToEdit.patientId}" />
+            <input type="hidden" id="patientId" name="patientId" value="${patientToEdit.patientId}"/>
             <div class="form-group">
                 <label for="firstName" class="col-sm-4 control-label">First Name*</label>
                 <div class="col-sm-5">
@@ -68,7 +70,8 @@
             <div class="form-group">
                 <label for="dateOfBirth" class="col-sm-4 control-label">Date of Birth*</label>
                 <div class="col-sm-5">
-                    <input type="date" id="dateOfBirth" name="dateOfBirth" value="${patientToEdit.dateOfBirth}" class="form-control">
+                    <input type="date" id="dateOfBirth" name="dateOfBirth" value="${patientToEdit.dateOfBirth}"
+                           class="form-control">
                 </div>
             </div>
             <div class="form-group">
@@ -95,7 +98,8 @@
             <div class="form-group">
                 <label for="email" class="col-sm-4 control-label">Email</label>
                 <div class="col-sm-5">
-                    <input type="email" id="email" name="email" value="${patientToEdit.email}" placeholder="Email" class="form-control">
+                    <input type="email" id="email" name="email" value="${patientToEdit.email}" placeholder="Email"
+                           class="form-control">
                 </div>
             </div>
             <div class="form-group">
@@ -121,7 +125,9 @@
             <input type="hidden" id="medicalRecord" name="medicalRecord.hospitalStayStatus"
                    value="${patientToEdit.medicalRecord.hospitalStayStatus}">
             <input type="hidden" id="authenticationDataPatient" name="authenticationDataPatient.authenticationDataId"
-                   value="${patientToEdit.authenticationDataPatient.authenticationDataId}" />
+                   value="${patientToEdit.authenticationDataPatient.authenticationDataId}"/>
+            <input type="hidden" id="attendingDoctorId" name="attendingDoctorId.employeeId"
+                   value="${patientToEdit.attendingDoctorId.employeeId}">
             <%--            *****HIDDEN:*****--%>
             <div class="form-group">
                 <label for="login" class="col-sm-4 control-label">Login*</label>
@@ -134,13 +140,13 @@
             <div class="form-group">
                 <label for="password" class="col-sm-4 control-label">Password*</label>
                 <div class="col-sm-5">
-                    <input type="password" id="password"  value="${patientToEdit.authenticationDataPatient.password}"
+                    <input type="password" id="password" value="${patientToEdit.authenticationDataPatient.password}"
                            name="authenticationDataPatient.password" placeholder="Password" class="form-control">
                 </div>
             </div>
             <div style="padding-left: 50%">
-            <input type="submit" class="btn login_btn" value="Edit"
-                   style="background-color: orange; opacity: 0.9;"/>
+                <input type="submit" class="btn login_btn" value="Edit"
+                       style="background-color: orange; opacity: 0.9;"/>
             </div>
         </form>
         <form action="${pageContext.request.contextPath}/reception/start-page" method="get">

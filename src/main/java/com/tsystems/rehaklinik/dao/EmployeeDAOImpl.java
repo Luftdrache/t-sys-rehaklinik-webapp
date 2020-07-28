@@ -1,6 +1,7 @@
 package com.tsystems.rehaklinik.dao;
 
 import com.tsystems.rehaklinik.entities.Employee;
+import com.tsystems.rehaklinik.types.Roles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -19,6 +20,20 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+
+    /**
+     * Finds all doctors from the database
+     *
+     * @return List of all doctors from the database
+     */
+    @Override
+    public List<Employee> findAllDoctors() {
+        logger.info("MedHelper_LOGS: EmployeeDAO: Find all doctors");
+        return entityManager.createQuery(
+                "SELECT e FROM Employee e WHERE e.role = :doctor", Employee.class
+        ).setParameter("doctor", Roles.DOCTOR).getResultList();
+    }
 
 
     @Override

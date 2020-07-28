@@ -1,8 +1,10 @@
 package com.tsystems.rehaklinik.controllers;
 
 import com.tsystems.rehaklinik.Util.BindingCheck;
+import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.dto.PatientReceptionViewDTO;
 import com.tsystems.rehaklinik.entities.Patient;
+import com.tsystems.rehaklinik.services.AdminService;
 import com.tsystems.rehaklinik.services.ReceptionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 
@@ -28,14 +29,41 @@ public class ReceptionController {
 
     private Logger logger = LoggerFactory.getLogger(ReceptionController.class);
     private final ReceptionService receptionService;
+    private final AdminService adminService;
 
 
     private static final String RECEPTION_START_PAGE_JSP = "reception_main_page";
     private static final String ADD_NEW_PATIENT_JSP = "reception_add_new_patient";
-    private  static final String PATIENT_DETAILS_JSP = "reception_patient_details";
+    private static final String PATIENT_DETAILS_JSP = "reception_patient_details";
     private static final String RECEPTION_ERROR_PAGE = "reception_error_page";
     private static final String EDIT_PATIENT_JSP = "reception_edit_patient";
+    private static final String DOCTORS_LIST_JSP = "reception_doctors";
 
+
+
+
+    //IN PROGRESS
+    @PostMapping("/appoint-doctor")
+    public String setAttendingDoctor(@RequestParam("doctorId") int doctorId,
+                                     @RequestParam("patientId") int patientId, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In ReceptionController - handler method setAttendingDoctor(), POST");
+        Patient patient = receptionService.getPatientById(patientId);
+        patient.setAttendingDoctorId(adminService.getEmployee(doctorId));
+        Patient patientWithDoctor = receptionService.editPatient(patient);
+        modelMap.addAttribute("patientInfo", patientWithDoctor);
+        modelMap.addAttribute("message", "Attending doctor is appointed");
+        return PATIENT_DETAILS_JSP;
+    }
+
+
+    @GetMapping("/appoint-doctor")
+    public String chooseAttendingDoctor(@RequestParam("patientId") int id, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In ReceptionController - handler method chooseAttendingDoctor(), GET");
+        List<EmployeeDTO> doctors = receptionService.getAllDoctors();
+        modelMap.addAttribute("doctors", doctors);
+        modelMap.addAttribute("patient", id);
+        return DOCTORS_LIST_JSP;
+    }
 
 
     @GetMapping("/edit-patient-data/{id}")
@@ -53,14 +81,14 @@ public class ReceptionController {
         if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
             return RECEPTION_ERROR_PAGE;
         }
-        Patient editedPatient = receptionService.editPatient(patient);
-        if (editedPatient == null) {
-            logger.info("MedHelper_LOGS: Error in the editing process of the patient" + editedPatient.toString() + ")");
+        Patient patientInfo = receptionService.editPatient(patient);
+        if (patientInfo == null) {
+            logger.info("MedHelper_LOGS: Error in the editing process of the patient" + patientInfo.toString() + ")");
             return EDIT_PATIENT_JSP;
         }
         logger.info("MedHelper_LOGS: Patient edited successfully");
         modelMap.addAttribute("message", "Patient edited successfully: ");
-        modelMap.addAttribute("patient", editedPatient);
+        modelMap.addAttribute("patientInfo", patientInfo);
         return PATIENT_DETAILS_JSP;
     }
 
@@ -68,13 +96,14 @@ public class ReceptionController {
     @GetMapping("/patient-details/{id}")
     public String seePatientDetails(@PathVariable("id") int id, ModelMap modelMap) {
         if (modelMap.isEmpty()) {
-            modelMap.addAttribute("patient", receptionService.getPatientById(id));
+            modelMap.addAttribute("patientInfo", receptionService.getPatientById(id));
         }
         return PATIENT_DETAILS_JSP;
     }
 
     /**
      * Returns list of all patients found in database
+     *
      * @param modelMap
      * @return list of all patients found in database
      */
@@ -83,7 +112,7 @@ public class ReceptionController {
         logger.info("MedHelper_LOGS: In HospitalReceptionController:  handler method showAllPatients(), GET");
         List<PatientReceptionViewDTO> allPatients = receptionService.showAllPatients();
         if (allPatients != null) {
-            modelMap.addAttribute("allPatients",allPatients);
+            modelMap.addAttribute("allPatients", allPatients);
             logger.info("MedHelper_LOGS: The action showAllPatients() completed successfully");
         } else {
             modelMap.addAttribute("message", "INFO: There is no information about patients in the database");
@@ -108,7 +137,7 @@ public class ReceptionController {
     /**
      * Is used to add a new patient to the database
      *
-     * @param patient     the new patient
+     * @param patient       the new patient
      * @param bindingResult the binding results
      * @param model         ModelMap model
      * @return the next view name to display or an error page in case of error occurred
@@ -132,8 +161,9 @@ public class ReceptionController {
 
     /**
      * Deletes patient with specified id
+     *
      * @param patientIdToDelete Patient id to delete
-     * @param modelMap modelMap
+     * @param modelMap          modelMap
      * @return redirects to main hospital reception page
      */
     @PostMapping("/delete-patient")
@@ -146,7 +176,8 @@ public class ReceptionController {
     }
 
     @Autowired
-    public ReceptionController(ReceptionService receptionService) {
+    public ReceptionController(ReceptionService receptionService, AdminService adminService) {
         this.receptionService = receptionService;
+        this.adminService = adminService;
     }
 }

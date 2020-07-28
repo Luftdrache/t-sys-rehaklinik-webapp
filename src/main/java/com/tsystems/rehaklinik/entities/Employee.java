@@ -17,7 +17,9 @@ import java.util.List;
                 {@UniqueConstraint(columnNames = "passport_id", name = "UNQ_EMPLOYEE_PASSPORT_ID"),
                         @UniqueConstraint(columnNames = "email", name = "UNQ_EMPLOYEE_EMAIL"),
                         @UniqueConstraint(columnNames = "employee_authentication_data_id", name = "UNQ_EMPLOYEE_AUTH_DATA")})
-@Data
+//@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -78,7 +80,6 @@ public class Employee implements Serializable {
     private AuthenticationData authenticationDataEmployee;
 
 
-//    @NotBlank(message = "Employee's position mustn't be blank or null") //Doesn't work correctly!?
     @Size(max=50, message = "Position length must be no more than 50 characters")
     @Column(name = "position", nullable = false, length = 50)
     private String position;

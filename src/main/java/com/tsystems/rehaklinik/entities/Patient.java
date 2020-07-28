@@ -92,7 +92,7 @@ public class Patient implements Serializable {
     @JoinColumn(name = "patient_authentication_data_id", referencedColumnName = "authentication_data_id", nullable = false)
     private AuthenticationData authenticationDataPatient;
 
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne (cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinColumn(name = "attending_doctor_id", referencedColumnName = "employee_id")
     private Employee attendingDoctorId;
 
