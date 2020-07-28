@@ -64,7 +64,7 @@ public class Patient implements Serializable {
     @Column(name = "phone_number", nullable = false, length = 25)
     private String phoneNumber;
 
-    @Pattern(regexp = "(\\w+\\.)*\\w+@(\\w+\\.)+[a-zA-z]{2,}", message = "Wrong patient's email")
+    @Pattern(regexp = "(\\w+\\.)*\\w+@(\\w+\\.)+[a-zA-z]{2,}|[ \t]+", message = "Wrong patient's email")
     @Column(name = "email", length = 80)
     private String email;
 
@@ -88,7 +88,7 @@ public class Patient implements Serializable {
             nullable = false, length = 25)
     private Roles role;
 
-    @OneToOne (cascade=CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToOne (cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "patient_authentication_data_id", referencedColumnName = "authentication_data_id", nullable = false)
     private AuthenticationData authenticationDataPatient;
 
@@ -96,13 +96,13 @@ public class Patient implements Serializable {
     @JoinColumn(name = "attending_doctor_id", referencedColumnName = "employee_id")
     private Employee attendingDoctorId;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "medical_record_id", referencedColumnName = "medical_record_id",  nullable = false)
     private MedicalRecord medicalRecord;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<Prescription> prescriptions;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<TreatmentEvent> treatmentEvents;
 }

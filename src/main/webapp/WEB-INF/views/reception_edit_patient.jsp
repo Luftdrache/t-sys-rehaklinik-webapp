@@ -118,6 +118,8 @@
             <input type="hidden" id="role" name="role" value="${patientToEdit.role}">
             <input type="hidden" id="medicalRecord" name="medicalRecord.medicalRecordId"
                    value="${patientToEdit.medicalRecord.medicalRecordId}">
+            <input type="hidden" id="medicalRecord" name="medicalRecord.hospitalStayStatus"
+                   value="${patientToEdit.medicalRecord.hospitalStayStatus}">
             <input type="hidden" id="authenticationDataPatient" name="authenticationDataPatient.authenticationDataId"
                    value="${patientToEdit.authenticationDataPatient.authenticationDataId}" />
             <%--            *****HIDDEN:*****--%>
