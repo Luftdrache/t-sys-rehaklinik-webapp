@@ -117,7 +117,7 @@
                     <select id="qualificationCategory" name="qualificationCategory"
                             value="${employeeToEdit.qualificationCategory}" class="form-control">
                         <c:forEach items="${QualificationCategories.values()}" var="qCategory">
-                            <option selected>${qCategory.toString()}</option>
+                            <option>${qCategory.toString()}</option>
                         </c:forEach>
                     </select>
                 </div>
@@ -137,7 +137,7 @@
                     <select id="role" name="role" value="${employeeToEdit.role}" class="form-control">
                         <c:forEach items="${Roles.values()}" var="role">
                             <c:if test="${role != 'PATIENT'}">
-                                <option selected>${role.toString()}</option>
+                                <option>${role.toString()}</option>
                             </c:if>
                         </c:forEach>
                     </select>

@@ -62,7 +62,7 @@
                     <select id="gender" name="gender" velue="${patientToEdit.gender}"
                             class="form-control">
                         <c:forEach items="${Gender.values()}" var="gen">
-                            <option selected>${gen.toString()}</option>
+                            <option>${gen.toString()}</option>
                         </c:forEach>
                     </select>
                 </div>

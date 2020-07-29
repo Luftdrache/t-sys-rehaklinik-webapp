@@ -42,7 +42,7 @@
     <div class="sidebar">
         <div class="sidebar-menu">
             <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/doctor-avt-2.png" alt="">
+                <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.png" alt="">
                 <p>Doctor</p>
             </center>
             <li class="item" id="#patients">
@@ -73,7 +73,7 @@
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container">
+    <div class="main-container" style="height: 90vh;">
         Patients:
         <table class="table table-striped table-borderless .table-condensed ">
             <thead class="thead-mine">

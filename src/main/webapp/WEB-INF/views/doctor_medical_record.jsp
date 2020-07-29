@@ -51,12 +51,12 @@
                 </a>
             </li>
             <li class="item" id="show-med-record">
-                <a href="#" class="menu-btn">
+                <a href="${pageContext.request.contextPath}/doctor/medical-record/${medicalRecord.medicalRecordId}" class="menu-btn">
                     <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
                 </a>
             </li>
             <li class="item" id="edit-med-record">
-                <a href="#" class="menu-btn">
+                <a href="${pageContext.request.contextPath}/doctor/medical-record/edit/${medicalRecord.medicalRecordId}" class="menu-btn">
                     <i class="far fa-edit"></i><span>Edit</span>
                 </a>
             </li>

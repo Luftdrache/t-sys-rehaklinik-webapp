@@ -25,12 +25,15 @@ public class DoctorServiceImpl implements DoctorService{
     private final MedicalRecordDAO medicalRecordDAO;
 
 
-
     @Override
-    public MedicalRecord getMedicalRecord(int id) {
-        return medicalRecordDAO.findMedicalRecordById(id);
+    public MedicalRecord getMedicalRecordById(int medRecId) {
+        return null;
     }
 
+    @Override
+    public MedicalRecord getMedicalRecord(int patientId) {
+        return medicalRecordDAO.findMedicalRecordById(patientId);
+    }
 
 
     @Override

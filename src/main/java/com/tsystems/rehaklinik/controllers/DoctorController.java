@@ -24,6 +24,7 @@ public class DoctorController {
 
     private static final String MAIN_DOCTOR_JSP = "doctor_main_page";
     private static final String MEDICAL_RECORD_JSP = "doctor_medical_record";
+    private static final String EDIT_MEDICAL_RECORD_JSP = "doctor_edit_medical_record";
 
 
     /**
@@ -55,11 +56,20 @@ public class DoctorController {
      */
     @GetMapping("/medical-record/{id}")
     public String showMedicalRecord(@PathVariable("id") int id, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method showMedicalRecord(), GET");
         MedicalRecord medicalRecord = doctorService.getMedicalRecord(id);
         modelMap.addAttribute("medicalRecord", medicalRecord);
         return MEDICAL_RECORD_JSP;
     }
 
+
+    @GetMapping("/medical-record/edit/{id}")
+    public String editMedicalRecordForm(@PathVariable("id") int id, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method editMedicalRecordForm(), GET");
+        MedicalRecord medicalRecord = doctorService.getMedicalRecord(id);
+        modelMap.addAttribute("medicalRecordToEdit", medicalRecord);
+        return EDIT_MEDICAL_RECORD_JSP;
+    }
 
 
 

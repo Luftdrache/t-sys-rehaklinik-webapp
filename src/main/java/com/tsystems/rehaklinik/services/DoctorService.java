@@ -9,5 +9,7 @@ public interface DoctorService {
     //    List<PatientDTO> patients(int doctorId);
     List<PatientDTO> patients();
 
-    MedicalRecord getMedicalRecord(int id);
+    MedicalRecord getMedicalRecord(int patientId);
+
+    MedicalRecord getMedicalRecordById(int medRecId);
 }
