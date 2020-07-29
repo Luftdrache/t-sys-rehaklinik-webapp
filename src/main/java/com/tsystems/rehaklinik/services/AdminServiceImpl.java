@@ -18,7 +18,7 @@ import java.util.List;
 @Transactional
 public class AdminServiceImpl implements AdminService {
 
-    private static Logger logger = LoggerFactory.getLogger(EmployeeDAOImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(AdminServiceImpl.class);
 
     private EmployeeDAO employeeDAO;
 

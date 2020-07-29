@@ -42,12 +42,12 @@
     <div class="sidebar">
         <div class="sidebar-menu">
             <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.png" alt="">
+                <img src="${pageContext.request.contextPath}/resources/images/doctor-avt-2.png" alt="">
                 <p>Doctor</p>
             </center>
             <li class="item" id="#patients">
                 <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn">
-                    <i class="fas fa-users"></i><span>Patients</span>
+                    <i class="fas fa-users"></i><span>My patients</span>
                 </a>
             </li>
             <li class="item" id="prescriptions">

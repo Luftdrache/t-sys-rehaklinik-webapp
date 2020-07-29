@@ -4,7 +4,7 @@ package com.tsystems.rehaklinik.services;
 import com.tsystems.rehaklinik.dao.EmployeeDAO;
 import com.tsystems.rehaklinik.dao.PatientDAO;
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
-import com.tsystems.rehaklinik.dto.PatientReceptionViewDTO;
+import com.tsystems.rehaklinik.dto.PatientDTO;
 import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.entities.Patient;
 import org.slf4j.Logger;
@@ -67,12 +67,12 @@ public class ReceptionServiceImpl implements ReceptionService {
 
 
     @Override
-    public List<PatientReceptionViewDTO> showAllPatients() {
+    public List<PatientDTO> showAllPatients() {
         List<Patient> allPatients = patientDAO.findAll();
-        List<PatientReceptionViewDTO> patientsDTO = new ArrayList<>();
+        List<PatientDTO> patientsDTO = new ArrayList<>();
         if (!allPatients.isEmpty()) {
             for (Patient patient : allPatients) {
-                patientsDTO.add(new PatientReceptionViewDTO(patient));
+                patientsDTO.add(new PatientDTO(patient));
             }
             return patientsDTO;
         }

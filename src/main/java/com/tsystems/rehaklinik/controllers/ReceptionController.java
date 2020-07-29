@@ -2,7 +2,7 @@ package com.tsystems.rehaklinik.controllers;
 
 import com.tsystems.rehaklinik.Util.BindingCheck;
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
-import com.tsystems.rehaklinik.dto.PatientReceptionViewDTO;
+import com.tsystems.rehaklinik.dto.PatientDTO;
 import com.tsystems.rehaklinik.entities.Patient;
 import com.tsystems.rehaklinik.services.AdminService;
 import com.tsystems.rehaklinik.services.ReceptionService;
@@ -110,7 +110,7 @@ public class ReceptionController {
     @GetMapping("/start-page")
     public String showAllPatients(ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In HospitalReceptionController:  handler method showAllPatients(), GET");
-        List<PatientReceptionViewDTO> allPatients = receptionService.showAllPatients();
+        List<PatientDTO> allPatients = receptionService.showAllPatients();
         if (allPatients != null) {
             modelMap.addAttribute("allPatients", allPatients);
             logger.info("MedHelper_LOGS: The action showAllPatients() completed successfully");

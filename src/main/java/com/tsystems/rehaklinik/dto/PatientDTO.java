@@ -6,7 +6,7 @@ import com.tsystems.rehaklinik.types.Gender;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class PatientReceptionViewDTO {
+public class PatientDTO {
     private int patientId;
     private String name;
     private Gender gender;
@@ -16,7 +16,7 @@ public class PatientReceptionViewDTO {
     private String insurancePolicyCode;
     private String attendingDoctor;
 
-    public PatientReceptionViewDTO(Patient patient) {
+    public PatientDTO(Patient patient) {
         this.patientId = patient.getPatientId();
         this.name = patient.getFirstName() + " " + patient.getMiddleName() + " " + patient.getSurname();
         this.gender = patient.getGender();
