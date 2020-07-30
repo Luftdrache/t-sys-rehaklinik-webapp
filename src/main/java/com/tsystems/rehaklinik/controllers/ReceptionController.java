@@ -35,7 +35,7 @@ public class ReceptionController {
     private static final String RECEPTION_START_PAGE_JSP = "reception_main_page";
     private static final String ADD_NEW_PATIENT_JSP = "reception_add_new_patient";
     private static final String PATIENT_DETAILS_JSP = "reception_patient_details";
-    private static final String RECEPTION_ERROR_PAGE = "reception_error_page";
+    private static final String RECEPTION_ERROR_PAGE = "input_data_error_page";
     private static final String EDIT_PATIENT_JSP = "reception_edit_patient";
     private static final String DOCTORS_LIST_JSP = "reception_doctors";
 

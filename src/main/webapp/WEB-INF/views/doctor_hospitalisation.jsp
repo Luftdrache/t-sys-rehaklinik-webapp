@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.tsystems.rehaklinik.types.HospitalStayStatus" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -10,6 +11,8 @@
     <!-- shortcut icon -->
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/icon_med_helper.png"
           type="image/png">
+    <!-- form style-->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/form_style.css">
     <!-- sidebar style -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/doc_style.css">
     <!-- fontawesome -->
@@ -51,7 +54,8 @@
                 </a>
             </li>
             <li class="item" id="#show-med-record">
-                <a href="${pageContext.request.contextPath}/doctor/medical-record/${medicalRecord.medicalRecordId}" class="menu-btn">
+                <a href="${pageContext.request.contextPath}/doctor/medical-record/${medrec}"
+                   class="menu-btn">
                     <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
                 </a>
             </li>
@@ -61,7 +65,8 @@
                 </a>
             </li>
             <li class="item" id="#specify-diagnosis">
-                <a href="${pageContext.request.contextPath}/doctor/medical-record/edit/${medicalRecord.medicalRecordId}" class="menu-btn">
+                <a href="${pageContext.request.contextPath}/doctor/medical-record/edit/${medicalRecord.medicalRecordId}"
+                   class="menu-btn">
                     <i class="fas fa-stethoscope"></i><span>Specify diagnosis</span>
                 </a>
             </li>
@@ -71,7 +76,8 @@
                 </a>
             </li>
             <li class="item" id="#edit-med-record">
-                <a href="${pageContext.request.contextPath}/doctor/medical-record/edit/${medicalRecord.medicalRecordId}" class="menu-btn">
+                <a href="${pageContext.request.contextPath}/doctor/medical-record/edit/${medicalRecord.medicalRecordId}"
+                   class="menu-btn">
                     <i class="far fa-edit"></i><span>Edit</span>
                 </a>
             </li>
@@ -79,33 +85,54 @@
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container">
-        MEDICAL RECORD
-        <div class="card">
-            <p>Personal info:</p>
-            <p>
-                Name: ${medicalRecord.patient.surname} ${medicalRecord.patient.firstName} ${medicalRecord.patient.middleName}</p>
-            <p>Gender: ${medicalRecord.patient.gender}</p>
-            <p>Date of Birth: ${medicalRecord.patient.dateOfBirth}</p>
-            <p>Address: ${medicalRecord.patient.address}</p>
-            <p>Phone: ${medicalRecord.patient.phoneNumber}</p>
-            <p>Email: ${medicalRecord.patient.email}</p>
-            <p>Insurance Compane: ${medicalRecord.patient.insuranceCompany}</p>
-            <p>Insurance Policy Code: ${medicalRecord.patient.insurancePolicyCode}</p>
-        </div>
-        <div class="card">
-            <p>Hospitalization:</p>
-            <p>Status: ${medicalRecord.hospitalStayStatus}</p>
-            <p>Department: ${medicalRecord.hospitalDepartment}</p>
-            <p>Ward: ${medicalRecord.hospitalWard}</p>
-        </div>
-        <div class="card">
-            <p>Clinical Diagnosis:</p>
-            <p>Main Disease: ${medicalRecord.clinicalDiagnosis.mainDisease}</p>
-            <p>ICD-10: ${medicalRecord.clinicalDiagnosis.icd10Code}</p>
-            <p>Accompanying Pathology: ${medicalRecord.clinicalDiagnosis.accompanyingPathology}</p>
-            <p>Diagnosis Description: ${medicalRecord.clinicalDiagnosis.fullDiagnosisDescription}</p>
-        </div>
+    <div class="main-container" style="height: auto;">
+        <form action="${pageContext.request.contextPath}/doctor/medical-record/hospitalisation/" method="post"
+              class="form-horizontal"
+              role="form">
+            <div style="padding-left: 20%">
+                <h2>Hospitalisation settings
+                    for patient ${hospitalisationToEdit.patient.firstName} ${hospitalisationToEdit.patient.surname}</h2>
+                <span class="help-block">*Required fields</span>
+            </div>
+            <!-- HIDDEN-->
+            <input type="hidden" id="MedRecId" name="medicalRecordId"
+                   value="${hospitalisationToEdit.medicalRecordId}"/>
+<%--            <input type="hidden" id="patient" , name="patient.patientId" ,--%>
+<%--                   value="${hospitalisationToEdit.patient.patientId}">--%>
+            <!-- HIDDEN-->
+            <div class="form-group">
+                <label for="hospitalStayStatus" class="col-sm-4 control-label">Stay Status*</label>
+                <div class="col-sm-6">
+                    <select id="hospitalStayStatus" name="hospitalStayStatus"
+                            value="${hospitalisationToEdit.hospitalStayStatus}"
+                            class="form-control">
+                        <c:forEach items="${HospitalStayStatus.values()}" var="hStayStatus">
+                            <option>${hStayStatus.toString()}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="hospitalDepartment" class="col-sm-4 control-label">Hospital Department</label>
+                <div class="col-sm-6">
+                    <input type="text" id="hospitalDepartment" value="${hospitalisationToEdit.hospitalDepartment}"
+                           name="hospitalDepartment" placeholder="Hospital Department" class="form-control"
+                           autofocus>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="hospitalWard" class="col-sm-4 control-label">Ward</label>
+                <div class="col-sm-6">
+                    <input type="number" min="0" id="hospitalWard" name="hospitalWard"
+                           value="${hospitalisationToEdit.hospitalWard}"
+                           placeholder="Ward" class="form-control" autofocus>
+                </div>
+            </div>
+            <div style="padding-left: 50%">
+                <input type="submit" class="btn login_btn" value="Set Changes"
+                       style="background-color: orange; opacity: 0.9;"/>
+            </div>
+        </form>
     </div>
     <!-- *******MAIN CONTAINER******* -->
 </div>

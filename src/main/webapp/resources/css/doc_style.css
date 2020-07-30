@@ -229,3 +229,9 @@ body {
     margin-bottom: 10px;
     font-size: 14px;
 }
+
+.wrapper .main-container .details-title span{
+    font-size: 18px;
+    font-weight: 700;
+    color: #4CCEE8;
+}

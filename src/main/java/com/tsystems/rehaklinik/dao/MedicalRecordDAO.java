@@ -4,4 +4,5 @@ import com.tsystems.rehaklinik.entities.MedicalRecord;
 
 public interface MedicalRecordDAO {
     MedicalRecord findMedicalRecordById(int id);
+    MedicalRecord updateMedicalRecord(MedicalRecord editedMedicalRecord);
 }

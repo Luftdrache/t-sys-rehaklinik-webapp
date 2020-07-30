@@ -17,13 +17,25 @@ import java.util.List;
 
 @Service("DoctorService")
 @Transactional
-public class DoctorServiceImpl implements DoctorService{
+public class DoctorServiceImpl implements DoctorService {
 
     private static Logger logger = LoggerFactory.getLogger(DoctorServiceImpl.class);
 
     private final PatientDAO patientDAO;
     private final MedicalRecordDAO medicalRecordDAO;
 
+
+    @Override
+    public MedicalRecord setHospitalisation(MedicalRecord medicalRecord) {
+        Patient patient = patientDAO.findPatientById(medicalRecord.getMedicalRecordId());
+        medicalRecord.setPatient(patient);
+        return medicalRecordDAO.updateMedicalRecord(medicalRecord);
+    }
+
+    @Override
+    public MedicalRecord updateMedicalRecord(MedicalRecord editedMedicalRecord) {
+        return medicalRecordDAO.updateMedicalRecord(editedMedicalRecord);
+    }
 
     @Override
     public MedicalRecord getMedicalRecordById(int medRecId) {
@@ -48,7 +60,6 @@ public class DoctorServiceImpl implements DoctorService{
         }
         return null;
     }
-
 
 
     @Autowired

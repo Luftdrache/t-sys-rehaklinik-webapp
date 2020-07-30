@@ -33,7 +33,7 @@ public class AdminController {
     private static final String ADD_NEW_EMPLOYEE_JSP = "admin_add_new_employee";
     private static final String EDIT_EMPLOYEE_JSP = "admin_edit_employee_page";
     private static final String EMPLOYEE_DETAILS_JSP = "employee_details";
-    private static final String ERROR_PAGE_JSP = "admin_error_page";
+    private static final String ERROR_PAGE_JSP = "input_data_error_page";
 
 
     /**

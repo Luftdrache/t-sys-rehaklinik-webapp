@@ -61,19 +61,81 @@
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
     <div class="main-container" style="height: 90vh">
-        EMPLOYEE INFO:
-        <h4>${message}</h4>
-        <h4>${employee.firstName}</h4>
-        <h4>${employee.middleName}</h4>
-        <h4>${employee.surname}</h4>
-        <h4>${employee.dateOfBirth}</h4>
-        <h4>${employee.address}</h4>
-        <h4>${employee.passportId}</h4>
-        <h4>${employee.phoneNumber}</h4>
-        <h4>${employee.email}</h4>
-        <h4>${employee.position}</h4>
-        <h4>${employee.qualificationCategory}</h4>
-        <h4>${employee.role}</h4>
+        <div style="margin-left: 10%">
+            <span class="details-title">EMPLOYEE INFO:</span>
+            <div class="row">
+                <div class="col-md-3"><i class="fas fa-user-nurse"></i> Name:</div>
+                <div class="col-md-3">
+                    <p class="font-italic"> ${employee.firstName} ${employee.middleName} ${employee.surname}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    Position:
+                </div>
+                <div class="col-md-3">
+                    <p class="font-italic">${employee.position}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    Category:
+                </div>
+                <div class="col-md-3">
+                    <p class="font-italic">${employee.qualificationCategory}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <i class="fas fa-birthday-cake"></i> Date of Birth:
+                </div>
+                <div class="col-md-3">
+                    <p class="font-italic">${employee.dateOfBirth}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <i class="fas fa-city"></i> Address:
+                </div>
+                <div class="col-md-3">
+                    <p class="font-italic">${employee.address}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <i class="fas fa-passport"></i> Passport Id:
+                </div>
+                <div class="col-md-3">
+                    <p class="font-italic">${employee.passportId}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <i class="fas fa-phone-square-alt"></i> Phone:
+                </div>
+                <div class="col-md-3">
+                    <p class="font-italic">${employee.phoneNumber}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <i class="fas fa-envelope"></i> Email:
+                </div>
+                <div class="col-md-3">
+                    <p class="font-italic">${employee.email}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <i class="fas fa-user-tag"></i> Role:
+                </div>
+                <div class="col-md-3">
+                    <p class="font-italic">${employee.role}</p>
+                </div>
+            </div>
+            <div style="color: darkred;font-weight: 700">${message}</div>
+        </div>
+
     </div>
     <!-- *******MAIN CONTAINER******* -->
 </div>

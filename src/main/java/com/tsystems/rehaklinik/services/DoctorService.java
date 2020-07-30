@@ -12,4 +12,8 @@ public interface DoctorService {
     MedicalRecord getMedicalRecord(int patientId);
 
     MedicalRecord getMedicalRecordById(int medRecId);
+
+    MedicalRecord updateMedicalRecord(MedicalRecord editedMedicalRecord);
+
+    MedicalRecord setHospitalisation(MedicalRecord medicalRecord);
 }
