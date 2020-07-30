@@ -1,5 +1,6 @@
 package com.tsystems.rehaklinik.controllers;
 
+import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
 import com.tsystems.rehaklinik.util.BindingCheck;
 import com.tsystems.rehaklinik.dto.PatientDTO;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
@@ -27,7 +28,7 @@ public class DoctorController {
     private static final String EDIT_MEDICAL_RECORD_JSP = "doctor_edit_medical_record";
     private static final String ERROR_PAGE_JSP = "input_data_error_page";
     private static final String HOSPITALISATION_JSP = "doctor_hospitalisation";
-    private static final String DIAGNOSIS_JSP = "doctor_diagnosis";
+    private static final String DIAGNOSIS_JSP = "doctor_add_diagnosis";
     private static final String PATIENT_PRESCRIPTIONS_JSP = "doctor_patient_prescription";
     private static final String ADD_PRESCRIPTION_JSP = "doctor_add_prescription";
 
@@ -53,36 +54,37 @@ public class DoctorController {
     }
 
 
-    /**
-     * @param id
-     * @param modelMap
-     * @return
-     */
-    @GetMapping("/medical-record/diagnosis/{id}")
-    public String fillOutDiagnosisForm(@PathVariable("id") int id, ModelMap modelMap) {
-        logger.info("MedHelper_LOGS: In DoctorController - handler method fillOutDiagnosisForm(), GET");
-        MedicalRecord medicalRecord = doctorService.getMedicalRecord(id);
-        System.out.println(medicalRecord);
-        modelMap.addAttribute("medrec", id);
-        modelMap.addAttribute("diagnosisToEdit", medicalRecord);
-        return DIAGNOSIS_JSP;
+    @GetMapping("/show-prescription/{id}")
+    public String showPrescriptionById(@PathVariable("id") int id, ModelMap modelMap) {
+        return PATIENT_PRESCRIPTIONS_JSP;
     }
 
 
-    @PostMapping("/medical-record/diagnosis")
-    public String fillOutDiagnosis(@Valid @ModelAttribute("editHospitalisation") MedicalRecord clinicalDiagnosis,
-                                   BindingResult bindingResult, ModelMap modelMap) {
-        logger.info("MedHelper_LOGS: In DoctorController - handler method fillOutDiagnosis(), POST");
-        if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
-            return ERROR_PAGE_JSP;
-        }
-        MedicalRecord medicalRecord = doctorService.updateMedicalRecord(clinicalDiagnosis);
-        logger.info("MedHelper_LOGS: In DoctorController: new diagnosis set or changed the old one");
-        modelMap.addAttribute("medrec", medicalRecord.getMedicalRecordId());
-        modelMap.addAttribute("medicalRecord", medicalRecord);
-        System.out.println(medicalRecord);
-        return MEDICAL_RECORD_JSP;
-    }
+//    @GetMapping("/medical-record/diagnosis/{id}")
+//    public String fillOutDiagnosis(@PathVariable("id") int id, ModelMap modelMap) {
+//        logger.info("MedHelper_LOGS: In DoctorController - handler method fillOutDiagnosis(), GET");
+//        MedicalRecord medicalRecord = doctorService.getMedicalRecord(id);
+//        System.out.println(medicalRecord);
+//        modelMap.addAttribute("medrec", id);
+//        modelMap.addAttribute("diagnosisToEdit", medicalRecord);
+//        return DIAGNOSIS_JSP;
+//    }
+
+//
+//    @PostMapping("/medical-record/diagnosis")
+//    public String fillOutDiagnosis(@Valid @ModelAttribute("editHospitalisation") MedicalRecord clinicalDiagnosis,
+//                                   BindingResult bindingResult, ModelMap modelMap) {
+//        logger.info("MedHelper_LOGS: In DoctorController - handler method fillOutDiagnosis(), POST");
+//        if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
+//            return ERROR_PAGE_JSP;
+//        }
+//        MedicalRecord medicalRecord = doctorService.updateMedicalRecord(clinicalDiagnosis);
+//        logger.info("MedHelper_LOGS: In DoctorController: new diagnosis set or changed the old one");
+//        modelMap.addAttribute("medrec", medicalRecord.getMedicalRecordId());
+//        modelMap.addAttribute("medicalRecord", medicalRecord);
+//        System.out.println(medicalRecord);
+//        return MEDICAL_RECORD_JSP;
+//    }
 
 
 //    @PostMapping("/add-prescription")
@@ -115,11 +117,40 @@ public class DoctorController {
 //        return EMPLOYEE_DETAILS_JSP;
 //    }
 
-    @GetMapping("/show-prescription/{id}")
-    public String showPrescriptionById(@PathVariable("id") int id, ModelMap modelMap) {
-        return PATIENT_PRESCRIPTIONS_JSP;
+
+    /**
+     * Return form to add new clinical diagnosis
+     * @param id current medical record id
+     * @param modelMap ModelMap with current medical record id
+     * @return form to add new clinical diagnosis
+     */
+    @GetMapping("/medical-record/add-diagnosis/{id}")
+    public String addDiagnosis(@PathVariable("id") int id, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method addDiagnosis(), GET");
+        modelMap.addAttribute("medrec", id);
+        return DIAGNOSIS_JSP;
     }
 
+    /**
+     * Adds new diagnosis to current medical record
+     * @param medRecordId current medical record id
+     * @param clinicalDiagnosis clinical diagnosis to add
+     * @param bindingResult cinding result
+     * @param modelMap ModelMap with updated medical record
+     * @return page with medical record with added clinical diagnosis
+     */
+    @PostMapping("/medical-record/add-diagnosis/{id}")
+    public String addDiagnosis(@PathVariable("id") int medRecordId,
+                               @Valid @ModelAttribute("addClinicalDiagnosis") ClinicalDiagnose clinicalDiagnosis,
+                               BindingResult bindingResult, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method addDiagnosis(), POST");
+        if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
+            return ERROR_PAGE_JSP;
+        }
+        MedicalRecord medicalRecord = doctorService.setNewDiagnosis(clinicalDiagnosis, medRecordId);
+        modelMap.addAttribute("medicalRecord", medicalRecord);
+        return MEDICAL_RECORD_JSP;
+    }
 
     /**
      * Returns main doctor's page with his patient list on it. Start page.

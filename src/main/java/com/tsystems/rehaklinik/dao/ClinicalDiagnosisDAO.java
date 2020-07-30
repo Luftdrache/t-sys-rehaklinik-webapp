@@ -6,4 +6,5 @@ public interface ClinicalDiagnosisDAO {
 
     ClinicalDiagnose createClinicalDiagnosis(ClinicalDiagnose clinicalDiagnosis);
 
+    ClinicalDiagnose updateClinicalDiagnosis(ClinicalDiagnose clinicalDiagnose);
 }

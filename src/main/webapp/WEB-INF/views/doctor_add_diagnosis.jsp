@@ -78,67 +78,49 @@
         <div class="container-fluid">
             <div content="container" class="col-sm-8 col-sm-offset-2"
                  style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
-                <form action="${pageContext.request.contextPath}/doctor/medical-record/diagnosis/" method="post"
+                <form action="${pageContext.request.contextPath}/doctor/medical-record/add-diagnosis/${medrec}" method="post"
                       class="form-horizontal"
                       role="form">
                     <div style="padding-left: 20%">
-                        <h2>Specify Diagnosis
-                            for ${diagnosisToEdit.patient.firstName} ${diagnosisToEdit.patient.surname}</h2>
+                        <h2>Specify Diagnosis</h2>
                         <span class="help-block">*Required fields</span>
                     </div>
-                    <!-- hidden-->
-                    <c:choose>
-                        <c:when test="${empty diagnosisToEdit.clinicalDiagnosis.clinicalDiagnosisId}">
-                            <c:set var="diaId" value="0"></c:set>
-                        </c:when>
-                        <c:otherwise>
-                            <c:set var="diaId" value="${diagnosisToEdit.clinicalDiagnosis.clinicalDiagnosisId}"></c:set>
-                        </c:otherwise>
-                    </c:choose>
-                    <input type="hidden" id="MedRecId" name="medicalRecordId"
-                           value="${diagnosisToEdit.medicalRecordId}"/>
-                    <input type="hidden" id="hospitalStayStatus" name="hospitalStayStatus"
-                           value="${diagnosisToEdit.hospitalStayStatus}">
-                    <input type="hidden" id="diagnosisId" name="clinicalDiagnosis.clinicalDiagnosisId"
-                           value=${diaId}>
-                    <!-- hidden-->
+
                     <div class="form-group">
-                        <label for="clinicalDiagnosis.mainDisease" class="col-sm-4 control-label">
+                        <label for="mainDisease" class="col-sm-4 control-label">
                             Main Disease*
                         </label>
                         <div class="col-sm-6">
-                            <input type="text" id="clinicalDiagnosis.mainDisease" name="clinicalDiagnosis.mainDisease"
-                                   value="${diagnosisToEdit.clinicalDiagnosis.mainDisease}" placeholder="Main Disease"
+                            <input type="text" id="mainDisease"
+                                   name="mainDisease"
+                                   placeholder="Main Disease"
                                    class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="clinicalDiagnosis.icd10Code" class="col-sm-4 control-label">ICD-10*</label>
+                        <label for="icd10Code" class="col-sm-4 control-label">ICD-10*</label>
                         <div class="col-sm-6">
-                            <input type="text" id="clinicalDiagnosis.icd10Code" name="clinicalDiagnosis.icd10Code"
-                                   value="${diagnosisToEdit.clinicalDiagnosis.icd10Code}"
+                            <input type="text" id="icd10Code" name="icd10Code"
                                    placeholder="ICD-10" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="clinicalDiagnosis.accompanyingPathology" class="col-sm-4 control-label">
+                        <label for="accompanyingPathology" class="col-sm-4 control-label">
                             Accompanying Pathology
                         </label>
                         <div class="col-sm-6">
-                            <input type="text" id="clinicalDiagnosis.accompanyingPathology"
-                                   name="clinicalDiagnosis.accompanyingPathology"
-                                   value="${diagnosisToEdit.clinicalDiagnosis.accompanyingPathology}"
+                            <input type="text" id="accompanyingPathology"
+                                   name="accompanyingPathology"
                                    placeholder="Accompanying Pathology" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="clinicalDiagnosis.fullDiagnosisDescription" class="col-sm-4 control-label">
+                        <label for="fullDiagnosisDescription" class="col-sm-4 control-label">
                             Full Diagnosis Description
                         </label>
                         <div class="col-sm-6">
-                            <textarea rows="8" id="clinicalDiagnosis.fullDiagnosisDescription"
-                                      name="clinicalDiagnosis.fullDiagnosisDescription"
-                                      value="${diagnosisToEdit.clinicalDiagnosis.fullDiagnosisDescription}"
+                            <textarea rows="8" id="fullDiagnosisDescription"
+                                      name="fullDiagnosisDescription"
                                       placeholder="Full Diagnosis Description" class="form-control">
                             </textarea>
                         </div>

@@ -106,7 +106,7 @@
             <div class="form-group">
                 <label for="position" class="col-sm-4 control-label">Position*</label>
                 <div class="col-sm-5">
-                    <input type="text" id="position" name="position.positionName"
+                    <input type="text" id="position" name="position"
                            value="${employeeToEdit.position}" placeholder="Position"
                            class="form-control">
                 </div>

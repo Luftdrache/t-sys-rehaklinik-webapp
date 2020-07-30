@@ -172,7 +172,7 @@ public class AdminController {
             return EDIT_EMPLOYEE_JSP;
         }
         logger.info("MedHelper_LOGS: Employee edited successfully(" + editedEmployee.toString() + ")");
-        modelMap.addAttribute("message", "Employee edited successfully: ");
+        modelMap.addAttribute("message", "Employee edited successfully");
         modelMap.addAttribute("employee", editedEmployee);
         return EMPLOYEE_DETAILS_JSP;
     }

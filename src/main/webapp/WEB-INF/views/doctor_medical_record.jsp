@@ -51,7 +51,8 @@
                 </a>
             </li>
             <li class="item" id="#show-med-record">
-                <a href="${pageContext.request.contextPath}/doctor/medical-record/${medicalRecord.medicalRecordId}" class="menu-btn">
+                <a href="${pageContext.request.contextPath}/doctor/medical-record/${medicalRecord.medicalRecordId}"
+                   class="menu-btn">
                     <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
                 </a>
             </li>
@@ -60,18 +61,21 @@
                    class="menu-btn"><i class="fas fa-procedures"></i><span>Hospitalisation</span>
                 </a>
             </li>
-            <li class="item" id="#specify-diagnosis">
-                <a href="${pageContext.request.contextPath}/doctor/medical-record/diagnosis/${medicalRecord.medicalRecordId}" class="menu-btn">
-                    <i class="fas fa-stethoscope"></i><span>Specify diagnosis</span>
+            <li class="item" id="#add-diagnosis">
+                <a href="${pageContext.request.contextPath}/doctor/medical-record/add-diagnosis/${medicalRecord.medicalRecordId}"
+                   class="menu-btn">
+                    <i class="fas fa-stethoscope"></i><span>Add diagnosis</span>
                 </a>
             </li>
             <li class="item" id="#add-prescription">
-                <a href="${pageContext.request.contextPath}/doctor/add-prescription/${medicalRecord.medicalRecordId}" class="menu-btn">
+                <a href="${pageContext.request.contextPath}/doctor/add-prescription/${medicalRecord.medicalRecordId}"
+                   class="menu-btn">
                     <i class="fas fa-tablets"></i><span>Add prescription</span>
                 </a>
             </li>
             <li class="item" id="#edit-med-record">
-                <a href="${pageContext.request.contextPath}/doctor/medical-record/edit/${medicalRecord.medicalRecordId}" class="menu-btn">
+                <a href="${pageContext.request.contextPath}/doctor/medical-record/edit/${medicalRecord.medicalRecordId}"
+                   class="menu-btn">
                     <i class="far fa-edit"></i><span>Edit</span>
                 </a>
             </li>
@@ -99,12 +103,25 @@
             <p>Department: ${medicalRecord.hospitalDepartment}</p>
             <p>Ward: ${medicalRecord.hospitalWard}</p>
         </div>
+
         <div class="card">
-            <p>Clinical Diagnosis:</p>
-            <p>Main Disease: ${medicalRecord.clinicalDiagnosis.mainDisease}</p>
-            <p>ICD-10: ${medicalRecord.clinicalDiagnosis.icd10Code}</p>
-            <p>Accompanying Pathology: ${medicalRecord.clinicalDiagnosis.accompanyingPathology}</p>
-            <p>Diagnosis Description: ${medicalRecord.clinicalDiagnosis.fullDiagnosisDescription}</p>
+
+            <c:choose>
+                <c:when test="${empty medicalRecord.clinicalDiagnosis}">
+                    <p>Clinical diagnosis: </p>
+                    The patient has not yet been diagnosed.
+                </c:when>
+                <c:otherwise>
+                <c:forEach items="${medicalRecord.clinicalDiagnosis}" var="diagnosis">
+                        <p>Clinical Diagnosis:</p>
+                        <p>Main Disease: ${diagnosis.mainDisease}</p>
+                        <p>ICD-10: ${diagnosis.icd10Code}</p>
+                        <p>Accompanying Pathology: ${diagnosis.accompanyingPathology}</p>
+                        <p>Diagnosis Description: ${diagnosis.fullDiagnosisDescription}</p>
+                    <br>
+                </c:forEach>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
     <!-- *******MAIN CONTAINER******* -->

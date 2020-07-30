@@ -1,7 +1,6 @@
 package com.tsystems.rehaklinik.entities;
 
 import lombok.*;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -10,6 +9,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "clinical_diagnoses", schema = "rehaklinik")
@@ -41,4 +41,24 @@ public class ClinicalDiagnose implements Serializable {
     @Lob
     @Column(name = "full_diagnosis_description")
     private String fullDiagnosisDescription;
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "medical_record_id", referencedColumnName = "medical_record_id")
+    private MedicalRecord medicalRecord;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClinicalDiagnose that = (ClinicalDiagnose) o;
+        return icd10Code.equals(that.icd10Code);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(icd10Code);
+    }
 }

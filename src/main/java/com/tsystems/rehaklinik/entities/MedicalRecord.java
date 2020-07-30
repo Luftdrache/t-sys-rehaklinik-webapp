@@ -8,7 +8,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "medical_records", schema = "rehaklinik")
@@ -25,9 +27,8 @@ public class MedicalRecord implements Serializable{
     @OneToOne(mappedBy = "medicalRecord")
     private Patient patient;
 
-    @OneToOne (cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinColumn(name = "clinical_diagnosis_id", referencedColumnName = "clinical_diagnosis_id") //Eager
-    private ClinicalDiagnose clinicalDiagnosis;
+    @OneToMany (mappedBy = "medicalRecord", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<ClinicalDiagnose> clinicalDiagnosis;
 
     @NotNull(message = "Hospital stay status must be set")
     @Enumerated(EnumType.STRING)
