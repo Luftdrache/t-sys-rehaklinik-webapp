@@ -1,4 +1,4 @@
-package com.tsystems.rehaklinik.Util;
+package com.tsystems.rehaklinik.util;
 
 import com.tsystems.rehaklinik.controllers.AdminController;
 import org.slf4j.Logger;

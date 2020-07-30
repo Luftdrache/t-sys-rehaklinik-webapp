@@ -46,46 +46,40 @@
         <div class="sidebar-menu">
             <center class="profile">
                 <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.png" alt="">
-                <p>Doctor</p>
+                <p style="font-size: 20px;">Doctor</p>
             </center>
-            <li class="item" id="#patients">
+            <li class="item" id="#patients" style="font-size: 20px;">
                 <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn">
                     <i class="fas fa-clinic-medical"></i><span>Main page</span>
                 </a>
             </li>
-            <li class="item" id="#show-med-record">
+            <li class="item" id="#show-med-record" style="font-size: 20px;">
                 <a href="${pageContext.request.contextPath}/doctor/medical-record/${medrec}"
                    class="menu-btn">
                     <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
                 </a>
             </li>
-            <li class="item" id="#hospitalisation">
-                <a href="${pageContext.request.contextPath}/doctor/medical-record/hospitalisation/${medicalRecord.medicalRecordId}"
+            <li class="item" id="#hospitalisation" style="font-size: 20px;">
+                <a href="${pageContext.request.contextPath}/doctor/medical-record/hospitalisation/${medrec}"
                    class="menu-btn"><i class="fas fa-procedures"></i><span>Hospitalisation</span>
                 </a>
             </li>
-            <li class="item" id="#specify-diagnosis">
-                <a href="${pageContext.request.contextPath}/doctor/medical-record/edit/${medicalRecord.medicalRecordId}"
+            <li class="item" id="#specify-diagnosis" style="font-size: 20px;">
+                <a href="${pageContext.request.contextPath}/doctor/medical-record/edit/${medrec}"
                    class="menu-btn">
                     <i class="fas fa-stethoscope"></i><span>Specify diagnosis</span>
                 </a>
             </li>
-            <li class="item" id="#add-prescription">
+            <li class="item" id="#add-prescription" style="font-size: 20px;">
                 <a href="#" class="menu-btn">
                     <i class="fas fa-tablets"></i><span>Add prescription</span>
-                </a>
-            </li>
-            <li class="item" id="#edit-med-record">
-                <a href="${pageContext.request.contextPath}/doctor/medical-record/edit/${medicalRecord.medicalRecordId}"
-                   class="menu-btn">
-                    <i class="far fa-edit"></i><span>Edit</span>
                 </a>
             </li>
         </div>
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container" style="height: auto;">
+    <div class="main-container" style="height: 90vh;">
         <form action="${pageContext.request.contextPath}/doctor/medical-record/hospitalisation/" method="post"
               class="form-horizontal"
               role="form">
@@ -97,8 +91,7 @@
             <!-- HIDDEN-->
             <input type="hidden" id="MedRecId" name="medicalRecordId"
                    value="${hospitalisationToEdit.medicalRecordId}"/>
-<%--            <input type="hidden" id="patient" , name="patient.patientId" ,--%>
-<%--                   value="${hospitalisationToEdit.patient.patientId}">--%>
+            <input type="hidden" id="patientId" name="patient.patientId" value="${hospitalisationToEdit.patient.patientId}">
             <!-- HIDDEN-->
             <div class="form-group">
                 <label for="hospitalStayStatus" class="col-sm-4 control-label">Stay Status*</label>
@@ -109,6 +102,7 @@
                         <c:forEach items="${HospitalStayStatus.values()}" var="hStayStatus">
                             <option>${hStayStatus.toString()}</option>
                         </c:forEach>
+<%--                        <option selected>${hospitalisationToEdit.hospitalStayStatus}</option>--%>
                     </select>
                 </div>
             </div>

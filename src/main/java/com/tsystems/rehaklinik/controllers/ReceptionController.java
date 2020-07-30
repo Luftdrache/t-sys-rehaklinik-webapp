@@ -1,6 +1,6 @@
 package com.tsystems.rehaklinik.controllers;
 
-import com.tsystems.rehaklinik.Util.BindingCheck;
+import com.tsystems.rehaklinik.util.BindingCheck;
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.dto.PatientDTO;
 import com.tsystems.rehaklinik.entities.Patient;

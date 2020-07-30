@@ -33,7 +33,7 @@
             </div>
             <ul>
                 <li> <input type="button" value="Sign out" class="btn login_btn"
-                       style="background-color: orange; padding: 5px; margin-top: 15px"></li>
+                            style="background-color: orange; padding: 5px; margin-top: 15px"></li>
             </ul>
         </div>
     </div>
@@ -42,17 +42,17 @@
     <div class="sidebar">
         <div class="sidebar-menu">
             <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.png" alt="">
-                <p>Doctor</p>
+                <img src="${pageContext.request.contextPath}/resources/images/admin-avt.png" alt="">
+                <p>Admin</p>
             </center>
             <li class="item" id="#patients">
-                <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn">
-                    <i class="fas fa-users"></i><span>My patients</span>
+                <a href="${pageContext.request.contextPath}/admin/start-page" class="menu-btn">
+                    <i class="fas fa-users"></i><span>Employees</span>
                 </a>
             </li>
             <li class="item" id="prescriptions">
-                <a href="${pageContext.request.contextPath}/doctor/show-prescription" class="menu-btn">
-                    <i class="fas fa-tablets"></i><span>Prescriptions</span>
+                <a href="${pageContext.request.contextPath}/admin/add-employee" class="menu-btn">
+                    <i class="fas fa-user-plus"></i><span>Add new</span>
                 </a>
             </li>
             <li class="item" id="settings">
@@ -74,41 +74,50 @@
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
     <div class="main-container" style="height: 90vh;">
-        Patients:
+        Employees:
         <table class="table table-striped table-borderless .table-condensed ">
             <thead class="thead-mine">
             <tr class="tr-mine">
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Age</th>
+                <th scope="col">Position</th>
+                <th scope="col">Category</th>
                 <th scope="col">Phone</th>
-                <th scope="col">Insurance Company</th>
-                <th scope="col">Insurance Policy</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody class="table table-hover">
-            <c:forEach items="${doctorsPatients}" var="pat">
+            <c:forEach items="${allEmployees}" var="empl">
                 <tr>
-                    <td>${pat.patientId}</td>
-                    <td>${pat.name}</td>
-                    <td>${pat.gender}</td>
-                    <td>${pat.age}</td>
-                    <td>${pat.phone}</td>
-                    <td>${pat.insuranceCompany}</td>
-                    <td>${pat.insurancePolicyCode}</td>
+                    <td>${empl.employeeId}</td>
+                    <td>${empl.name}</td>
+                    <td>${empl.position}</td>
+                    <td>${empl.qualificationCategory}</td>
+                    <td>${empl.phone}</td>
+                    <td>${empl.email}</td>
+                    <td>${empl.role}</td>
                     <td class="text-right row padding-right: 5px">
-                        <form action="${pageContext.request.contextPath}/doctor/medical-record/${pat.patientId}" method="get">
-                            <button type="submit" class="btn btn-primary btn-sm" value="Medical Record"
+                        <form action="${pageContext.request.contextPath}/admin/employee-details/${empl.employeeId}"
+                              method="get">
+                            <button type="submit" class="btn btn-primary btn-sm" value="Profile"
                                     style="background-color: yellowgreen">
-                                <i class="fas fa-file-medical-alt"></i>
+                                <i class="fas fa-eye"></i>
                             </button>
                         </form>
-                        <form action="${pageContext.request.contextPath}/doctor//show-prescription/${pat.patientId}" method="get">
-                            <button type="submit" class="btn btn-primary btn-sm" value="Prescriptions"
+                        <form action="${pageContext.request.contextPath}/admin/edit/${empl.employeeId}"
+                              method="get">
+                            <button type="submit" class="btn btn-primary btn-sm" value="Edit"
                                     style="background-color: yellowgreen">
-                                <i class="fas fa-tablets"></i>
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </form>
+                        <form action="${pageContext.request.contextPath}/admin/delete-employee" method="post">
+                            <input type="hidden" name="employeeIdToDelete" value="${empl.employeeId}">
+                            <button type="submit" class="btn btn-primary btn-sm" value="Delete"
+                                    style="background-color: yellowgreen">
+                                <i class="fa fa-trash"></i>
                             </button>
                         </form>
                     </td>
@@ -116,6 +125,24 @@
             </c:forEach>
             </tbody>
         </table>
+        <div content="container" class="col-sm-8 col-sm-offset-4">
+            <p>${message}</p>
+        </div>
+        <div>
+            <nav class="navbar navbar-expand-lg navbar-dark blue lighten-2 mb-4">
+                <div class="col-sm-5 col-sm-offset-6" id="navbarSupportedContent">
+                    <form class="form-inline mr-auto"
+                          action="${pageContext.request.contextPath}/admin/find-employee-by-surname"
+                          method="get">
+                        <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="surname">
+                        <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2"
+                                style="background-color: orange"
+                                type="submit">Search
+                        </button>
+                    </form>
+                </div>
+            </nav>
+        </div>
     </div>
     <!-- *******MAIN CONTAINER******* -->
 </div>
@@ -134,3 +161,4 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
 </html>
+

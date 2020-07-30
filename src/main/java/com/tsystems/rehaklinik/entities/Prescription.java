@@ -20,6 +20,11 @@ public class Prescription implements Serializable {
     @Column(name = "prescription_id", nullable = false, length = 11)
     private int prescriptionId;
 
+    @NotNull(message = "Medicine or procedure must be set (for the prescription)")
+    @ManyToOne
+    @JoinColumn(name = "medicine_procedure_id", referencedColumnName = "medicine_procedure_id", nullable = false)
+    private MedicineAndProcedure medicineAndProcedure;
+
     @Column(name = "dose", length = 20)
     private String dose;
 
@@ -38,11 +43,6 @@ public class Prescription implements Serializable {
     @ManyToOne
     @JoinColumn(name = "patient_id", referencedColumnName = "patient_id", nullable = false)
     private Patient patient;
-
-    @NotNull(message = "Medicine or procedure must be set (for the prescription)")
-    @ManyToOne
-    @JoinColumn(name = "medicine_procedure_id", referencedColumnName = "medicine_procedure_id", nullable = false)
-    private MedicineAndProcedure medicineAndProcedure;
 
     @NotNull (message = "Treatment Time Pattern must be set (for the prescription)")
     @ManyToOne

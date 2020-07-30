@@ -12,7 +12,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "medical_records", schema = "rehaklinik")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class MedicalRecord implements Serializable{
@@ -24,7 +25,7 @@ public class MedicalRecord implements Serializable{
     @OneToOne(mappedBy = "medicalRecord")
     private Patient patient;
 
-    @OneToOne (fetch = FetchType.LAZY)
+    @OneToOne (cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "clinical_diagnosis_id", referencedColumnName = "clinical_diagnosis_id") //Eager
     private ClinicalDiagnose clinicalDiagnosis;
 
@@ -40,4 +41,16 @@ public class MedicalRecord implements Serializable{
     @PositiveOrZero(message = "Ward number must be positive or zero")
     @Column(name = "hospital_ward")
     private int hospitalWard;
+
+    @Override
+    public String toString() {
+        return "MedicalRecord{" +
+                "medicalRecordId=" + medicalRecordId +
+                ", patient=" + patient +
+                ", clinicalDiagnosis=" + clinicalDiagnosis +
+                ", hospitalStayStatus=" + hospitalStayStatus +
+                ", hospitalDepartment='" + hospitalDepartment + '\'' +
+                ", hospitalWard=" + hospitalWard +
+                '}';
+    }
 }

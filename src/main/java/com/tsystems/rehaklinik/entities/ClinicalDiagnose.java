@@ -1,6 +1,7 @@
 package com.tsystems.rehaklinik.entities;
 
 import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,7 +13,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "clinical_diagnoses", schema = "rehaklinik")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClinicalDiagnose implements Serializable {
@@ -23,7 +25,7 @@ public class ClinicalDiagnose implements Serializable {
 
     @NotNull(message = "Name of the disease must be set")
     @NotBlank(message = "Name of the disease mustn't be blank")
-    @Column(name = "main_disease", nullable = false, length = 50)
+    @Column(name = "main_disease", nullable = false)
     private String mainDisease;
 
     @NotNull(message = "ICD-10 code must be set")
@@ -33,13 +35,10 @@ public class ClinicalDiagnose implements Serializable {
     @Column(name = "ICD_10_code", nullable = false, length = 5)
     private String icd10Code;
 
-    @Column(name = "accompanying_pathology", length = 50)
+    @Column(name = "accompanying_pathology")
     private String accompanyingPathology;
 
     @Lob
     @Column(name = "full_diagnosis_description")
     private String fullDiagnosisDescription;
-
-    @OneToOne(mappedBy = "clinicalDiagnosis")
-    private MedicalRecord medicalRecords;
 }

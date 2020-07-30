@@ -1,6 +1,6 @@
 package com.tsystems.rehaklinik.controllers;
 
-import com.tsystems.rehaklinik.Util.BindingCheck;
+import com.tsystems.rehaklinik.util.BindingCheck;
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.services.AdminService;
@@ -34,6 +34,7 @@ public class AdminController {
     private static final String EDIT_EMPLOYEE_JSP = "admin_edit_employee_page";
     private static final String EMPLOYEE_DETAILS_JSP = "employee_details";
     private static final String ERROR_PAGE_JSP = "input_data_error_page";
+    private static final String EMPL_FOUND_BY_SURNAME = "admin_found_by_surname";
 
 
     /**
@@ -64,7 +65,7 @@ public class AdminController {
      * @return form page for new employees adding
      */
     @GetMapping("/add-employee")
-    public String addEmployeeForm() {
+    public String addEmployee() {
         logger.info("MedHelper_LOGS: In AdminController - handler method addEmployeeForm() GET");
         return ADD_NEW_EMPLOYEE_JSP;
     }
@@ -122,7 +123,7 @@ public class AdminController {
         logger.info("MedHelper_LOGS: In AdminController - handler method findEmployeeBySurname()");
         List<EmployeeDTO> employeesFoundBySurname = adminService.findEmployeeBySurname(surname);
         if (employeesFoundBySurname != null) {
-            modelMap.addAttribute("employee", employeesFoundBySurname);
+            modelMap.addAttribute("allEmployees", employeesFoundBySurname);
             logger.info("MedHelper_LOGS: The employee(-s) with surname = " + surname + " was(were) found successfully:");
             for (EmployeeDTO empl : employeesFoundBySurname) {
                 logger.info(empl.toString());
@@ -132,31 +133,8 @@ public class AdminController {
                     "  in database");
             logger.info("MedHelper_LOGS: There is no employee with surname = " + surname + " in database");
         }
-        return null;
+        return EMPL_FOUND_BY_SURNAME;
     }
-
-
-//    /**
-//     * Returns an employee with specified id
-//     *
-//     * @param id       Employee ID
-//     * @param modelMap ModelMap
-//     * @return an employee with specified id
-//     */
-//    @GetMapping("/find-employee-by-id/{id:\\d+}")
-//    public String findEmployeeById(@PathVariable("id") int id, ModelMap modelMap) {
-//        logger.info("MedHelper_LOGS: In AdminController - handler method findEmployeeById()");
-//        EmployeeDTO employeeFoundById = adminService.findEmployeeByIdDTO(id);
-//        if (employeeFoundById != null) {
-//            modelMap.addAttribute("employee", employeeFoundById);
-//            logger.info("MedHelper_LOGS: The employee with id = " + id + " was found successfully");
-//        } else {
-//            modelMap.addAttribute("message", "There is no employee with id = " + id + "  in database");
-//            logger.info("MedHelper_LOGS: There is no employee with id = " + id + " in database");
-//        }
-////*************PAGE! *********
-//        return null;
-//    }
 
 
     /**

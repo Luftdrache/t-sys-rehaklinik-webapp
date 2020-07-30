@@ -66,7 +66,7 @@
                 </a>
             </li>
             <li class="item" id="#add-prescription">
-                <a href="${pageContext.request.contextPath}/doctor/add-prescription/${medicalRecord.medicalRecordId}" class="menu-btn">
+                <a href="#" class="menu-btn">
                     <i class="fas fa-tablets"></i><span>Add prescription</span>
                 </a>
             </li>
@@ -80,32 +80,9 @@
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
     <div class="main-container">
-        MEDICAL RECORD
-        <div class="card">
-            <p>Personal info:</p>
-            <p>
-                Name: ${medicalRecord.patient.surname} ${medicalRecord.patient.firstName} ${medicalRecord.patient.middleName}</p>
-            <p>Gender: ${medicalRecord.patient.gender}</p>
-            <p>Date of Birth: ${medicalRecord.patient.dateOfBirth}</p>
-            <p>Address: ${medicalRecord.patient.address}</p>
-            <p>Phone: ${medicalRecord.patient.phoneNumber}</p>
-            <p>Email: ${medicalRecord.patient.email}</p>
-            <p>Insurance Compane: ${medicalRecord.patient.insuranceCompany}</p>
-            <p>Insurance Policy Code: ${medicalRecord.patient.insurancePolicyCode}</p>
-        </div>
-        <div class="card">
-            <p>Hospitalization:</p>
-            <p>Status: ${medicalRecord.hospitalStayStatus}</p>
-            <p>Department: ${medicalRecord.hospitalDepartment}</p>
-            <p>Ward: ${medicalRecord.hospitalWard}</p>
-        </div>
-        <div class="card">
-            <p>Clinical Diagnosis:</p>
-            <p>Main Disease: ${medicalRecord.clinicalDiagnosis.mainDisease}</p>
-            <p>ICD-10: ${medicalRecord.clinicalDiagnosis.icd10Code}</p>
-            <p>Accompanying Pathology: ${medicalRecord.clinicalDiagnosis.accompanyingPathology}</p>
-            <p>Diagnosis Description: ${medicalRecord.clinicalDiagnosis.fullDiagnosisDescription}</p>
-        </div>
+
+        Patient's Prescriptions
+
     </div>
     <!-- *******MAIN CONTAINER******* -->
 </div>
