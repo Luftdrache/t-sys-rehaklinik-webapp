@@ -1,10 +1,12 @@
 package com.tsystems.rehaklinik.entities;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class Prescription implements Serializable {
     private int prescriptionId;
 
     @NotNull(message = "Medicine or procedure must be set (for the prescription)")
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "medicine_procedure_id", referencedColumnName = "medicine_procedure_id", nullable = false)
     private MedicineAndProcedure medicineAndProcedure;
 
@@ -31,13 +33,15 @@ public class Prescription implements Serializable {
     @Column(name = "administering_medication_method", length = 30)
     private String administeringMedicationMethod;
 
-    @NotNull(message = "Start treatment date and time must be set")
+    @NotNull(message = "Start treatment date must be set")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "start_treatment", nullable = false)
-    private LocalDateTime startTreatment;
+    private LocalDate startTreatment;
 
-    @NotNull(message = "End treatment date and time must be set")
+    @NotNull(message = "End treatment date must be set")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "end_treatment", nullable = false)
-    private LocalDateTime endTreatment;
+    private LocalDate endTreatment;
 
     @NotNull (message = "Patient must be set (for the prescription)")
     @ManyToOne
@@ -45,7 +49,7 @@ public class Prescription implements Serializable {
     private Patient patient;
 
     @NotNull (message = "Treatment Time Pattern must be set (for the prescription)")
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "treatment_time_pattern_id", referencedColumnName = "treatment_time_pattern_id", nullable = false)
     private TreatmentTimePattern treatmentTimePattern;
 

@@ -116,14 +116,14 @@
                     <div class="form-group">
                         <label for="startTreatment" class="col-sm-4 control-label">Start Treatment*</label>
                         <div class="col-sm-6">
-                            <input type="text" id="startTreatment" name="startTreatment"
+                            <input type="date" id="startTreatment" name="startTreatment"
                                    placeholder="Start Treatment" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="endTreatment" class="col-sm-4 control-label">End Treatment*</label>
                         <div class="col-sm-6">
-                            <input type="text" id="endTreatment" name="endTreatment"
+                            <input type="date" id="endTreatment" name="endTreatment"
                                    placeholder="End Treatment" class="form-control">
                         </div>
                     </div>
@@ -132,32 +132,19 @@
                     <div class="form-group">
                         <label for="countPerDay" class="col-sm-4 control-label">Count Per Day</label>
                         <div class="col-sm-6">
-                            <input type="number" min="0" id="countPerDay" name="treatmentTimePattern.countPerDay"
+                            <input type="number" id="countPerDay" name="treatmentTimePattern.countPerDay"
+                                   placeholder="Count Per Day" class="form-control"
+                                   value="0" min="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="precisionTime" class="col-sm-4 control-label">Time</label>
+                        <div class="col-sm-6">
+                            <input type="time" id="precisionTime" name="treatmentTimePattern.precisionTime"
                                    placeholder="Count Per Day" class="form-control">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="beforeMeals" class="col-sm-4 control-label">Before Meals</label>
-                        <div class="col-sm-6">
-                            <input type="checkbox" id="beforeMeals"
-                                   name="treatmentTimePattern.beforeMeals">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="atMeals" class="col-sm-4 control-label">At Meals</label>
-                        <div class="col-sm-6">
-                            <input type="checkbox" id="atMeals"
-                                   name="treatmentTimePattern.atMeals">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="afterMeals" class="col-sm-4 control-label">After Meals</label>
-                        <div class="col-sm-6">
-                            <input type="checkbox" id="afterMeals"
-                                   name="treatmentTimePattern.afterMeals">
-                        </div>
-                    </div>
-
+                    <br>
                     <div class="col-sm-offset-2"><p style="color: #285e8e; font-weight: 700">DAYS:</p></div>
 
                     <div class="form-group">
@@ -207,6 +194,30 @@
                         <div class="col-sm-6">
                             <input type="checkbox" id="Saturday"
                                    name="treatmentTimePattern.Saturday">
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="col-sm-offset-2"><p style="color: #285e8e; font-weight: 700">ADDITIONAL:</p></div>
+                    <div class="form-group">
+                        <label for="beforeMeals" class="col-sm-4 control-label">Before Meals</label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" id="beforeMeals"
+                                   name="treatmentTimePattern.beforeMeals">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="atMeals" class="col-sm-4 control-label">At Meals</label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" id="atMeals"
+                                   name="treatmentTimePattern.atMeals">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="afterMeals" class="col-sm-4 control-label">After Meals</label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" id="afterMeals"
+                                   name="treatmentTimePattern.afterMeals">
                         </div>
                     </div>
 

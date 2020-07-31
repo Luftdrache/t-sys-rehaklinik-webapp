@@ -2,6 +2,7 @@ package com.tsystems.rehaklinik.entities;
 
 import com.tsystems.rehaklinik.types.EventStatus;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,10 +23,12 @@ public class TreatmentEvent implements Serializable {
     private int treatmentEventId;
 
     @NotNull (message = "Treatment event date must be set")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "treatment_event_date", nullable = false)
     private LocalDate treatmentEventDate;
 
     @NotNull(message = "Treatment event time must be set")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     @Column(name = "treatment_event_time", nullable = false)
     private LocalTime treatmentEventTime;
 
@@ -45,7 +48,7 @@ public class TreatmentEvent implements Serializable {
 
     @NotNull(message = "Treatment event status must be set")
     @Enumerated(EnumType.STRING)
-    @Column(name = "treatment_event_status", columnDefinition ="ENUM (' PLANNED', 'COMPLETED', 'CANCELLED')",
+    @Column(name = "treatment_event_status", columnDefinition ="ENUM ('PLANNED', 'COMPLETED', 'CANCELLED')",
             nullable = false, length = 100)
     private EventStatus treatmentEventStatus;
 }

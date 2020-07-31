@@ -104,25 +104,31 @@
             <p>Ward: ${medicalRecord.hospitalWard}</p>
         </div>
 
-        <div class="card">
 
-            <c:choose>
-                <c:when test="${empty medicalRecord.clinicalDiagnosis}">
+        <c:choose>
+            <c:when test="${empty medicalRecord.clinicalDiagnosis}">
+                <div class="card">
                     <p>Clinical diagnosis: </p>
                     The patient has not yet been diagnosed.
-                </c:when>
-                <c:otherwise>
+                </div>
+
+            </c:when>
+            <c:otherwise>
                 <c:forEach items="${medicalRecord.clinicalDiagnosis}" var="diagnosis">
-                        <p>Clinical Diagnosis:</p>
+                    <div class="card">
+                        <p style="font-weight: bold">Clinical Diagnosis:</p>
                         <p>Main Disease: ${diagnosis.mainDisease}</p>
                         <p>ICD-10: ${diagnosis.icd10Code}</p>
                         <p>Accompanying Pathology: ${diagnosis.accompanyingPathology}</p>
                         <p>Diagnosis Description: ${diagnosis.fullDiagnosisDescription}</p>
-                    <br>
+                        <div>
+                            <input type="submit" class="btn btn-login" value="Edit"
+                                   style="background-color: orange; padding:5px; opacity: 0.9;"/>
+                        </div>
+                    </div>
                 </c:forEach>
-                </c:otherwise>
-            </c:choose>
-        </div>
+            </c:otherwise>
+        </c:choose>
     </div>
     <!-- *******MAIN CONTAINER******* -->
 </div>

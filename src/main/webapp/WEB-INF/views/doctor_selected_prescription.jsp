@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.tsystems.rehaklinik.types.TreatmentType" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -10,6 +11,8 @@
     <!-- shortcut icon -->
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/icon_med_helper.png"
           type="image/png">
+    <!-- form style-->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/form_style.css">
     <!-- sidebar style -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/doc_style.css">
     <!-- fontawesome -->
@@ -42,54 +45,59 @@
     <div class="sidebar">
         <div class="sidebar-menu">
             <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/reception-avt.jpg" alt="">
-                <p>Receptionist</p>
+                <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.png" alt="">
+                <p style="font-size: 20px; ">Doctor</p>
             </center>
             <li class="item" id="#patients">
-                <a href="${pageContext.request.contextPath}/reception/start-page" class="menu-btn">
+                <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn"
+                   style="font-size: 20px;">
                     <i class="fas fa-clinic-medical"></i><span>Main page</span>
                 </a>
             </li>
-            <li class="item" id="show-med-record">
-                <a href="${pageContext.request.contextPath}/reception/edit-patient-data/${patientInfo.patientId}"
+            <li class="item" id="show-med-record" style="font-size: 20px;">
+                <a href="${pageContext.request.contextPath}/doctor/medical-record/${medicalRecordToEdit.medicalRecordId}"
                    class="menu-btn">
-                    <i class="far fa-edit"></i><span>Edit Patient</span>
+                    <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
+                </a>
+            </li>
+            <li class="item" id="add-prescription" style="font-size: 20px;">
+                <a href="#" class="menu-btn">
+                    <i class="fas fa-tablets"></i><span>Add prescription</span>
                 </a>
             </li>
         </div>
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container" style="height: 90vh; background-image: url('/resources/images/icon_med_helper.png');
-    background-size: contain; background-repeat: no-repeat; background-position: right">
-        <div class="card" style="font-size: 16px; width: 60%; padding-left: 5px">
-            <span class="details-title" style="font-weight: 500"> Available doctors:</span><br>
-            <c:forEach items="${doctors}" var="doctor">
-                <div class="row">
-                    <div class="col-md-4" >
-                            ${doctor.name}
-                    </div>
-                    <div class="col-md-4">
-                        <p>${doctor.position} </p>
-                    </div>
-                    <div class="col-md-2">
-                        <p>${doctor.qualificationCategory} </p>
-                    </div>
-                    <div class="col-md-2">
-                        <form action="${pageContext.request.contextPath}/reception/appoint-doctor" method="post">
-                            <input type="hidden" name="patientId" value="${patient}">
-                            <button type="submit" class="btn login_btn" style="background-color: darkorange; padding: 2px; align-self: center" name="doctorId"
-                                    value="${doctor.employeeId}">
-                                Appoint
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </c:forEach>
-        </div>
-        </div>
-        <!-- *******MAIN CONTAINER******* -->
+    <div class="main-container" style="background-color: #DEF0FF; height: auto">
+        SELECTED PRESCRIPTION PAGE
+
+        ${prescription.patient.surname}  ${prescription.patient.middleName}  ${prescription.patient.surname}
+
+
     </div>
-    <!--wrapper end-->
+    <!-- *******MAIN CONTAINER******* -->
+</div>
+<!--wrapper end-->
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".sidebar-btn").click(function () {
+            $(".wrapper").toggleClass("collapse");
+        });
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
 </body>
 </html>
+
+

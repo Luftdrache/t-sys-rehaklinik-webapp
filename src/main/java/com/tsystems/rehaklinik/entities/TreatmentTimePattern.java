@@ -1,9 +1,11 @@
 package com.tsystems.rehaklinik.entities;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -43,8 +45,10 @@ public class TreatmentTimePattern implements Serializable {
     @Column(name = "Saturday")
     private boolean saturday;
 
+    @Column(name="precision_time")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    private LocalTime precisionTime;
 
-    @OneToMany(mappedBy = "treatmentTimePattern")
+    @OneToMany(mappedBy = "treatmentTimePattern", cascade = CascadeType.ALL)
     private List<Prescription> prescriptions;
-
 }

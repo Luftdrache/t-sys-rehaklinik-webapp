@@ -32,7 +32,7 @@ public class AdminController {
     private static final String MAIN_ADMIN_JSP = "admin_main_page";
     private static final String ADD_NEW_EMPLOYEE_JSP = "admin_add_new_employee";
     private static final String EDIT_EMPLOYEE_JSP = "admin_edit_employee_page";
-    private static final String EMPLOYEE_DETAILS_JSP = "employee_details";
+    private static final String EMPLOYEE_DETAILS_JSP = "admin_employee_details";
     private static final String ERROR_PAGE_JSP = "input_data_error_page";
     private static final String EMPL_FOUND_BY_SURNAME = "admin_found_by_surname";
 
@@ -88,9 +88,9 @@ public class AdminController {
         }
         Employee newEmployee = adminService.addNewEmployee(employee);
         logger.info("MedHelper_LOGS: the new employee added successfully(" + employee.toString() + ")");
-        model.addAttribute("message", "The new employee added successfully: ");
-        model.addAttribute("newEmployee", newEmployee);
-        return ADD_NEW_EMPLOYEE_JSP;
+        model.addAttribute("message", "The new employee added successfully");
+        model.addAttribute("employee", newEmployee);
+        return EMPLOYEE_DETAILS_JSP;
     }
 
 

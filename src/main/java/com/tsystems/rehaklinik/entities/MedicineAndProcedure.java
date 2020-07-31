@@ -32,4 +32,6 @@ public class MedicineAndProcedure implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "treatment_type", columnDefinition ="ENUM ('MEDICINE', 'PROCEDURE')", nullable = false, length = 9)
     private TreatmentType treatmentType;
+
+
 }

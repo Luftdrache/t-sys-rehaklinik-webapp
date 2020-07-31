@@ -235,3 +235,8 @@ body {
     font-weight: 700;
     color: #4CCEE8;
 }
+
+.wrapper .main-container .row .col-md-3{
+    color: darkred;
+    font-weight: 700;
+}

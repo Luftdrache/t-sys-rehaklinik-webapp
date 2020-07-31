@@ -60,82 +60,85 @@
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container" style="height: 90vh">
-        <div style="margin-left: 10%">
-            <span class="details-title">EMPLOYEE INFO:</span>
+    <div class="main-container" style="height: 90vh; background-image: url('/resources/images/icon_med_helper.png');
+    background-size: contain; background-repeat: no-repeat; background-position: right">
+        <div class="card" style="font-size: 18px; width: 60%; padding-left: 8%">
+            <br>
+            <span class="details-title" style="font-weight: 700">EMPLOYEE INFO:</span>
+            <br><br>
             <div class="row">
-                <div class="col-md-3"><i class="fas fa-user-nurse"></i> Name:</div>
-                <div class="col-md-3">
+                <div class="col-md-4" style="color: darkred; font-weight: 700"><i class="fas fa-user-nurse"></i> Name:
+                </div>
+                <div class="col-md-4">
                     <p class="font-italic"> ${employee.firstName} ${employee.middleName} ${employee.surname}</p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4" style="color: darkred; font-weight: 700"><i class="fas fa-briefcase"></i>
                     Position:
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <p class="font-italic">${employee.position}</p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4" style="color: darkred; font-weight: 700"><i class="fas fa-level-up-alt"></i>
                     Category:
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <p class="font-italic">${employee.qualificationCategory}</p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4" style="color: darkred; font-weight: 700">
                     <i class="fas fa-birthday-cake"></i> Date of Birth:
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <p class="font-italic">${employee.dateOfBirth}</p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4" style="color: darkred; font-weight: 700">
                     <i class="fas fa-city"></i> Address:
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <p class="font-italic">${employee.address}</p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4" style="color: darkred; font-weight: 700">
                     <i class="fas fa-passport"></i> Passport Id:
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <p class="font-italic">${employee.passportId}</p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4" style="color: darkred; font-weight: 700">
                     <i class="fas fa-phone-square-alt"></i> Phone:
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <p class="font-italic">${employee.phoneNumber}</p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4" style="color: darkred; font-weight: 700">
                     <i class="fas fa-envelope"></i> Email:
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <p class="font-italic">${employee.email}</p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4" style="color: darkred; font-weight: 700">
                     <i class="fas fa-user-tag"></i> Role:
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <p class="font-italic">${employee.role}</p>
                 </div>
             </div>
             <div style="color: darkred;font-weight: 700">${message}</div>
         </div>
-
     </div>
     <!-- *******MAIN CONTAINER******* -->
 </div>

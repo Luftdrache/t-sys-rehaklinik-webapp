@@ -1,6 +1,7 @@
 package com.tsystems.rehaklinik.controllers;
 
 import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
+import com.tsystems.rehaklinik.entities.Prescription;
 import com.tsystems.rehaklinik.util.BindingCheck;
 import com.tsystems.rehaklinik.dto.PatientDTO;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
@@ -31,6 +32,7 @@ public class DoctorController {
     private static final String DIAGNOSIS_JSP = "doctor_add_diagnosis";
     private static final String PATIENT_PRESCRIPTIONS_JSP = "doctor_patient_prescription";
     private static final String ADD_PRESCRIPTION_JSP = "doctor_add_prescription";
+    private static final String SHOW_SELECTED_PRESCRIPTION = "doctor_selected_prescription";
 
     //In process
     @GetMapping("/add-prescription/{id}")
@@ -42,15 +44,17 @@ public class DoctorController {
 
     //In process
     @PostMapping("/add-prescription")
-    public String addPrescription(@Valid @ModelAttribute("editHospitalisation") MedicalRecord clinicalDiagnosis,
+    public String addPrescription(@Valid @ModelAttribute("newPrescription") Prescription prescription,
                                   BindingResult bindingResult, ModelMap modelMap) {
 
         logger.info("MedHelper_LOGS: In DoctorController - handler method addPrescription(), POST");
         if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
             return ERROR_PAGE_JSP;
         }
-
-        return "";
+        Prescription newPrescription = doctorService.addPrescription(prescription);
+        logger.info("MedHelper_LOGS: DoctorController: addPrescription(POST): new prescription added: " + prescription);
+        modelMap.addAttribute("prescription", newPrescription);
+        return SHOW_SELECTED_PRESCRIPTION;
     }
 
 

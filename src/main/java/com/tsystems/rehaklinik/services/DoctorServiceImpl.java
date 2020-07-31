@@ -1,14 +1,12 @@
 package com.tsystems.rehaklinik.services;
 
 
-import com.tsystems.rehaklinik.dao.ClinicalDiagnosisDAO;
-import com.tsystems.rehaklinik.dao.ClinicalDiagnosisDAOImpl;
-import com.tsystems.rehaklinik.dao.MedicalRecordDAO;
-import com.tsystems.rehaklinik.dao.PatientDAO;
+import com.tsystems.rehaklinik.dao.*;
 import com.tsystems.rehaklinik.dto.PatientDTO;
 import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
 import com.tsystems.rehaklinik.entities.Patient;
+import com.tsystems.rehaklinik.entities.Prescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +27,23 @@ public class DoctorServiceImpl implements DoctorService {
     private final PatientDAO patientDAO;
     private final MedicalRecordDAO medicalRecordDAO;
     private final ClinicalDiagnosisDAO clinicalDiagnosisDAO;
+    private final PrescriptionDAO prescriptionDAO;
 
 
+    @Override
+    public Prescription addPrescription(Prescription prescription) {
+        Prescription newPrescription = prescriptionDAO.createPrescription(prescription);
+        generateEvents(newPrescription);
+        return newPrescription;
+    }
+
+
+    private void generateEvents(Prescription prescription) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+
+    //OK
     @Override
     public MedicalRecord setNewDiagnosis(ClinicalDiagnose clinicalDiagnose, int medRecordId) {
         Set<ClinicalDiagnose> diagnosisSet;
@@ -44,6 +57,8 @@ public class DoctorServiceImpl implements DoctorService {
         return medicalRecordDAO.updateMedicalRecord(medicalRecord);
     }
 
+
+    //OK
     @Override
     public MedicalRecord setHospitalisation(MedicalRecord medicalRecord) {
         Patient patient = patientDAO.findPatientById(medicalRecord.getMedicalRecordId());
@@ -51,22 +66,25 @@ public class DoctorServiceImpl implements DoctorService {
         return medicalRecordDAO.updateMedicalRecord(medicalRecord);
     }
 
+    //IN PROCESS
     @Override
     public MedicalRecord updateMedicalRecord(MedicalRecord editedMedicalRecord) {
         return medicalRecordDAO.updateMedicalRecord(editedMedicalRecord);
     }
 
+    //NIE
     @Override
     public MedicalRecord getMedicalRecordById(int medRecId) {
-        return null;
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    //OK
     @Override
     public MedicalRecord getMedicalRecord(int patientId) {
         return medicalRecordDAO.findMedicalRecordById(patientId);
     }
 
-
+    //OK
     @Override
     public List<PatientDTO> patients() {
         List<Patient> allPatients = patientDAO.findAll();
@@ -82,9 +100,10 @@ public class DoctorServiceImpl implements DoctorService {
 
 
     @Autowired
-    public DoctorServiceImpl(PatientDAO patientDAO, MedicalRecordDAO medicalRecordDAO, ClinicalDiagnosisDAO clinicalDiagnosisDAO) {
+    public DoctorServiceImpl(PatientDAO patientDAO, MedicalRecordDAO medicalRecordDAO, ClinicalDiagnosisDAO clinicalDiagnosisDAO, PrescriptionDAO prescriptionDAO) {
         this.patientDAO = patientDAO;
         this.medicalRecordDAO = medicalRecordDAO;
         this.clinicalDiagnosisDAO = clinicalDiagnosisDAO;
+        this.prescriptionDAO = prescriptionDAO;
     }
 }

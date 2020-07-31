@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "clinical_diagnoses", schema = "rehaklinik")
+@Table(name = "clinical_diagnoses", schema = "rehaklinik",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"main_disease", "ICD_10_code", "medical_record_id"},
+                name = "UNQ_MEDICINE_PROCEDURE_NAME"))
 @Getter
 @Setter
 @NoArgsConstructor
@@ -43,7 +45,7 @@ public class ClinicalDiagnose implements Serializable {
     private String fullDiagnosisDescription;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "medical_record_id", referencedColumnName = "medical_record_id")
     private MedicalRecord medicalRecord;
 
