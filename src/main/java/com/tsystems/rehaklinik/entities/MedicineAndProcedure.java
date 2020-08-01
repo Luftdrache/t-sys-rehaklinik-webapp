@@ -14,7 +14,8 @@ import java.util.List;
 @Table(name = "medicines_and_procedures", schema = "rehaklinik",
         uniqueConstraints = @UniqueConstraint(columnNames = "medicine_procedure_name",
                 name = "UNQ_MEDICINE_PROCEDURE_NAME"))
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class MedicineAndProcedure implements Serializable {
@@ -23,12 +24,11 @@ public class MedicineAndProcedure implements Serializable {
     @Column(name = "medicine_procedure_id", nullable = false, length = 11)
     private int medicineProcedureId;
 
-    @NotNull(message = "Medicine or procedure name must be set")
-    @NotBlank(message = "Medicine or procedure name mustn't be blank")
+
     @Column(name = "medicine_procedure_name", nullable = false, length = 100)
     private String medicineProcedureName;
 
-    @NotNull(message = "Treatment type must be set")
+
     @Enumerated(EnumType.STRING)
     @Column(name = "treatment_type", columnDefinition ="ENUM ('MEDICINE', 'PROCEDURE')", nullable = false, length = 9)
     private TreatmentType treatmentType;

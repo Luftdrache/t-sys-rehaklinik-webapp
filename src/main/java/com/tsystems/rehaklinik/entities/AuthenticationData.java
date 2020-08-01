@@ -14,7 +14,8 @@ import java.io.Serializable;
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"login"},
                         name = "UNQ_LOGIN")})
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthenticationData implements Serializable {

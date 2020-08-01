@@ -11,7 +11,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "treatment_time_patterns", schema = "rehaklinik")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class TreatmentTimePattern implements Serializable {

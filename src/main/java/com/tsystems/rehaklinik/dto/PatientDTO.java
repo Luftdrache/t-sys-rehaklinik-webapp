@@ -1,114 +1,72 @@
 package com.tsystems.rehaklinik.dto;
 
-import com.tsystems.rehaklinik.entities.Patient;
+import com.tsystems.rehaklinik.entities.*;
 import com.tsystems.rehaklinik.types.Gender;
+import com.tsystems.rehaklinik.types.Roles;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.time.Period;
+import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PatientDTO {
     private int patientId;
-    private String name;
+
+    @NotBlank(message = "Patient's first name mustn't be blank or null")
+    private String firstName;
+
+    private String middleName;
+
+    @NotBlank(message = "Patient's surname mustn't be blank or null")
+    private String surname;
+
+    @NotNull(message = "Patient's gender mustn't be null")
     private Gender gender;
-    private int age;
-    private String phone;
-    private String insuranceCompany;
+
+    @NotNull(message = "Patient's date of birth must be set")
+    @Past(message = "Patient's date of birth must be in the past")
+    private LocalDate dateOfBirth;
+
+    @NotNull(message = "Patient's passport id must be set")
+    private String passportId;
+
+    @NotBlank(message = "Patient's address mustn't be blank or null")
+    @Size(min = 10, max = 255, message = "Patient's address length must be no less than 10 and no more than 255 characters")
+    private String address;
+
+    @NotNull(message = "Patient's phone number must be set")
+    private String phoneNumber;
+
+    @Pattern(regexp = "(\\w+\\.)*\\w+@(\\w+\\.)+[a-zA-z]{2,}|[ \t]+", message = "Wrong patient's email")
+    private String email;
+
+    @NotNull(message = "Insurance Policy Code required")
     private String insurancePolicyCode;
-    private String attendingDoctor;
 
-    public PatientDTO(Patient patient) {
-        this.patientId = patient.getPatientId();
-        this.name = patient.getFirstName() + " " + patient.getMiddleName() + " " + patient.getSurname();
-        this.gender = patient.getGender();
-        this.age = Period.between(patient.getDateOfBirth(), LocalDate.now()).getYears();
-        this.phone = patient.getPhoneNumber();
-        this.insuranceCompany = patient.getInsuranceCompany();
-        this.insurancePolicyCode = patient.getInsurancePolicyCode();
-        if (patient.getAttendingDoctorId() != null) {
-            this.attendingDoctor = patient.getAttendingDoctorId().getFirstName() + " "
-                    + patient.getAttendingDoctorId().getMiddleName() + " "
-                    + patient.getAttendingDoctorId().getSurname();
-        } else {
-            this.attendingDoctor = "None";
-        }
-    }
+    @NotBlank(message = "Patient's insurance company mustn't be blank or null")
+    @Size(min = 5, max = 50, message = "Patient's insurance company length must be no less than 5 and no more than 50 characters")
+    private String insuranceCompany;
 
-    public int getPatientId() {
-        return patientId;
-    }
+    @NotNull(message = "Patient's consent to personal data processing must be set")
+    private boolean consentToPersonalDataProcessing;
 
-    public void setPatientId(int patientId) {
-        this.patientId = patientId;
-    }
+    @NotNull(message = "Role must be set")
+    private Roles role;
 
-    public String getName() {
-        return name;
-    }
+    private AuthenticationData authenticationDataPatient;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    private Employee attendingDoctorId;
 
-    public Gender getGender() {
-        return gender;
-    }
+    private MedicalRecordDTO medicalRecord;
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
+    private List<PrescriptionDTO> prescriptions;
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getInsuranceCompany() {
-        return insuranceCompany;
-    }
-
-    public void setInsuranceCompany(String insuranceCompany) {
-        this.insuranceCompany = insuranceCompany;
-    }
-
-    public String getInsurancePolicyCode() {
-        return insurancePolicyCode;
-    }
-
-    public void setInsurancePolicyCode(String insurancePolicyCode) {
-        this.insurancePolicyCode = insurancePolicyCode;
-    }
-
-    public String getAttendingDoctor() {
-        return attendingDoctor;
-    }
-
-    public void setAttendingDoctor(String attendingDoctor) {
-        this.attendingDoctor = attendingDoctor;
-    }
-
-
-    @Override
-    public String toString() {
-        return "PatientReceptionViewDTO{" +
-                "patientId=" + patientId +
-                ", name='" + name + '\'' +
-                ", gender=" + gender +
-                ", age=" + age +
-                ", phone='" + phone + '\'' +
-                ", insuranceCompany='" + insuranceCompany + '\'' +
-                ", insurancePolicyCode='" + insurancePolicyCode + '\'' +
-                ", attendingDoctor='" + attendingDoctor + '\'' +
-                '}';
-    }
+    private List<TreatmentEvent> treatmentEvents;
 }

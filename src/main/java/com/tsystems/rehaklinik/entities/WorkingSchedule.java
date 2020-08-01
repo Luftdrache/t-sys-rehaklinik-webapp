@@ -11,10 +11,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "working_schedules", schema = "rehaklinik")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class WorkingSchedule implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

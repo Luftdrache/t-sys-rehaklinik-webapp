@@ -1,8 +1,8 @@
 package com.tsystems.rehaklinik.controllers;
 
 import com.tsystems.rehaklinik.util.BindingCheck;
-import com.tsystems.rehaklinik.dto.EmployeeDTO;
-import com.tsystems.rehaklinik.dto.PatientDTO;
+import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
+import com.tsystems.rehaklinik.dto.PatientShortViewDTO;
 import com.tsystems.rehaklinik.entities.Patient;
 import com.tsystems.rehaklinik.services.AdminService;
 import com.tsystems.rehaklinik.services.ReceptionService;
@@ -59,7 +59,7 @@ public class ReceptionController {
     @GetMapping("/appoint-doctor")
     public String chooseAttendingDoctor(@RequestParam("patientId") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In ReceptionController - handler method chooseAttendingDoctor(), GET");
-        List<EmployeeDTO> doctors = receptionService.getAllDoctors();
+        List<EmployeeShortViewDTO> doctors = receptionService.getAllDoctors();
         modelMap.addAttribute("doctors", doctors);
         modelMap.addAttribute("patient", id);
         return DOCTORS_LIST_JSP;
@@ -83,7 +83,7 @@ public class ReceptionController {
         }
         Patient patientInfo = receptionService.editPatient(patient);
         if (patientInfo == null) {
-            logger.info("MedHelper_LOGS: Error in the editing process of the patient" + patientInfo.toString() + ")");
+            logger.info("MedHelper_LOGS: Error in the editing process of the patient");
             return EDIT_PATIENT_JSP;
         }
         logger.info("MedHelper_LOGS: Patient edited successfully");
@@ -110,7 +110,7 @@ public class ReceptionController {
     @GetMapping("/start-page")
     public String showAllPatients(ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In HospitalReceptionController:  handler method showAllPatients(), GET");
-        List<PatientDTO> allPatients = receptionService.showAllPatients();
+        List<PatientShortViewDTO> allPatients = receptionService.showAllPatients();
         if (allPatients != null) {
             modelMap.addAttribute("allPatients", allPatients);
             logger.info("MedHelper_LOGS: The action showAllPatients() completed successfully");

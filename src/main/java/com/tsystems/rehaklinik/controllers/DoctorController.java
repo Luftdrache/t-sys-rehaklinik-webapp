@@ -1,9 +1,11 @@
 package com.tsystems.rehaklinik.controllers;
 
+import com.tsystems.rehaklinik.dto.ClinicalDiagnosisDTO;
+import com.tsystems.rehaklinik.dto.MedicalRecordDTO;
 import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
 import com.tsystems.rehaklinik.entities.Prescription;
 import com.tsystems.rehaklinik.util.BindingCheck;
-import com.tsystems.rehaklinik.dto.PatientDTO;
+import com.tsystems.rehaklinik.dto.PatientShortViewDTO;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
 import com.tsystems.rehaklinik.services.DoctorService;
 import org.slf4j.Logger;
@@ -121,7 +123,7 @@ public class DoctorController {
 //        return EMPLOYEE_DETAILS_JSP;
 //    }
 
-
+//**********************************************************************************************************************
     /**
      * Return form to add new clinical diagnosis
      * @param id current medical record id
@@ -139,19 +141,19 @@ public class DoctorController {
      * Adds new diagnosis to current medical record
      * @param medRecordId current medical record id
      * @param clinicalDiagnosis clinical diagnosis to add
-     * @param bindingResult cinding result
+     * @param bindingResult binding result
      * @param modelMap ModelMap with updated medical record
      * @return page with medical record with added clinical diagnosis
      */
     @PostMapping("/medical-record/add-diagnosis/{id}")
     public String addDiagnosis(@PathVariable("id") int medRecordId,
-                               @Valid @ModelAttribute("addClinicalDiagnosis") ClinicalDiagnose clinicalDiagnosis,
+                               @Valid @ModelAttribute("addClinicalDiagnosis") ClinicalDiagnosisDTO clinicalDiagnosis,
                                BindingResult bindingResult, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method addDiagnosis(), POST");
         if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
             return ERROR_PAGE_JSP;
         }
-        MedicalRecord medicalRecord = doctorService.setNewDiagnosis(clinicalDiagnosis, medRecordId);
+        MedicalRecordDTO medicalRecord = doctorService.setNewDiagnosis(clinicalDiagnosis, medRecordId);
         modelMap.addAttribute("medicalRecord", medicalRecord);
         return MEDICAL_RECORD_JSP;
     }
@@ -165,7 +167,7 @@ public class DoctorController {
     @GetMapping("/start-page")
     public String showDoctorsPatients(ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method showDoctorsPatients(), GET");
-        List<PatientDTO> doctorsPatients = doctorService.patients();
+        List<PatientShortViewDTO> doctorsPatients = doctorService.patients();
         if (doctorsPatients != null) {
             logger.info("MedHelper_LOGS: The action showDoctorsPatients() completed successfully");
             modelMap.addAttribute("doctorsPatients", doctorsPatients);

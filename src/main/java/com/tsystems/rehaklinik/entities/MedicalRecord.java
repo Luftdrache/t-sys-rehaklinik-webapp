@@ -4,12 +4,7 @@ import com.tsystems.rehaklinik.types.HospitalStayStatus;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,7 +25,6 @@ public class MedicalRecord implements Serializable{
     @OneToMany (mappedBy = "medicalRecord", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<ClinicalDiagnose> clinicalDiagnosis;
 
-    @NotNull(message = "Hospital stay status must be set")
     @Enumerated(EnumType.STRING)
     @Column(name = "hospital_stay_status", columnDefinition ="ENUM ('NEW', 'BEING_TREATED', 'DISCHARGED') default 'NEW'",
             nullable = false)
@@ -39,19 +33,6 @@ public class MedicalRecord implements Serializable{
     @Column (name = "hospital_department")
     private String hospitalDepartment;
 
-    @PositiveOrZero(message = "Ward number must be positive or zero")
     @Column(name = "hospital_ward")
     private int hospitalWard;
-
-    @Override
-    public String toString() {
-        return "MedicalRecord{" +
-                "medicalRecordId=" + medicalRecordId +
-                ", patient=" + patient +
-                ", clinicalDiagnosis=" + clinicalDiagnosis +
-                ", hospitalStayStatus=" + hospitalStayStatus +
-                ", hospitalDepartment='" + hospitalDepartment + '\'' +
-                ", hospitalWard=" + hospitalWard +
-                '}';
-    }
 }

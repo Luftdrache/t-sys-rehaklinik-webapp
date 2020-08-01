@@ -54,7 +54,7 @@ public class PatientDAOImpl implements PatientDAO {
     @Override
     public List<Patient> findAll() {
         logger.info("MedHelper_LOGS: PatientDAO: Find all patients");
-        return entityManager.createQuery("SELECT p FROM Patient p", Patient.class).getResultList();
+        return entityManager.createQuery("SELECT p FROM Patient p ORDER BY p.surname", Patient.class).getResultList();
     }
 
 

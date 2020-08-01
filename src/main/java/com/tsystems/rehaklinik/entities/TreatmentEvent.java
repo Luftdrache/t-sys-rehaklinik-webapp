@@ -13,7 +13,8 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "treatment_events", schema = "rehaklinik")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class TreatmentEvent implements Serializable {

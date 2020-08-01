@@ -27,20 +27,7 @@
 <body>
 <!--wrapper start-->
 <div class="wrapper">
-    <!--header menu start-->
-    <div class="header">
-        <div class="header-menu">
-            <div class="title">Med<span>Helper</span></div>
-            <div class="sidebar-btn">
-                <i class="fas fa-bars"></i>
-            </div>
-            <ul>
-                <li><input type="button" value="Sign out" class="btn login_btn"
-                           style="background-color: orange; padding: 5px; margin-top: 15px"></li>
-            </ul>
-        </div>
-    </div>
-    <!--header menu end-->
+    <%@include file="shared/shared_header.jsp" %>
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
@@ -48,33 +35,35 @@
                 <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.png" alt="">
                 <p style="font-size: 20px;">Doctor</p>
             </center>
-            <li class="item" id="#patients" style="font-size: 20px;">
-                <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn">
-                    <i class="fas fa-clinic-medical"></i><span>Main page</span>
-                </a>
-            </li>
-            <li class="item" id="#show-med-record" style="font-size: 20px;">
-                <a href="${pageContext.request.contextPath}/doctor/medical-record/${medrec}"
-                   class="menu-btn">
-                    <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
-                </a>
-            </li>
-            <li class="item" id="#hospitalisation" style="font-size: 20px;">
-                <a href="${pageContext.request.contextPath}/doctor/medical-record/hospitalisation/${medrec}"
-                   class="menu-btn"><i class="fas fa-procedures"></i><span>Hospitalisation</span>
-                </a>
-            </li>
-            <li class="item" id="#specify-diagnosis" style="font-size: 20px;">
-                <a href="${pageContext.request.contextPath}/doctor/medical-record/edit/${medrec}"
-                   class="menu-btn">
-                    <i class="fas fa-stethoscope"></i><span>Specify diagnosis</span>
-                </a>
-            </li>
-            <li class="item" id="#add-prescription" style="font-size: 20px;">
-                <a href="#" class="menu-btn">
-                    <i class="fas fa-tablets"></i><span>Add prescription</span>
-                </a>
-            </li>
+            <ul>
+                <li class="item" id="#patients" style="font-size: 20px;">
+                    <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn">
+                        <i class="fas fa-clinic-medical"></i><span>Main page</span>
+                    </a>
+                </li>
+                <li class="item" id="#show-med-record" style="font-size: 20px;">
+                    <a href="${pageContext.request.contextPath}/doctor/medical-record/${medrec}"
+                       class="menu-btn">
+                        <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
+                    </a>
+                </li>
+                <li class="item" id="#hospitalisation" style="font-size: 20px;">
+                    <a href="${pageContext.request.contextPath}/doctor/medical-record/hospitalisation/${medrec}"
+                       class="menu-btn"><i class="fas fa-procedures"></i><span>Hospitalisation</span>
+                    </a>
+                </li>
+                <li class="item" id="#specify-diagnosis" style="font-size: 20px;">
+                    <a href="${pageContext.request.contextPath}/doctor/medical-record/edit/${medrec}"
+                       class="menu-btn">
+                        <i class="fas fa-stethoscope"></i><span>Specify diagnosis</span>
+                    </a>
+                </li>
+                <li class="item" id="#add-prescription" style="font-size: 20px;">
+                    <a href="#" class="menu-btn">
+                        <i class="fas fa-tablets"></i><span>Add prescription</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
     <!--sidebar end-->
@@ -91,7 +80,8 @@
             <!-- HIDDEN-->
             <input type="hidden" id="MedRecId" name="medicalRecordId"
                    value="${hospitalisationToEdit.medicalRecordId}"/>
-            <input type="hidden" id="patientId" name="patient.patientId" value="${hospitalisationToEdit.patient.patientId}">
+            <input type="hidden" id="patientId" name="patient.patientId"
+                   value="${hospitalisationToEdit.patient.patientId}">
             <!-- HIDDEN-->
             <div class="form-group">
                 <label for="hospitalStayStatus" class="col-sm-4 control-label">Stay Status*</label>
@@ -102,7 +92,7 @@
                         <c:forEach items="${HospitalStayStatus.values()}" var="hStayStatus">
                             <option>${hStayStatus.toString()}</option>
                         </c:forEach>
-<%--                        <option selected>${hospitalisationToEdit.hospitalStayStatus}</option>--%>
+                        <%--                        <option selected>${hospitalisationToEdit.hospitalStayStatus}</option>--%>
                     </select>
                 </div>
             </div>

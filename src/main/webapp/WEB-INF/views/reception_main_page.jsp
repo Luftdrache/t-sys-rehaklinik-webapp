@@ -24,27 +24,14 @@
 <body>
 <!--wrapper start-->
 <div class="wrapper">
-    <!--header menu start-->
-    <div class="header">
-        <div class="header-menu">
-            <div class="title">Med<span>Helper</span></div>
-            <div class="sidebar-btn">
-                <i class="fas fa-bars"></i>
-            </div>
-            <ul>
-                <li><input type="button" value="Sign out" class="btn login_btn"
-                           style="background-color: orange; padding: 5px; margin-top: 15px"></li>
-            </ul>
-        </div>
-    </div>
-    <!--header menu end-->
+    <%@include file="shared/shared_header.jsp"%>
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
             <center class="profile">
                 <img src="${pageContext.request.contextPath}/resources/images/reception-avt.jpg" alt="">
                 <p>Receptionist</p>
-            </center>
+            </center><ul>
             <li class="item" id="#patients">
                 <a href="${pageContext.request.contextPath}/reception/start-page" class="menu-btn">
                     <i class="fas fa-users"></i><span>Patients</span>
@@ -69,6 +56,7 @@
                     <i class="fas fa-info-circle"></i><span>About</span>
                 </a>
             </li>
+        </ul>
         </div>
     </div>
     <!--sidebar end-->

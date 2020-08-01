@@ -3,8 +3,8 @@ package com.tsystems.rehaklinik.services;
 
 import com.tsystems.rehaklinik.dao.EmployeeDAO;
 import com.tsystems.rehaklinik.dao.PatientDAO;
-import com.tsystems.rehaklinik.dto.EmployeeDTO;
-import com.tsystems.rehaklinik.dto.PatientDTO;
+import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
+import com.tsystems.rehaklinik.dto.PatientShortViewDTO;
 import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.entities.Patient;
 import org.slf4j.Logger;
@@ -32,12 +32,12 @@ public class ReceptionServiceImpl implements ReceptionService {
     }
 
     @Override
-    public List<EmployeeDTO> getAllDoctors() {
+    public List<EmployeeShortViewDTO> getAllDoctors() {
        List<Employee> doctors = employeeDAO.findAllDoctors();
-       List<EmployeeDTO> doctorsDTO = new ArrayList<>();
+       List<EmployeeShortViewDTO> doctorsDTO = new ArrayList<>();
        if(!doctors.isEmpty()) {
            for (Employee doc : doctors) {
-               doctorsDTO.add(new EmployeeDTO(doc));
+               doctorsDTO.add(new EmployeeShortViewDTO(doc));
                logger.info(doc.toString());
            }
        }
@@ -67,12 +67,12 @@ public class ReceptionServiceImpl implements ReceptionService {
 
 
     @Override
-    public List<PatientDTO> showAllPatients() {
+    public List<PatientShortViewDTO> showAllPatients() {
         List<Patient> allPatients = patientDAO.findAll();
-        List<PatientDTO> patientsDTO = new ArrayList<>();
+        List<PatientShortViewDTO> patientsDTO = new ArrayList<>();
         if (!allPatients.isEmpty()) {
             for (Patient patient : allPatients) {
-                patientsDTO.add(new PatientDTO(patient));
+                patientsDTO.add(new PatientShortViewDTO(patient));
             }
             return patientsDTO;
         }

@@ -32,18 +32,7 @@
 <!--wrapper start-->
 <div class="wrapper">
     <!--header menu start-->
-    <div class="header">
-        <div class="header-menu">
-            <div class="title">Med<span>Helper</span></div>
-            <div class="sidebar-btn">
-                <i class="fas fa-bars"></i>
-            </div>
-            <ul>
-                <li><input type="button" value="Sign out" class="btn login_btn"
-                           style="background-color: orange; padding: 5px; margin-top: 15px"></li>
-            </ul>
-        </div>
-    </div>
+   <%@include file="shared/shared_header.jsp" %>
     <!--header menu end-->
     <!--sidebar start-->
     <div class="sidebar">
@@ -52,7 +41,7 @@
                 <img src="${pageContext.request.contextPath}/resources/images/admin-avt.png" alt="" >
                 <p style="font-size: 20px">Admin</p>
             </center>
-            <li class="item" id="#employees" style="font-size: 20px">
+            <ul><li class="item" id="#employees" style="font-size: 20px">
                 <a href="${pageContext.request.contextPath}/admin/start-page" class="menu-btn">
                     <i class="fas fa-users"></i><span>Employees</span>
                 </a>
@@ -76,6 +65,7 @@
                     <i class="fas fa-info-circle"></i><span>About</span>
                 </a>
             </li>
+            </ul>
         </div>
     </div>
     <!--sidebar end-->

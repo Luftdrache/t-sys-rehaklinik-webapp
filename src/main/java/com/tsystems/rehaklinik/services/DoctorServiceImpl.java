@@ -1,8 +1,12 @@
 package com.tsystems.rehaklinik.services;
 
 
+import com.tsystems.rehaklinik.converters.DTOconverters.ClinicalDiagnoseMapper;
+import com.tsystems.rehaklinik.converters.DTOconverters.MedicalRecordMapper;
 import com.tsystems.rehaklinik.dao.*;
-import com.tsystems.rehaklinik.dto.PatientDTO;
+import com.tsystems.rehaklinik.dto.ClinicalDiagnosisDTO;
+import com.tsystems.rehaklinik.dto.MedicalRecordDTO;
+import com.tsystems.rehaklinik.dto.PatientShortViewDTO;
 import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
 import com.tsystems.rehaklinik.entities.Patient;
@@ -23,7 +27,6 @@ public class DoctorServiceImpl implements DoctorService {
 
     private static Logger logger = LoggerFactory.getLogger(DoctorServiceImpl.class);
 
-
     private final PatientDAO patientDAO;
     private final MedicalRecordDAO medicalRecordDAO;
     private final ClinicalDiagnosisDAO clinicalDiagnosisDAO;
@@ -43,19 +46,32 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
 
-    //OK
     @Override
-    public MedicalRecord setNewDiagnosis(ClinicalDiagnose clinicalDiagnose, int medRecordId) {
-        Set<ClinicalDiagnose> diagnosisSet;
+    public MedicalRecordDTO setNewDiagnosis(ClinicalDiagnosisDTO clinicalDiagnosisDTO, int medRecordId) {
         MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(medRecordId);
-        diagnosisSet = medicalRecord.getClinicalDiagnosis();
+        Set<ClinicalDiagnose> diagnosisSet = medicalRecord.getClinicalDiagnosis();
+        ClinicalDiagnose clinicalDiagnose = ClinicalDiagnoseMapper.INSTANCE.fromDTO(clinicalDiagnosisDTO);
         ClinicalDiagnose diagnosis = clinicalDiagnosisDAO.createClinicalDiagnosis(clinicalDiagnose);
         diagnosis.setMedicalRecord(medicalRecord);
         ClinicalDiagnose updatedClinicalDiagnosis = clinicalDiagnosisDAO.updateClinicalDiagnosis(diagnosis);
         diagnosisSet.add(updatedClinicalDiagnosis);
         medicalRecord.setClinicalDiagnosis(diagnosisSet);
-        return medicalRecordDAO.updateMedicalRecord(medicalRecord);
+        return MedicalRecordMapper.INSTANCE.toDTO(medicalRecordDAO.updateMedicalRecord(medicalRecord));
     }
+
+    //OK
+//    @Override
+//    public MedicalRecord setNewDiagnosis(ClinicalDiagnose clinicalDiagnose, int medRecordId) {
+//        Set<ClinicalDiagnose> diagnosisSet;
+//        MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(medRecordId);
+//        diagnosisSet = medicalRecord.getClinicalDiagnosis();
+//        ClinicalDiagnose diagnosis = clinicalDiagnosisDAO.createClinicalDiagnosis(clinicalDiagnose);
+//        diagnosis.setMedicalRecord(medicalRecord);
+//        ClinicalDiagnose updatedClinicalDiagnosis = clinicalDiagnosisDAO.updateClinicalDiagnosis(diagnosis);
+//        diagnosisSet.add(updatedClinicalDiagnosis);
+//        medicalRecord.setClinicalDiagnosis(diagnosisSet);
+//        return medicalRecordDAO.updateMedicalRecord(medicalRecord);
+//    }
 
 
     //OK
@@ -86,12 +102,12 @@ public class DoctorServiceImpl implements DoctorService {
 
     //OK
     @Override
-    public List<PatientDTO> patients() {
+    public List<PatientShortViewDTO> patients() {
         List<Patient> allPatients = patientDAO.findAll();
-        List<PatientDTO> patientsDTO = new ArrayList<>();
+        List<PatientShortViewDTO> patientsDTO = new ArrayList<>();
         if (!allPatients.isEmpty()) {
             for (Patient patient : allPatients) {
-                patientsDTO.add(new PatientDTO(patient));
+                patientsDTO.add(new PatientShortViewDTO(patient));
             }
             return patientsDTO;
         }

@@ -1,7 +1,7 @@
 package com.tsystems.rehaklinik.controllers;
 
 import com.tsystems.rehaklinik.util.BindingCheck;
-import com.tsystems.rehaklinik.dto.EmployeeDTO;
+import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
 import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.services.AdminService;
 import org.slf4j.Logger;
@@ -46,7 +46,7 @@ public class AdminController {
     @GetMapping("/start-page")
     public String showAllEmployees(ModelMap model) {
         logger.info("MedHelper_LOGS: In AdminController - handler method showAllEmployees()");
-        List<EmployeeDTO> allEmployeesFound = adminService.showAllEmployees();
+        List<EmployeeShortViewDTO> allEmployeesFound = adminService.showAllEmployees();
         if (allEmployeesFound != null) {
             model.addAttribute("allEmployees", allEmployeesFound);
             logger.info("MedHelper_LOGS: The action showAllEmployees() completed successfully");
@@ -121,11 +121,11 @@ public class AdminController {
     @GetMapping(value = "/find-employee-by-surname")
     public String findEmployeeBySurname(@RequestParam("surname") String surname, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In AdminController - handler method findEmployeeBySurname()");
-        List<EmployeeDTO> employeesFoundBySurname = adminService.findEmployeeBySurname(surname);
+        List<EmployeeShortViewDTO> employeesFoundBySurname = adminService.findEmployeeBySurname(surname);
         if (employeesFoundBySurname != null) {
             modelMap.addAttribute("allEmployees", employeesFoundBySurname);
             logger.info("MedHelper_LOGS: The employee(-s) with surname = " + surname + " was(were) found successfully:");
-            for (EmployeeDTO empl : employeesFoundBySurname) {
+            for (EmployeeShortViewDTO empl : employeesFoundBySurname) {
                 logger.info(empl.toString());
             }
         } else {
@@ -168,7 +168,7 @@ public class AdminController {
         }
         Employee editedEmployee = adminService.editEmployee(employee);
         if (editedEmployee == null) {
-            logger.info("MedHelper_LOGS: Error in the editing process of the employee" + editedEmployee.toString() + ")");
+            logger.info("MedHelper_LOGS: Error in the editing process of the employee");
             return EDIT_EMPLOYEE_JSP;
         }
         logger.info("MedHelper_LOGS: Employee edited successfully(" + editedEmployee.toString() + ")");
@@ -181,7 +181,7 @@ public class AdminController {
     /**
      * Returns page with employee details
      *
-     * @param id
+     * @param id employee id
      * @param modelMap ModelMap
      * @return page with employee details
      */

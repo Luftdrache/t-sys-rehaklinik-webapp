@@ -24,20 +24,7 @@
 <body>
 <!--wrapper start-->
 <div class="wrapper">
-    <!--header menu start-->
-    <div class="header">
-        <div class="header-menu">
-            <div class="title">Med<span>Helper</span></div>
-            <div class="sidebar-btn">
-                <i class="fas fa-bars"></i>
-            </div>
-            <ul>
-                <li> <input type="button" value="Sign out" class="btn login_btn"
-                            style="background-color: orange; padding: 5px; margin-top: 15px"></li>
-            </ul>
-        </div>
-    </div>
-    <!--header menu end-->
+    <%@include file="shared/shared_header.jsp" %>
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
@@ -45,30 +32,32 @@
                 <img src="${pageContext.request.contextPath}/resources/images/admin-avt.png" alt="">
                 <p>Admin</p>
             </center>
-            <li class="item" id="#patients">
-                <a href="${pageContext.request.contextPath}/admin/start-page" class="menu-btn">
-                    <i class="fas fa-users"></i><span>Employees</span>
-                </a>
-            </li>
-            <li class="item" id="prescriptions">
-                <a href="${pageContext.request.contextPath}/admin/add-employee" class="menu-btn">
-                    <i class="fas fa-user-plus"></i><span>Add new</span>
-                </a>
-            </li>
-            <li class="item" id="settings">
-                <a href="#settings" class="menu-btn">
-                    <i class="fas fa-cog"></i><span>Settings <i class="fas fa-chevron-down drop-down"></i></span>
-                </a>
-                <div class="sub-menu">
-                    <a href="#"><i class="fas fa-lock"></i><span>Password</span></a>
-                    <a href="#"><i class="fas fa-language"></i><span>Language</span></a>
-                </div>
-            </li>
-            <li class="item">
-                <a href="#" class="menu-btn">
-                    <i class="fas fa-info-circle"></i><span>About</span>
-                </a>
-            </li>
+            <ul>
+                <li class="item" id="#patients">
+                    <a href="${pageContext.request.contextPath}/admin/start-page" class="menu-btn">
+                        <i class="fas fa-users"></i><span>Employees</span>
+                    </a>
+                </li>
+                <li class="item" id="prescriptions">
+                    <a href="${pageContext.request.contextPath}/admin/add-employee" class="menu-btn">
+                        <i class="fas fa-user-plus"></i><span>Add new</span>
+                    </a>
+                </li>
+                <li class="item" id="settings">
+                    <a href="#settings" class="menu-btn">
+                        <i class="fas fa-cog"></i><span>Settings <i class="fas fa-chevron-down drop-down"></i></span>
+                    </a>
+                    <div class="sub-menu">
+                        <a href="#"><i class="fas fa-lock"></i><span>Password</span></a>
+                        <a href="#"><i class="fas fa-language"></i><span>Language</span></a>
+                    </div>
+                </li>
+                <li class="item">
+                    <a href="#" class="menu-btn">
+                        <i class="fas fa-info-circle"></i><span>About</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
     <!--sidebar end-->
@@ -134,7 +123,8 @@
                     <form class="form-inline mr-auto"
                           action="${pageContext.request.contextPath}/admin/find-employee-by-surname"
                           method="get">
-                        <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="surname" value="${surname}">
+                        <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="surname"
+                               value="${surname}">
                         <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2"
                                 style="background-color: orange"
                                 type="submit">Search
@@ -149,15 +139,21 @@
 <!--wrapper end-->
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        $(".sidebar-btn").click(function(){
+    $(document).ready(function () {
+        $(".sidebar-btn").click(function () {
             $(".wrapper").toggleClass("collapse");
         });
     });
 </script>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
 </body>
 </html>

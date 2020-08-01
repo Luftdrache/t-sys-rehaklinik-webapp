@@ -1,12 +1,10 @@
 package com.tsystems.rehaklinik.services;
 
 import com.tsystems.rehaklinik.dao.EmployeeDAO;
-import com.tsystems.rehaklinik.dao.EmployeeDAOImpl;
-import com.tsystems.rehaklinik.dto.EmployeeDTO;
+import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
 import com.tsystems.rehaklinik.entities.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,25 +45,25 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public EmployeeDTO findEmployeeByIdDTO(int id) {
+    public EmployeeShortViewDTO findEmployeeByIdDTO(int id) {
         Employee employee = employeeDAO.findEmployeeById(id);
         if (employee != null) {
-            EmployeeDTO employeeDTO = new EmployeeDTO(employee);
-            logger.info("MedHelper_LOGS: AdminService: EmployeeDTO found by id: " + employeeDTO.toString());
-            return employeeDTO;
+            EmployeeShortViewDTO employeeShortViewDTO = new EmployeeShortViewDTO(employee);
+            logger.info("MedHelper_LOGS: AdminService: EmployeeDTO found by id: " + employeeShortViewDTO.toString());
+            return employeeShortViewDTO;
         }
         return null;
     }
 
 
     @Override
-    public List<EmployeeDTO> showAllEmployees() {
+    public List<EmployeeShortViewDTO> showAllEmployees() {
         List<Employee> allEmployeesFound = employeeDAO.findAll();
-        List<EmployeeDTO> employeesDTO = new ArrayList<>();
+        List<EmployeeShortViewDTO> employeesDTO = new ArrayList<>();
 //convertToDTO()!
         if (!allEmployeesFound.isEmpty()) {
             for (Employee empl : allEmployeesFound) {
-                employeesDTO.add(new EmployeeDTO(empl));
+                employeesDTO.add(new EmployeeShortViewDTO(empl));
             }
             return employeesDTO;
         }
@@ -74,13 +72,13 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public List<EmployeeDTO> findEmployeeBySurname(String surname) {
+    public List<EmployeeShortViewDTO> findEmployeeBySurname(String surname) {
         List<Employee> allEmployeesFound = employeeDAO.findEmployeeBySurname(surname);
-        List<EmployeeDTO> employeesDTO = new ArrayList<>();
+        List<EmployeeShortViewDTO> employeesDTO = new ArrayList<>();
 //convertToDTO()!
         if (!allEmployeesFound.isEmpty()) {
             for (Employee empl : allEmployeesFound) {
-                employeesDTO.add(new EmployeeDTO(empl));
+                employeesDTO.add(new EmployeeShortViewDTO(empl));
             }
             return employeesDTO;
         }

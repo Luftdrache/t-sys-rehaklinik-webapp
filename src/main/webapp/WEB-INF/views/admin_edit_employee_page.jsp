@@ -33,18 +33,7 @@
 <!--wrapper start-->
 <div class="wrapper">
     <!--header menu start-->
-    <div class="header">
-        <div class="header-menu">
-            <div class="title">Med<span>Helper</span></div>
-            <div class="sidebar-btn">
-                <i class="fas fa-bars"></i>
-            </div>
-            <ul>
-                <li><input type="button" value="Sign out" class="btn login_btn"
-                           style="background-color: orange; padding: 5px; margin-top: 15px"></li>
-            </ul>
-        </div>
-    </div>
+    <%@include file="shared/shared_header.jsp" %>
     <!--header menu end-->
     <!--sidebar start-->
     <div class="sidebar">
@@ -53,30 +42,32 @@
                 <img src="${pageContext.request.contextPath}/resources/images/admin-avt.png" alt="">
                 <p style="font-size: 20px">Admin</p>
             </center>
-            <li class="item" id="#employees" style="font-size: 20px">
-                <a href="${pageContext.request.contextPath}/admin/start-page" class="menu-btn">
-                    <i class="fas fa-users"></i><span>Employees</span>
-                </a>
-            </li>
-            <li class="item" id="#prescriptions" style="font-size: 20px">
-                <a href="${pageContext.request.contextPath}/admin/add-employee" class="menu-btn">
-                    <i class="fas fa-user-plus"></i><span>Add new</span>
-                </a>
-            </li>
-            <li class="item" id="#settings" style="font-size: 20px">
-                <a href="#settings" class="menu-btn">
-                    <i class="fas fa-cog"></i><span>Settings <i class="fas fa-chevron-down drop-down"></i></span>
-                </a>
-                <div class="sub-menu">
-                    <a href="#"><i class="fas fa-lock"></i><span>Password</span></a>
-                    <a href="#"><i class="fas fa-language"></i><span>Language</span></a>
-                </div>
-            </li>
-            <li class="item" style="font-size: 20px">
-                <a href="#" class="menu-btn">
-                    <i class="fas fa-info-circle"></i><span>About</span>
-                </a>
-            </li>
+            <ul>
+                <li class="item" id="#employees" style="font-size: 20px">
+                    <a href="${pageContext.request.contextPath}/admin/start-page" class="menu-btn">
+                        <i class="fas fa-users"></i><span>Employees</span>
+                    </a>
+                </li>
+                <li class="item" id="#prescriptions" style="font-size: 20px">
+                    <a href="${pageContext.request.contextPath}/admin/add-employee" class="menu-btn">
+                        <i class="fas fa-user-plus"></i><span>Add new</span>
+                    </a>
+                </li>
+                <li class="item" id="#settings" style="font-size: 20px">
+                    <a href="#settings" class="menu-btn">
+                        <i class="fas fa-cog"></i><span>Settings <i class="fas fa-chevron-down drop-down"></i></span>
+                    </a>
+                    <div class="sub-menu">
+                        <a href="#"><i class="fas fa-lock"></i><span>Password</span></a>
+                        <a href="#"><i class="fas fa-language"></i><span>Language</span></a>
+                    </div>
+                </li>
+                <li class="item" style="font-size: 20px">
+                    <a href="#" class="menu-btn">
+                        <i class="fas fa-info-circle"></i><span>About</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
     <!--sidebar end-->

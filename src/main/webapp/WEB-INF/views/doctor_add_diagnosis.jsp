@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.tsystems.rehaklinik.types.HospitalStayStatus" %>
+<%@taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -27,20 +28,7 @@
 <body>
 <!--wrapper start-->
 <div class="wrapper">
-    <!--header menu start-->
-    <div class="header">
-        <div class="header-menu">
-            <div class="title">Med<span>Helper</span></div>
-            <div class="sidebar-btn">
-                <i class="fas fa-bars"></i>
-            </div>
-            <ul>
-                <li><input type="button" value="Sign out" class="btn login_btn"
-                           style="background-color: orange; padding: 5px; margin-top: 15px"></li>
-            </ul>
-        </div>
-    </div>
-    <!--header menu end-->
+    <%@include file="shared/shared_header.jsp" %>
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
@@ -48,37 +36,40 @@
                 <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.png" alt="">
                 <p style="font-size: 20px; ">Doctor</p>
             </center>
-            <li class="item" id="#patients">
-                <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn"
-                   style="font-size: 20px;">
-                    <i class="fas fa-clinic-medical"></i><span>Main page</span>
-                </a>
-            </li>
-            <li class="item" id="show-med-record" style="font-size: 20px;">
-                <a href="${pageContext.request.contextPath}/doctor/medical-record/${medrec}"
-                   class="menu-btn">
-                    <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
-                </a>
-            </li>
-            <li class="item" id="edit-med-record" style="font-size: 20px;">
-                <a href="#" class="menu-btn">
-                    <i class="far fa-edit"></i><span>Edit</span>
-                </a>
-            </li>
-            <li class="item" id="add-prescription" style="font-size: 20px;">
-                <a href="#" class="menu-btn">
-                    <i class="fas fa-tablets"></i><span>Add prescription</span>
-                </a>
-            </li>
+            <ul>
+                <li class="item" id="#patients">
+                    <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn"
+                       style="font-size: 20px;">
+                        <i class="fas fa-clinic-medical"></i><span>Main page</span>
+                    </a>
+                </li>
+                <li class="item" id="show-med-record" style="font-size: 20px;">
+                    <a href="${pageContext.request.contextPath}/doctor/medical-record/${medrec}"
+                       class="menu-btn">
+                        <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
+                    </a>
+                </li>
+                <li class="item" id="edit-med-record" style="font-size: 20px;">
+                    <a href="#" class="menu-btn">
+                        <i class="far fa-edit"></i><span>Edit</span>
+                    </a>
+                </li>
+                <li class="item" id="add-prescription" style="font-size: 20px;">
+                    <a href="#" class="menu-btn">
+                        <i class="fas fa-tablets"></i><span>Add prescription</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container" style="background-color: #DEF0FF; height: auto">
+    <div class="main-container" style="background-color: #DEF0FF; height: 90vh">
         <div class="container-fluid">
             <div content="container" class="col-sm-8 col-sm-offset-2"
                  style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
-                <form action="${pageContext.request.contextPath}/doctor/medical-record/add-diagnosis/${medrec}" method="post"
+                <form action="${pageContext.request.contextPath}/doctor/medical-record/add-diagnosis/${medrec}"
+                      method="post"
                       class="form-horizontal"
                       role="form">
                     <div style="padding-left: 20%">

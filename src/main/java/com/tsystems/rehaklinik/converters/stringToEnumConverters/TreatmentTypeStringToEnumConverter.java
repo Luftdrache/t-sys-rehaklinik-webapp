@@ -1,4 +1,4 @@
-package com.tsystems.rehaklinik.converters;
+package com.tsystems.rehaklinik.converters.stringToEnumConverters;
 
 import com.tsystems.rehaklinik.types.TreatmentType;
 import org.springframework.core.convert.converter.Converter;

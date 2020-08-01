@@ -79,7 +79,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public List<Employee> findAll() {
         logger.info("MedHelper_LOGS: EmployeeDAO: Find all employees");
-        return entityManager.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
+        return entityManager.createQuery("SELECT e FROM Employee e ORDER BY e.surname", Employee.class).getResultList();
     }
 
 

@@ -1,7 +1,7 @@
 package com.tsystems.rehaklinik.services;
 
-import com.tsystems.rehaklinik.dto.EmployeeDTO;
-import com.tsystems.rehaklinik.dto.PatientDTO;
+import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
+import com.tsystems.rehaklinik.dto.PatientShortViewDTO;
 import com.tsystems.rehaklinik.entities.Patient;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public interface ReceptionService {
 
     String deletePatientById(int id);
 
-    List<PatientDTO> showAllPatients();
+    List<PatientShortViewDTO> showAllPatients();
 
     Patient getPatientById(int id);
 
@@ -20,7 +20,7 @@ public interface ReceptionService {
 
     Patient editPatient(Patient editedPatient);
 
-    List<EmployeeDTO> getAllDoctors();
+    List<EmployeeShortViewDTO> getAllDoctors();
 
 
 //    PatientDTO findPatientByIdDTO(int patientId);

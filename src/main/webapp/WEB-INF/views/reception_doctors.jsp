@@ -24,20 +24,7 @@
 <body>
 <!--wrapper start-->
 <div class="wrapper">
-    <!--header menu start-->
-    <div class="header">
-        <div class="header-menu">
-            <div class="title">Med<span>Helper</span></div>
-            <div class="sidebar-btn">
-                <i class="fas fa-bars"></i>
-            </div>
-            <ul>
-                <li><input type="button" value="Sign out" class="btn login_btn"
-                           style="background-color: orange; padding: 5px; margin-top: 15px"></li>
-            </ul>
-        </div>
-    </div>
-    <!--header menu end-->
+    <%@include file="shared/shared_header.jsp" %>
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
@@ -45,17 +32,19 @@
                 <img src="${pageContext.request.contextPath}/resources/images/reception-avt.jpg" alt="">
                 <p>Receptionist</p>
             </center>
-            <li class="item" id="#patients">
-                <a href="${pageContext.request.contextPath}/reception/start-page" class="menu-btn">
-                    <i class="fas fa-clinic-medical"></i><span>Main page</span>
-                </a>
-            </li>
-            <li class="item" id="show-med-record">
-                <a href="${pageContext.request.contextPath}/reception/edit-patient-data/${patientInfo.patientId}"
-                   class="menu-btn">
-                    <i class="far fa-edit"></i><span>Edit Patient</span>
-                </a>
-            </li>
+            <ul>
+                <li class="item" id="#patients">
+                    <a href="${pageContext.request.contextPath}/reception/start-page" class="menu-btn">
+                        <i class="fas fa-clinic-medical"></i><span>Main page</span>
+                    </a>
+                </li>
+                <li class="item" id="show-med-record">
+                    <a href="${pageContext.request.contextPath}/reception/edit-patient-data/${patientInfo.patientId}"
+                       class="menu-btn">
+                        <i class="far fa-edit"></i><span>Edit Patient</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
     <!--sidebar end-->
@@ -66,7 +55,7 @@
             <span class="details-title" style="font-weight: 500"> Available doctors:</span><br>
             <c:forEach items="${doctors}" var="doctor">
                 <div class="row">
-                    <div class="col-md-4" >
+                    <div class="col-md-4">
                             ${doctor.name}
                     </div>
                     <div class="col-md-4">
@@ -78,7 +67,9 @@
                     <div class="col-md-2">
                         <form action="${pageContext.request.contextPath}/reception/appoint-doctor" method="post">
                             <input type="hidden" name="patientId" value="${patient}">
-                            <button type="submit" class="btn login_btn" style="background-color: darkorange; padding: 2px; align-self: center" name="doctorId"
+                            <button type="submit" class="btn login_btn"
+                                    style="background-color: darkorange; padding: 2px; align-self: center"
+                                    name="doctorId"
                                     value="${doctor.employeeId}">
                                 Appoint
                             </button>
@@ -87,9 +78,9 @@
                 </div>
             </c:forEach>
         </div>
-        </div>
-        <!-- *******MAIN CONTAINER******* -->
     </div>
-    <!--wrapper end-->
+    <!-- *******MAIN CONTAINER******* -->
+</div>
+<!--wrapper end-->
 </body>
 </html>
