@@ -3,10 +3,9 @@ package com.tsystems.rehaklinik.services;
 
 import com.tsystems.rehaklinik.converters.DTOconverters.ClinicalDiagnoseMapper;
 import com.tsystems.rehaklinik.converters.DTOconverters.MedicalRecordMapper;
+import com.tsystems.rehaklinik.converters.DTOconverters.PrescriptionMapper;
 import com.tsystems.rehaklinik.dao.*;
-import com.tsystems.rehaklinik.dto.ClinicalDiagnosisDTO;
-import com.tsystems.rehaklinik.dto.MedicalRecordDTO;
-import com.tsystems.rehaklinik.dto.PatientShortViewDTO;
+import com.tsystems.rehaklinik.dto.*;
 import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
 import com.tsystems.rehaklinik.entities.Patient;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -34,10 +34,35 @@ public class DoctorServiceImpl implements DoctorService {
 
 
     @Override
-    public Prescription addPrescription(Prescription prescription) {
+    public boolean deletePrescription(int prescriptionId) {
+        boolean result = prescriptionDAO.deletePrescriptionById(prescriptionId);
+        logger.info("MedHelper_LOGS: DoctorServiceImpl: result of deleting is " + result);
+        return result;
+    }
+
+    @Override
+    public List<PrescriptionShortViewDTO> findAllPatientsPrescription(int patientId) {
+        List<Prescription> prescriptions = prescriptionDAO.fidAllPrescriptionsByPatientId(patientId);
+        List<PrescriptionShortViewDTO> prescriptionDTOS = new ArrayList<>();
+        if(prescriptions!=null) {
+            for (Prescription p : prescriptions) {
+                prescriptionDTOS.add(new PrescriptionShortViewDTO(p));
+            }
+            return prescriptionDTOS;
+        }
+        return Collections.emptyList();
+    }
+
+
+
+
+    @Override
+    public PrescriptionDTO addPrescription(PrescriptionDTO prescriptionDTO) {
+        Prescription prescription = PrescriptionMapper.INSTANCE.fromDTO(prescriptionDTO);
         Prescription newPrescription = prescriptionDAO.createPrescription(prescription);
-        generateEvents(newPrescription);
-        return newPrescription;
+        PrescriptionDTO savedPrescriprionDTO = PrescriptionMapper.INSTANCE.toDTO(newPrescription);
+//        generateEvents(newPrescription);
+        return savedPrescriprionDTO;
     }
 
 
@@ -59,20 +84,6 @@ public class DoctorServiceImpl implements DoctorService {
         return MedicalRecordMapper.INSTANCE.toDTO(medicalRecordDAO.updateMedicalRecord(medicalRecord));
     }
 
-    //OK
-//    @Override
-//    public MedicalRecord setNewDiagnosis(ClinicalDiagnose clinicalDiagnose, int medRecordId) {
-//        Set<ClinicalDiagnose> diagnosisSet;
-//        MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(medRecordId);
-//        diagnosisSet = medicalRecord.getClinicalDiagnosis();
-//        ClinicalDiagnose diagnosis = clinicalDiagnosisDAO.createClinicalDiagnosis(clinicalDiagnose);
-//        diagnosis.setMedicalRecord(medicalRecord);
-//        ClinicalDiagnose updatedClinicalDiagnosis = clinicalDiagnosisDAO.updateClinicalDiagnosis(diagnosis);
-//        diagnosisSet.add(updatedClinicalDiagnosis);
-//        medicalRecord.setClinicalDiagnosis(diagnosisSet);
-//        return medicalRecordDAO.updateMedicalRecord(medicalRecord);
-//    }
-
 
     //OK
     @Override
@@ -88,11 +99,6 @@ public class DoctorServiceImpl implements DoctorService {
         return medicalRecordDAO.updateMedicalRecord(editedMedicalRecord);
     }
 
-    //NIE
-    @Override
-    public MedicalRecord getMedicalRecordById(int medRecId) {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
 
     //OK
     @Override

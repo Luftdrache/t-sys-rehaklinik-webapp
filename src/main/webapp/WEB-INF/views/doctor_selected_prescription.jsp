@@ -58,14 +58,73 @@
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container" style="background-color: #DEF0FF; height: auto">
-        SELECTED PRESCRIPTION PAGE
-
-        ${prescription.patient.surname} ${prescription.patient.middleName} ${prescription.patient.surname}
-
-
+    <div class="main-container" style="height: 90vh; background-image: url('/resources/images/icon_med_helper.png');
+    background-size: contain; background-repeat: no-repeat; background-position: right">
+        <div class="card" style="font-size: 18px; width: 60%; padding-left: 8%">
+            <br>
+            <span class="details-title" style="font-weight: 700">
+                 PRESCRIPTION DETAILS
+            </span>
+            <br><br>
+            <div class="row">
+                <div class="col-md-4" style="color: darkred; font-weight: 700"><i class="fas fa-file-medical"></i>
+                    Name:
+                </div>
+                <div class="col-md-4">
+                    <p class="font-italic">${prescription.medicineAndProcedure.medicineProcedureName}</p>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4" style="color: darkred; font-weight: 700"><i class="fas fa-medkit"></i>
+                    Treatment Type:
+                </div>
+                <div class="col-md-4">
+                    <p class="font-italic">${prescription.medicineAndProcedure.treatmentType}</p>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4" style="color: darkred; font-weight: 700"><i class="fas fa-pills"></i>
+                    Dose:
+                </div>
+                <div class="col-md-4">
+                    <p class="font-italic">${prescription.dose}</p>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4" style="color: darkred; font-weight: 700">
+                    <i class="fas fa-syringe"></i> Administering Medication Method
+                </div>
+                <div class="col-md-4">
+                    <p class="font-italic">${prescription.administeringMedicationMethod}</p>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4" style="color: darkred; font-weight: 700">
+                    <i class="far fa-clock"></i> Start Treatment:
+                </div>
+                <div class="col-md-4">
+                    <p class="font-italic">${prescription.startTreatment}</p>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4" style="color: darkred; font-weight: 700">
+                    <i class="fas fa-clock"></i> End Treatment:
+                </div>
+                <div class="col-md-4">
+                    <p class="font-italic">${prescription.endTreatment}</p>
+                </div>
+            </div>
+            <div style="color: darkred;font-weight: 700">${message}</div>
+        </div>
     </div>
-    <!-- *******MAIN CONTAINER******* -->
+
+</div>
+<!-- *******MAIN CONTAINER******* -->
 </div>
 <!--wrapper end-->
 </div>

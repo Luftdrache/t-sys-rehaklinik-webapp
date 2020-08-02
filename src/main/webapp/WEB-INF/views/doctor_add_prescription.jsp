@@ -43,7 +43,7 @@
                     </a>
                 </li>
                 <li class="item" id="show-med-record" style="font-size: 20px;">
-                    <a href="${pageContext.request.contextPath}/doctor/medical-record/${medicalRecordToEdit.medicalRecordId}"
+                    <a href="${pageContext.request.contextPath}/doctor/medical-record/${patientId}"
                        class="menu-btn">
                         <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
                     </a>

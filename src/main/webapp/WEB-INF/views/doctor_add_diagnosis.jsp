@@ -55,7 +55,7 @@
                     </a>
                 </li>
                 <li class="item" id="add-prescription" style="font-size: 20px;">
-                    <a href="#" class="menu-btn">
+                    <a href="${pageContext.request.contextPath}/doctor/add-prescription/${medrec}" class="menu-btn">
                         <i class="fas fa-tablets"></i><span>Add prescription</span>
                     </a>
                 </li>

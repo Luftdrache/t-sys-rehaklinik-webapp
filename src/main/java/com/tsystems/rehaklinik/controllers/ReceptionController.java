@@ -104,14 +104,14 @@ public class ReceptionController {
     /**
      * Returns list of all patients found in database
      *
-     * @param modelMap
+     * @param modelMap ModelMap
      * @return list of all patients found in database
      */
     @GetMapping("/start-page")
     public String showAllPatients(ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In HospitalReceptionController:  handler method showAllPatients(), GET");
         List<PatientShortViewDTO> allPatients = receptionService.showAllPatients();
-        if (allPatients != null) {
+        if (!allPatients.isEmpty()) {
             modelMap.addAttribute("allPatients", allPatients);
             logger.info("MedHelper_LOGS: The action showAllPatients() completed successfully");
         } else {

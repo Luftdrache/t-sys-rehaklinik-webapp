@@ -1,11 +1,7 @@
 package com.tsystems.rehaklinik.controllers;
 
-import com.tsystems.rehaklinik.dto.ClinicalDiagnosisDTO;
-import com.tsystems.rehaklinik.dto.MedicalRecordDTO;
-import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
-import com.tsystems.rehaklinik.entities.Prescription;
+import com.tsystems.rehaklinik.dto.*;
 import com.tsystems.rehaklinik.util.BindingCheck;
-import com.tsystems.rehaklinik.dto.PatientShortViewDTO;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
 import com.tsystems.rehaklinik.services.DoctorService;
 import org.slf4j.Logger;
@@ -32,40 +28,14 @@ public class DoctorController {
     private static final String ERROR_PAGE_JSP = "input_data_error_page";
     private static final String HOSPITALISATION_JSP = "doctor_hospitalisation";
     private static final String DIAGNOSIS_JSP = "doctor_add_diagnosis";
-    private static final String PATIENT_PRESCRIPTIONS_JSP = "doctor_patient_prescription";
+    private static final String PATIENT_PRESCRIPTIONS_JSP = "doctor_patient_prescriptions";
     private static final String ADD_PRESCRIPTION_JSP = "doctor_add_prescription";
     private static final String SHOW_SELECTED_PRESCRIPTION = "doctor_selected_prescription";
 
-    //In process
-    @GetMapping("/add-prescription/{id}")
-    public String addPrescription(@PathVariable("id") int id, ModelMap modelMap) {
-        logger.info("MedHelper_LOGS: InDoctorController - handler method addPrescriptionForm(), GET");
-        modelMap.addAttribute("patientId", id);
-        return ADD_PRESCRIPTION_JSP;
-    }
-
-    //In process
-    @PostMapping("/add-prescription")
-    public String addPrescription(@Valid @ModelAttribute("newPrescription") Prescription prescription,
-                                  BindingResult bindingResult, ModelMap modelMap) {
-
-        logger.info("MedHelper_LOGS: In DoctorController - handler method addPrescription(), POST");
-        if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
-            return ERROR_PAGE_JSP;
-        }
-        Prescription newPrescription = doctorService.addPrescription(prescription);
-        logger.info("MedHelper_LOGS: DoctorController: addPrescription(POST): new prescription added: " + prescription);
-        modelMap.addAttribute("prescription", newPrescription);
-        return SHOW_SELECTED_PRESCRIPTION;
-    }
 
 
-    @GetMapping("/show-prescription/{id}")
-    public String showPrescriptionById(@PathVariable("id") int id, ModelMap modelMap) {
-        return PATIENT_PRESCRIPTIONS_JSP;
-    }
 
-
+//**********************************************************************************************************************
 //    @GetMapping("/medical-record/diagnosis/{id}")
 //    public String fillOutDiagnosis(@PathVariable("id") int id, ModelMap modelMap) {
 //        logger.info("MedHelper_LOGS: In DoctorController - handler method fillOutDiagnosis(), GET");
@@ -93,17 +63,6 @@ public class DoctorController {
 //    }
 
 
-//    @PostMapping("/add-prescription")
-//    public String addPrescription(ModelMap modelMap) {
-//        throw new UnsupportedOperationException("Not implemented yet");
-//    }
-
-//    @PostMapping("/discharge-patient")
-//    public String dischargePatient() {
-//        throw new UnsupportedOperationException("Not implemented yet");
-//    }
-
-
 //
 //    @PostMapping("/edit")
 //    public String fillOutMedicalRecord(@Valid @ModelAttribute("editedMedRecord") MedicalRecord medRecord,
@@ -124,9 +83,97 @@ public class DoctorController {
 //    }
 
 //**********************************************************************************************************************
+
+    /**
+     * Deleting prescription by id
+     *
+     * @param prescriptionIdToDelete prescription id to delete
+     * @param patientId patient id to redirect back after deleting a prescription
+     * @param modelMap ModelMap
+     * @return page with all patient's prescriptions
+     */
+    @PostMapping("/delete-prescription")
+    public String deletePrescriptionById(@RequestParam("prescriptionIdToDelete") int prescriptionIdToDelete,
+                                         @RequestParam("patient") int patientId,
+                                         ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method deletePrescriptionById()");
+        boolean deletingResult = doctorService.deletePrescription(prescriptionIdToDelete);
+        if (!deletingResult) {
+            logger.info("MedHelper_LOGS:  DoctorController: failed to delete prescription wint id = " + prescriptionIdToDelete);
+            modelMap.addAttribute("message", "Failed to delete prescription");
+        } else {
+            logger.info("MedHelper_LOGS: deletePrescriptionById() action was completed successfully");
+        }
+        return "redirect:/doctor/show-prescription/" + patientId;
+    }
+
+
+    /**
+     * Shows page with all patient's prescriptions
+     *
+     * @param id       patient's id
+     * @param modelMap ModelMap with prescriptions list or a message about no result
+     * @return page with all patient's prescriptions
+     */
+    @GetMapping("/show-prescription/{id}")
+    public String showAllPrescriptionByPatientId(@PathVariable("id") int id, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method showPrescriptionById(), GET");
+        List<PrescriptionShortViewDTO> prescriptionDTOS = doctorService.findAllPatientsPrescription(id);
+        if (!prescriptionDTOS.isEmpty()) {
+            modelMap.addAttribute("patientPrescriptionsList", prescriptionDTOS);
+            modelMap.addAttribute("patientId", id);
+            logger.info("MedHelper_LOGS: The action showPrescriptionById() completed successfully");
+        } else {
+            modelMap.addAttribute("patientPrescriptionsMessage",
+                    "INFO: Patient has no any prescriptions yet");
+            logger.info("MedHelper_LOGS: The action showPrescriptionById() returned null");
+        }
+        return PATIENT_PRESCRIPTIONS_JSP;
+    }
+
+
+    /**
+     * Adds new prescription
+     *
+     * @param prescriptionDTO PrescriptionDTO
+     * @param bindingResult   binding result
+     * @param modelMap        ModelMap with data for prescription details page
+     * @return page with prescription details
+     */
+    @PostMapping("/add-prescription")
+    public String addPrescription(@Valid @ModelAttribute("newPrescription") PrescriptionDTO prescriptionDTO,
+                                  BindingResult bindingResult, ModelMap modelMap) {
+
+        logger.info("MedHelper_LOGS: In DoctorController - handler method addPrescription(), POST");
+        if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
+            return ERROR_PAGE_JSP;
+        }
+        PrescriptionDTO newPrescription = doctorService.addPrescription(prescriptionDTO);
+        logger.info("MedHelper_LOGS: DoctorController: addPrescription(POST): new prescription added: " + prescriptionDTO);
+        modelMap.addAttribute("prescription", newPrescription);
+        return SHOW_SELECTED_PRESCRIPTION;
+    }
+
+
+    /**
+     * Shows form for new prescription adding
+     *
+     * @param id       patient's id
+     * @param modelMap Model Map with patient's id
+     * @return form for filling in information about a new prescription
+     */
+    @GetMapping("/add-prescription/{id}")
+    public String addPrescription(@PathVariable("id") int id, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: InDoctorController - handler method addPrescriptionForm(), GET");
+        modelMap.addAttribute("patientId", id);
+        return ADD_PRESCRIPTION_JSP;
+    }
+
+
     /**
      * Return form to add new clinical diagnosis
-     * @param id current medical record id
+     *
+     * @param id       current medical record id
      * @param modelMap ModelMap with current medical record id
      * @return form to add new clinical diagnosis
      */
@@ -139,10 +186,11 @@ public class DoctorController {
 
     /**
      * Adds new diagnosis to current medical record
-     * @param medRecordId current medical record id
+     *
+     * @param medRecordId       current medical record id
      * @param clinicalDiagnosis clinical diagnosis to add
-     * @param bindingResult binding result
-     * @param modelMap ModelMap with updated medical record
+     * @param bindingResult     binding result
+     * @param modelMap          ModelMap with updated medical record
      * @return page with medical record with added clinical diagnosis
      */
     @PostMapping("/medical-record/add-diagnosis/{id}")

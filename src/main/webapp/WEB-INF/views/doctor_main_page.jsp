@@ -95,7 +95,7 @@
                                 <i class="fas fa-file-medical-alt"></i>
                             </button>
                         </form>
-                        <form action="${pageContext.request.contextPath}/doctor//show-prescription/${pat.patientId}"
+                        <form action="${pageContext.request.contextPath}/doctor/show-prescription/${pat.patientId}"
                               method="get">
                             <button type="submit" class="btn btn-primary btn-sm" value="Prescriptions"
                                     style="background-color: yellowgreen">

@@ -53,7 +53,7 @@
                     </a>
                 </li>
                 <li class="item" id="#specify-diagnosis" style="font-size: 20px;">
-                    <a href="${pageContext.request.contextPath}/doctor/medical-record/edit/${medrec}"
+                    <a href="${pageContext.request.contextPath}/doctor/medical-record/add-diagnosis/${medrec}"
                        class="menu-btn">
                         <i class="fas fa-stethoscope"></i><span>Specify diagnosis</span>
                     </a>

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -76,7 +77,7 @@ public class ReceptionServiceImpl implements ReceptionService {
             }
             return patientsDTO;
         }
-        return null;
+        return Collections.emptyList();
     }
 
 

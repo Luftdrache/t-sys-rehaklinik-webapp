@@ -31,11 +31,9 @@ public class Prescription implements Serializable {
     @Column(name = "administering_medication_method", length = 30)
     private String administeringMedicationMethod;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "start_treatment", nullable = false)
     private LocalDate startTreatment;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "end_treatment", nullable = false)
     private LocalDate endTreatment;
 

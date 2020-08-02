@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/admin/**").authenticated()
 //                .antMatchers("/reception/**").authenticated()
 //                .antMatchers("/doctor/**").authenticated()
-                .and()
+                .and().csrf().disable()//DELETE AFTER!!!!!!
                 .formLogin()
                 .loginPage("/auth/login")
 //                .loginProcessingUrl()
