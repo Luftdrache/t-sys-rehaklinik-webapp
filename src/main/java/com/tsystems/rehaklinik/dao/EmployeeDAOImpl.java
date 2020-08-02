@@ -31,7 +31,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public List<Employee> findAllDoctors() {
         logger.info("MedHelper_LOGS: EmployeeDAO: Find all doctors");
         return entityManager.createQuery(
-                "SELECT e FROM Employee e WHERE e.role = :doctor", Employee.class
+                "SELECT e FROM Employee e WHERE e.role = :doctor ORDER BY e.position", Employee.class
         ).setParameter("doctor", Roles.DOCTOR).getResultList();
     }
 

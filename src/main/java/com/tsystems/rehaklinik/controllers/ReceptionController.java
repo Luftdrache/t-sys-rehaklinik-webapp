@@ -67,7 +67,7 @@ public class ReceptionController {
 
 
     @GetMapping("/edit-patient-data/{id}")
-    public String editPatientDataForm(@PathVariable("id") int id, ModelMap modelMap) {
+    public String editPatientData(@PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In ReceptionController - handler method editPatientDataForm(), GET");
         Patient patientToEdit = receptionService.getPatientById(id);
         modelMap.addAttribute("patientToEdit", patientToEdit);

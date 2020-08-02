@@ -32,7 +32,7 @@
              style="width: 100%; height: 80%; position: relative" class="shadow-lg" alt="Error image loading">
     </div>
     <div style="left: 40%; top: 42%; width: 19%; position: absolute;">
-        <form>
+        <form action="/login/process" method="post">
             <div class="input-group form-group">
                 <label>
                     <input type="text" class="form-control" placeholder="username" style="background-color: whitesmoke">
