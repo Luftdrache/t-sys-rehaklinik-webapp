@@ -34,6 +34,38 @@ public class DoctorServiceImpl implements DoctorService {
 
 
     @Override
+    public PrescriptionShortViewDTO editPrescription(PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO) {
+        Prescription prescriptionToEdit = prescriptionDAO.findPrescriptionById(prescriptionTreatmentPatternDTO.getPrescriptionId());
+        prescriptionToEdit.getMedicineAndProcedure().setMedicineProcedureId(prescriptionTreatmentPatternDTO.getMedicineProcedureId());
+        prescriptionToEdit.getMedicineAndProcedure().setMedicineProcedureName(prescriptionTreatmentPatternDTO.getMedicineProcedureName());
+        prescriptionToEdit.getMedicineAndProcedure().setTreatmentType(prescriptionTreatmentPatternDTO.getTreatmentType());
+        prescriptionToEdit.setDose(prescriptionTreatmentPatternDTO.getDose());
+        prescriptionToEdit.setAdministeringMedicationMethod(prescriptionTreatmentPatternDTO.getAdministeringMedicationMethod());
+        prescriptionToEdit.setStartTreatment(prescriptionTreatmentPatternDTO.getStartTreatment());
+        prescriptionToEdit.setEndTreatment(prescriptionTreatmentPatternDTO.getEndTreatment());
+        prescriptionToEdit.getTreatmentTimePattern().setTreatmentTimePatternId(prescriptionTreatmentPatternDTO.getTreatmentTimePatternId());
+        prescriptionToEdit.getTreatmentTimePattern().setCountPerDay(prescriptionTreatmentPatternDTO.getCountPerDay());
+        prescriptionToEdit.getTreatmentTimePattern().setSunday(prescriptionTreatmentPatternDTO.isSunday());
+        prescriptionToEdit.getTreatmentTimePattern().setMonday(prescriptionTreatmentPatternDTO.isMonday());
+        prescriptionToEdit.getTreatmentTimePattern().setTuesday(prescriptionTreatmentPatternDTO.isTuesday());
+        prescriptionToEdit.getTreatmentTimePattern().setWednesday(prescriptionTreatmentPatternDTO.isWednesday());
+        prescriptionToEdit.getTreatmentTimePattern().setThursday(prescriptionTreatmentPatternDTO.isThursday());
+        prescriptionToEdit.getTreatmentTimePattern().setFriday(prescriptionTreatmentPatternDTO.isFriday());
+        prescriptionToEdit.getTreatmentTimePattern().setSaturday(prescriptionTreatmentPatternDTO.isSaturday());
+        prescriptionToEdit.getTreatmentTimePattern().setBeforeMeals(prescriptionTreatmentPatternDTO.isBeforeMeals());
+        prescriptionToEdit.getTreatmentTimePattern().setAfterMeals(prescriptionTreatmentPatternDTO.isAfterMeals());
+        prescriptionToEdit.getTreatmentTimePattern().setAtMeals(prescriptionTreatmentPatternDTO.isAtMeals());
+        return new PrescriptionShortViewDTO(prescriptionDAO.updatePrescription(prescriptionToEdit));
+    }
+
+    @Override
+    public PrescriptionTreatmentPatternDTO findPrescriptionById(int prescriptionId) {
+        Prescription prescription = prescriptionDAO.findPrescriptionById(prescriptionId);
+        return new PrescriptionTreatmentPatternDTO(prescription);
+    }
+
+
+    @Override
     public boolean deletePrescription(int prescriptionId) {
         boolean result = prescriptionDAO.deletePrescriptionById(prescriptionId);
         logger.info("MedHelper_LOGS: DoctorServiceImpl: result of deleting is " + result);
@@ -44,7 +76,7 @@ public class DoctorServiceImpl implements DoctorService {
     public List<PrescriptionShortViewDTO> findAllPatientsPrescription(int patientId) {
         List<Prescription> prescriptions = prescriptionDAO.fidAllPrescriptionsByPatientId(patientId);
         List<PrescriptionShortViewDTO> prescriptionDTOS = new ArrayList<>();
-        if(prescriptions!=null) {
+        if (prescriptions != null) {
             for (Prescription p : prescriptions) {
                 prescriptionDTOS.add(new PrescriptionShortViewDTO(p));
             }
@@ -52,8 +84,6 @@ public class DoctorServiceImpl implements DoctorService {
         }
         return Collections.emptyList();
     }
-
-
 
 
     @Override

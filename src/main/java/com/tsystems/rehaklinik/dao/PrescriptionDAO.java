@@ -11,5 +11,7 @@ public interface PrescriptionDAO {
 
     boolean deletePrescriptionById(int id);
 
+    Prescription updatePrescription(Prescription editedPrescription);
+
     Prescription findPrescriptionById(int id);
 }

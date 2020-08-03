@@ -23,4 +23,8 @@ public interface DoctorService {
     boolean deletePrescription(int prescriptionId);
 
     List<PrescriptionShortViewDTO> findAllPatientsPrescription(int patientId);
+
+    PrescriptionTreatmentPatternDTO findPrescriptionById(int prescriptionId);
+
+    PrescriptionShortViewDTO editPrescription(PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO);
 }

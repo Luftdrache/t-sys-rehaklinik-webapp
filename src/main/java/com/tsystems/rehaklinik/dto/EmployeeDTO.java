@@ -5,11 +5,19 @@ import com.tsystems.rehaklinik.entities.Patient;
 import com.tsystems.rehaklinik.entities.WorkingSchedule;
 import com.tsystems.rehaklinik.types.QualificationCategories;
 import com.tsystems.rehaklinik.types.Roles;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeDTO {
 
     private int employeeId;

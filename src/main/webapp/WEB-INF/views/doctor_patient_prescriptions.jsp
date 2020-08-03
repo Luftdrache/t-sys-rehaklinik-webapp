@@ -104,7 +104,7 @@
                                 <i class="fas fa-eye"></i>
                             </button>
                         </form>
-                        <form action="${pageContext.request.contextPath}/admin/edit/${patPrescription.prescriptionId}"
+                        <form action="${pageContext.request.contextPath}/doctor/edit-prescription/${patPrescription.prescriptionId}"
                               method="get">
                             <button type="submit" class="btn btn-primary btn-sm" value="Edit"
                                     style="background-color: yellowgreen">

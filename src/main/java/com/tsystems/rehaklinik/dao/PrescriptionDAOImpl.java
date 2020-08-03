@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 
@@ -24,6 +25,24 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Override
+    public Prescription updatePrescription(Prescription editedPrescription) {
+        int id = editedPrescription.getPrescriptionId();
+        logger.info("MedHelper_LOGS: PrescriptionDAOImpl: received prescription with id = "
+                + id + " to update");
+        if (id != 0 && entityManager.find(Prescription.class, id) != null) {
+            try {
+                Prescription prescription = entityManager.merge(editedPrescription);
+                logger.info("MedHelper_LOGS: PrescriptionDAOImpl: Successful attempt to edit prescription with an id = " + id);
+                return prescription;
+            } catch (PersistenceException exception) {
+                logger.info(exception.getMessage());
+            }
+        }
+        logger.info("MedHelper_LOGS: PrescriptionDAOImpl: Failed attempt to edit prescription with an id = " + id);
+        return null;
+    }
 
 
     @Override
