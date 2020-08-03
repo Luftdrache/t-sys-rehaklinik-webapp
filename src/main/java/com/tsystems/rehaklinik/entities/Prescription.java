@@ -45,6 +45,6 @@ public class Prescription implements Serializable {
     @JoinColumn(name = "treatment_time_pattern_id", referencedColumnName = "treatment_time_pattern_id", nullable = false)
     private TreatmentTimePattern treatmentTimePattern;
 
-    @OneToMany(mappedBy = "prescription")
+    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL)
     private List<TreatmentEvent> treatmentEvents;
 }

@@ -18,13 +18,6 @@ import java.util.List;
 public class TreatmentTimePatternDTO {
     private int treatmentTimePatternId;
 
-    @PositiveOrZero (message = "Count per day must be null or positive")
-    private int countPerDay;
-
-    private boolean beforeMeals;
-    private boolean atMeals;
-    private boolean afterMeals;
-
     private boolean sunday;
     private boolean monday;
     private boolean tuesday;
@@ -34,6 +27,13 @@ public class TreatmentTimePatternDTO {
     private boolean saturday;
 
     private LocalTime precisionTime;
+
+    @PositiveOrZero (message = "Interval must be null or positive")
+    private int intervalInHours;
+
+    private boolean beforeMeals;
+    private boolean atMeals;
+    private boolean afterMeals;
 
     private List<PrescriptionDTO> prescriptions;
 }

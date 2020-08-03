@@ -119,18 +119,18 @@
                     <input type="hidden" id="patient"
                            name="patient.patientId" value="${patientId}"/>
                     <div class="form-group">
-                        <label for="countPerDay" class="col-sm-4 control-label">Count Per Day</label>
+                        <label for="intervalInHours" class="col-sm-4 control-label">Interval in Hours</label>
                         <div class="col-sm-6">
-                            <input type="number" id="countPerDay" name="treatmentTimePattern.countPerDay"
-                                   placeholder="Count Per Day" class="form-control"
+                            <input type="number" id="intervalInHours" name="treatmentTimePattern.intervalInHours"
+                                   placeholder="Interval In Hours" class="form-control"
                                    value="0" min="0">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="precisionTime" class="col-sm-4 control-label">Time</label>
+                        <label for="precisionTime" class="col-sm-4 control-label">Start Interval/precision Time</label>
                         <div class="col-sm-6">
                             <input type="time" id="precisionTime" name="treatmentTimePattern.precisionTime"
-                                   placeholder="Count Per Day" class="form-control">
+                                   class="form-control">
                         </div>
                     </div>
                     <br>

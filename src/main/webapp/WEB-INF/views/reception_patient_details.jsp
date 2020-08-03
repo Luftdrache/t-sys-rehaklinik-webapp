@@ -30,7 +30,7 @@
     <div class="sidebar">
         <div class="sidebar-menu">
             <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/reception-avt.jpg" alt="">
+                <img src="${pageContext.request.contextPath}/resources/images/reception-avt-2.jpg" alt="">
                 <p>Receptionist</p>
             </center>
             <ul>

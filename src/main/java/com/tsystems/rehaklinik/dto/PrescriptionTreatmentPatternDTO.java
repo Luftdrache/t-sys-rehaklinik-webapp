@@ -46,8 +46,8 @@ public class PrescriptionTreatmentPatternDTO {
 
     private int treatmentTimePatternId;
 
-    @PositiveOrZero(message = "Count per day must be null or positive")
-    private int countPerDay;
+    @PositiveOrZero(message = "Interval In Hours must be null or positive")
+    private int intervalInHours;
 
     private boolean beforeMeals;
     private boolean atMeals;
@@ -75,7 +75,7 @@ public class PrescriptionTreatmentPatternDTO {
         this.startTreatment = prescription.getStartTreatment();
         this.endTreatment = prescription.getEndTreatment();
         this.treatmentTimePatternId =  prescription.getTreatmentTimePattern().getTreatmentTimePatternId();
-        this.countPerDay = prescription.getTreatmentTimePattern().getCountPerDay();
+        this.intervalInHours = prescription.getTreatmentTimePattern().getIntervalInHours();
         this.beforeMeals = prescription.getTreatmentTimePattern().isBeforeMeals();
         this.atMeals = prescription.getTreatmentTimePattern().isAtMeals();
         this.afterMeals = prescription.getTreatmentTimePattern().isAfterMeals();

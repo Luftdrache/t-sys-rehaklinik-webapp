@@ -4,12 +4,10 @@ package com.tsystems.rehaklinik.services;
 import com.tsystems.rehaklinik.converters.DTOconverters.ClinicalDiagnoseMapper;
 import com.tsystems.rehaklinik.converters.DTOconverters.MedicalRecordMapper;
 import com.tsystems.rehaklinik.converters.DTOconverters.PrescriptionMapper;
+import com.tsystems.rehaklinik.converters.DTOconverters.PrescriptionTreatmentPatternDTOConverter;
 import com.tsystems.rehaklinik.dao.*;
 import com.tsystems.rehaklinik.dto.*;
-import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
-import com.tsystems.rehaklinik.entities.MedicalRecord;
-import com.tsystems.rehaklinik.entities.Patient;
-import com.tsystems.rehaklinik.entities.Prescription;
+import com.tsystems.rehaklinik.entities.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,32 +29,18 @@ public class DoctorServiceImpl implements DoctorService {
     private final MedicalRecordDAO medicalRecordDAO;
     private final ClinicalDiagnosisDAO clinicalDiagnosisDAO;
     private final PrescriptionDAO prescriptionDAO;
+    private final TreatmentEventService treatmentEventService;
+    private final TreatmentEventDAO treatmentEventDAO;
 
 
     @Override
     public PrescriptionShortViewDTO editPrescription(PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO) {
         Prescription prescriptionToEdit = prescriptionDAO.findPrescriptionById(prescriptionTreatmentPatternDTO.getPrescriptionId());
-        prescriptionToEdit.getMedicineAndProcedure().setMedicineProcedureId(prescriptionTreatmentPatternDTO.getMedicineProcedureId());
-        prescriptionToEdit.getMedicineAndProcedure().setMedicineProcedureName(prescriptionTreatmentPatternDTO.getMedicineProcedureName());
-        prescriptionToEdit.getMedicineAndProcedure().setTreatmentType(prescriptionTreatmentPatternDTO.getTreatmentType());
-        prescriptionToEdit.setDose(prescriptionTreatmentPatternDTO.getDose());
-        prescriptionToEdit.setAdministeringMedicationMethod(prescriptionTreatmentPatternDTO.getAdministeringMedicationMethod());
-        prescriptionToEdit.setStartTreatment(prescriptionTreatmentPatternDTO.getStartTreatment());
-        prescriptionToEdit.setEndTreatment(prescriptionTreatmentPatternDTO.getEndTreatment());
-        prescriptionToEdit.getTreatmentTimePattern().setTreatmentTimePatternId(prescriptionTreatmentPatternDTO.getTreatmentTimePatternId());
-        prescriptionToEdit.getTreatmentTimePattern().setCountPerDay(prescriptionTreatmentPatternDTO.getCountPerDay());
-        prescriptionToEdit.getTreatmentTimePattern().setSunday(prescriptionTreatmentPatternDTO.isSunday());
-        prescriptionToEdit.getTreatmentTimePattern().setMonday(prescriptionTreatmentPatternDTO.isMonday());
-        prescriptionToEdit.getTreatmentTimePattern().setTuesday(prescriptionTreatmentPatternDTO.isTuesday());
-        prescriptionToEdit.getTreatmentTimePattern().setWednesday(prescriptionTreatmentPatternDTO.isWednesday());
-        prescriptionToEdit.getTreatmentTimePattern().setThursday(prescriptionTreatmentPatternDTO.isThursday());
-        prescriptionToEdit.getTreatmentTimePattern().setFriday(prescriptionTreatmentPatternDTO.isFriday());
-        prescriptionToEdit.getTreatmentTimePattern().setSaturday(prescriptionTreatmentPatternDTO.isSaturday());
-        prescriptionToEdit.getTreatmentTimePattern().setBeforeMeals(prescriptionTreatmentPatternDTO.isBeforeMeals());
-        prescriptionToEdit.getTreatmentTimePattern().setAfterMeals(prescriptionTreatmentPatternDTO.isAfterMeals());
-        prescriptionToEdit.getTreatmentTimePattern().setAtMeals(prescriptionTreatmentPatternDTO.isAtMeals());
+        prescriptionToEdit = PrescriptionTreatmentPatternDTOConverter.convertFromDTO(prescriptionToEdit, prescriptionTreatmentPatternDTO);
         return new PrescriptionShortViewDTO(prescriptionDAO.updatePrescription(prescriptionToEdit));
     }
+
+
 
     @Override
     public PrescriptionTreatmentPatternDTO findPrescriptionById(int prescriptionId) {
@@ -90,9 +74,13 @@ public class DoctorServiceImpl implements DoctorService {
     public PrescriptionDTO addPrescription(PrescriptionDTO prescriptionDTO) {
         Prescription prescription = PrescriptionMapper.INSTANCE.fromDTO(prescriptionDTO);
         Prescription newPrescription = prescriptionDAO.createPrescription(prescription);
-        PrescriptionDTO savedPrescriprionDTO = PrescriptionMapper.INSTANCE.toDTO(newPrescription);
-//        generateEvents(newPrescription);
-        return savedPrescriprionDTO;
+        PrescriptionDTO savedPrescriptionDTO = PrescriptionMapper.INSTANCE.toDTO(newPrescription);
+        List<TreatmentEvent> treatmentEventList = treatmentEventService.generateTreatmentEvents(newPrescription);
+        for (TreatmentEvent tEvent: treatmentEventList) {
+            treatmentEventDAO.createTreatmentEvent(tEvent);
+        }
+
+        return savedPrescriptionDTO;
     }
 
 
@@ -152,10 +140,12 @@ public class DoctorServiceImpl implements DoctorService {
 
 
     @Autowired
-    public DoctorServiceImpl(PatientDAO patientDAO, MedicalRecordDAO medicalRecordDAO, ClinicalDiagnosisDAO clinicalDiagnosisDAO, PrescriptionDAO prescriptionDAO) {
+    public DoctorServiceImpl(PatientDAO patientDAO, MedicalRecordDAO medicalRecordDAO, ClinicalDiagnosisDAO clinicalDiagnosisDAO, PrescriptionDAO prescriptionDAO, TreatmentEventService treatmentEventService, TreatmentEventDAO treatmentEventDAO) {
         this.patientDAO = patientDAO;
         this.medicalRecordDAO = medicalRecordDAO;
         this.clinicalDiagnosisDAO = clinicalDiagnosisDAO;
         this.prescriptionDAO = prescriptionDAO;
+        this.treatmentEventService = treatmentEventService;
+        this.treatmentEventDAO = treatmentEventDAO;
     }
 }

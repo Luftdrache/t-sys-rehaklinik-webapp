@@ -135,86 +135,86 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="precisionTime" class="col-sm-4 control-label">Precision Time</label>
+                        <label for="precisionTime" class="col-sm-4 control-label">Start Interval/precision Time</label>
                         <div class="col-sm-6">
                             <input type="time" id="precisionTime" value="${prescriptionToEdit.precisionTime}"
-                                   name="precisionTime" placeholder="Precision Time" class="form-control">
+                                   name="precisionTime" placeholder="Time" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="countPerDay" class="col-sm-4 control-label">Count per Day</label>
+                        <label for="intervalInHours" class="col-sm-4 control-label">Interval In Hours</label>
                         <div class="col-sm-6">
-                            <input type="number" id="countPerDay" value="${prescriptionToEdit.countPerDay}"
-                                   name="countPerDay" placeholder="Count per Day" class="form-control">
+                            <input type="number" id="intervalInHours" value="${prescriptionToEdit.intervalInHours}"
+                                   name="intervalInHours" placeholder="Interval In Hours" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="sunday" class="col-sm-4 control-label">Sunday</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" id="sunday" value="${prescriptionToEdit.sunday}"
+                            <input type="checkbox" id="sunday" checked="${prescriptionToEdit.sunday}"
                                    name="sunday" placeholder="Sunday">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="monday" class="col-sm-4 control-label">Monday</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" id="monday" value="${prescriptionToEdit.monday}"
+                            <input type="checkbox" id="monday" checked="${prescriptionToEdit.monday}"
                                    name="monday" placeholder="Monday">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="tuesday" class="col-sm-4 control-label">Tuesday</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" id="tuesday" value="${prescriptionToEdit.tuesday}"
+                            <input type="checkbox" id="tuesday" checked="${prescriptionToEdit.tuesday}"
                                    name="tuesday" placeholder="Tuesday">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="wednesday" class="col-sm-4 control-label">Wednesday</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" id="wednesday" value="${prescriptionToEdit.wednesday}"
+                            <input type="checkbox" id="wednesday" checked="${prescriptionToEdit.wednesday}"
                                    name="wednesday" placeholder="Wednesday">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="thursday" class="col-sm-4 control-label">Thursday</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" id="thursday" value="${prescriptionToEdit.thursday}"
+                            <input type="checkbox" id="thursday" checked="${prescriptionToEdit.thursday}"
                                    name="thursday" placeholder="Thursday">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="friday" class="col-sm-4 control-label">Friday</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" id="friday" value="${prescriptionToEdit.friday}"
+                            <input type="checkbox" id="friday" checked="${prescriptionToEdit.friday}"
                                    name="friday" placeholder="Friday">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="saturday" class="col-sm-4 control-label">Saturday</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" id="saturday" value="${prescriptionToEdit.saturday}"
+                            <input type="checkbox" id="saturday" checked="${prescriptionToEdit.saturday}"
                                    name="saturday" placeholder="Saturday">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="beforeMeals" class="col-sm-4 control-label">Before Meals</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" id="beforeMeals" value="${prescriptionToEdit.beforeMeals}"
+                            <input type="checkbox" id="beforeMeals" checked="${prescriptionToEdit.beforeMeals}"
                                    name="beforeMeals" placeholder="Before Meals">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="atMeals" class="col-sm-4 control-label">At Meals</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" id="atMeals" value="${prescriptionToEdit.atMeals}"
+                            <input type="checkbox" id="atMeals" checked="${prescriptionToEdit.atMeals}"
                                    name="atMeals" placeholder="At Meals">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="afterMeals" class="col-sm-4 control-label">After Meals</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" id="afterMeals" value="${prescriptionToEdit.afterMeals}"
+                            <input type="checkbox" id="afterMeals" checked="${prescriptionToEdit.afterMeals}"
                                    name="afterMeals" placeholder="After Meals">
                         </div>
                     </div>

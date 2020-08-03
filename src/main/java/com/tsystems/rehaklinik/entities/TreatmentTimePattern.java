@@ -21,16 +21,6 @@ public class TreatmentTimePattern implements Serializable {
     @Column(name = "treatment_time_pattern_id", nullable = false, length = 11)
     private int treatmentTimePatternId;
 
-    @Column(name = "count_per_day", length = 2)
-    private int countPerDay;
-
-    @Column(name = "before_meals")
-    private boolean beforeMeals;
-    @Column(name = "at_meals")
-    private boolean atMeals;
-    @Column(name = "after_meals")
-    private boolean afterMeals;
-
     @Column(name = "Sunday")
     private boolean sunday;
     @Column(name = "Monday")
@@ -49,6 +39,16 @@ public class TreatmentTimePattern implements Serializable {
     @Column(name="precision_time")
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime precisionTime;
+
+    @Column(name = "interval_in_hours", length = 2)
+    private int intervalInHours;
+
+    @Column(name = "before_meals")
+    private boolean beforeMeals;
+    @Column(name = "at_meals")
+    private boolean atMeals;
+    @Column(name = "after_meals")
+    private boolean afterMeals;
 
     @OneToMany(mappedBy = "treatmentTimePattern", cascade = CascadeType.ALL)
     private List<Prescription> prescriptions;

@@ -111,6 +111,14 @@
                                 <i class="fas fa-edit"></i>
                             </button>
                         </form>
+                        <form action="" method="post">
+                            <input type="hidden" name="patient" value="${patientId}">
+                            <input type="hidden" name="prescriptionIdToCancel" value="${patPrescription.prescriptionId}">
+                            <button type="submit" class="btn btn-primary btn-sm" value="Cancel"
+                                    style="background-color: yellowgreen">
+                                <i class="fas fa-ban"></i>
+                            </button>
+                        </form>
                         <form action="${pageContext.request.contextPath}/doctor/delete-prescription" method="post">
                             <input type="hidden" name="patient" value="${patientId}">
                             <input type="hidden" name="prescriptionIdToDelete" value="${patPrescription.prescriptionId}">

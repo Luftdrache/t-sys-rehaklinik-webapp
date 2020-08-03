@@ -26,6 +26,19 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
+
+    @Override
+    public Prescription createPrescription(Prescription prescription) {
+        logger.info("MedHelper_LOGS: PrescriptionDAO: Add new prescription");
+        entityManager.persist(prescription);
+        logger.info("MedHelper_LOGS:  PrescriptionDAO: Added new prescription for patient: "
+                + prescription.getPatient().getFirstName()
+                + prescription.getPatient().getMiddleName()
+                + prescription.getPatient().getSurname());
+        return prescription;
+    }
+
+
     @Override
     public Prescription updatePrescription(Prescription editedPrescription) {
         int id = editedPrescription.getPrescriptionId();
@@ -45,16 +58,6 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
     }
 
 
-    @Override
-    public Prescription createPrescription(Prescription prescription) {
-        logger.info("MedHelper_LOGS: PrescriptionDAO: Add new prescription");
-        entityManager.persist(prescription);
-        logger.info("MedHelper_LOGS:  PrescriptionDAO: Added new prescription for patient: "
-                + prescription.getPatient().getFirstName()
-                + prescription.getPatient().getMiddleName()
-                + prescription.getPatient().getSurname());
-        return prescription;
-    }
 
 
     @Override

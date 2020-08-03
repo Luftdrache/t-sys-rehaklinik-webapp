@@ -122,6 +122,7 @@ public class DoctorController {
         if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
             return ERROR_PAGE_JSP;
         }
+        System.out.println(prescriptionTreatmentPatternDTO);
         int patientId = prescriptionTreatmentPatternDTO.getPatientId();
         doctorService.editPrescription(prescriptionTreatmentPatternDTO);
 
