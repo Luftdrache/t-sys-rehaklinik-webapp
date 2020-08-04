@@ -111,7 +111,7 @@
                                 <i class="fas fa-edit"></i>
                             </button>
                         </form>
-                        <form action="" method="post">
+                        <form action="${pageContext.request.contextPath}/doctor/cancel-prescription" method="post">
                             <input type="hidden" name="patient" value="${patientId}">
                             <input type="hidden" name="prescriptionIdToCancel" value="${patPrescription.prescriptionId}">
                             <button type="submit" class="btn btn-primary btn-sm" value="Cancel"

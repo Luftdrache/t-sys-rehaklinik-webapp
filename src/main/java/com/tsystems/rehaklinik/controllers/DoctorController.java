@@ -33,7 +33,28 @@ public class DoctorController {
     private static final String SHOW_SELECTED_PRESCRIPTION = "doctor_selected_prescription";
     private static final String EDIT_SELECTED_PRESCRIPTION = "doctor_edit_selected_prescription";
 
+    @PostMapping("/cancel-prescription")
+    public String cancelSelectedPrescription(@RequestParam("prescriptionIdToCancel") int prescriptionIdToCancel, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method cancelSelectedPrescription(), POST");
+        boolean opCancellingResult = doctorService.cancelPrescription(prescriptionIdToCancel);
+        return null; //Вернуть страницу с событиями пациента (создать)
+    }
 
+
+//    @PostMapping("/delete-prescription")
+//    public String deletePrescriptionById(@RequestParam("prescriptionIdToDelete") int prescriptionIdToDelete,
+//                                         @RequestParam("patient") int patientId,
+//                                         ModelMap modelMap) {
+//        logger.info("MedHelper_LOGS: In DoctorController - handler method deletePrescriptionById()");
+//        boolean deletingResult = doctorService.deletePrescription(prescriptionIdToDelete);
+//        if (!deletingResult) {
+//            logger.info("MedHelper_LOGS:  DoctorController: failed to delete prescription wint id = " + prescriptionIdToDelete);
+//            modelMap.addAttribute("message", "Failed to delete prescription");
+//        } else {
+//            logger.info("MedHelper_LOGS: deletePrescriptionById() action was completed successfully");
+//        }
+//        return "redirect:/doctor/show-prescription/" + patientId;
+//    }
 
 
 //**********************************************************************************************************************
@@ -88,7 +109,7 @@ public class DoctorController {
     /**
      * Returns form to edit selected prescription
      *
-     * @param id prescription id to edit a prescription
+     * @param id       prescription id to edit a prescription
      * @param modelMap ModelMap with selected prescription data
      * @return form to edit selected prescription
      */
@@ -110,8 +131,8 @@ public class DoctorController {
      * Updates selected patient's prescriptions
      *
      * @param prescriptionTreatmentPatternDTO edited prescription data to update selected prescription
-     * @param bindingResult Binding result
-     * @param modelMap ModelMap
+     * @param bindingResult                   Binding result
+     * @param modelMap                        ModelMap
      * @return page with all patient's prescriptions
      */
     @PostMapping("/edit-prescription")

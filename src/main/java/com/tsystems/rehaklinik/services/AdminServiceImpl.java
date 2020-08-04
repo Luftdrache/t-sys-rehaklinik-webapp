@@ -23,7 +23,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Employee getEmployee(int employeeId) {
-       return employeeDAO.findEmployeeById(employeeId);
+        return employeeDAO.findEmployeeById(employeeId);
     }
 
     @Override
@@ -85,15 +85,6 @@ public class AdminServiceImpl implements AdminService {
         return null;
     }
 
-
-
-
-//    private List<EmployeeDTO> convertToDTO() {
-//        List<EmployeeDTO> employeesDTO = new ArrayList<>();
-//
-//
-//        return employeesDTO;
-//    }
 
     public AdminServiceImpl(EmployeeDAO employeeDAO) {
         this.employeeDAO = employeeDAO;

@@ -1,9 +1,7 @@
 package com.tsystems.rehaklinik.dao;
 
-import com.tsystems.rehaklinik.entities.Employee;
-import com.tsystems.rehaklinik.entities.MedicalRecord;
-import com.tsystems.rehaklinik.entities.Patient;
-import com.tsystems.rehaklinik.entities.Prescription;
+import com.tsystems.rehaklinik.entities.*;
+import com.tsystems.rehaklinik.types.EventStatus;
 import com.tsystems.rehaklinik.types.Roles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,8 +54,6 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
         logger.info("MedHelper_LOGS: PrescriptionDAOImpl: Failed attempt to edit prescription with an id = " + id);
         return null;
     }
-
-
 
 
     @Override

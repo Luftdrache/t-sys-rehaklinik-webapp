@@ -100,7 +100,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public List<Employee> findEmployeeBySurname(String employeeSurname) {
         logger.info("MedHelper_LOGS: EmployeeDAO: Find an employee by surname");
         TypedQuery<Employee> query = entityManager.createQuery(
-                "select e from Employee e where e.surname LIKE :employeeSurname", Employee.class);
+                "select e from Employee e where lower(e.surname) LIKE lower(:employeeSurname)", Employee.class);
         query.setParameter("employeeSurname", "%" + employeeSurname + "%");
         return query.getResultList();
     }

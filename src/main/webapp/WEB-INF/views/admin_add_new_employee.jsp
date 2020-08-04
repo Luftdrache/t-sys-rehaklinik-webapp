@@ -85,7 +85,7 @@
                     <div class="form-group">
                         <label for="firstName" class="col-sm-4 control-label">First Name*</label>
                         <div class="col-sm-6">
-                            <input type="text" id="firstName" name="firstName" placeholder="First Name"
+                            <input required type="text" id="firstName" name="firstName" placeholder="First Name"
                                    class="form-control"
                                    autofocus>
                         </div>
@@ -94,55 +94,54 @@
                         <label for="middleName" class="col-sm-4 control-label">Middle Name</label>
                         <div class="col-sm-6">
                             <input type="text" id="middleName" name="middleName" placeholder="Middle Name"
-                                   class="form-control"
-                                   autofocus>
+                                   class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="surname" class="col-sm-4 control-label">Last Name*</label>
                         <div class="col-sm-6">
-                            <input type="text" id="surname" name="surname" placeholder="Last Name" class="form-control"
-                                   autofocus>
+                            <input required
+                                   type="text" id="surname" name="surname" placeholder="Last Name" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="login" class="col-sm-4 control-label">Login*</label>
                         <div class="col-sm-6">
-                            <input type="text" id="login" name="authenticationDataEmployee.login" placeholder="Login"
+                            <input required type="text" id="login" name="authenticationDataEmployee.login" placeholder="Login"
                                    class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="password" class="col-sm-4 control-label">Password*</label>
                         <div class="col-sm-6">
-                            <input type="password" id="password" name="authenticationDataEmployee.password"
+                            <input required type="password" id="password" name="authenticationDataEmployee.password"
                                    placeholder="Password" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="dateOfBirth" class="col-sm-4 control-label">Date of Birth*</label>
                         <div class="col-sm-6">
-                            <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control">
+                            <input required type="date" id="dateOfBirth" name="dateOfBirth" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="passportId" class="col-sm-4 control-label">Passport Id*</label>
                         <div class="col-sm-6">
-                            <input type="text" id="passportId" name="passportId" placeholder="Passport Id"
+                            <input required type="text" id="passportId" name="passportId" placeholder="Passport Id"
                                    class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="address" class="col-sm-4 control-label">Home Address*</label>
                         <div class="col-sm-6">
-                            <input type="text" id="address" name="address" placeholder="Home Address"
+                            <input required type="text" id="address" name="address" placeholder="Home Address"
                                    class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="phoneNumber" class="col-sm-4 control-label">Phone*</label>
                         <div class="col-sm-6">
-                            <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone"
+                            <input required type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone"
                                    class="form-control">
                         </div>
                     </div>
@@ -155,7 +154,7 @@
                     <div class="form-group">
                         <label for="position" class="col-sm-4 control-label">Position*</label>
                         <div class="col-sm-6">
-                            <input type="text" id="position" name="position" placeholder="Position"
+                            <input required type="text" id="position" name="position" placeholder="Position"
                                    class="form-control">
                         </div>
                     </div>
@@ -182,7 +181,7 @@
                     <div class="form-group">
                         <label for="role" class="col-sm-4 control-label">ROLE*</label>
                         <div class="col-sm-6">
-                            <select id="role" name="role" class="form-control">
+                            <select required id="role" name="role" class="form-control">
                                 <c:forEach items="${Roles.values()}" var="role">
                                     <c:if test="${role != 'PATIENT'}">
                                         <option selected>${role.toString()}</option>

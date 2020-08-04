@@ -8,6 +8,7 @@ import com.tsystems.rehaklinik.converters.DTOconverters.PrescriptionTreatmentPat
 import com.tsystems.rehaklinik.dao.*;
 import com.tsystems.rehaklinik.dto.*;
 import com.tsystems.rehaklinik.entities.*;
+import com.tsystems.rehaklinik.types.EventStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,21 @@ public class DoctorServiceImpl implements DoctorService {
     private final MedicalRecordDAO medicalRecordDAO;
     private final ClinicalDiagnosisDAO clinicalDiagnosisDAO;
     private final PrescriptionDAO prescriptionDAO;
-    private final TreatmentEventService treatmentEventService;
+    private final TreatmentEventGenerationService treatmentEventGenerationService;
     private final TreatmentEventDAO treatmentEventDAO;
 
+
+    @Override
+    public boolean cancelPrescription(int prescriptionId) {
+        Prescription prescription = prescriptionDAO.findPrescriptionById(prescriptionId);
+        List<TreatmentEvent>treatmentEventList = prescription.getTreatmentEvents();
+        for (TreatmentEvent tEvent: treatmentEventList) {
+            tEvent.setTreatmentEventStatus(EventStatus.CANCELLED);
+            tEvent.setCancelReason("Cancelled by doctor");
+            treatmentEventDAO.cancelTreatmentEvent(tEvent);
+        }
+        return true; //доделать нормально
+    }
 
     @Override
     public PrescriptionShortViewDTO editPrescription(PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO) {
@@ -58,10 +71,10 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<PrescriptionShortViewDTO> findAllPatientsPrescription(int patientId) {
-        List<Prescription> prescriptions = prescriptionDAO.fidAllPrescriptionsByPatientId(patientId);
+        List<Prescription> prescriptionsList = prescriptionDAO.fidAllPrescriptionsByPatientId(patientId);
         List<PrescriptionShortViewDTO> prescriptionDTOS = new ArrayList<>();
-        if (prescriptions != null) {
-            for (Prescription p : prescriptions) {
+        if (prescriptionsList != null) {
+            for (Prescription p : prescriptionsList) {
                 prescriptionDTOS.add(new PrescriptionShortViewDTO(p));
             }
             return prescriptionDTOS;
@@ -75,7 +88,7 @@ public class DoctorServiceImpl implements DoctorService {
         Prescription prescription = PrescriptionMapper.INSTANCE.fromDTO(prescriptionDTO);
         Prescription newPrescription = prescriptionDAO.createPrescription(prescription);
         PrescriptionDTO savedPrescriptionDTO = PrescriptionMapper.INSTANCE.toDTO(newPrescription);
-        List<TreatmentEvent> treatmentEventList = treatmentEventService.generateTreatmentEvents(newPrescription);
+        List<TreatmentEvent> treatmentEventList = treatmentEventGenerationService.generateTreatmentEvents(newPrescription);
         for (TreatmentEvent tEvent: treatmentEventList) {
             treatmentEventDAO.createTreatmentEvent(tEvent);
         }
@@ -83,10 +96,6 @@ public class DoctorServiceImpl implements DoctorService {
         return savedPrescriptionDTO;
     }
 
-
-    private void generateEvents(Prescription prescription) {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
 
 
     @Override
@@ -140,12 +149,12 @@ public class DoctorServiceImpl implements DoctorService {
 
 
     @Autowired
-    public DoctorServiceImpl(PatientDAO patientDAO, MedicalRecordDAO medicalRecordDAO, ClinicalDiagnosisDAO clinicalDiagnosisDAO, PrescriptionDAO prescriptionDAO, TreatmentEventService treatmentEventService, TreatmentEventDAO treatmentEventDAO) {
+    public DoctorServiceImpl(PatientDAO patientDAO, MedicalRecordDAO medicalRecordDAO, ClinicalDiagnosisDAO clinicalDiagnosisDAO, PrescriptionDAO prescriptionDAO, TreatmentEventGenerationService treatmentEventGenerationService, TreatmentEventDAO treatmentEventDAO) {
         this.patientDAO = patientDAO;
         this.medicalRecordDAO = medicalRecordDAO;
         this.clinicalDiagnosisDAO = clinicalDiagnosisDAO;
         this.prescriptionDAO = prescriptionDAO;
-        this.treatmentEventService = treatmentEventService;
+        this.treatmentEventGenerationService = treatmentEventGenerationService;
         this.treatmentEventDAO = treatmentEventDAO;
     }
 }

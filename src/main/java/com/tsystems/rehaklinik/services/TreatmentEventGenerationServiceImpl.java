@@ -15,8 +15,14 @@ import java.util.List;
 
 @Service("TreatmentEventService")
 @Transactional
-public class TreatmentEventServiceImpl implements TreatmentEventService {
+public class TreatmentEventGenerationServiceImpl implements TreatmentEventGenerationService {
 
+    /**
+     * Generates treatment event(-s) (with status = PLANNED) immediately after a new prescription added to database
+     *
+     * @param prescription new prescription
+     * @return List with all generated treatment events
+     */
     @Override
     public List<TreatmentEvent> generateTreatmentEvents(Prescription prescription) {
         List<TreatmentEvent> treatmentEventsList = new ArrayList<>();
@@ -58,8 +64,10 @@ public class TreatmentEventServiceImpl implements TreatmentEventService {
 
 
     /**
-     * @param prescription
-     * @return
+     * Specifies the dates on which treatment should be performed
+     *
+     * @param prescription new prescription
+     * @return list with all dates when treatment should be performed
      */
     private List<LocalDate> defineTreatmentDates(Prescription prescription) {
 
@@ -70,13 +78,13 @@ public class TreatmentEventServiceImpl implements TreatmentEventService {
 
         //If we haven't set a specific day/days of the week,
         // the method generates an event for each day within a specified period
-        if(prescription.getTreatmentTimePattern().isSunday() == false
-                &&prescription.getTreatmentTimePattern().isMonday() == false
-                &&prescription.getTreatmentTimePattern().isTuesday() == false
-                &&prescription.getTreatmentTimePattern().isWednesday() == false
-                &&prescription.getTreatmentTimePattern().isThursday() == false
-                &&prescription.getTreatmentTimePattern().isFriday() == false
-                &&prescription.getTreatmentTimePattern().isSaturday() == false
+        if(!prescription.getTreatmentTimePattern().isSunday()
+                && !prescription.getTreatmentTimePattern().isMonday()
+                && !prescription.getTreatmentTimePattern().isTuesday()
+                && !prescription.getTreatmentTimePattern().isWednesday()
+                && !prescription.getTreatmentTimePattern().isThursday()
+                && !prescription.getTreatmentTimePattern().isFriday()
+                && !prescription.getTreatmentTimePattern().isSaturday()
         ){
             while(!startDate.isAfter(endDate)) {
                 treatmentDates.add(startDate);

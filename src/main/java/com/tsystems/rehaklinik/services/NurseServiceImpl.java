@@ -1,4 +1,68 @@
 package com.tsystems.rehaklinik.services;
 
-public class NurseServiceImpl implements NurseService{
+import com.tsystems.rehaklinik.dao.TreatmentEventDAO;
+import com.tsystems.rehaklinik.dto.PrescriptionShortViewDTO;
+import com.tsystems.rehaklinik.dto.TreatmentEventDTO;
+import com.tsystems.rehaklinik.entities.TreatmentEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+@Service("NurseService")
+@Transactional
+public class NurseServiceImpl implements NurseService {
+
+    private static Logger logger = LoggerFactory.getLogger(NurseServiceImpl.class);
+
+    private final TreatmentEventDAO treatmentEventDAO;
+
+
+    @Override
+    public List<TreatmentEventDTO> findAllTreatmentEventsExceptCancelled() {
+        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findAllTreatmentEventsExceptCancelled();
+        List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
+        if (treatmentEventList != null) {
+            for (TreatmentEvent tEvent : treatmentEventList) {
+                treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
+            }
+            return treatmentEventDTOList;
+        }
+        return Collections.emptyList();
+    }
+
+
+    @Override
+    public TreatmentEventDTO findTreatmentEventById(int treatmentEventId) {
+        TreatmentEvent foundTreatmentEvent = treatmentEventDAO.findTreatmentEventById(treatmentEventId);
+        if(foundTreatmentEvent != null) {
+            return new TreatmentEventDTO(foundTreatmentEvent);
+        }
+        return null;
+    }
+
+
+    @Override
+    public List<TreatmentEventDTO> findAllTreatmentEvents() {
+        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findAllTreatmentEvents();
+        List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
+        if (treatmentEventList != null) {
+            for (TreatmentEvent tEvent : treatmentEventList) {
+                treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
+            }
+            return treatmentEventDTOList;
+        }
+        return Collections.emptyList();
+    }
+
+
+    @Autowired
+    public NurseServiceImpl(TreatmentEventDAO treatmentEventDAO) {
+        this.treatmentEventDAO = treatmentEventDAO;
+    }
 }
