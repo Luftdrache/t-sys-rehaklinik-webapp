@@ -1,7 +1,6 @@
 package com.tsystems.rehaklinik.services;
 
 import com.tsystems.rehaklinik.dao.TreatmentEventDAO;
-import com.tsystems.rehaklinik.dto.PrescriptionShortViewDTO;
 import com.tsystems.rehaklinik.dto.TreatmentEventDTO;
 import com.tsystems.rehaklinik.entities.TreatmentEvent;
 import org.slf4j.Logger;
@@ -24,8 +23,38 @@ public class NurseServiceImpl implements NurseService {
 
 
     @Override
-    public List<TreatmentEventDTO> findAllTreatmentEventsExceptCancelled() {
-        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findAllTreatmentEventsExceptCancelled();
+    public boolean cancelTreatmentEvent(int treatmentEventId, String cancelReason) {
+        TreatmentEvent treatmentEventToCancel = treatmentEventDAO.findTreatmentEventById(treatmentEventId);
+        if (treatmentEventToCancel == null) {
+            return false;
+        }
+        treatmentEventToCancel.setCancelReason(cancelReason);
+        TreatmentEvent canceled = treatmentEventDAO.cancelTreatmentEvent(treatmentEventToCancel);
+        if (canceled.getTreatmentEventId() == (treatmentEventToCancel.getTreatmentEventId())
+                && canceled.getTreatmentEventStatus().equals(treatmentEventToCancel.getTreatmentEventStatus())) {
+            return true;
+        }
+        return false;
+    }
+
+
+    @Override
+    public List<TreatmentEventDTO> findAllCompletedTreatmentEvents() {
+        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findAllCompletedTreatmentEvents();
+        List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
+        if (treatmentEventList != null) {
+            for (TreatmentEvent tEvent : treatmentEventList) {
+                treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
+            }
+            return treatmentEventDTOList;
+        }
+        return Collections.emptyList();
+    }
+
+
+    @Override
+    public List<TreatmentEventDTO> findAllPlannedTreatmentEvents() {
+        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findAllPlannedTreatmentEvents();
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
         if (treatmentEventList != null) {
             for (TreatmentEvent tEvent : treatmentEventList) {
@@ -40,7 +69,7 @@ public class NurseServiceImpl implements NurseService {
     @Override
     public TreatmentEventDTO findTreatmentEventById(int treatmentEventId) {
         TreatmentEvent foundTreatmentEvent = treatmentEventDAO.findTreatmentEventById(treatmentEventId);
-        if(foundTreatmentEvent != null) {
+        if (foundTreatmentEvent != null) {
             return new TreatmentEventDTO(foundTreatmentEvent);
         }
         return null;

@@ -87,23 +87,6 @@
                                 </button>
                             </form>
                         </div>
-                        <div style='margin-left:10px'>
-                            <form action="${pageContext.request.contextPath}/nurse/treatment-event-set-completed"
-                                  method="post">
-                                <input type="hidden" name="tEvent" value="${tEvent.treatmentEventId}">
-                                <button type="submit" class="btn btn-primary btn-sm" value="Completed"
-                                        style="background-color: darkslategray">
-                                    <i class="fas fa-check"></i>
-                                </button>
-                            </form>
-                        </div>
-                        <div style='margin-left:10px'>
-                            <c:set var="treatmentEventId" value="0" scope="page"/>
-                            <button type="submit" id="cancel-button" name="cancel-button" class="btn btn-primary btn-sm"
-                                    value="Cancel" style="background-color: darkred" onclick="">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
                     </td>
                 </tr>
             </c:forEach>
@@ -115,7 +98,7 @@
     </div>
     <!-- *******MAIN CONTAINER******* -->
 </div>
-<%@include file="shared/cancel_t_event_popup.jsp" %>
+
 
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 <!-- Optional JavaScript -->
@@ -134,14 +117,6 @@
         $(".sidebar-btn").click(function () {
             $(".wrapper").toggleClass("collapse");
         });
-    });
-
-    document.getElementById('cancel-button').addEventListener('click', function () {
-        document.querySelector(".popup").style.display = "flex";
-    });
-
-    document.getElementById('close-icon').addEventListener('click', function () {
-        document.querySelector(".popup").style.display = "none";
     });
 </script>
 </body>

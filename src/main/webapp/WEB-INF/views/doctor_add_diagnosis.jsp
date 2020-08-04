@@ -112,8 +112,7 @@
                         <div class="col-sm-6">
                             <textarea rows="8" id="fullDiagnosisDescription"
                                       name="fullDiagnosisDescription"
-                                      placeholder="Full Diagnosis Description" class="form-control">
-                            </textarea>
+                                      placeholder="Full Diagnosis Description" class="form-control"></textarea>
                         </div>
                     </div>
                     <div style="padding-left: 50%">

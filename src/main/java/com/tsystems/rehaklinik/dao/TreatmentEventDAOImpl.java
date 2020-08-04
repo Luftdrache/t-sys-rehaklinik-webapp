@@ -31,17 +31,34 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
     }
 
 
+
 //********* done *************
 
     @Override
-    public List<TreatmentEvent> findAllTreatmentEventsExceptCancelled() {
-        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding all treatment eventsexcept cancelled");
+    public List<TreatmentEvent> findAllCompletedTreatmentEvents() {
+        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding all completed treatment events");
         return entityManager.createQuery(
                 "SELECT t FROM TreatmentEvent t " +
-                        "WHERE t.treatmentEventStatus <> :status " +
+                        "WHERE t.treatmentEventStatus = :status " +
                         "ORDER BY t.treatmentEventDate, t.treatmentEventTime",
-                TreatmentEvent.class).setParameter("status", EventStatus.CANCELLED).getResultList();
+                TreatmentEvent.class).setParameter("status", EventStatus.COMPLETED).getResultList();
     }
+
+
+    @Override
+    public List<TreatmentEvent> findAllPlannedTreatmentEvents() {
+        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding all treatment events except cancelled");
+        return entityManager.createQuery(
+                "SELECT t FROM TreatmentEvent t " +
+                        "WHERE t.treatmentEventStatus <> :statusCanceled " +
+                        "AND t.treatmentEventStatus <> :statusCompleted " +
+                        "ORDER BY t.treatmentEventDate, t.treatmentEventTime",
+                TreatmentEvent.class).
+                setParameter("statusCanceled", EventStatus.CANCELLED)
+                .setParameter("statusCompleted", EventStatus.COMPLETED )
+                .getResultList();
+    }
+
 
     @Override
     public TreatmentEvent findTreatmentEventById(int treatmentEventId) {

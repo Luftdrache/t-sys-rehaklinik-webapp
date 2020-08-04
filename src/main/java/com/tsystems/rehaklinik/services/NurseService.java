@@ -9,7 +9,11 @@ public interface NurseService {
 
     List<TreatmentEventDTO> findAllTreatmentEvents();
 
-    List<TreatmentEventDTO> findAllTreatmentEventsExceptCancelled();
+    List<TreatmentEventDTO> findAllPlannedTreatmentEvents();
+
+    List<TreatmentEventDTO> findAllCompletedTreatmentEvents();
 
     TreatmentEventDTO findTreatmentEventById(int treatmentEventId);
+
+    boolean cancelTreatmentEvent(int treatmentEventId, String cancelReason);
 }

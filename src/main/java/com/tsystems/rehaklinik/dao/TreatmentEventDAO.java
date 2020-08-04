@@ -12,10 +12,12 @@ public interface TreatmentEventDAO {
 
     List<TreatmentEvent> findAllTreatmentEvents();
 
-    List<TreatmentEvent> findAllTreatmentEventsExceptCancelled(); //for nurse
+    List<TreatmentEvent> findAllPlannedTreatmentEvents(); //for nurse
 
     boolean deleteAllPatientTreatmentEvents(int patientId);
 
     TreatmentEvent findTreatmentEventById(int treatmentEventId);
+
+    List<TreatmentEvent> findAllCompletedTreatmentEvents();
 }
 
