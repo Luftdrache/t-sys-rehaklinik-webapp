@@ -16,4 +16,6 @@ public interface NurseService {
     TreatmentEventDTO findTreatmentEventById(int treatmentEventId);
 
     boolean cancelTreatmentEvent(int treatmentEventId, String cancelReason);
+
+    List<TreatmentEventDTO> getUrgentTreatmentEvents();
 }

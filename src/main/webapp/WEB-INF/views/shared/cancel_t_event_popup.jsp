@@ -5,7 +5,7 @@
               method="post"
               class="form-horizontal"
               role="form">
-            <input type="hidden" id="hiddenId" name="tEvent" value="${tEvent.treatmentEventId}">
+            <input type="hidden" id="tEvent" name="tEvent">
             Please specify the cancel reason:
             <textarea autofocus rows="4" id="cancelReason"
                       name="cancelReason"

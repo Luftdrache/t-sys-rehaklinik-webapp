@@ -62,7 +62,6 @@
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <%--    <c:set var="treatmentEventId" value="7" scope="application"/>--%>
     <div class="main-container" style="height: 90vh;">
         Treatment events
         <table class="table table-striped table-borderless .table-condensed " style="text-align: center">
@@ -101,7 +100,7 @@
                         <div style='margin-left:10px'>
                             <form action="${pageContext.request.contextPath}/nurse/treatment-event-set-completed"
                                   method="post">
-                                <input type="hidden" name="treatmentEventId" value="${tEvent.treatmentEventId}">
+                                <input type="hidden" name="tEvent" value="${tEvent.treatmentEventId}">
                                 <button type="submit" class="btn btn-primary btn-sm" value="Completed"
                                         style="background-color: darkslategray">
                                     <i class="fas fa-check"></i>
@@ -109,9 +108,9 @@
                             </form>
                         </div>
                         <div style='margin-left:10px'>
+                            <c:set var="treatmentEventId" value="0" scope="page"/>
                             <button type="submit" id="cancel-button" name="cancel-button" class="btn btn-primary btn-sm"
-                                    value="Cancel" style="background-color: darkred"
-                                    onclick="setVariable('${tEvent.treatmentEventId}')">
+                                    value="Cancel" style="background-color: darkred" onclick="">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -147,10 +146,9 @@
         });
     });
 
-    function setVariable(tEventId) {
+    document.getElementById('cancel-button').addEventListener('click', function () {
         document.querySelector(".popup").style.display = "flex";
-        document.getElementById("tEvent").value = tEventId;
-    }
+    });
 
     document.getElementById('close-icon').addEventListener('click', function () {
         document.querySelector(".popup").style.display = "none";

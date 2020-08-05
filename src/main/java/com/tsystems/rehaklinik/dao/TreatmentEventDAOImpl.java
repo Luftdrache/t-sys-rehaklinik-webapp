@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
@@ -24,11 +25,24 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
     private EntityManager entityManager;
 
 
+    @Override
+    public List<TreatmentEvent> findUrgentTreatmentEvents() {
+        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding all completed treatment events");
+//        return entityManager.createQuery(
+//                "SELECT t FROM TreatmentEvent t " +
+//                        "WHERE t.treatmentEventTime <= CURRENT_TIME " +
+//                        "ORDER BY t.treatmentEventDate, t.treatmentEventTime",
+//                TreatmentEvent.class).getResultList();
+        return null;
+    }
+
+
 
     @Override
     public boolean deleteAllPatientTreatmentEvents(int patientId) {
         return false;
     }
+
 
 
 

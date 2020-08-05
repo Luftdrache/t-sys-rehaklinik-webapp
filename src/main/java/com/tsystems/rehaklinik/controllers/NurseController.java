@@ -25,6 +25,7 @@ public class NurseController {
     private static final String TREATMENT_EVENT_DETAILS_JSP = "nurse_event_details";
     private static final String SHOW_COMPLETED_TREATMENT_EVENTS_JSP = "nurse_all_completed_t_events";
     private static final String ERROR_PAGE_JSP = "input_data_error_page";
+    private static final String URGENT_TREATMENT_EVENTS_JSP = "nurse_urgent_events";
 
 
     @PostMapping("/treatment-event-set-completed")
@@ -33,10 +34,16 @@ public class NurseController {
     }
 
 
+    @GetMapping("/urgent-treatment-events")
+    public String getUrgentTreatmentEvents() {
+
+        return URGENT_TREATMENT_EVENTS_JSP;
+    }
 
 
     //передать id!
     @PostMapping("/cancel-treatment-event")
+
     public String cancelTreatmentTEvent(@ModelAttribute("tEvent") int tEventId,
                                         @ModelAttribute("cancelReason") String cancelReason,
                                         BindingResult bindingResult, ModelMap modelMap) {
@@ -52,7 +59,6 @@ public class NurseController {
         }
         return "redirect:/nurse/start-page";
     }
-
 
 
     //************ Done *************************

@@ -1,5 +1,6 @@
 package com.tsystems.rehaklinik.entities;
 
+import com.tsystems.rehaklinik.converters.LocalTimeAttributeConverter;
 import com.tsystems.rehaklinik.types.EventStatus;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,8 +30,8 @@ public class TreatmentEvent implements Serializable {
     private LocalDate treatmentEventDate;
 
     @NotNull(message = "Treatment event time must be set")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-    @Column(name = "treatment_event_time", nullable = false)
+    @Convert(converter = LocalTimeAttributeConverter.class)
+    @Column(name = "treatment_event_time", nullable = false, columnDefinition = "TIME")
     private LocalTime treatmentEventTime;
 
     @Column(name = "cancel_reason", length = 100)

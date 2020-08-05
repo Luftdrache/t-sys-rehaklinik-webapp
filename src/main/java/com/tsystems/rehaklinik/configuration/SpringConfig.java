@@ -1,6 +1,7 @@
 package com.tsystems.rehaklinik.configuration;
 
 
+import com.tsystems.rehaklinik.converters.LocalDateAttributeConverter;
 import com.tsystems.rehaklinik.converters.stringToEnumConverters.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -59,5 +60,6 @@ public class SpringConfig implements WebMvcConfigurer {
         registry.addConverter(new EventStatusStringToEnumConverter());
         registry.addConverter(new HospitalStayStatusStringToEnumConverter());
         registry.addConverter(new TreatmentTypeStringToEnumConverter());
+
     }
 }

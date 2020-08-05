@@ -3,6 +3,7 @@ package com.tsystems.rehaklinik.services;
 import com.tsystems.rehaklinik.dao.TreatmentEventDAO;
 import com.tsystems.rehaklinik.dto.TreatmentEventDTO;
 import com.tsystems.rehaklinik.entities.TreatmentEvent;
+import com.tsystems.rehaklinik.types.EventStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,19 @@ public class NurseServiceImpl implements NurseService {
 
 
     @Override
+    public List<TreatmentEventDTO> getUrgentTreatmentEvents() {
+        return null;
+    }
+
+
+    @Override
     public boolean cancelTreatmentEvent(int treatmentEventId, String cancelReason) {
         TreatmentEvent treatmentEventToCancel = treatmentEventDAO.findTreatmentEventById(treatmentEventId);
         if (treatmentEventToCancel == null) {
             return false;
         }
         treatmentEventToCancel.setCancelReason(cancelReason);
+        treatmentEventToCancel.setTreatmentEventStatus(EventStatus.CANCELLED);
         TreatmentEvent canceled = treatmentEventDAO.cancelTreatmentEvent(treatmentEventToCancel);
         if (canceled.getTreatmentEventId() == (treatmentEventToCancel.getTreatmentEventId())
                 && canceled.getTreatmentEventStatus().equals(treatmentEventToCancel.getTreatmentEventStatus())) {
