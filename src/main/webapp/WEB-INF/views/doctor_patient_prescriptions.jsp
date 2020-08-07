@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -97,36 +99,36 @@
                     <td>${patPrescription.startTreatment}</td>
                     <td>${patPrescription.endTreatment}</td>
                     <td class="text-right row padding-right: 5px">
-                        <form action="${pageContext.request.contextPath}/admin/employee-details/${empl.employeeId}"
+                        <form:form action="${pageContext.request.contextPath}/admin/employee-details/${empl.employeeId}"
                               method="get">
                             <button type="submit" class="btn btn-primary btn-sm" value="Profile"
                                     style="background-color: yellowgreen">
                                 <i class="fas fa-eye"></i>
                             </button>
-                        </form>
-                        <form action="${pageContext.request.contextPath}/doctor/edit-prescription/${patPrescription.prescriptionId}"
+                        </form:form>
+                        <form:form action="${pageContext.request.contextPath}/doctor/edit-prescription/${patPrescription.prescriptionId}"
                               method="get">
                             <button type="submit" class="btn btn-primary btn-sm" value="Edit"
                                     style="background-color: yellowgreen">
                                 <i class="fas fa-edit"></i>
                             </button>
-                        </form>
-                        <form action="${pageContext.request.contextPath}/doctor/cancel-prescription" method="post">
+                        </form:form>
+                        <form:form action="${pageContext.request.contextPath}/doctor/cancel-prescription" method="post">
                             <input type="hidden" name="patient" value="${patientId}">
                             <input type="hidden" name="prescriptionIdToCancel" value="${patPrescription.prescriptionId}">
                             <button type="submit" class="btn btn-primary btn-sm" value="Cancel"
                                     style="background-color: yellowgreen">
                                 <i class="fas fa-ban"></i>
                             </button>
-                        </form>
-                        <form action="${pageContext.request.contextPath}/doctor/delete-prescription" method="post">
+                        </form:form>
+                        <form:form action="${pageContext.request.contextPath}/doctor/delete-prescription" method="post">
                             <input type="hidden" name="patient" value="${patientId}">
                             <input type="hidden" name="prescriptionIdToDelete" value="${patPrescription.prescriptionId}">
                             <button type="submit" class="btn btn-primary btn-sm" value="Delete"
                                     style="background-color: yellowgreen">
                                 <i class="fa fa-trash"></i>
                             </button>
-                        </form>
+                        </form:form>
                     </td>
                 </tr>
             </c:forEach>

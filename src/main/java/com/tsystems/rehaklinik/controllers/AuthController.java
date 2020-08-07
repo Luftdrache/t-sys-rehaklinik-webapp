@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -15,7 +16,6 @@ public class AuthController {
 
     private static final String LOGIN_PAGE_JSP = "login";
     private static final String ERROR_403_PAGE_JSP = "403_error_page";
-
 
     @GetMapping("/login")
     public String getLoginPage() {

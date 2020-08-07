@@ -43,8 +43,10 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
         return false;
     }
 
-
-
+    @Override
+    public TreatmentEvent setCompleted(TreatmentEvent treatmentEvent) {
+        return null;
+    }
 
 //********* done *************
 

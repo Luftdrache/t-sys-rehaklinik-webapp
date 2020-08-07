@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -88,27 +90,27 @@
                     <td>${empl.email}</td>
                     <td>${empl.role}</td>
                     <td class="text-right row padding-right: 5px">
-                        <form action="${pageContext.request.contextPath}/admin/employee-details/${empl.employeeId}"
+                        <form:form action="${pageContext.request.contextPath}/admin/employee-details/${empl.employeeId}"
                               method="get">
                             <button type="submit" class="btn btn-primary btn-sm" value="Profile"
                                     style="background-color: yellowgreen">
                                 <i class="fas fa-eye"></i>
                             </button>
-                        </form>
-                        <form action="${pageContext.request.contextPath}/admin/edit/${empl.employeeId}"
+                        </form:form>
+                        <form:form action="${pageContext.request.contextPath}/admin/edit/${empl.employeeId}"
                               method="get">
                             <button type="submit" class="btn btn-primary btn-sm" value="Edit"
                                     style="background-color: yellowgreen">
                                 <i class="fas fa-edit"></i>
                             </button>
-                        </form>
-                        <form action="${pageContext.request.contextPath}/admin/delete-employee" method="post">
+                        </form:form>
+                        <form:form action="${pageContext.request.contextPath}/admin/delete-employee" method="post">
                             <input type="hidden" name="employeeIdToDelete" value="${empl.employeeId}">
                             <button type="submit" class="btn btn-primary btn-sm" value="Delete"
                                     style="background-color: yellowgreen">
                                 <i class="fa fa-trash"></i>
                             </button>
-                        </form>
+                        </form:form>
                     </td>
                 </tr>
             </c:forEach>
@@ -120,7 +122,7 @@
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark blue lighten-2 mb-4">
                 <div class="col-sm-5 col-sm-offset-6" id="navbarSupportedContent">
-                    <form class="form-inline mr-auto"
+                    <form:form class="form-inline mr-auto"
                           action="${pageContext.request.contextPath}/admin/find-employee-by-surname"
                           method="get">
                         <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="surname">
@@ -128,7 +130,7 @@
                                 style="background-color: orange"
                                 type="submit">Search
                         </button>
-                    </form>
+                    </form:form>
                 </div>
             </nav>
         </div>

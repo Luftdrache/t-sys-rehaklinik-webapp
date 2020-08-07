@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -88,20 +90,20 @@
                     <td>${pat.insuranceCompany}</td>
                     <td>${pat.insurancePolicyCode}</td>
                     <td class="text-right row padding-right: 5px">
-                        <form action="${pageContext.request.contextPath}/doctor/medical-record/${pat.patientId}"
+                        <form:form action="${pageContext.request.contextPath}/doctor/medical-record/${pat.patientId}"
                               method="get">
                             <button type="submit" class="btn btn-primary btn-sm" value="Medical Record"
                                     style="background-color: yellowgreen">
                                 <i class="fas fa-file-medical-alt"></i>
                             </button>
-                        </form>
-                        <form action="${pageContext.request.contextPath}/doctor/show-prescription/${pat.patientId}"
+                        </form:form>
+                        <form:form action="${pageContext.request.contextPath}/doctor/show-prescription/${pat.patientId}"
                               method="get">
                             <button type="submit" class="btn btn-primary btn-sm" value="Prescriptions"
                                     style="background-color: yellowgreen">
                                 <i class="fas fa-tablets"></i>
                             </button>
-                        </form>
+                        </form:form>
                     </td>
                 </tr>
             </c:forEach>

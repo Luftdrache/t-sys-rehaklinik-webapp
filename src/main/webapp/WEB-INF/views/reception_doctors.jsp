@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -65,7 +67,7 @@
                         <p>${doctor.qualificationCategory} </p>
                     </div>
                     <div class="col-md-2">
-                        <form action="${pageContext.request.contextPath}/reception/appoint-doctor" method="post">
+                        <form:form action="${pageContext.request.contextPath}/reception/appoint-doctor" method="post">
                             <input type="hidden" name="patientId" value="${patient}">
                             <button type="submit" class="btn login_btn"
                                     style="background-color: darkorange; padding: 2px; align-self: center"
@@ -73,7 +75,7 @@
                                     value="${doctor.employeeId}">
                                 Appoint
                             </button>
-                        </form>
+                        </form:form>
                     </div>
                 </div>
             </c:forEach>

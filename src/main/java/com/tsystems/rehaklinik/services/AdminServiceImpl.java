@@ -5,6 +5,8 @@ import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
 import com.tsystems.rehaklinik.entities.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,7 @@ public class AdminServiceImpl implements AdminService {
     private static Logger logger = LoggerFactory.getLogger(AdminServiceImpl.class);
 
     private EmployeeDAO employeeDAO;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -28,6 +31,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Employee addNewEmployee(Employee employee) {
+        employee.getAuthenticationDataEmployee()
+                .setPassword(passwordEncoder.encode(employee.getAuthenticationDataEmployee().getPassword()));
         return employeeDAO.createEmployee(employee);
     }
 
@@ -86,7 +91,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
 
-    public AdminServiceImpl(EmployeeDAO employeeDAO) {
+    public AdminServiceImpl(EmployeeDAO employeeDAO, PasswordEncoder passwordEncoder) {
         this.employeeDAO = employeeDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 }

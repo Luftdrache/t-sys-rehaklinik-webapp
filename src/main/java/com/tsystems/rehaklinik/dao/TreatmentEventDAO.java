@@ -20,6 +20,8 @@ public interface TreatmentEventDAO {
 
     List<TreatmentEvent> findAllCompletedTreatmentEvents();
 
+    TreatmentEvent setCompleted (TreatmentEvent treatmentEvent);
+
     List<TreatmentEvent> findUrgentTreatmentEvents();
 }
 

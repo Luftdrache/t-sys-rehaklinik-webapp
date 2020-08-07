@@ -1,4 +1,7 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -6,12 +9,19 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/icon_med_helper.png" type="image/png">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/icon_med_helper.png"
+          type="image/png">
 
     <style>
         p {
             margin: 0;
             padding: 0;
+        }
+
+        .error {
+            color: indianred;
+            align-content: center;
+            font-weight: 500
         }
     </style>
     <title>MedHelper</title>
@@ -32,23 +42,29 @@
              style="width: 100%; height: 80%; position: relative" class="shadow-lg" alt="Error image loading">
     </div>
     <div style="left: 40%; top: 42%; width: 19%; position: absolute;">
-        <form action="/login/process" method="post">
+        <form:form action="/login/process" method="post">
+            <div class="error">
+                <c:if test="${param.error != null}">
+                    <i>You entered invalid <br> username or password</i>
+                </c:if>
+            </div>
             <div class="input-group form-group">
                 <label>
-                    <input type="text" class="form-control" placeholder="username" style="background-color: whitesmoke">
+                    <input type="text" name="username" id="username" class="form-control" placeholder="username"
+                           style="background-color: whitesmoke">
                 </label>
             </div>
             <div class="input-group form-group">
                 <label>
-                    <input type="password" class="form-control" placeholder="password"
-                           style="background-color: lightsteelblue">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="password"
+                           style=" background-color: lightsteelblue">
                 </label>
             </div>
             <div class="form-group" style="position: center">
                 <input type="submit" value="Sign in" class="btn login_btn"
                        style="background-color: orange; margin-left: 32%; opacity: 0.9">
             </div>
-        </form>
+        </form:form>
     </div>
     <footer>
         © 2020 MedHelper. Professional hospital management system.

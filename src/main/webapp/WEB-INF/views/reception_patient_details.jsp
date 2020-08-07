@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html>
 <head>
@@ -138,10 +140,10 @@
                     </h5>
                 </c:otherwise>
             </c:choose>
-            <form action="${pageContext.request.contextPath}/reception/appoint-doctor/" method="get">
+            <form:form action="${pageContext.request.contextPath}/reception/appoint-doctor/" method="get">
                 <input type="hidden" name="patientId" value="${patientInfo.patientId}">
                 <button type="submit" class="btn btn-primary">Appoint a doctor</button>
-            </form>
+            </form:form>
             <div style="color: darkred;font-weight: 700">${message}</div>
         </div>
     </div>

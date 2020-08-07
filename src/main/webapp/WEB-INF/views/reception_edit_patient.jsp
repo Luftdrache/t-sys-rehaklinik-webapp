@@ -2,8 +2,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="com.tsystems.rehaklinik.types.Gender" %>
-<%@ page import="com.tsystems.rehaklinik.types.Roles" %>
 
 <html>
 <head>
@@ -73,7 +73,7 @@
         <div class="container-fluid">
             <div content="container" class="col-sm-8 col-sm-offset-2"
                  style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
-                <form action="${pageContext.request.contextPath}/reception/edit" method="post" class="form-horizontal"
+                <form:form action="${pageContext.request.contextPath}/reception/edit" method="post" class="form-horizontal"
                       role="form">
                     <div style="padding-left: 10%">
                         <h2>Edit Patient Data</h2>
@@ -178,10 +178,10 @@
                            value="${patientToEdit.attendingDoctorId.employeeId}">
                     <%--            *****HIDDEN:*****--%>
                     <div class="form-group">
-                        <label for="login" class="col-sm-4 control-label">Login*</label>
+                        <label for="username" class="col-sm-4 control-label">Username*</label>
                         <div class="col-sm-5">
-                            <input type="text" id="login" value="${patientToEdit.authenticationDataPatient.login}"
-                                   name="authenticationDataPatient.login" placeholder="Login"
+                            <input type="text" id="username" value="${patientToEdit.authenticationDataPatient.username}"
+                                   name="authenticationDataPatient.username" placeholder="Username"
                                    class="form-control">
                         </div>
                     </div>
@@ -198,7 +198,7 @@
                         <input type="submit" class="btn login_btn" value="Edit"
                                style="background-color: orange; opacity: 0.9;"/>
                     </div>
-                </form>
+                </form:form>
             </div>
         </div>
     </div>

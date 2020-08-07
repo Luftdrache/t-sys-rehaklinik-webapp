@@ -28,6 +28,19 @@ public class NurseServiceImpl implements NurseService {
         return null;
     }
 
+    @Override
+    public List<TreatmentEventDTO> setTreatmentEventToCompleted(int treatmentEventId) {
+        TreatmentEvent setToCompleted = treatmentEventDAO.findTreatmentEventById(treatmentEventId);
+        if (setToCompleted == null) {
+            return Collections.emptyList();
+        }
+       setToCompleted.setTreatmentEventStatus(EventStatus.COMPLETED);
+
+        return null;
+    }
+
+
+//*********** done *****************
 
     @Override
     public boolean cancelTreatmentEvent(int treatmentEventId, String cancelReason) {

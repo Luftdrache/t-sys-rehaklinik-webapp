@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="com.tsystems.rehaklinik.types.TreatmentType" %>
 <html>
 <head>
@@ -18,6 +20,8 @@
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
           integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <!-- popup style -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/cancel_t_event_popup.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 
@@ -58,15 +62,14 @@
                 </div>
                 <c:set var="status" value="${treatmentEventDetails.treatmentEventStatus}"></c:set>
                 <c:if test="${status != 'CANCELLED'}">
-                <div class="col-sm-offset-5">
-                    <form action="${pageContext.request.contextPath}/nurse/ca/${empl.employeeId}"
-                          method="get">
-                        <button type="submit" class="btn btn-primary btn-sm"
-                                style="background-color: darkred; font-size: 16px">
-                            <i class="fas fa-times"> Cancel</i>
-                        </button>
-                    </form>
-                </div>
+                    <div class="col-sm-offset-5">
+                            <button type="submit" class="btn btn-primary btn-sm"
+                                    style="background-color: darkred; font-size: 16px"
+                                    id="cancel-button" name="cancel-button"
+                                    onclick="setVariable('${treatmentEventDetails.treatmentEventId}')">
+                                <i class="fas fa-times"> Cancel</i>
+                            </button>
+                    </div>
                 </c:if>
             </div>
             <br><br>
@@ -180,23 +183,36 @@
 </div>
 <!--wrapper end-->
 </div>
+<%@include file="shared/cancel_t_event_popup.jsp" %>
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js"
+        integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"
+        crossorigin="anonymous"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $(".sidebar-btn").click(function () {
             $(".wrapper").toggleClass("collapse");
         });
     });
-</script>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
+    function setVariable(tEventId) {
+        document.querySelector(".popup").style.display = "flex";
+        document.getElementById("tEvent").value = tEventId;
+    }
+
+    document.getElementById('close-icon').addEventListener('click', function () {
+        document.querySelector(".popup").style.display = "none";
+    });
+</script>
 </body>
 </html>
 

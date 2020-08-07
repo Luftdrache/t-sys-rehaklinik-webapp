@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -110,22 +112,22 @@
                         <p>Diagnosis Description: ${diagnosis.fullDiagnosisDescription}</p>
                         <div class="row">
                             <div class="col-sm-2">
-                                <form action="${pageContext.request.contextPath}/admin/edit/${empl.employeeId}"
+                                <form:form action="${pageContext.request.contextPath}/admin/edit/${empl.employeeId}"
                                       method="get">
                                     <button type="submit" class="btn btn-primary btn-sm"
                                             style="background-color: yellowgreen">
                                         <i class="fas fa-edit">Edit</i>
                                     </button>
-                                </form>
+                                </form:form>
                             </div>
                             <div class="col-sm-2">
-                                <form action="${pageContext.request.contextPath}/admin/edit/${empl.employeeId}"
+                                <form:form action="${pageContext.request.contextPath}/admin/edit/${empl.employeeId}"
                                       method="get">
                                     <button type="submit" class="btn btn-primary btn-sm"
                                             style="background-color: darkorange; color: black">
                                         <i class="fas fa-trash">Delete</i>
                                     </button>
-                                </form>
+                                </form:form>
                             </div>
                         </div>
                     </div>

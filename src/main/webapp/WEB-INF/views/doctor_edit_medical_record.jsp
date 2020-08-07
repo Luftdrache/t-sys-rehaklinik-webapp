@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="com.tsystems.rehaklinik.types.HospitalStayStatus" %>
 <html>
 <head>
@@ -67,7 +69,7 @@
         <div class="container-fluid">
             <div content="container" class="col-sm-8 col-sm-offset-2"
                  style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
-                <form action="${pageContext.request.contextPath}/doctor/medical-record" method="post"
+                <form:form action="${pageContext.request.contextPath}/doctor/medical-record" method="post"
                       class="form-horizontal"
                       role="form">
                     <div style="padding-left: 20%">
@@ -151,7 +153,7 @@
                         <input type="submit" class="btn login_btn" value="Edit"
                                style="background-color: orange; opacity: 0.9;"/>
                     </div>
-                </form>
+                </form:form>
             </div>
         </div>
         <!-- *******MAIN CONTAINER******* -->

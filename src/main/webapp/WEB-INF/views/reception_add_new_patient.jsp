@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.tsystems.rehaklinik.types.Roles" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="com.tsystems.rehaklinik.types.Gender" %>
 
 
@@ -73,7 +73,7 @@
         <div class="container-fluid">
             <div content="container" class="col-sm-8 col-sm-offset-2"
                  style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
-                <form action="${pageContext.request.contextPath}/reception/add-patient" modelAttribute="addPatient"
+                <form:form action="${pageContext.request.contextPath}/reception/add-patient" modelAttribute="addPatient"
                       method="post"
                       class="form-horizontal"
                       role="form">
@@ -173,9 +173,9 @@
                     <input type="hidden" id="medicalRecord" name="medicalRecord.hospitalStayStatus" value="NEW">
                     <%--            *****HIDDEN:*****--%>
                     <div class="form-group">
-                        <label for="login" class="col-sm-4 control-label">Login*</label>
+                        <label for="username" class="col-sm-4 control-label">Username*</label>
                         <div class="col-sm-5">
-                            <input type="text" id="login" name="authenticationDataPatient.login" placeholder="Login"
+                            <input type="text" id="username" name="authenticationDataPatient.username" placeholder="Username"
                                    class="form-control">
                         </div>
                     </div>
@@ -190,7 +190,7 @@
                         <input type="submit" class="btn login_btn" value="Add Patient"
                                style="background-color: orange; opacity: 0.9;"/>
                     </div>
-                </form>
+                </form:form>
             </div>
         </div>
     </div>

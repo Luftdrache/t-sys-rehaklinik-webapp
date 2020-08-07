@@ -1,7 +1,7 @@
 <div class="popup">
     <div class="popup-content">
         <img src="/resources/images/close-icon.png" alt="" class="close" id="close-icon">
-        <form action="${pageContext.request.contextPath}/nurse/cancel-treatment-event"
+        <form:form action="${pageContext.request.contextPath}/nurse/cancel-treatment-event"
               method="post"
               class="form-horizontal"
               role="form">
@@ -14,7 +14,7 @@
                 <input type="submit" class="btn login_btn" value="Specify"
                        style="background-color: orange; opacity: 0.9;"/>
             </div>
-        </form>
+        <form:form>
     </div>
 </div>
 

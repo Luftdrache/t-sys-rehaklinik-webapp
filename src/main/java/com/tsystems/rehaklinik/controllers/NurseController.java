@@ -29,39 +29,53 @@ public class NurseController {
 
 
     @PostMapping("/treatment-event-set-completed")
-    public String setCompletedTreatmentEvent(ModelMap modelMap) {
-        return MAIN_NURSE_JSP;
-    }
-
-
-    @GetMapping("/urgent-treatment-events")
-    public String getUrgentTreatmentEvents() {
-
-        return URGENT_TREATMENT_EVENTS_JSP;
-    }
-
-
-    //передать id!
-    @PostMapping("/cancel-treatment-event")
-
-    public String cancelTreatmentTEvent(@ModelAttribute("tEvent") int tEventId,
-                                        @ModelAttribute("cancelReason") String cancelReason,
-                                        BindingResult bindingResult, ModelMap modelMap) {
-
-        logger.info("MedHelper_LOGS: In NurseController - handler method cancelTreatmentTEvent(), POST");
+    public String setCompletedTreatmentEvent(@ModelAttribute("tEvent") int tEventId,
+                                             BindingResult bindingResult,
+                                             ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In NurseController - handler method setCompletedTreatmentEvent(), POST");
         if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
             return ERROR_PAGE_JSP;
         }
 
+        modelMap.addAttribute("message", "Failed to change treatment event status");
+        return MAIN_NURSE_JSP;
+    }
+
+
+
+
+    @GetMapping("/urgent-treatment-events")
+    public String getUrgentTreatmentEvents() {
+        return URGENT_TREATMENT_EVENTS_JSP;
+    }
+
+
+    //************ Done *************************
+
+    /**
+     * Assigns the completed status to the treatment event
+     *
+     * @param tEventId treatment event id
+     * @param cancelReason reason why the treatment event was canceled
+     * @param bindingResult binding result
+     * @param modelMap ModeMap
+     * @return redirects to nurse's main page
+     */
+    @PostMapping("/cancel-treatment-event")
+    public String cancelTreatmentTEvent(@ModelAttribute("tEvent") int tEventId,
+                                        @ModelAttribute("cancelReason") String cancelReason,
+                                        BindingResult bindingResult, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In NurseController - handler method cancelTreatmentTEvent(), POST");
+        if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
+            return ERROR_PAGE_JSP;
+        }
         boolean actionResult = nurseService.cancelTreatmentEvent(tEventId, cancelReason);
-        if (actionResult == false) {
+        if (!actionResult) {
             modelMap.addAttribute("message", "Failed to change treatment event status");
         }
         return "redirect:/nurse/start-page";
     }
 
-
-    //************ Done *************************
 
     /**
      * Shows all completed treatment events

@@ -2,7 +2,6 @@ package com.tsystems.rehaklinik.dao;
 
 
 import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
-import com.tsystems.rehaklinik.entities.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -38,14 +37,14 @@ public class ClinicalDiagnosisDAOImpl implements ClinicalDiagnosisDAO {
             try {
                 ClinicalDiagnose updClinicalDiagnosis = entityManager.merge(clinicalDiagnose);
                 logger.info("MedHelper_LOGS: ClinicalDiagnosisDAO: " +
-                        "Successful attempt to edit a clinical diagnosis with an id = " + clinicalDiagnose.getClinicalDiagnosisId());
+                        "Successful attempt to edit a clinical diagnosis with an id = %d", clinicalDiagnose.getClinicalDiagnosisId());
                 return updClinicalDiagnosis;
             } catch (PersistenceException exception) {
                 logger.info(exception.getMessage());
             }
         }
         logger.info("MedHelper_LOGS:ClinicalDiagnosisDAO:" +
-                " Failed attempt to edit a clinical diagnosis with an id = " + clinicalDiagnose.getClinicalDiagnosisId());
+                " Failed attempt to edit a clinical diagnosis with an id = %d", clinicalDiagnose.getClinicalDiagnosisId());
         return null;
     }
 }

@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -64,7 +66,7 @@
     <!-- *******MAIN CONTAINER******* -->
     <%--    <c:set var="treatmentEventId" value="7" scope="application"/>--%>
     <div class="main-container" style="height: 90vh;">
-        Treatment events
+        All treatment events
         <table class="table table-striped table-borderless .table-condensed " style="text-align: center">
             <thead class="thead-mine">
             <tr class="tr-mine">
@@ -90,23 +92,23 @@
                     <td>${tEvent.treatmentType}</td>
                     <td class="text-right row">
                         <div style='margin-left:20px'>
-                            <form action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
+                            <form:form action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
                                   method="get">
                                 <button type="submit" class="btn btn-primary btn-sm" value="Details"
                                         style="background-color: yellowgreen">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                            </form>
+                            </form:form>
                         </div>
                         <div style='margin-left:10px'>
-                            <form action="${pageContext.request.contextPath}/nurse/treatment-event-set-completed"
+                            <form:form action="${pageContext.request.contextPath}/nurse/treatment-event-set-completed"
                                   method="post">
                                 <input type="hidden" name="treatmentEventId" value="${tEvent.treatmentEventId}">
                                 <button type="submit" class="btn btn-primary btn-sm" value="Completed"
                                         style="background-color: darkslategray">
                                     <i class="fas fa-check"></i>
                                 </button>
-                            </form>
+                            </form:form>
                         </div>
                         <div style='margin-left:10px'>
                             <button type="submit" id="cancel-button" name="cancel-button" class="btn btn-primary btn-sm"

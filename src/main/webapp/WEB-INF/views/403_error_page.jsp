@@ -5,5 +5,6 @@
 </head>
 <body>
          Sorry, but you have no access to this content!
+         <input type="button" value="Back" onclick="javascript:history.go(-1)">
 </body>
 </html>

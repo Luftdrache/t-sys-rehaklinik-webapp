@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -79,13 +81,13 @@
                     <td>${tEvent.treatmentType}</td>
                     <td class="text-right row">
                         <div style='margin-left:20px'>
-                            <form action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
+                            <form:form action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
                                   method="get">
                                 <button type="submit" class="btn btn-primary btn-sm" value="Details"
                                         style="background-color: yellowgreen">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                            </form>
+                            </form:form>
                         </div>
                     </td>
                 </tr>

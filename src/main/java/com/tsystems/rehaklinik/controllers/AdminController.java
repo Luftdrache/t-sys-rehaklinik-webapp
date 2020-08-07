@@ -36,6 +36,8 @@ public class AdminController {
     private static final String ERROR_PAGE_JSP = "input_data_error_page";
     private static final String EMPL_FOUND_BY_SURNAME = "admin_found_by_surname";
 
+    private static final String MESSAGE = "message";
+
 
     /**
      * Returns admin page after admin sign in with all employees list on it
@@ -88,7 +90,7 @@ public class AdminController {
         }
         Employee newEmployee = adminService.addNewEmployee(employee);
         logger.info("MedHelper_LOGS: the new employee added successfully(" + employee.toString() + ")");
-        model.addAttribute("message", "The new employee added successfully");
+        model.addAttribute(MESSAGE, "The new employee added successfully");
         model.addAttribute("employee", newEmployee);
         return EMPLOYEE_DETAILS_JSP;
     }
@@ -105,7 +107,7 @@ public class AdminController {
     public String deleteEmployeeById(@RequestParam("employeeIdToDelete") int employeeIdToDelete, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In AdminController - handler method deleteEmployeeById()");
         String deleteEmployeeByIdActionResultMessage = adminService.deleteEmployeeById(employeeIdToDelete);
-        modelMap.addAttribute("message", deleteEmployeeByIdActionResultMessage);
+        modelMap.addAttribute(MESSAGE, deleteEmployeeByIdActionResultMessage);
         logger.info("MedHelper_LOGS: Result of deleteEmployeeById() action is " + deleteEmployeeByIdActionResultMessage);
         return "redirect:/admin/start-page";
     }
@@ -129,7 +131,7 @@ public class AdminController {
                 logger.info(empl.toString());
             }
         } else {
-            modelMap.addAttribute("message", "There is no employee with surname = " + surname +
+            modelMap.addAttribute(MESSAGE, "There is no employee with surname = " + surname +
                     "  in database");
             logger.info("MedHelper_LOGS: There is no employee with surname = " + surname + " in database");
         }
@@ -172,7 +174,7 @@ public class AdminController {
             return EDIT_EMPLOYEE_JSP;
         }
         logger.info("MedHelper_LOGS: Employee edited successfully(" + editedEmployee.toString() + ")");
-        modelMap.addAttribute("message", "Employee edited successfully");
+        modelMap.addAttribute(MESSAGE, "Employee edited successfully");
         modelMap.addAttribute("employee", editedEmployee);
         return EMPLOYEE_DETAILS_JSP;
     }

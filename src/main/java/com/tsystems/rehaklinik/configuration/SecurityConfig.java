@@ -1,8 +1,8 @@
 package com.tsystems.rehaklinik.configuration;
 
-import com.tsystems.rehaklinik.controllers.AdminController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.tsystems.rehaklinik.security.CustomAuthProviderImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,32 +10,46 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+
+
 @Configuration
 @ComponentScan(basePackages = "com.tsystems.rehaklinik")
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+    private CustomAuthProviderImpl authProvider;
+
+    private static final String LOGIN_PAGE = "/auth/login";
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception { //разделение доступа к хендлерам, параметры
+    protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/login").anonymous()
-//                .antMatchers("/admin/**").authenticated()
-//                .antMatchers("/reception/**").authenticated()
-//                .antMatchers("/doctor/**").authenticated()
-                .and().csrf().disable()//DELETE AFTER!!!!!!
-                .formLogin()
-                .loginPage("/auth/login")
-//                .loginProcessingUrl()
+                .antMatchers("/", LOGIN_PAGE, "/resources/css/**", "/resources/images/**").permitAll()
+                .antMatchers("/", LOGIN_PAGE).anonymous()
+                .antMatchers("/doctor/**").hasRole("DOCTOR")
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/reception/**").hasRole("RECEPTIONIST")
+                .antMatchers("/nurse/**").hasRole("NURSE")
+                .anyRequest().authenticated()
                 .and()
-                .logout()
+                .formLogin()
+                .loginPage(LOGIN_PAGE)
+                .loginProcessingUrl("/login/process") //login form should POST data to this URL for processing.Here SS checks login and pass
+                .permitAll()
+                .and()
+                .logout().permitAll()
                 .and()
                 .exceptionHandling().accessDeniedPage("/auth/403-error-page");
     }
 
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+        auth.authenticationProvider(authProvider);
+    }
+
+    @Autowired
+    public SecurityConfig(CustomAuthProviderImpl authProvider) {
+        this.authProvider = authProvider;
     }
 }
