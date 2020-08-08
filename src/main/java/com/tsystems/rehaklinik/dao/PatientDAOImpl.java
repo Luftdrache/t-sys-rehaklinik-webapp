@@ -4,13 +4,13 @@ package com.tsystems.rehaklinik.dao;
 import com.tsystems.rehaklinik.entities.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 
@@ -24,11 +24,15 @@ public class PatientDAOImpl implements PatientDAO {
     private EntityManager entityManager;
 
 
-
     @Override
     public List<Patient> findPatientBySurname(String patientSurname) {
-         throw new UnsupportedOperationException("Not implemented yet");
+        logger.info("MedHelper_LOGS: EmployeeDAO: Find an employee by surname");
+        TypedQuery<Patient> query = entityManager.createQuery(
+                "select p from Patient p where lower(p.surname) LIKE lower(:patientSurname)", Patient.class);
+        query.setParameter("patientSurname", "%" + patientSurname + "%");
+        return query.getResultList();
     }
+
 
     @Override
     public Patient createPatient(Patient patient) {
@@ -44,10 +48,10 @@ public class PatientDAOImpl implements PatientDAO {
         Patient patient = entityManager.find(Patient.class, patientId);
         if (patient != null) {
             entityManager.remove(patient);
-            logger.info("MedHelper_LOGS: PatientDAO: patient with id = " + patientId + " deleted");
+            logger.info("MedHelper_LOGS: PatientDAO: patient with id = {} deleted", patientId);
             return "Patient deleted successfully";
         }
-        logger.info("MedHelper_LOGS: PatientDAO: Patient with id = " + patientId + " does not exist");
+        logger.info("MedHelper_LOGS: PatientDAO: Patient with id = {} does not exist", +patientId);
         return "The specified patient with id= " + patientId + " does not exist";
     }
 
@@ -60,20 +64,19 @@ public class PatientDAOImpl implements PatientDAO {
 
     @Override
     public Patient updatePatient(Patient patient) {
-        logger.info("MedHelper_LOGS: PatientDAO: Data about an patient with the id = " + patient.getPatientId() + " is updated");
+        logger.info("MedHelper_LOGS: PatientDAO: Data about an patient with the id = {} is updated", patient.getPatientId());
         if (patient.getPatientId() != 0 && entityManager.find(Patient.class, patient.getPatientId()) != null) {
             try {
                 Patient editedPatient = entityManager.merge(patient);
-                logger.info("MedHelper_LOGS: PatientDAO: Successful attempt to edit an patient with an id = " + patient.getPatientId());
+                logger.info("MedHelper_LOGS: PatientDAO: Successful attempt to edit an patient with an id = {} ", patient.getPatientId());
                 return editedPatient;
             } catch (PersistenceException exception) {
                 logger.info(exception.getMessage());
             }
         }
-        logger.info("MedHelper_LOGS: PatientDAO: Failed attempt to edit a patient with an id = " + patient.getPatientId());
+        logger.info("MedHelper_LOGS: PatientDAO: Failed attempt to edit a patient with an id = {}", patient.getPatientId());
         return null;
     }
-
 
 
     @Override
@@ -81,10 +84,10 @@ public class PatientDAOImpl implements PatientDAO {
         logger.info("MedHelper_LOGS: PatientDAO: Find a patient by id");
         Patient patient = entityManager.find(Patient.class, patientId);
         if (patient != null) {
-            logger.info("MedHelper_LOGS: PatientDAO: Patient with id = " + patientId + " found successfully");
+            logger.info("MedHelper_LOGS: PatientDAO: Patient with id = {} found successfully", patientId);
             return patient;
         }
-        logger.info("MedHelper_LOGS: PatientDAO: Patient with id = " + patientId + " not found");
+        logger.info("MedHelper_LOGS: PatientDAO: Patient with id = {} not found", patientId);
         return null;
     }
 }

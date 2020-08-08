@@ -73,8 +73,9 @@
         <div class="container-fluid">
             <div content="container" class="col-sm-8 col-sm-offset-2"
                  style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
-                <form:form action="${pageContext.request.contextPath}/reception/edit" method="post" class="form-horizontal"
-                      role="form">
+                <form:form action="${pageContext.request.contextPath}/reception/edit" method="post"
+                           class="form-horizontal"
+                           role="form">
                     <div style="padding-left: 10%">
                         <h2>Edit Patient Data</h2>
                         <span class="help-block">*Required fields</span>
@@ -185,15 +186,8 @@
                                    class="form-control">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="password" class="col-sm-4 control-label">Password*</label>
-                        <div class="col-sm-5">
-                            <input type="password" id="password"
-                                   value="${patientToEdit.authenticationDataPatient.password}"
-                                   name="authenticationDataPatient.password" placeholder="Password"
-                                   class="form-control">
-                        </div>
-                    </div>
+                    <input type="hidden" id="password" name="authenticationDataPatient.password"
+                           value="${patientToEdit.authenticationDataPatient.password}">
                     <div style="padding-left: 50%">
                         <input type="submit" class="btn login_btn" value="Edit"
                                style="background-color: orange; opacity: 0.9;"/>

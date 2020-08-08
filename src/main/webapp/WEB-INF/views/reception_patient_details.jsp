@@ -53,98 +53,102 @@
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
     <div class="main-container" style="height: 90vh; background-image: url('/resources/images/icon_med_helper.png');
-    background-size: contain; background-repeat: no-repeat; background-position: right">
+background-size: contain; background-repeat: no-repeat; background-position: right">
         <div class="card" style="font-size: 18px; width: 60%; padding-left: 5%">
             <span class="details-title" style="font-weight: 700">PATIENT PROFILE:</span>
-            <br><br>
-            <div class="row">
-                <div class="col-md-5" style="color: darkred; font-weight: 700"><i class="fas fa-user-nurse"></i> Name:
+            <br>
+            <div style="color: indianred;font-weight: 700"><p>${message}</p></div>
+            <c:set var="patientIdToCheck" value="${patientInfo.patientId}"/>
+            <c:if test="${not empty patientIdToCheck}">
+                <div class="row">
+                    <div class="col-md-5" style="color: darkred; font-weight: 700"><i class="fas fa-user"></i>
+                        Name:
+                    </div>
+                    <div class="col-md-5">
+                        <p class="font-italic"> ${patientInfo.firstName} ${patientInfo.middleName} ${patientInfo.surname}</p>
+                    </div>
                 </div>
-                <div class="col-md-5">
-                    <p class="font-italic"> ${patientInfo.firstName} ${patientInfo.middleName} ${patientInfo.surname}</p>
+                <div class="row">
+                    <div class="col-md-5" style="color: darkred; font-weight: 700">
+                        <i class="fas fa-venus-mars"></i> Gender:
+                    </div>
+                    <div class="col-md-5">
+                        <p class="font-italic">${patientInfo.gender.toString()}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5" style="color: darkred; font-weight: 700">
-                    <i class="fas fa-venus-mars"></i> Gender:
+                <div class="row">
+                    <div class="col-md-5" style="color: darkred; font-weight: 700">
+                        <i class="fas fa-birthday-cake"></i> Date of Birth:
+                    </div>
+                    <div class="col-md-5">
+                        <p class="font-italic">${patientInfo.dateOfBirth}</p>
+                    </div>
                 </div>
-                <div class="col-md-5">
-                    <p class="font-italic">${patientInfo.gender}</p>
+                <div class="row">
+                    <div class="col-md-5" style="color: darkred; font-weight: 700">
+                        <i class="fas fa-city"></i> Address:
+                    </div>
+                    <div class="col-md-5">
+                        <p class="font-italic">${patientInfo.address}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5" style="color: darkred; font-weight: 700">
-                    <i class="fas fa-birthday-cake"></i> Date of Birth:
+                <div class="row">
+                    <div class="col-md-5" style="color: darkred; font-weight: 700">
+                        <i class="fas fa-passport"></i> Passport Id:
+                    </div>
+                    <div class="col-md-5">
+                        <p class="font-italic">${patientInfo.passportId}</p>
+                    </div>
                 </div>
-                <div class="col-md-5">
-                    <p class="font-italic">${patientInfo.dateOfBirth}</p>
+                <div class="row">
+                    <div class="col-md-5" style="color: darkred; font-weight: 700">
+                        <i class="fas fa-phone-square-alt"></i> Phone:
+                    </div>
+                    <div class="col-md-5">
+                        <p class="font-italic">${patientInfo.phoneNumber}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5" style="color: darkred; font-weight: 700">
-                    <i class="fas fa-city"></i> Address:
+                <div class="row">
+                    <div class="col-md-5" style="color: darkred; font-weight: 700">
+                        <i class="fas fa-envelope"></i> Email:
+                    </div>
+                    <div class="col-md-5">
+                        <p class="font-italic">${patientInfo.email}</p>
+                    </div>
                 </div>
-                <div class="col-md-5">
-                    <p class="font-italic">${patientInfo.address}</p>
+                <div class="row">
+                    <div class="col-md-5" style="color: darkred; font-weight: 700">
+                        <i class="fas fa-medkit"></i> Insurance Company:
+                    </div>
+                    <div class="col-md-5">
+                        <p class="font-italic">${patientInfo.insuranceCompany}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5" style="color: darkred; font-weight: 700">
-                    <i class="fas fa-passport"></i> Passport Id:
+                <div class="row">
+                    <div class="col-md-5" style="color: darkred; font-weight: 700">
+                        <i class="fas fa-medkit"></i> Insurance Policy Code:
+                    </div>
+                    <div class="col-md-5">
+                        <p class="font-italic">${patientInfo.insurancePolicyCode}</p>
+                    </div>
                 </div>
-                <div class="col-md-5">
-                    <p class="font-italic">${patientInfo.passportId}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5" style="color: darkred; font-weight: 700">
-                    <i class="fas fa-phone-square-alt"></i> Phone:
-                </div>
-                <div class="col-md-5">
-                    <p class="font-italic">${patientInfo.phoneNumber}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5" style="color: darkred; font-weight: 700">
-                    <i class="fas fa-envelope"></i> Email:
-                </div>
-                <div class="col-md-5">
-                    <p class="font-italic">${patientInfo.email}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5" style="color: darkred; font-weight: 700">
-                    <i class="fas fa-medkit"></i> Insurance Company:
-                </div>
-                <div class="col-md-5">
-                    <p class="font-italic">${patientInfo.insuranceCompany}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5" style="color: darkred; font-weight: 700">
-                    <i class="fas fa-medkit"></i> Insurance Policy Code:
-                </div>
-                <div class="col-md-5">
-                    <p class="font-italic">${patientInfo.insurancePolicyCode}</p>
-                </div>
-            </div>
-            <c:choose>
-                <c:when test="${patientInfo.attendingDoctorId==null}">
-                    <p>Attending doctor: None yet</p>
-                </c:when>
-                <c:otherwise>
-                    <h5>
-                        Attending
-                        doctor: ${patientInfo.attendingDoctorId.surname} ${patientInfo.attendingDoctorId.firstName},
-                            ${patientInfo.attendingDoctorId.position}
-                    </h5>
-                </c:otherwise>
-            </c:choose>
-            <form:form action="${pageContext.request.contextPath}/reception/appoint-doctor/" method="get">
-                <input type="hidden" name="patientId" value="${patientInfo.patientId}">
-                <button type="submit" class="btn btn-primary">Appoint a doctor</button>
-            </form:form>
-            <div style="color: darkred;font-weight: 700">${message}</div>
+                <c:choose>
+                    <c:when test="${empty patientInfo.attendingDoctorId}">
+                        <p style="color: darkred; font-weight: 700"><i class="fas fa-user-nurse"></i> Attending doctor: None yet</p>
+                    </c:when>
+                    <c:otherwise>
+                        <h6 style="color: darkred; font-weight: 700">
+                            <i class="fas fa-user-nurse"></i> Attending
+                            doctor: ${patientInfo.attendingDoctorId.surname} ${patientInfo.attendingDoctorId.firstName}
+                                ${patientInfo.attendingDoctorId.position}
+                        </h6>
+                    </c:otherwise>
+                </c:choose>
+                <form:form action="${pageContext.request.contextPath}/reception/appoint-doctor/" method="get">
+                    <input type="hidden" name="patientId" value="${patientInfo.patientId}">
+                    <button type="submit" class="btn btn-primary">Appoint a doctor</button>
+                </form:form>
+            </c:if>
         </div>
     </div>
     <!-- *******MAIN CONTAINER******* -->

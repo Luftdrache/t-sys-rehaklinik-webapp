@@ -126,7 +126,7 @@
                 <nav class="navbar navbar-expand-lg navbar-dark blue lighten-2 mb-4">
                     <div class="col-sm-5 col-sm-offset-6" id="navbarSupportedContent">
                         <form:form class="form-inline mr-auto"
-                              action="${pageContext.request.contextPath}/admin/find-employee-by-surname/"
+                              action="${pageContext.request.contextPath}/reception/find-patient-by-surname/"
                               method="get">
                             <input class="form-control" type="text" placeholder="Search" aria-label="Search"
                                    name="surname" value="${surname}">

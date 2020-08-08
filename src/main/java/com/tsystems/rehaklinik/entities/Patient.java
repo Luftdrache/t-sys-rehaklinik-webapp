@@ -3,10 +3,8 @@ package com.tsystems.rehaklinik.entities;
 import com.tsystems.rehaklinik.types.Gender;
 import com.tsystems.rehaklinik.types.Roles;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;

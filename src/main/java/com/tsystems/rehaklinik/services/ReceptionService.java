@@ -1,27 +1,27 @@
 package com.tsystems.rehaklinik.services;
 
 import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
+import com.tsystems.rehaklinik.dto.PatientDTO;
 import com.tsystems.rehaklinik.dto.PatientShortViewDTO;
-import com.tsystems.rehaklinik.entities.Patient;
 
 import java.util.List;
 
 public interface ReceptionService {
 
-    Patient addNewPatient(Patient patient);
+    PatientDTO addNewPatient(PatientDTO patient);
 
     String deletePatientById(int id);
 
     List<PatientShortViewDTO> showAllPatients();
 
-    Patient getPatientById(int id);
+    PatientDTO getPatientById(int id);
 
-    List<Patient> findPatientBySurname(String surname);
+    List<PatientShortViewDTO> findPatientBySurname(String surname);
 
-    Patient editPatient(Patient editedPatient);
+    PatientDTO editPatient(PatientDTO editedPatient);
 
     List<EmployeeShortViewDTO> getAllDoctors();
 
+    PatientDTO setAttendingDoctor(int doctorId, int patientId);
 
-//    PatientDTO findPatientByIdDTO(int patientId);
 }

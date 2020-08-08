@@ -1,6 +1,7 @@
 package com.tsystems.rehaklinik.dto;
 
-import com.tsystems.rehaklinik.entities.*;
+import com.tsystems.rehaklinik.entities.Prescription;
+import com.tsystems.rehaklinik.entities.TreatmentEvent;
 import com.tsystems.rehaklinik.types.Gender;
 import com.tsystems.rehaklinik.types.Roles;
 import lombok.AllArgsConstructor;
@@ -62,13 +63,13 @@ public class PatientDTO {
     @NotNull(message = "Role must be set")
     private Roles role;
 
-    private AuthenticationData authenticationDataPatient;
+    private AuthenticationDataDTO authenticationDataPatient;
 
-    private Employee attendingDoctorId;
+    private EmployeeDTO attendingDoctorId;
 
     private MedicalRecordDTO medicalRecord;
 
-    private List<PrescriptionDTO> prescriptions;
+    private List<Prescription> prescriptions;
 
     private List<TreatmentEvent> treatmentEvents;
 }

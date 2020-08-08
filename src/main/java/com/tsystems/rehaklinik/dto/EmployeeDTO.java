@@ -62,7 +62,7 @@ public class EmployeeDTO {
     @NotNull(message = "Employee's qualification category mustn't be blank or null")
     private QualificationCategories qualificationCategory;
 
-    @Positive(message = "Doctor's office or ward number must be positive")
+    @PositiveOrZero(message = "Doctor's office or ward number must be zero or positive")
     private int officeOrWardNumber;
 
     private WorkingSchedule workingSchedule;

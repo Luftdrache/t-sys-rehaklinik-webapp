@@ -88,10 +88,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         logger.info("MedHelper_LOGS: EmployeeDAO: Find an employee by id");
         Employee employeeFoundById = entityManager.find(Employee.class, employeeId);
         if (employeeFoundById != null) {
-            logger.info("MedHelper_LOGS: EmployeeDAO: Employee with id = " + employeeId + " found successfully");
+            logger.info("MedHelper_LOGS: EmployeeDAO: Employee with id = {} found successfully", employeeId);
             return employeeFoundById;
         }
-        logger.info("MedHelper_LOGS: EmployeeDAO: Employee with id = " + employeeId + " not found");
+        logger.info("MedHelper_LOGS: EmployeeDAO: Employee with id = {} not found", employeeId);
         return null;
     }
 

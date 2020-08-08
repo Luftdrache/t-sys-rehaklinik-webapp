@@ -40,7 +40,7 @@ public class AdminController {
     private static final String EMPLOYEE_FOUND_BY_SURNAME = "admin_found_by_surname";
 
     private static final String MESSAGE = "message";
-    
+
 
     /**
      * Returns admin page after admin sign in with all employees list on it
@@ -144,7 +144,7 @@ public class AdminController {
             logger.info("MedHelper_LOGS: Error in the editing process of the employee");
             return EDIT_EMPLOYEE_JSP;
         }
-        logger.info("MedHelper_LOGS: Employee edited successfully(" + editedEmployee.toString() + ")");
+        logger.info("MedHelper_LOGS: Employee edited successfully( surname = {} )", editedEmployee.getSurname());
         modelMap.addAttribute(MESSAGE, "Employee edited successfully");
         modelMap.addAttribute("employee", editedEmployee);
         return EMPLOYEE_DETAILS_JSP;
@@ -162,7 +162,7 @@ public class AdminController {
                                                    RedirectAttributes redirectAttributes) {
         logger.info("MedHelper_LOGS: In AdminController - handler method deleteEmployeeById()");
         String deleteEmployeeByIdActionResultMessage = adminService.deleteEmployeeById(employeeIdToDelete);
-        logger.info("MedHelper_LOGS: Result of deleteEmployeeById() action is: " + deleteEmployeeByIdActionResultMessage);
+        logger.info("MedHelper_LOGS: Result of deleteEmployeeById() action is: {}", deleteEmployeeByIdActionResultMessage);
         RedirectView redirectView = new RedirectView("/admin/start-page", true);
         redirectAttributes.addFlashAttribute(MESSAGE, deleteEmployeeByIdActionResultMessage);
         return redirectView;
@@ -197,7 +197,7 @@ public class AdminController {
     /**
      * Returns an employee/employees with specified surname
      *
-     * @param surname  Employee surname
+     * @param surname  Employee's surname
      * @param modelMap ModelMap
      * @return an employee/employees with specified surname
      */
