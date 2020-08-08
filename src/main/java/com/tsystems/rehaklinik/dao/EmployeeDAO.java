@@ -17,9 +17,9 @@ public interface EmployeeDAO {
     /**
      * Deletes employee from database
      * @param employeeId employee id to delete
-     * @return a message about delete action result
+     * @return a boolean about delete action result
      */
-    String deleteEmployee(int employeeId);
+    boolean deleteEmployee(int employeeId);
 
     /**
      * Updating an existing employee in the database

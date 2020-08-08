@@ -36,7 +36,6 @@ public class Employee implements Serializable {
     @Column(name = "surname", nullable = false, length = 50)
     private String surname;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 

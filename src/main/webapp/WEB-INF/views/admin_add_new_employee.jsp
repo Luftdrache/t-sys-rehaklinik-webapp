@@ -44,7 +44,7 @@
             </center>
             <ul><li class="item" id="#employees" style="font-size: 20px">
                 <a href="${pageContext.request.contextPath}/admin/start-page" class="menu-btn">
-                    <i class="fas fa-users"></i><span>Employees</span>
+                    <i class="fas fa-users"></i><span>Main page</span>
                 </a>
             </li>
             <li class="item" id="#prescriptions" style="font-size: 20px">
@@ -52,19 +52,6 @@
                     <i class="fas fa-user-plus"></i><span>Add new</span>
                 </a>
             </li>
-            <li class="item" id="#settings" style="font-size: 20px">
-                <a href="#settings" class="menu-btn">
-                    <i class="fas fa-cog"></i><span>Settings <i class="fas fa-chevron-down drop-down"></i></span>
-                </a>
-                <div class="sub-menu">
-                    <a href="#"><i class="fas fa-lock"></i><span>Password</span></a>
-                    <a href="#"><i class="fas fa-language"></i><span>Language</span></a>
-                </div>
-            </li>
-            <li class="item" style="font-size: 20px">
-                <a href="#" class="menu-btn">
-                    <i class="fas fa-info-circle"></i><span>About</span>
-                </a>
             </li>
             </ul>
         </div>
@@ -122,7 +109,8 @@
                     <div class="form-group">
                         <label for="dateOfBirth" class="col-sm-4 control-label">Date of Birth*</label>
                         <div class="col-sm-6">
-                            <input required type="date" id="dateOfBirth" name="dateOfBirth" class="form-control">
+                            <input required type="date" id="dateOfBirth" name="dateOfBirth" min="1920-01-01" max="2010-01-01"
+                                   class="form-control">
                         </div>
                     </div>
                     <div class="form-group">

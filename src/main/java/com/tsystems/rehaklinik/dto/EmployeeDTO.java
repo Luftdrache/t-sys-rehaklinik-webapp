@@ -9,7 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Convert;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -34,6 +36,8 @@ public class EmployeeDTO {
 
     @NotNull(message = "Employee's date of birth must be set")
     @Past(message = "Employee's date of birth must be in the past")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Convert()
     private LocalDate dateOfBirth;
 
     @NotNull(message = "Employee's passport id must be set")
@@ -50,7 +54,7 @@ public class EmployeeDTO {
     private String email;
 
     @NotNull(message = "Employee's authentication data must be set")
-    private AuthenticationData authenticationDataEmployee;
+    private AuthenticationDataDTO authenticationDataEmployee;
 
     @Size(max=50, message = "Position length must be no more than 50 characters")
     private String position;

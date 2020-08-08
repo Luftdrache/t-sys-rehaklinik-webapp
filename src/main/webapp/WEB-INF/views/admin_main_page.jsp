@@ -105,7 +105,7 @@
                             </button>
                         </form:form>
                         <form:form action="${pageContext.request.contextPath}/admin/delete-employee" method="post">
-                            <input type="hidden" name="employeeIdToDelete" value="${empl.employeeId}">
+                            <input type="hidden" id="employeeIdToDelete"  name="employeeIdToDelete" value="${empl.employeeId}">
                             <button type="submit" class="btn btn-primary btn-sm" value="Delete"
                                     style="background-color: yellowgreen">
                                 <i class="fa fa-trash"></i>
@@ -117,7 +117,7 @@
             </tbody>
         </table>
         <div content="container" class="col-sm-8 col-sm-offset-4">
-            <p>${messageAboutEmployees}</p>
+            <p>${message}</p>
         </div>
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark blue lighten-2 mb-4">

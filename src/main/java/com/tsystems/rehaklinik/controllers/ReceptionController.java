@@ -40,20 +40,18 @@ public class ReceptionController {
     private static final String DOCTORS_LIST_JSP = "reception_doctors";
 
 
-
-
     //IN PROGRESS
-    @PostMapping("/appoint-doctor")
-    public String setAttendingDoctor(@RequestParam("doctorId") int doctorId,
-                                     @RequestParam("patientId") int patientId, ModelMap modelMap) {
-        logger.info("MedHelper_LOGS: In ReceptionController - handler method setAttendingDoctor(), POST");
-        Patient patient = receptionService.getPatientById(patientId);
-        patient.setAttendingDoctorId(adminService.getEmployee(doctorId));
-        Patient patientWithDoctor = receptionService.editPatient(patient);
-        modelMap.addAttribute("patientInfo", patientWithDoctor);
-        modelMap.addAttribute("message", "Attending doctor is appointed");
-        return PATIENT_DETAILS_JSP;
-    }
+//    @PostMapping("/appoint-doctor")
+//    public String setAttendingDoctor(@RequestParam("doctorId") int doctorId,
+//                                     @RequestParam("patientId") int patientId, ModelMap modelMap) {
+//        logger.info("MedHelper_LOGS: In ReceptionController - handler method setAttendingDoctor(), POST");
+//        Patient patient = receptionService.getPatientById(patientId);
+//        patient.setAttendingDoctorId(adminService.getEmployeeById(doctorId));
+//        Patient patientWithDoctor = receptionService.editPatient(patient);
+//        modelMap.addAttribute("patientInfo", patientWithDoctor);
+//        modelMap.addAttribute("message", "Attending doctor is appointed");
+//        return PATIENT_DETAILS_JSP;
+//    }
 
 
     @GetMapping("/appoint-doctor")

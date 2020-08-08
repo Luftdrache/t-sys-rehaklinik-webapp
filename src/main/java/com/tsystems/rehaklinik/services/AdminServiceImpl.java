@@ -1,7 +1,12 @@
 package com.tsystems.rehaklinik.services;
 
+import com.tsystems.rehaklinik.converters.DTOconverters.EmployeeDTOConverter;
+import com.tsystems.rehaklinik.converters.DTOconverters.EmployeeMapper;
+import com.tsystems.rehaklinik.converters.DTOconverters.PrescriptionMapper;
 import com.tsystems.rehaklinik.dao.EmployeeDAO;
+import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
+import com.tsystems.rehaklinik.dto.PrescriptionDTO;
 import com.tsystems.rehaklinik.entities.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,39 +30,33 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public Employee getEmployee(int employeeId) {
-        return employeeDAO.findEmployeeById(employeeId);
+    public EmployeeDTO editEmployee(EmployeeDTO employeeDTO) {
+        Employee employeeToEdit =  EmployeeMapper.INSTANCE.fromDTO(employeeDTO);
+        Employee editedEmployee = employeeDAO.updateEmployee(employeeToEdit);
+        EmployeeDTO editedEmployeeDTO = EmployeeMapper.INSTANCE.toDTO(editedEmployee);
+        return editedEmployeeDTO;
     }
+
+
+
+    //**************************DONE ********************
 
     @Override
-    public Employee addNewEmployee(Employee employee) {
-        employee.getAuthenticationDataEmployee()
-                .setPassword(passwordEncoder.encode(employee.getAuthenticationDataEmployee().getPassword()));
-        return employeeDAO.createEmployee(employee);
+    public EmployeeDTO addNewEmployee(EmployeeDTO employeeDTO) {
+        employeeDTO.getAuthenticationDataEmployee()
+                .setPassword(passwordEncoder.encode(employeeDTO.getAuthenticationDataEmployee().getPassword()));
+        Employee newEmployeeToSave = EmployeeMapper.INSTANCE.fromDTO(employeeDTO);
+        Employee newEmployee = employeeDAO.createEmployee(newEmployeeToSave);
+        EmployeeDTO savedEmployee = EmployeeMapper.INSTANCE.toDTO(newEmployeeToSave);
+        return savedEmployee;
     }
-
-
-    @Override
-    public Employee editEmployee(Employee editedEmployee) {
-        return employeeDAO.updateEmployee(editedEmployee);
-    }
-
 
     @Override
     public String deleteEmployeeById(int id) {
-        return employeeDAO.deleteEmployee(id);
-    }
-
-
-    @Override
-    public EmployeeShortViewDTO findEmployeeByIdDTO(int id) {
-        Employee employee = employeeDAO.findEmployeeById(id);
-        if (employee != null) {
-            EmployeeShortViewDTO employeeShortViewDTO = new EmployeeShortViewDTO(employee);
-            logger.info("MedHelper_LOGS: AdminService: EmployeeDTO found by id: " + employeeShortViewDTO.toString());
-            return employeeShortViewDTO;
-        }
-        return null;
+        boolean actionResult = employeeDAO.deleteEmployee(id);
+        return !actionResult
+                ? "Failed attempt to delete employee's data"
+                : "Employee's data was successfully deleted";
     }
 
 
@@ -65,7 +64,6 @@ public class AdminServiceImpl implements AdminService {
     public List<EmployeeShortViewDTO> showAllEmployees() {
         List<Employee> allEmployeesFound = employeeDAO.findAll();
         List<EmployeeShortViewDTO> employeesDTO = new ArrayList<>();
-//convertToDTO()!
         if (!allEmployeesFound.isEmpty()) {
             for (Employee empl : allEmployeesFound) {
                 employeesDTO.add(new EmployeeShortViewDTO(empl));
@@ -80,12 +78,21 @@ public class AdminServiceImpl implements AdminService {
     public List<EmployeeShortViewDTO> findEmployeeBySurname(String surname) {
         List<Employee> allEmployeesFound = employeeDAO.findEmployeeBySurname(surname);
         List<EmployeeShortViewDTO> employeesDTO = new ArrayList<>();
-//convertToDTO()!
         if (!allEmployeesFound.isEmpty()) {
             for (Employee empl : allEmployeesFound) {
                 employeesDTO.add(new EmployeeShortViewDTO(empl));
             }
             return employeesDTO;
+        }
+        return null;
+    }
+
+
+    @Override
+    public EmployeeDTO getEmployeeById(int employeeId) {
+        Employee foundEmployee = employeeDAO.findEmployeeById(employeeId);
+        if(foundEmployee != null) {
+            return EmployeeDTOConverter.toDTO(foundEmployee);
         }
         return null;
     }

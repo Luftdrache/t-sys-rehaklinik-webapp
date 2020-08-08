@@ -25,13 +25,9 @@ public class AuthenticationData implements Serializable {
     @Column(name = "authentication_data_id", nullable = false, length = 11)
     private int authenticationDataId;
 
-    @NotBlank(message = "Username must be set")
-    @Size(min = 5, max = 35, message = "Login length must be no less than 5 and no more than 35 characters")
     @Column(name = "username", nullable = false, length = 35)
     private String username;
 
-    @NotBlank(message = "Password must be set, not blank")
-    @Size(min = 8, message = "Password length must be no less than 8 characters")
     @Column(name = "password", nullable = false)
     private String password;
 

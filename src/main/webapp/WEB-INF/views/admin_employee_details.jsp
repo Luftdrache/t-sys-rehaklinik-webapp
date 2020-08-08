@@ -55,8 +55,11 @@
     background-size: contain; background-repeat: no-repeat; background-position: right">
         <div class="card" style="font-size: 18px; width: 60%; padding-left: 8%">
             <br>
-            <span class="details-title" style="font-weight: 700">EMPLOYEE INFO:</span>
-            <br><br>
+            <span class="details-title" style="font-weight: 700">EMPLOYEE DETAILS:</span>
+            <br>
+            <div style="color: indianred;font-weight: 700"><p>${message}</p></div>
+            <c:set var="employeeIdToCheck" value="${employee.employeeId}"/>
+            <c:if test="${not empty employeeIdToCheck}">
             <div class="row">
                 <div class="col-md-4" style="color: darkred; font-weight: 700"><i class="fas fa-user-nurse"></i> Name:
                 </div>
@@ -77,7 +80,7 @@
                     Category:
                 </div>
                 <div class="col-md-4">
-                    <p class="font-italic">${employee.qualificationCategory}</p>
+                    <p class="font-italic">${employee.qualificationCategory.toString()}</p>
                 </div>
             </div>
             <div class="row">
@@ -128,7 +131,7 @@
                     <p class="font-italic">${employee.role}</p>
                 </div>
             </div>
-            <div style="color: darkred;font-weight: 700">${message}</div>
+            </c:if>
         </div>
     </div>
     <!-- *******MAIN CONTAINER******* -->

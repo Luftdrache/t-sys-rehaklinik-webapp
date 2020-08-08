@@ -63,16 +63,16 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 
     @Override
-    public String deleteEmployee(int employeeId) {
+    public boolean deleteEmployee(int employeeId) {
         logger.info("MedHelper_LOGS: EmployeeDAO: Delete an employee by id");
         Employee employee = entityManager.find(Employee.class, employeeId);
         if (employee != null) {
             entityManager.remove(employee);
             logger.info("MedHelper_LOGS: EmployeeDAO: Employee with id = " + employeeId + " deleted");
-            return "Employee deleted successfully";
+            return true;
         }
         logger.info("MedHelper_LOGS: EmployeeDAO: Employee with id = " + employeeId + " does not exist");
-        return "The specified employee with id= " + employeeId + " does not exist";
+        return false;
     }
 
 

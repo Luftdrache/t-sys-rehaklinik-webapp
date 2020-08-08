@@ -42,7 +42,6 @@ public class Patient implements Serializable {
     @Column(name = "gender", columnDefinition = "ENUM('MALE', 'FEMALE')", nullable = false)
     private Gender gender;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 

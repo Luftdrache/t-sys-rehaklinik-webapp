@@ -46,26 +46,12 @@
             <ul>
                 <li class="item" id="#employees" style="font-size: 20px">
                     <a href="${pageContext.request.contextPath}/admin/start-page" class="menu-btn">
-                        <i class="fas fa-users"></i><span>Employees</span>
+                        <i class="fas fa-users"></i><span>Main page</span>
                     </a>
                 </li>
                 <li class="item" id="#prescriptions" style="font-size: 20px">
                     <a href="${pageContext.request.contextPath}/admin/add-employee" class="menu-btn">
                         <i class="fas fa-user-plus"></i><span>Add new</span>
-                    </a>
-                </li>
-                <li class="item" id="#settings" style="font-size: 20px">
-                    <a href="#settings" class="menu-btn">
-                        <i class="fas fa-cog"></i><span>Settings <i class="fas fa-chevron-down drop-down"></i></span>
-                    </a>
-                    <div class="sub-menu">
-                        <a href="#"><i class="fas fa-lock"></i><span>Password</span></a>
-                        <a href="#"><i class="fas fa-language"></i><span>Language</span></a>
-                    </div>
-                </li>
-                <li class="item" style="font-size: 20px">
-                    <a href="#" class="menu-btn">
-                        <i class="fas fa-info-circle"></i><span>About</span>
                     </a>
                 </li>
             </ul>
@@ -83,7 +69,11 @@
                         <h2>Edit Employee</h2>
                         <span class="help-block">*Required fields</span>
                     </div>
+                    <div style="color: indianred;font-weight: 700; font-size: 20px"><p>${message}</p></div>
+                    <c:set var="employeeIdToEdit" value="${message}"/>
+                    <c:if test="${empty employeeIdToEdit}">
                     <input type="hidden" id="employeeId" name="employeeId" value="${employeeToEdit.employeeId}"/>
+                        <input type="hidden" id = "password" name="authenticationDataEmployee.password" value="${employeeToEdit.authenticationDataEmployee.password}">
                     <div class="form-group">
                         <label for="firstName" class="col-sm-4 control-label">First Name*</label>
                         <div class="col-sm-6">
@@ -117,15 +107,6 @@
                         <div class="col-sm-6">
                             <input type="text" id="username" value="${employeeToEdit.authenticationDataEmployee.username}"
                                    name="authenticationDataEmployee.username" placeholder="Username"
-                                   class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="password" class="col-sm-4 control-label">Password*</label>
-                        <div class="col-sm-6">
-                            <input type="password" id="password"
-                                   value="${employeeToEdit.authenticationDataEmployee.password}"
-                                   name="authenticationDataEmployee.password" placeholder="Password"
                                    class="form-control">
                         </div>
                     </div>
@@ -208,6 +189,7 @@
                     </div>
                     <input type="submit" class="btn login_btn" value="Edit"
                            style="background-color: orange; opacity: 0.9;"/>
+                    </c:if>
                 </form:form>
             </div>
             <!-- *******MAIN CONTAINER******* -->
