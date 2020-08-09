@@ -21,7 +21,7 @@ public class MedicalRecordDTO implements Serializable {
 
     private int medicalRecordId;
 
-    private Patient patient;
+    private PatientDTO patient;
 
     private Set<ClinicalDiagnosisDTO> clinicalDiagnosis;
 

@@ -109,6 +109,4 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public List<Employee> findByEmployeePosition(String employeesPosition) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
-
-
 }

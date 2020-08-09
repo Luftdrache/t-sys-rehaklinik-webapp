@@ -1,10 +1,7 @@
 package com.tsystems.rehaklinik.services;
 
 
-import com.tsystems.rehaklinik.converters.DTOconverters.ClinicalDiagnoseMapper;
-import com.tsystems.rehaklinik.converters.DTOconverters.MedicalRecordMapper;
-import com.tsystems.rehaklinik.converters.DTOconverters.PrescriptionMapper;
-import com.tsystems.rehaklinik.converters.DTOconverters.PrescriptionTreatmentPatternDTOConverter;
+import com.tsystems.rehaklinik.converters.DTOconverters.*;
 import com.tsystems.rehaklinik.dao.*;
 import com.tsystems.rehaklinik.dto.*;
 import com.tsystems.rehaklinik.entities.*;
@@ -15,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service("DoctorService")
 @Transactional
@@ -33,27 +27,45 @@ public class DoctorServiceImpl implements DoctorService {
     private final TreatmentEventGenerationService treatmentEventGenerationService;
     private final TreatmentEventDAO treatmentEventDAO;
 
-    @Override
-    public MedicalRecordDTO getMedicalRecord(int patientId) {
-        MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(patientId);
-        return null;
-    }
-
-
-
-
 
     @Override
     public boolean cancelPrescription(int prescriptionId) {
         Prescription prescription = prescriptionDAO.findPrescriptionById(prescriptionId);
-        List<TreatmentEvent>treatmentEventList = prescription.getTreatmentEvents();
-        for (TreatmentEvent tEvent: treatmentEventList) {
-            tEvent.setTreatmentEventStatus(EventStatus.CANCELLED);
-            tEvent.setCancelReason("Cancelled by doctor");
-            treatmentEventDAO.cancelTreatmentEvent(tEvent);
+        List<TreatmentEvent> treatmentEventList = prescription.getTreatmentEvents();
+        if (treatmentEventList != null) {
+            for (TreatmentEvent tEvent : treatmentEventList) {
+                tEvent.setTreatmentEventStatus(EventStatus.CANCELLED);
+                tEvent.setCancelReason("Cancelled by doctor");
+                treatmentEventDAO.cancelTreatmentEvent(tEvent);
+            }
+            return true;
         }
-        return true; //доделать нормально
+        return false;
     }
+
+    @Override
+    public ClinicalDiagnosisDTO editClinicalDiagnosis(ClinicalDiagnosisDTO clinicalDiagnosisDTO) {
+        ClinicalDiagnose clinicalDiagnoseToEdit = ClinicalDiagnoseDTOConverter.fromDTO(clinicalDiagnosisDTO);
+        MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(clinicalDiagnosisDTO.getMedicalRecord().getMedicalRecordId());
+        clinicalDiagnoseToEdit.setMedicalRecord(medicalRecord);
+        ClinicalDiagnosisDTO editedClinicalDiagnose = ClinicalDiagnoseDTOConverter.toDTO(
+                clinicalDiagnosisDAO.updateClinicalDiagnosis(clinicalDiagnoseToEdit));
+        return editedClinicalDiagnose;
+    }
+
+    //--------------------------------------------------------------------------------------
+    @Override
+    public PrescriptionDTO addPrescription(PrescriptionDTO prescriptionDTO) {
+        Prescription prescription = PrescriptionMapper.INSTANCE.fromDTO(prescriptionDTO);
+        Prescription newPrescription = prescriptionDAO.createPrescription(prescription);
+        PrescriptionDTO savedPrescriptionDTO = PrescriptionMapper.INSTANCE.toDTO(newPrescription);
+        List<TreatmentEvent> treatmentEventList = treatmentEventGenerationService.generateTreatmentEvents(newPrescription);
+        for (TreatmentEvent tEvent : treatmentEventList) {
+            treatmentEventDAO.createTreatmentEvent(tEvent);
+        }
+        return savedPrescriptionDTO;
+    }
+
 
     @Override
     public PrescriptionShortViewDTO editPrescription(PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO) {
@@ -61,7 +73,6 @@ public class DoctorServiceImpl implements DoctorService {
         prescriptionToEdit = PrescriptionTreatmentPatternDTOConverter.convertFromDTO(prescriptionToEdit, prescriptionTreatmentPatternDTO);
         return new PrescriptionShortViewDTO(prescriptionDAO.updatePrescription(prescriptionToEdit));
     }
-
 
 
     @Override
@@ -74,9 +85,10 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public boolean deletePrescription(int prescriptionId) {
         boolean result = prescriptionDAO.deletePrescriptionById(prescriptionId);
-        logger.info("MedHelper_LOGS: DoctorServiceImpl: result of deleting is " + result);
+        logger.info("MedHelper_LOGS: DoctorServiceImpl: result of deleting is {}", result);
         return result;
     }
+
 
     @Override
     public List<PrescriptionShortViewDTO> findAllPatientsPrescription(int patientId) {
@@ -93,18 +105,30 @@ public class DoctorServiceImpl implements DoctorService {
 
 
     @Override
-    public PrescriptionDTO addPrescription(PrescriptionDTO prescriptionDTO) {
-        Prescription prescription = PrescriptionMapper.INSTANCE.fromDTO(prescriptionDTO);
-        Prescription newPrescription = prescriptionDAO.createPrescription(prescription);
-        PrescriptionDTO savedPrescriptionDTO = PrescriptionMapper.INSTANCE.toDTO(newPrescription);
-        List<TreatmentEvent> treatmentEventList = treatmentEventGenerationService.generateTreatmentEvents(newPrescription);
-        for (TreatmentEvent tEvent: treatmentEventList) {
-            treatmentEventDAO.createTreatmentEvent(tEvent);
+    public MedicalRecordDTO setHospitalisation(MedicalRecordDTO medicalRecordDTO) {
+        int id = medicalRecordDTO.getMedicalRecordId();
+        Patient patient = patientDAO.findPatientById(id);
+        medicalRecordDTO.setPatient(PatientDTOConverter.toDTO(patient));
+        Set<ClinicalDiagnosisDTO> clinicalDiagnosisDTOSet = new HashSet<>();
+        Set<ClinicalDiagnose> clinicalDiagnoseSet = clinicalDiagnosisDAO.getAllPatientClinicalDiagnosis(id);
+        for (ClinicalDiagnose cd : clinicalDiagnoseSet) {
+            clinicalDiagnosisDTOSet.add(ClinicalDiagnoseMapper.INSTANCE.toDTO(cd));
         }
+        medicalRecordDTO.setClinicalDiagnosis(clinicalDiagnosisDTOSet);
+        MedicalRecord medicalRecord = MedicalRecordMapper.INSTANCE.fromDTO(medicalRecordDTO);
 
-        return savedPrescriptionDTO;
+        return medicalRecordDTO;
     }
 
+
+    @Override
+    public ClinicalDiagnosisDTO getClinicalDiagnosisDTO(int clinicalDiagnoseId) {
+        ClinicalDiagnose clinicalDiagnose = clinicalDiagnosisDAO.getClinicalDiagnosisById(clinicalDiagnoseId);
+        if (clinicalDiagnose != null) {
+            return ClinicalDiagnoseDTOConverter.toDTO(clinicalDiagnose);
+        }
+        return null;
+    }
 
 
     @Override
@@ -117,22 +141,21 @@ public class DoctorServiceImpl implements DoctorService {
         ClinicalDiagnose updatedClinicalDiagnosis = clinicalDiagnosisDAO.updateClinicalDiagnosis(diagnosis);
         diagnosisSet.add(updatedClinicalDiagnosis);
         medicalRecord.setClinicalDiagnosis(diagnosisSet);
-        return MedicalRecordMapper.INSTANCE.toDTO(medicalRecordDAO.updateMedicalRecord(medicalRecord));
+        MedicalRecordDTO medicalRecordDTO = MedicalRecordConverter.toDTO(medicalRecordDAO.updateMedicalRecord(medicalRecord));
+        medicalRecordDTO.setPatient(PatientDTOConverter.toDTO(patientDAO.findPatientById(medRecordId)));
+        Set<ClinicalDiagnosisDTO> clinicalDiagnosisDTOSet = new HashSet<>();
+        for (ClinicalDiagnose cd : diagnosisSet) {
+            clinicalDiagnosisDTOSet.add(ClinicalDiagnoseMapper.INSTANCE.toDTO(cd));
+        }
+        medicalRecordDTO.setClinicalDiagnosis(clinicalDiagnosisDTOSet);
+
+        return medicalRecordDTO;
     }
 
 
-    //OK
     @Override
-    public MedicalRecord setHospitalisation(MedicalRecord medicalRecord) {
-        Patient patient = patientDAO.findPatientById(medicalRecord.getMedicalRecordId());
-        medicalRecord.setPatient(patient);
-        return medicalRecordDAO.updateMedicalRecord(medicalRecord);
-    }
-
-    //IN PROCESS
-    @Override
-    public MedicalRecord updateMedicalRecord(MedicalRecord editedMedicalRecord) {
-        return medicalRecordDAO.updateMedicalRecord(editedMedicalRecord);
+    public boolean deleteClinicalDiagnosisById(int cdId) {
+        return clinicalDiagnosisDAO.deleteClinicalDiagnosis(cdId);
     }
 
 
@@ -149,7 +172,23 @@ public class DoctorServiceImpl implements DoctorService {
         return null;
     }
 
-    //************** DONE **********************
+
+    @Override
+    public MedicalRecordDTO getMedicalRecord(int patientId) {
+        MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(patientId);
+        if (medicalRecord != null) {
+            MedicalRecordDTO medicalRecordDTO = MedicalRecordConverter.toDTO(medicalRecord);
+            medicalRecordDTO.setPatient(PatientDTOConverter.toDTO(patientDAO.findPatientById(patientId)));
+            Set<ClinicalDiagnose> diagnosisSet = medicalRecord.getClinicalDiagnosis();
+            Set<ClinicalDiagnosisDTO> clinicalDiagnosisDTOSet = new HashSet<>();
+            for (ClinicalDiagnose cd : diagnosisSet) {
+                clinicalDiagnosisDTOSet.add(ClinicalDiagnoseMapper.INSTANCE.toDTO(cd));
+            }
+            medicalRecordDTO.setClinicalDiagnosis(clinicalDiagnosisDTOSet);
+            return medicalRecordDTO;
+        }
+        return null;
+    }
 
 
     @Autowired

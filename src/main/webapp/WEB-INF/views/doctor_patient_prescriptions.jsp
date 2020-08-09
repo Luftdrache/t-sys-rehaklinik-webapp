@@ -99,13 +99,6 @@
                     <td>${patPrescription.startTreatment}</td>
                     <td>${patPrescription.endTreatment}</td>
                     <td class="text-right row padding-right: 5px">
-                        <form:form action="${pageContext.request.contextPath}/admin/employee-details/${empl.employeeId}"
-                              method="get">
-                            <button type="submit" class="btn btn-primary btn-sm" value="Profile"
-                                    style="background-color: yellowgreen">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </form:form>
                         <form:form action="${pageContext.request.contextPath}/doctor/edit-prescription/${patPrescription.prescriptionId}"
                               method="get">
                             <button type="submit" class="btn btn-primary btn-sm" value="Edit"

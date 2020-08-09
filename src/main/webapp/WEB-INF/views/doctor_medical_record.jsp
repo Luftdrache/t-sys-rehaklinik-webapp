@@ -63,12 +63,6 @@
                         <i class="fas fa-tablets"></i><span>Add prescription</span>
                     </a>
                 </li>
-                <li class="item" id="#edit-med-record">
-                    <a href="${pageContext.request.contextPath}/doctor/medical-record/edit/${medicalRecord.medicalRecordId}"
-                       class="menu-btn">
-                        <i class="far fa-edit"></i><span>Edit</span>
-                    </a>
-                </li>
             </ul>
         </div>
     </div>
@@ -77,55 +71,168 @@
     <div class="main-container">
         MEDICAL RECORD
         <div class="card">
-            <p>Personal info:</p>
-            <p>
-                Name: ${medicalRecord.patient.surname} ${medicalRecord.patient.firstName} ${medicalRecord.patient.middleName}</p>
-            <p>Gender: ${medicalRecord.patient.gender}</p>
-            <p>Date of Birth: ${medicalRecord.patient.dateOfBirth}</p>
-            <p>Address: ${medicalRecord.patient.address}</p>
-            <p>Phone: ${medicalRecord.patient.phoneNumber}</p>
-            <p>Email: ${medicalRecord.patient.email}</p>
-            <p>Insurance Compane: ${medicalRecord.patient.insuranceCompany}</p>
-            <p>Insurance Policy Code: ${medicalRecord.patient.insurancePolicyCode}</p>
+            <p style="font-weight: bold">Personal info:</p>
+            <div style=" font-size: 16px">
+                <div class="row">
+                    <div class="col-md-3" style="color: darkred; font-weight: 400">
+                        Name:
+                    </div>
+                    <div class="col-md-5">
+                        ${medicalRecord.patient.surname} ${medicalRecord.patient.firstName} ${medicalRecord.patient.middleName}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3" style="color: darkred; font-weight: 400">
+                        Gender:
+                    </div>
+                    <div class="col-md-5">
+                        ${medicalRecord.patient.gender.toString()}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3" style="color: darkred; font-weight: 400">
+                        Date of Birth:
+                    </div>
+                    <div class="col-md-5">
+                        ${medicalRecord.patient.dateOfBirth}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3" style="color: darkred; font-weight: 400">
+                        Address:
+                    </div>
+                    <div class="col-md-5">
+                        ${medicalRecord.patient.address}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3" style="color: darkred; font-weight: 400">
+                        Phone:
+                    </div>
+                    <div class="col-md-5">
+                        ${medicalRecord.patient.phoneNumber}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3" style="color: darkred; font-weight: 400">
+                        Email:
+                    </div>
+                    <div class="col-md-5">
+                        ${medicalRecord.patient.email}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3" style="color: darkred; font-weight: 400">
+                        Insurance Company:
+                    </div>
+                    <div class="col-md-5">
+                        ${medicalRecord.patient.insuranceCompany}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3" style="color: darkred; font-weight: 400">
+                        Insurance Policy Code:
+                    </div>
+                    <div class="col-md-5">
+                        ${medicalRecord.patient.insurancePolicyCode}
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="card">
-            <p>Hospitalization:</p>
-            <p>Status: ${medicalRecord.hospitalStayStatus}</p>
-            <p>Department: ${medicalRecord.hospitalDepartment}</p>
-            <p>Ward: ${medicalRecord.hospitalWard}</p>
+            <p style="font-weight: bold">Hospitalization:</p>
+            <div style="font-size: 16px">
+                <div class="row">
+                    <div class="col-md-3" style="color: darkred; font-weight: 400">
+                        Status:
+                    </div>
+                    <div class="col-md-5">
+                        ${medicalRecord.hospitalStayStatus.toString()}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3" style="color: darkred; font-weight: 400">
+                        Department:
+                    </div>
+                    <div class="col-md-5">
+                        ${medicalRecord.hospitalDepartment}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3" style="color: darkred; font-weight: 400">
+                        Ward:
+                    </div>
+                    <div class="col-md-5">
+                        ${medicalRecord.hospitalWard}
+                    </div>
+                </div>
+            </div>
         </div>
         <c:choose>
             <c:when test="${empty medicalRecord.clinicalDiagnosis}">
                 <div class="card">
-                    <p>Clinical diagnosis: </p>
+                    <p style="font-weight: bold">Clinical diagnosis: </p>
                     The patient has not yet been diagnosed.
                 </div>
-
             </c:when>
             <c:otherwise>
                 <c:forEach items="${medicalRecord.clinicalDiagnosis}" var="diagnosis">
                     <div class="card">
                         <p style="font-weight: bold">Clinical Diagnosis:</p>
-                        <p>Main Disease: ${diagnosis.mainDisease}</p>
-                        <p>ICD-10: ${diagnosis.icd10Code}</p>
-                        <p>Accompanying Pathology: ${diagnosis.accompanyingPathology}</p>
-                        <p>Diagnosis Description: ${diagnosis.fullDiagnosisDescription}</p>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <form:form action="${pageContext.request.contextPath}/admin/edit/${empl.employeeId}"
-                                      method="get">
+                        <div style="font-size: 16px">
+                            <div class="row">
+                                <div class="col-md-3" style="color: darkred; font-weight: 400">
+                                    Main Disease:
+                                </div>
+                                <div class="col-md-5">
+                                        ${diagnosis.mainDisease}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3" style="color: darkred; font-weight: 400">
+                                    ICD-10:
+                                </div>
+                                <div class="col-md-5">
+                                        ${diagnosis.icd10Code}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3" style="color: darkred; font-weight: 400">
+                                    Accompanying Pathology:
+                                </div>
+                                <div class="col-md-5">
+                                        ${diagnosis.accompanyingPathology}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3" style="color: darkred; font-weight: 400">
+                                    Diagnosis Description:
+                                </div>
+                                <div class="col-md-5">
+                                        ${diagnosis.fullDiagnosisDescription}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top: 15px; padding-left: 30px">
+                            <div class="col-sm-offset-1">
+                                <form:form action="${pageContext.request.contextPath}/doctor/edit-clinical-diagnosis/${diagnosis.clinicalDiagnosisId}"
+                                           method="get">
                                     <button type="submit" class="btn btn-primary btn-sm"
                                             style="background-color: yellowgreen">
-                                        <i class="fas fa-edit">Edit</i>
+                                        <i class="fas fa-edit"> Edit</i>
                                     </button>
                                 </form:form>
                             </div>
                             <div class="col-sm-2">
-                                <form:form action="${pageContext.request.contextPath}/admin/edit/${empl.employeeId}"
-                                      method="get">
+                                <form:form action="${pageContext.request.contextPath}/doctor/delete-diagnosis"
+                                           method="post">
+                                    <input type="hidden" id="cDiagnosisIdToDelete" name="cDiagnosisIdToDelete"
+                                           value="${diagnosis.clinicalDiagnosisId}">
+                                    <input type="hidden" id="medRecId" name="medRecId"
+                                           value="${medicalRecord.medicalRecordId}">
                                     <button type="submit" class="btn btn-primary btn-sm"
                                             style="background-color: darkorange; color: black">
-                                        <i class="fas fa-trash">Delete</i>
+                                        <i class="fas fa-trash"> Delete</i>
                                     </button>
                                 </form:form>
                             </div>
