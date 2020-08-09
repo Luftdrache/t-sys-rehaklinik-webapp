@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+
+/**
+ * Processes requests from a doctor
+ *
+ * @author Julia Dalskaya
+ */
 @Controller
 @RequestMapping("/doctor")
 public class DoctorController {
@@ -32,6 +38,26 @@ public class DoctorController {
     private static final String ADD_PRESCRIPTION_JSP = "doctor_add_prescription";
     private static final String SHOW_SELECTED_PRESCRIPTION = "doctor_selected_prescription";
     private static final String EDIT_SELECTED_PRESCRIPTION = "doctor_edit_selected_prescription";
+
+
+    /**
+     * Shows doctor a patient medical record
+     *
+     * @param id       patient's id
+     * @param modelMap modelMap to add a medical record info
+     * @return page with a patient medical record
+     */
+    @GetMapping("/medical-record/{id}")
+    public String showMedicalRecord(@PathVariable("id") int id, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method showMedicalRecord(), GET. id = {}", id);
+
+        MedicalRecordDTO medicalRecord = doctorService.getMedicalRecord(id);
+        modelMap.addAttribute("medicalRecord", medicalRecord);
+        return MEDICAL_RECORD_JSP;
+    }
+
+
+
 
     @PostMapping("/cancel-prescription")
     public String cancelSelectedPrescription(@RequestParam("prescriptionIdToCancel") int prescriptionIdToCancel, ModelMap modelMap) {
@@ -199,6 +225,68 @@ public class DoctorController {
     }
 
 
+
+
+
+    /**
+     * Shows page to edit patient medical record
+     *
+     * @param id       Medical Record id
+     * @param modelMap ModelMap with found medical record
+     * @return form to edit current medical record
+     */
+    @GetMapping("/medical-record/edit/{id}")
+    public String editMedicalRecord(@PathVariable("id") int id, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method editMedicalRecord(), GET");
+        MedicalRecordDTO medicalRecord = doctorService.getMedicalRecord(id);
+        modelMap.addAttribute("medicalRecordToEdit", medicalRecord);
+        return EDIT_MEDICAL_RECORD_JSP;
+    }
+
+
+    /**
+     * Gives form to change hospitalisation data
+     *
+     * @param id       Medical record id
+     * @param modelMap ModelMap with found hospitalisation data
+     * @return form page to change hospitalisation data
+     */
+    @GetMapping("/medical-record/hospitalisation/{id}")
+    public String editHospitalisation(@PathVariable("id") int id, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method editHospitalisation(), GET");
+        MedicalRecordDTO medicalRecord = doctorService.getMedicalRecord(id);
+        modelMap.addAttribute("hospitalisationToEdit", medicalRecord);
+        modelMap.addAttribute("medrec", id);
+        return HOSPITALISATION_JSP;
+    }
+
+
+    /**
+     * Changes data about patient hospitalisation
+     *
+     * @param hospitalisation changed data about patient hospitalisation
+     * @param bindingResult   binding result
+     * @param modelMap        updated medical record
+     * @return page with updated medical record
+     */
+    @PostMapping("/medical-record/hospitalisation/")
+    public String editHospitalisation(@Valid @ModelAttribute("editHospitalisation") MedicalRecord hospitalisation,
+                                      BindingResult bindingResult, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method editHospitalisation(), POST");
+        if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
+            return ERROR_PAGE_JSP;
+        }
+        MedicalRecord medicalRecord = doctorService.setHospitalisation(hospitalisation);
+        logger.info("MedHelper_LOGS: In DoctorController: set new data about hospitalisation");
+        modelMap.addAttribute("medrec", hospitalisation.getMedicalRecordId());
+        modelMap.addAttribute("medicalRecord", medicalRecord);
+        return MEDICAL_RECORD_JSP;
+    }
+
+
+//***********************************************************************************************
+//********************** DONE *******************************************************************
+//***********************************************************************************************
     /**
      * Adds new prescription
      *
@@ -237,6 +325,7 @@ public class DoctorController {
     }
 
 
+
     /**
      * Return form to add new clinical diagnosis
      *
@@ -250,6 +339,7 @@ public class DoctorController {
         modelMap.addAttribute("medrec", id);
         return DIAGNOSIS_JSP;
     }
+
 
     /**
      * Adds new diagnosis to current medical record
@@ -273,6 +363,7 @@ public class DoctorController {
         return MEDICAL_RECORD_JSP;
     }
 
+
     /**
      * Returns main doctor's page with his patient list on it. Start page.
      *
@@ -293,80 +384,6 @@ public class DoctorController {
         }
         return MAIN_DOCTOR_JSP;
     }
-
-
-    /**
-     * Shows doctor a patient medical record
-     *
-     * @param id       patient's id
-     * @param modelMap modelMap to add a medical record info
-     * @return page with a patient medical record
-     */
-    @GetMapping("/medical-record/{id}")
-    public String showMedicalRecord(@PathVariable("id") int id, ModelMap modelMap) {
-        logger.info("MedHelper_LOGS: In DoctorController - handler method showMedicalRecord(), GET");
-        MedicalRecord medicalRecord = doctorService.getMedicalRecord(id);
-        System.out.println(medicalRecord);
-        modelMap.addAttribute("medicalRecord", medicalRecord);
-        return MEDICAL_RECORD_JSP;
-    }
-
-
-    /**
-     * Shows page to edit patient medical record
-     *
-     * @param id       Medical Record id
-     * @param modelMap ModelMap with found medical record
-     * @return form to edit current medical record
-     */
-    @GetMapping("/medical-record/edit/{id}")
-    public String editMedicalRecord(@PathVariable("id") int id, ModelMap modelMap) {
-        logger.info("MedHelper_LOGS: In DoctorController - handler method editMedicalRecord(), GET");
-        MedicalRecord medicalRecord = doctorService.getMedicalRecord(id);
-        modelMap.addAttribute("medicalRecordToEdit", medicalRecord);
-        return EDIT_MEDICAL_RECORD_JSP;
-    }
-
-
-    /**
-     * Gives form to change hospitalisation data
-     *
-     * @param id       Medical record id
-     * @param modelMap ModelMap with found hospitalisation data
-     * @return form page to change hospitalisation data
-     */
-    @GetMapping("/medical-record/hospitalisation/{id}")
-    public String editHospitalisation(@PathVariable("id") int id, ModelMap modelMap) {
-        logger.info("MedHelper_LOGS: In DoctorController - handler method editHospitalisation(), GET");
-        MedicalRecord medicalRecord = doctorService.getMedicalRecord(id);
-        modelMap.addAttribute("hospitalisationToEdit", medicalRecord);
-        modelMap.addAttribute("medrec", id);
-        return HOSPITALISATION_JSP;
-    }
-
-
-    /**
-     * Changes data about patient hospitalisation
-     *
-     * @param hospitalisation changed data about patient hospitalisation
-     * @param bindingResult   binding result
-     * @param modelMap        updated medical record
-     * @return page with updated medical record
-     */
-    @PostMapping("/medical-record/hospitalisation/")
-    public String editHospitalisation(@Valid @ModelAttribute("editHospitalisation") MedicalRecord hospitalisation,
-                                      BindingResult bindingResult, ModelMap modelMap) {
-        logger.info("MedHelper_LOGS: In DoctorController - handler method editHospitalisation(), POST");
-        if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
-            return ERROR_PAGE_JSP;
-        }
-        MedicalRecord medicalRecord = doctorService.setHospitalisation(hospitalisation);
-        logger.info("MedHelper_LOGS: In DoctorController: set new data about hospitalisation");
-        modelMap.addAttribute("medrec", hospitalisation.getMedicalRecordId());
-        modelMap.addAttribute("medicalRecord", medicalRecord);
-        return MEDICAL_RECORD_JSP;
-    }
-
 
     @Autowired
     public DoctorController(DoctorService doctorService) {

@@ -1,11 +1,8 @@
 package com.tsystems.rehaklinik.dao;
 
 import com.tsystems.rehaklinik.entities.*;
-import com.tsystems.rehaklinik.types.EventStatus;
-import com.tsystems.rehaklinik.types.Roles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,18 +37,17 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
     @Override
     public Prescription updatePrescription(Prescription editedPrescription) {
         int id = editedPrescription.getPrescriptionId();
-        logger.info("MedHelper_LOGS: PrescriptionDAOImpl: received prescription with id = "
-                + id + " to update");
+        logger.info("MedHelper_LOGS: PrescriptionDAOImpl: received prescription with id = {} to update", id);
         if (id != 0 && entityManager.find(Prescription.class, id) != null) {
             try {
                 Prescription prescription = entityManager.merge(editedPrescription);
-                logger.info("MedHelper_LOGS: PrescriptionDAOImpl: Successful attempt to edit prescription with an id = " + id);
+                logger.info("MedHelper_LOGS: PrescriptionDAOImpl: Successful attempt to edit prescription with an id = {}", id);
                 return prescription;
             } catch (PersistenceException exception) {
                 logger.info(exception.getMessage());
             }
         }
-        logger.info("MedHelper_LOGS: PrescriptionDAOImpl: Failed attempt to edit prescription with an id = " + id);
+        logger.info("MedHelper_LOGS: PrescriptionDAOImpl: Failed attempt to edit prescription with an id = {}", id);
         return null;
     }
 
@@ -62,10 +58,10 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
         Prescription prescription = findPrescriptionById(id);
         if (prescription != null) {
             entityManager.remove(prescription);
-            logger.info("MedHelper_LOGS: PrescriptionDAOImpl: prescription with id = " + id + " deleted");
+            logger.info("MedHelper_LOGS: PrescriptionDAOImpl: prescription with id = {} deleted", id );
             return true;
         }
-        logger.info("MedHelper_LOGS: PrescriptionDAOImpl:  prescription with id = " + id + " does not exist");
+        logger.info("MedHelper_LOGS: PrescriptionDAOImpl:  prescription with id = {} does not exist", id);
         return false;
     }
 
@@ -75,10 +71,10 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
         logger.info("MedHelper_LOGS: PrescriptionDAOImpl: Finding prescription by id");
         Prescription prescription = entityManager.find(Prescription.class, id);
         if (prescription != null) {
-            logger.info("MedHelper_LOGS: PrescriptionDAOImpl: Prescription with id = " + id + " found successfully");
+            logger.info("MedHelper_LOGS: PrescriptionDAOImpl: Prescription with id = {} found successfully", id);
             return prescription;
         }
-        logger.info("MedHelper_LOGS:  PrescriptionDAOImpl: Prescription  with id = " + id + " not found");
+        logger.info("MedHelper_LOGS:  PrescriptionDAOImpl: Prescription  with id = {} not found", id);
         return null;
     }
 

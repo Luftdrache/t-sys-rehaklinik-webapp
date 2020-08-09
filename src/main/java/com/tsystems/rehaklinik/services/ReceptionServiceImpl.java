@@ -1,8 +1,10 @@
 package com.tsystems.rehaklinik.services;
 
 
+import com.tsystems.rehaklinik.converters.DTOconverters.EmployeeDTOConverter;
 import com.tsystems.rehaklinik.dao.EmployeeDAO;
 import com.tsystems.rehaklinik.dao.PatientDAO;
+import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
 import com.tsystems.rehaklinik.dto.PatientDTO;
 import com.tsystems.rehaklinik.converters.DTOconverters.PatientDTOConverter;
@@ -31,7 +33,6 @@ public class ReceptionServiceImpl implements ReceptionService {
     private final PasswordEncoder passwordEncoder;
 
 
-
     @Override
     public PatientDTO getPatientById(int id) {
         Patient foundPatient = patientDAO.findPatientById(id);
@@ -46,7 +47,6 @@ public class ReceptionServiceImpl implements ReceptionService {
     public PatientDTO addNewPatient(PatientDTO patientDTO) {
         patientDTO.getAuthenticationDataPatient().
                 setPassword(passwordEncoder.encode(patientDTO.getAuthenticationDataPatient().getPassword()));
-
         Patient newPatientToSave = PatientDTOConverter.fromDTO(patientDTO);
         Patient newPatient = patientDAO.createPatient(newPatientToSave);
         PatientDTO savedPatientDTO = PatientDTOConverter.toDTO(newPatient);
@@ -55,7 +55,9 @@ public class ReceptionServiceImpl implements ReceptionService {
 
     @Override
     public PatientDTO editPatient(PatientDTO patientDTO) {
+        Employee employee = employeeDAO.findEmployeeById(patientDTO.getAttendingDoctorId().getEmployeeId());
         Patient patientToEdit = PatientDTOConverter.fromDTO(patientDTO);
+        patientToEdit.setAttendingDoctorId(employee);
         Patient edited = patientDAO.updatePatient(patientToEdit);
         PatientDTO editedPatient = PatientDTOConverter.toDTO(edited);
         return editedPatient;

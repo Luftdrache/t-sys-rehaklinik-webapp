@@ -81,11 +81,10 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding treatment event by id");
         TreatmentEvent foundTreatmentEvent = entityManager.find(TreatmentEvent.class, treatmentEventId);
         if(foundTreatmentEvent != null) {
-            logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: treatment event with id = "
-                    +  treatmentEventId + " found successfully");
+            logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: treatment event with id = {} found successfully", treatmentEventId);
             return foundTreatmentEvent;
         }
-        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl:  treatment event with id = " + treatmentEventId + " not found");
+        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl:  treatment event with id = {} not found", treatmentEventId);
         return null;
     }
 

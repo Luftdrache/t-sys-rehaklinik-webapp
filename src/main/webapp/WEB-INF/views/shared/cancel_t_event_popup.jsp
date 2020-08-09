@@ -5,7 +5,7 @@
               method="post"
               class="form-horizontal"
               role="form">
-            <input type="hidden" id="tEvent" name="tEvent">
+            <input type="hidden" id="tEvent" name="tEvent"/>
             Please specify the cancel reason:
             <textarea autofocus rows="4" id="cancelReason"
                       name="cancelReason"
@@ -14,7 +14,7 @@
                 <input type="submit" class="btn login_btn" value="Specify"
                        style="background-color: orange; opacity: 0.9;"/>
             </div>
-        <form:form>
+        </form:form>
     </div>
 </div>
 

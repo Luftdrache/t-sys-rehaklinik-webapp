@@ -1,5 +1,6 @@
 package com.tsystems.rehaklinik.converters.DTOconverters;
 
+import com.tsystems.rehaklinik.dao.EmployeeDAO;
 import com.tsystems.rehaklinik.dto.AuthenticationDataDTO;
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.dto.MedicalRecordDTO;
@@ -8,6 +9,7 @@ import com.tsystems.rehaklinik.entities.AuthenticationData;
 import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
 import com.tsystems.rehaklinik.entities.Patient;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 public class PatientDTOConverter {
@@ -77,13 +79,6 @@ public class PatientDTOConverter {
         medicalRecord.setMedicalRecordId(patientDTO.getMedicalRecord().getMedicalRecordId());
         medicalRecord.setHospitalStayStatus(patientDTO.getMedicalRecord().getHospitalStayStatus());
         patient.setMedicalRecord(medicalRecord);
-
-        Employee employee = new Employee();
-        if (patient.getAttendingDoctorId() != null) {
-            employee = EmployeeDTOConverter.fromDTO(patientDTO.getAttendingDoctorId());
-            patient.setAttendingDoctorId(employee);
-            return patient;
-        }
         patient.setAttendingDoctorId(null);
         return patient;
     }

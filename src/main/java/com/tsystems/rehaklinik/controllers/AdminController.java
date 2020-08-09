@@ -3,7 +3,6 @@ package com.tsystems.rehaklinik.controllers;
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.util.BindingCheck;
 import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
-import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.services.AdminService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +39,7 @@ public class AdminController {
     private static final String EMPLOYEE_FOUND_BY_SURNAME = "admin_found_by_surname";
 
     private static final String MESSAGE = "message";
+    private static final String EMPLOYEE = "employee";
 
 
     /**
@@ -90,11 +90,11 @@ public class AdminController {
         if (BindingCheck.bindingResultCheck(bindingResult, model)) {
             return ERROR_PAGE_JSP;
         }
-        logger.info("MedHelper_LOGS: New employee from JSP, surname = " + employeeDTO.getSurname());
+        logger.info("MedHelper_LOGS: New employee from JSP, surname = {}", employeeDTO.getSurname());
         EmployeeDTO newEmployee = adminService.addNewEmployee(employeeDTO);
-        logger.info("MedHelper_LOGS: the new employee with surname = " + newEmployee.getSurname() + " added successfully");
+        logger.info("MedHelper_LOGS: the new employee with surname = {} added successfully", newEmployee.getSurname());
         model.addAttribute(MESSAGE, "The new employee added successfully");
-        model.addAttribute("employee", newEmployee);
+        model.addAttribute(EMPLOYEE, newEmployee);
         return EMPLOYEE_DETAILS_JSP;
     }
 
@@ -110,14 +110,11 @@ public class AdminController {
     public String editEmployeeData(@PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In AdminController - handler method editEmployeeDataForm(), GET");
         EmployeeDTO employeeToEdit = adminService.getEmployeeById(id);
-        if(employeeToEdit != null) {
-            logger.info("MedHelper_LOGS: In AdminController: editEmployeeData(), GET: employee with id = "
-                    + id + " found successfully");
+        if (employeeToEdit != null) {
+            logger.info("MedHelper_LOGS: In AdminController: editEmployeeData(), GET: employee with id = {} found successfully", id);
             modelMap.addAttribute("employeeToEdit", employeeToEdit);
-        }
-        else {
-            logger.info("MedHelper_LOGS: In AdminController: seeEmployeeDetails(), GET: employee with id = "
-                    + id + " not found");
+        } else {
+            logger.info("MedHelper_LOGS: In AdminController: seeEmployeeDetails(), GET: employee with id = {} not found", id);
             modelMap.addAttribute(MESSAGE, "There is no any employee with such id in the database");
         }
         return EDIT_EMPLOYEE_JSP;
@@ -127,7 +124,7 @@ public class AdminController {
     /**
      * Sends edited employee's data to the database
      *
-     * @param employeeDTO      employee data to edit
+     * @param employeeDTO   employee data to edit
      * @param bindingResult the binding results
      * @param modelMap      ModelMap
      * @return page with current employee details
@@ -146,7 +143,7 @@ public class AdminController {
         }
         logger.info("MedHelper_LOGS: Employee edited successfully( surname = {} )", editedEmployee.getSurname());
         modelMap.addAttribute(MESSAGE, "Employee edited successfully");
-        modelMap.addAttribute("employee", editedEmployee);
+        modelMap.addAttribute(EMPLOYEE, editedEmployee);
         return EMPLOYEE_DETAILS_JSP;
     }
 
@@ -181,13 +178,10 @@ public class AdminController {
         logger.info("MedHelper_LOGS: In AdminController - handler method seeEmployeeDetails(), GET");
         EmployeeDTO employeeDetails = adminService.getEmployeeById(id);
         if (employeeDetails != null) {
-            logger.info("MedHelper_LOGS: In AdminController: seeEmployeeDetails(), GET: employee with id = "
-                    + id + " found successfully");
-            modelMap.addAttribute("employee", employeeDetails);
-        }
-        else {
-            logger.info("MedHelper_LOGS: In AdminController: seeEmployeeDetails(), GET: employee with id = "
-                    + id + " not found");
+            logger.info("MedHelper_LOGS: In AdminController: seeEmployeeDetails(), GET: employee with id = {} found successfully", id);
+            modelMap.addAttribute(EMPLOYEE, employeeDetails);
+        } else {
+            logger.info("MedHelper_LOGS: In AdminController: seeEmployeeDetails(), GET: employee with id = {} not found", id);
             modelMap.addAttribute(MESSAGE, "There is no data about an employee with such id in the database");
         }
         return EMPLOYEE_DETAILS_JSP;
@@ -207,14 +201,14 @@ public class AdminController {
         List<EmployeeShortViewDTO> employeesFoundBySurname = adminService.findEmployeeBySurname(surname);
         if (employeesFoundBySurname != null) {
             modelMap.addAttribute("allEmployees", employeesFoundBySurname);
-            logger.info("MedHelper_LOGS: The employee(-s) with surname = " + surname + " was(were) found successfully:");
+            logger.info("MedHelper_LOGS: The employee(-s) with surname = {} was(were) found successfully", surname);
             for (EmployeeShortViewDTO empl : employeesFoundBySurname) {
                 logger.info(empl.toString());
             }
         } else {
             modelMap.addAttribute(MESSAGE, "There is no employee with surname = " + surname +
                     "  in database");
-            logger.info("MedHelper_LOGS: There is no employee with surname = " + surname + " in database");
+            logger.info("MedHelper_LOGS: There is no employee with surname = {} in database ", surname);
         }
         return EMPLOYEE_FOUND_BY_SURNAME;
     }

@@ -11,7 +11,7 @@ public interface DoctorService {
     //    List<PatientDTO> patients(int doctorId);
     List<PatientShortViewDTO> patients();
 
-    MedicalRecord getMedicalRecord(int patientId);
+    MedicalRecordDTO getMedicalRecord(int patientId);
 
     MedicalRecord updateMedicalRecord(MedicalRecord editedMedicalRecord);
 

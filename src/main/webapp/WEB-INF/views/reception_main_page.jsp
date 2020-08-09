@@ -65,7 +65,7 @@
     <!-- *******MAIN CONTAINER******* -->
     <div class="main-container" style="height: 90vh;">
         <div class="container-fluid">
-            <h3>Patients: </h3>
+            <h5>Patients: </h5>
             <table class="table table-striped table-borderless .table-condensed ">
                 <thead class="thead-mine">
                 <tr class="tr-mine">

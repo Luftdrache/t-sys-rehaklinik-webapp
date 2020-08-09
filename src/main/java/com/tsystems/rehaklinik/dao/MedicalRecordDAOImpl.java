@@ -1,6 +1,5 @@
 package com.tsystems.rehaklinik.dao;
 
-import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +39,6 @@ public class MedicalRecordDAOImpl implements MedicalRecordDAO {
         logger.info("MedHelper_LOGS: MedicalRecordDAO: Failed attempt to edit an medical record with an id = " + editedMedicalRecord.getMedicalRecordId());
         return null;
     }
-
 
 
     @Override

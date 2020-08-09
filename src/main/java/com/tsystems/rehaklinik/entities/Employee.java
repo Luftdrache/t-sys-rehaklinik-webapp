@@ -79,4 +79,7 @@ public class Employee implements Serializable {
 
     @OneToMany(mappedBy = "attendingDoctorId", fetch = FetchType.LAZY)
     private List<Patient> patients;
+
+    public Employee(int employeeId) {
+    }
 }

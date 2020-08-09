@@ -33,6 +33,15 @@ public class DoctorServiceImpl implements DoctorService {
     private final TreatmentEventGenerationService treatmentEventGenerationService;
     private final TreatmentEventDAO treatmentEventDAO;
 
+    @Override
+    public MedicalRecordDTO getMedicalRecord(int patientId) {
+        MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(patientId);
+        return null;
+    }
+
+
+
+
 
     @Override
     public boolean cancelPrescription(int prescriptionId) {
@@ -127,13 +136,6 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
 
-    //OK
-    @Override
-    public MedicalRecord getMedicalRecord(int patientId) {
-        return medicalRecordDAO.findMedicalRecordById(patientId);
-    }
-
-    //OK
     @Override
     public List<PatientShortViewDTO> patients() {
         List<Patient> allPatients = patientDAO.findAll();
@@ -146,6 +148,8 @@ public class DoctorServiceImpl implements DoctorService {
         }
         return null;
     }
+
+    //************** DONE **********************
 
 
     @Autowired

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -37,39 +39,8 @@ public class ReceptionController {
     private static final String RECEPTION_ERROR_PAGE = "input_data_error_page";
     private static final String EDIT_PATIENT_JSP = "reception_edit_patient";
     private static final String DOCTORS_LIST_JSP = "reception_doctors";
-    private static final String PATIENTS_FOUND_BY_SURNAME_JSP = "";
 
     private static final String MESSAGE = "message";
-
-
-    /**
-     * Returns a patient/patients with specified surname
-     *
-     * @param surname  Patient's surname
-     * @param modelMap ModelMap
-     * @return list with a patient/patients with specified surname
-     */
-@GetMapping("/find-patient-by-surname")
-public String findPatientBySurname(@RequestParam("surname") String surname, ModelMap modelMap) {
-    logger.info("MedHelper_LOGS: In ReceptionController - handler method findPatientBySurname()");
-    List<PatientShortViewDTO> patientsFoundBySurname = receptionService.findPatientBySurname(surname);
-    if (patientsFoundBySurname != null) {
-        modelMap.addAttribute("allPatients", patientsFoundBySurname);
-        logger.info("MedHelper_LOGS: The patient(-s) with surname = {} was(were) found successfully", surname);
-        for (PatientShortViewDTO patient : patientsFoundBySurname) {
-            logger.info(patient.toString());
-        }
-    } else {
-        modelMap.addAttribute(MESSAGE, "There is no employee with surname = " + surname +
-                "  in database");
-        logger.info("MedHelper_LOGS: There is no employee with surname = {} in database", surname);
-    }
-    return PATIENTS_FOUND_BY_SURNAME_JSP;
-}
-
-//**************************************************
-
-
 
 
     /**
@@ -78,11 +49,10 @@ public String findPatientBySurname(@RequestParam("surname") String surname, Mode
      * @return form page for new patient adding
      */
     @GetMapping("/add-patient")
-    public String addPatientGetForm() {
+    public String addPatient() {
         logger.info("MedHelper_LOGS: In HospitalReceptionController - handler method addPatientGetForm(), GET");
         return ADD_NEW_PATIENT_JSP;
     }
-
 
     /**
      * Is used to add a new patient to the database
@@ -152,17 +122,20 @@ public String findPatientBySurname(@RequestParam("surname") String surname, Mode
     /**
      * Deletes patient with specified id
      *
-     * @param patientIdToDelete Patient id to delete
-     * @param modelMap          modelMap
+     * @param patientIdToDelete patient id to delete
+     * @param redirectAttributes    redirect attributes
      * @return redirects to main hospital reception page
      */
     @PostMapping("/delete-patient")
-    public String deletePatientById(@RequestParam("patientIdToDelete") int patientIdToDelete, ModelMap modelMap) {
-        logger.info("MedHelper_LOGS: In AdminController - handler method deletePatientById()");
+    public RedirectView deletePatientById(@RequestParam("patientIdToDelete") int patientIdToDelete,  RedirectAttributes redirectAttributes) {
+        logger.info("MedHelper_LOGS: In ReceptionController - handler method deletePatientById()");
+        RedirectView redirectView = new RedirectView("/reception/start-page", true);
         String deletePatientByIdMessage = receptionService.deletePatientById(patientIdToDelete);
-        modelMap.addAttribute(MESSAGE, deletePatientByIdMessage);
+        List<PatientShortViewDTO> allPatients = receptionService.showAllPatients();
+        redirectAttributes.addFlashAttribute(MESSAGE, deletePatientByIdMessage);
+        redirectAttributes.addFlashAttribute("allPatients", allPatients);
         logger.info("MedHelper_LOGS: Result of deletePatientById action is {}", deletePatientByIdMessage);
-        return "redirect:/reception/start-page";
+        return redirectView;
     }
 
 
@@ -215,24 +188,25 @@ public String findPatientBySurname(@RequestParam("surname") String surname, Mode
     @GetMapping("/start-page")
     public String showAllPatients(ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In HospitalReceptionController:  handler method showAllPatients(), GET");
-        List<PatientShortViewDTO> allPatients = receptionService.showAllPatients();
-        if (!allPatients.isEmpty()) {
-            modelMap.addAttribute("allPatients", allPatients);
-            logger.info("MedHelper_LOGS: The action showAllPatients() completed successfully");
-        } else {
-            modelMap.addAttribute(MESSAGE, "INFO: There is no information about patients in the database");
-            logger.info("MedHelper_LOGS: The action showAllPatients() returned nothing");
+        if (modelMap.isEmpty()) {
+            List<PatientShortViewDTO> allPatients = receptionService.showAllPatients();
+            if (!allPatients.isEmpty()) {
+                modelMap.addAttribute("allPatients", allPatients);
+                logger.info("MedHelper_LOGS: The action showAllPatients() completed successfully");
+            } else {
+                modelMap.addAttribute(MESSAGE, "INFO: There is no information about patients in the database");
+                logger.info("MedHelper_LOGS: The action showAllPatients() returned nothing");
+            }
         }
         return RECEPTION_START_PAGE_JSP;
     }
 
-
     /**
      * Appoints doctor to patient
      *
-     * @param doctorId doctor's id
+     * @param doctorId  doctor's id
      * @param patientId patient's id
-     * @param modelMap ModelMap
+     * @param modelMap  ModelMap
      * @return page with patient's details
      */
     @PostMapping("/appoint-doctor")
@@ -245,6 +219,34 @@ public String findPatientBySurname(@RequestParam("surname") String surname, Mode
         modelMap.addAttribute("message", "Attending doctor is appointed");
         return PATIENT_DETAILS_JSP;
     }
+
+
+    /**
+     * Returns a patient/patients with specified surname
+     *
+     * @param surname  Patient's surname
+     * @param modelMap ModelMap
+     * @return list with a patient/patients with specified surname
+     */
+    @GetMapping("/find-patient-by-surname")
+    public RedirectView findPatientBySurname(@RequestParam("surname") String surname, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        logger.info("MedHelper_LOGS: In ReceptionController - handler method findPatientBySurname()");
+        RedirectView redirectView = new RedirectView("/reception/start-page", true);
+        List<PatientShortViewDTO> patientsFoundBySurname = receptionService.findPatientBySurname(surname);
+        if (patientsFoundBySurname != null) {
+            redirectAttributes.addFlashAttribute("allPatients", patientsFoundBySurname);
+            logger.info("MedHelper_LOGS: The patient(-s) with surname = {} was(were) found successfully", surname);
+            for (PatientShortViewDTO patient : patientsFoundBySurname) {
+                logger.info(patient.toString());
+            }
+        } else {
+            redirectAttributes.addFlashAttribute(MESSAGE, "There is no employee with surname = " + surname +
+                    "  in database");
+            logger.info("MedHelper_LOGS: There is no employee with surname = {} in database", surname);
+        }
+        return redirectView;
+    }
+
 
     @Autowired
     public ReceptionController(ReceptionService receptionService, AdminService adminService) {

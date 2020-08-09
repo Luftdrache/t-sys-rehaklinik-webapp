@@ -47,17 +47,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public Employee updateEmployee(Employee employee) {
-        logger.info("MedHelper_LOGS: EmployeeDAO: Data about an employee with the id = " + employee.getEmployeeId() + " is updated");
+        logger.info("MedHelper_LOGS: EmployeeDAO: Data about an employee with the id = {} is updated", employee.getEmployeeId());
         if (employee.getEmployeeId() != 0 && entityManager.find(Employee.class, employee.getEmployeeId()) != null) {
             try {
                 Employee editedEmployee = entityManager.merge(employee);
-                logger.info("MedHelper_LOGS: EmployeeDAO: Successful attempt to edit an employee with an id = " + employee.getEmployeeId());
+                logger.info("MedHelper_LOGS: EmployeeDAO: Successful attempt to edit an employee with an id = {}", employee.getEmployeeId());
                 return editedEmployee;
             } catch (PersistenceException exception) {
                 logger.info(exception.getMessage());
             }
         }
-        logger.info("MedHelper_LOGS: EmployeeDAO: Failed attempt to edit an employee with an id = " + employee.getEmployeeId());
+        logger.info("MedHelper_LOGS: EmployeeDAO: Failed attempt to edit an employee with an id = {} ", employee.getEmployeeId());
         return null;
     }
 
@@ -68,10 +68,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         Employee employee = entityManager.find(Employee.class, employeeId);
         if (employee != null) {
             entityManager.remove(employee);
-            logger.info("MedHelper_LOGS: EmployeeDAO: Employee with id = " + employeeId + " deleted");
+            logger.info("MedHelper_LOGS: EmployeeDAO: Employee with id = {} deleted", employeeId);
             return true;
         }
-        logger.info("MedHelper_LOGS: EmployeeDAO: Employee with id = " + employeeId + " does not exist");
+        logger.info("MedHelper_LOGS: EmployeeDAO: Employee with id = {} does not exist", employeeId);
         return false;
     }
 
