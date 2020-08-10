@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
@@ -65,16 +65,14 @@
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <%--    <c:set var="treatmentEventId" value="7" scope="application"/>--%>
     <div class="main-container" style="height: 90vh;">
-        <h5>ALL PLANNED TREATMENT EVENTS</h5>
-        <div style="float: right">
-        <jsp:useBean id="now" class="java.util.Date" scope="page"/>
-        <fmt:setLocale value="en-EN" scope="session"/>
-        Today is
-        <fmt:formatDate type="date" value="${now}" dateStyle="full"/>
+        <h5>TODAY</h5>
+        <div style="float: right; padding-right: 30px">
+            <jsp:useBean id="now" class="java.util.Date" scope="page"/>
+            <fmt:setLocale value="en-EN" scope="session"/>
+            <fmt:formatDate type="date" value="${now}" dateStyle="full"/>
         </div>
-        <table class="table table-striped table-borderless .table-condensed " style="text-align: center">
+        <table class="table table-striped table-borderless .table-condensed " style="text-align: center;">
             <thead class="thead-mine">
             <tr class="tr-mine">
                 <th scope="col"></th>
@@ -90,41 +88,47 @@
             <tbody class="table table-hover" style="text-align: center">
             <c:forEach items="${treatmentEventList}" var="tEvent">
                 <tr style=" padding: 0">
-                    <td>#</td>
-                    <td style="color: forestgreen; font-weight: bold">${tEvent.treatmentEventTime}</td>
-                    <td style="color: forestgreen; font-weight: bold">${tEvent.treatmentEventDate}</td>
-                    <td>${tEvent.treatmentEventStatus}</td>
-                    <td>${tEvent.patient}</td>
-                    <td>${tEvent.medicineProcedureName}</td>
-                    <td>${tEvent.treatmentType}</td>
-                    <td class="text-right row">
-                        <div style='margin-left:20px'>
-                            <form:form action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
-                                  method="get">
-                                <button type="submit" class="btn btn-primary btn-sm" value="Details"
-                                        style="background-color: yellowgreen">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </form:form>
-                        </div>
+                <c:if test="${tEvent.treatmentEventStatus == 'CANCELLED'}">
+                    <tr style=" padding: 0; background-color: #8FC5E9; color: black">
+                </c:if>
+                <td>#</td>
+                <td style="color: forestgreen; font-weight: bold">${tEvent.treatmentEventTime}</td>
+                <td style="color: forestgreen; font-weight: bold">${tEvent.treatmentEventDate}</td>
+                <td>${tEvent.treatmentEventStatus}</td>
+                <td>${tEvent.patient}</td>
+                <td>${tEvent.medicineProcedureName}</td>
+                <td>${tEvent.treatmentType}</td>
+                <td class="text-right row">
+                    <div style="margin-left:20px;">
+                        <form action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
+                              method="get">
+                            <button type="submit" class="btn btn-primary btn-sm" value="Details"
+                                    style="background-color: yellowgreen;">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <c:if test="${tEvent.treatmentEventStatus != 'CANCELLED'}">
                         <div style='margin-left:10px'>
-                            <form:form action="${pageContext.request.contextPath}/nurse/treatment-event-set-completed"
+                            <form action="${pageContext.request.contextPath}/nurse/treatment-event-set-completed"
                                   method="post">
-                                <input type="hidden" id="treatmentEventId" name="treatmentEventId" value="${tEvent.treatmentEventId}">
+                                <input type="hidden" name="tEvent" value="${tEvent.treatmentEventId}">
                                 <button type="submit" class="btn btn-primary btn-sm" value="Completed"
                                         style="background-color: darkslategray">
                                     <i class="fas fa-check"></i>
                                 </button>
-                            </form:form>
+                            </form>
                         </div>
                         <div style='margin-left:10px'>
-                            <button type="submit" id="cancel-button" name="cancel-button" class="btn btn-primary btn-sm"
-                                    value="Cancel" style="background-color: darkred"
-                                    onclick="setVariable('${tEvent.treatmentEventId}')">
+                            <c:set var="treatmentEventId" value="0" scope="page"/>
+                            <button type="submit" id="cancel-button" name="cancel-button"
+                                    class="btn btn-primary btn-sm"
+                                    value="Cancel" style="background-color: darkred" onclick="">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
-                    </td>
+                    </c:if>
+                </td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -156,10 +160,9 @@
         });
     });
 
-    function setVariable(tEventId) {
+    document.getElementById('cancel-button').addEventListener('click', function () {
         document.querySelector(".popup").style.display = "flex";
-        document.getElementById("tEvent").value = tEventId;
-    }
+    });
 
     document.getElementById('close-icon').addEventListener('click', function () {
         document.querySelector(".popup").style.display = "none";

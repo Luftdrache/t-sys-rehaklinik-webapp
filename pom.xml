@@ -210,8 +210,6 @@
             <artifactId>mapstruct-processor</artifactId>
             <version>${org.mapstruct.version}</version>
         </dependency>
-
-
     </dependencies>
 
     <build>

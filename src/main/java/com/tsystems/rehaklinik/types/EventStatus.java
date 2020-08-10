@@ -3,7 +3,8 @@ package com.tsystems.rehaklinik.types;
 public enum EventStatus {
     PLANNED("Planned"),
     COMPLETED("Completed"),
-    CANCELLED("Cancelled");
+    CANCELLED("Cancelled"),
+    OUT_OF_TIME("Out of Time");
 
     private String eventStatus;
 

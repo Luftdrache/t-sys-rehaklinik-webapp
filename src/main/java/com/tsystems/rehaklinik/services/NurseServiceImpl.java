@@ -24,23 +24,32 @@ public class NurseServiceImpl implements NurseService {
 
 
     @Override
-    public List<TreatmentEventDTO> getUrgentTreatmentEvents() {
-        return null;
-    }
-
-    @Override
-    public List<TreatmentEventDTO> setTreatmentEventToCompleted(int treatmentEventId) {
+    public boolean setTreatmentEventToCompleted(int treatmentEventId) {
+        logger.info("MedHelper_LOGS: In NurseServiceImpl - handler method  getUrgentTreatmentEvents(), GET");
         TreatmentEvent setToCompleted = treatmentEventDAO.findTreatmentEventById(treatmentEventId);
         if (setToCompleted == null) {
-            return Collections.emptyList();
+            return false;
         }
-       setToCompleted.setTreatmentEventStatus(EventStatus.COMPLETED);
-
-        return null;
+        setToCompleted.setTreatmentEventStatus(EventStatus.COMPLETED);
+        TreatmentEvent completed = treatmentEventDAO.setCompleted(setToCompleted);
+        return completed.getTreatmentEventId() == (setToCompleted.getTreatmentEventId())
+                && completed.getTreatmentEventStatus().equals(setToCompleted.getTreatmentEventStatus());
     }
 
 
-//*********** done *****************
+    @Override
+    public List<TreatmentEventDTO> getTodayTreatmentEvents() {
+        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findTodayTreatmentEvents();
+        List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
+        if (treatmentEventList != null) {
+            for (TreatmentEvent tEvent : treatmentEventList) {
+                treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
+            }
+            return treatmentEventDTOList;
+        }
+        return Collections.emptyList();
+    }
+
 
     @Override
     public boolean cancelTreatmentEvent(int treatmentEventId, String cancelReason) {
@@ -51,11 +60,8 @@ public class NurseServiceImpl implements NurseService {
         treatmentEventToCancel.setCancelReason(cancelReason);
         treatmentEventToCancel.setTreatmentEventStatus(EventStatus.CANCELLED);
         TreatmentEvent canceled = treatmentEventDAO.cancelTreatmentEvent(treatmentEventToCancel);
-        if (canceled.getTreatmentEventId() == (treatmentEventToCancel.getTreatmentEventId())
-                && canceled.getTreatmentEventStatus().equals(treatmentEventToCancel.getTreatmentEventStatus())) {
-            return true;
-        }
-        return false;
+        return canceled.getTreatmentEventId() == (treatmentEventToCancel.getTreatmentEventId())
+                && canceled.getTreatmentEventStatus().equals(treatmentEventToCancel.getTreatmentEventStatus());
     }
 
 
@@ -100,6 +106,20 @@ public class NurseServiceImpl implements NurseService {
     @Override
     public List<TreatmentEventDTO> findAllTreatmentEvents() {
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findAllTreatmentEvents();
+        List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
+        if (treatmentEventList != null) {
+            for (TreatmentEvent tEvent : treatmentEventList) {
+                treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
+            }
+            return treatmentEventDTOList;
+        }
+        return Collections.emptyList();
+    }
+
+
+    @Override
+    public List<TreatmentEventDTO> getUrgentTreatmentEvents() {
+        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findUrgentTreatmentEvents();
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
         if (treatmentEventList != null) {
             for (TreatmentEvent tEvent : treatmentEventList) {

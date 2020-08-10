@@ -215,8 +215,9 @@
                         </div>
                         <div class="row" style="padding-top: 15px; padding-left: 30px">
                             <div class="col-sm-offset-1">
-                                <form:form action="${pageContext.request.contextPath}/doctor/edit-clinical-diagnosis/${diagnosis.clinicalDiagnosisId}"
-                                           method="get">
+                                <form:form
+                                        action="${pageContext.request.contextPath}/doctor/edit-clinical-diagnosis/${diagnosis.clinicalDiagnosisId}"
+                                        method="get">
                                     <button type="submit" class="btn btn-primary btn-sm"
                                             style="background-color: yellowgreen">
                                         <i class="fas fa-edit"> Edit</i>

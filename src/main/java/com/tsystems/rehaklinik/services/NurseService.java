@@ -17,7 +17,9 @@ public interface NurseService {
 
     boolean cancelTreatmentEvent(int treatmentEventId, String cancelReason);
 
-    List<TreatmentEventDTO> setTreatmentEventToCompleted(int treatmentEventId);
+    boolean setTreatmentEventToCompleted(int treatmentEventId);
 
     List<TreatmentEventDTO> getUrgentTreatmentEvents();
+
+    List<TreatmentEventDTO> getTodayTreatmentEvents();
 }

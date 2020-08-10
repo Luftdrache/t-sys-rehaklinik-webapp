@@ -26,39 +26,44 @@ public class NurseController {
     private static final String SHOW_COMPLETED_TREATMENT_EVENTS_JSP = "nurse_all_completed_t_events";
     private static final String ERROR_PAGE_JSP = "input_data_error_page";
     private static final String URGENT_TREATMENT_EVENTS_JSP = "nurse_urgent_events";
+    private static final String TODAY_TREATMENT_EVENTS_JSP = "nurse_today_events";
+
+    private static final String MESSAGE = "message";
+    protected static final String TREATMENT_EVENT_LIST = "treatmentEventList";
 
 
+    /**
+     * Changes treatment event status to "Completed"
+     *
+     * @param tEventId      treatment event status id
+     * @param bindingResult binding result
+     * @param modelMap      ModelMap
+     * @return redirects to main page with all planned treatment events
+     */
     @PostMapping("/treatment-event-set-completed")
-    public String setCompletedTreatmentEvent(@ModelAttribute("tEvent") int tEventId,
+    public String setCompletedTreatmentEvent(@ModelAttribute("treatmentEventId") int tEventId,
                                              BindingResult bindingResult,
                                              ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In NurseController - handler method setCompletedTreatmentEvent(), POST");
         if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
             return ERROR_PAGE_JSP;
         }
-
-        modelMap.addAttribute("message", "Failed to change treatment event status");
-        return MAIN_NURSE_JSP;
+        boolean actionResult = nurseService.setTreatmentEventToCompleted(tEventId);
+        if (!actionResult) {
+            modelMap.addAttribute(MESSAGE, "Failed to change treatment event status");
+        }
+        modelMap.addAttribute(MESSAGE, " Treatment event status changed to 'COMPLETED'");
+        return "redirect:/nurse/start-page";
     }
 
-
-
-
-    @GetMapping("/urgent-treatment-events")
-    public String getUrgentTreatmentEvents() {
-        return URGENT_TREATMENT_EVENTS_JSP;
-    }
-
-
-    //************ Done *************************
 
     /**
      * Assigns the completed status to the treatment event
      *
-     * @param tEventId treatment event id
-     * @param cancelReason reason why the treatment event was canceled
+     * @param tEventId      treatment event id
+     * @param cancelReason  reason why the treatment event was canceled
      * @param bindingResult binding result
-     * @param modelMap ModeMap
+     * @param modelMap      ModeMap
      * @return redirects to nurse's main page
      */
     @PostMapping("/cancel-treatment-event")
@@ -71,7 +76,7 @@ public class NurseController {
         }
         boolean actionResult = nurseService.cancelTreatmentEvent(tEventId, cancelReason);
         if (!actionResult) {
-            modelMap.addAttribute("message", "Failed to change treatment event status");
+            modelMap.addAttribute(MESSAGE, "Failed to change treatment event status");
         }
         return "redirect:/nurse/start-page";
     }
@@ -89,10 +94,10 @@ public class NurseController {
         List<TreatmentEventDTO> treatmentEventDTOS = nurseService.findAllCompletedTreatmentEvents();
         if (!treatmentEventDTOS.isEmpty()) {
             logger.info("MedHelper_LOGS: In NurseController: The action showCompletedTreatmentEvents() completed successfully");
-            modelMap.addAttribute("treatmentEventList", treatmentEventDTOS);
+            modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
         } else {
             logger.info("MedHelper_LOGS: The action showCompletedTreatmentEvents() returned empty list");
-            modelMap.addAttribute("message",
+            modelMap.addAttribute(MESSAGE,
                     "INFO: You don't have any completed treatment events yet. You should get to work!");
         }
         return SHOW_COMPLETED_TREATMENT_EVENTS_JSP;
@@ -110,13 +115,57 @@ public class NurseController {
         List<TreatmentEventDTO> treatmentEventDTOS = nurseService.findAllPlannedTreatmentEvents();
         if (!treatmentEventDTOS.isEmpty()) {
             logger.info("MedHelper_LOGS: In NurseController: The action showNursePage() completed successfully");
-            modelMap.addAttribute("treatmentEventList", treatmentEventDTOS);
+            modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
         } else {
             logger.info("MedHelper_LOGS: The action showNursePage() returned empty list");
-            modelMap.addAttribute("message",
+            modelMap.addAttribute(MESSAGE,
                     "INFO: You don't have any treatment events yet. Rest a little bit!");
         }
         return MAIN_NURSE_JSP;
+    }
+
+
+    /**
+     * Shows urgent treatment events (on a nearest hour)
+     *
+     * @param modelMap ModelMap
+     * @return page with treatment events on a nearest hour
+     */
+    @GetMapping("/urgent-treatment-events")
+    public String getUrgentTreatmentEvents(ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In NurseController - handler method  getUrgentTreatmentEvents(), GET");
+        List<TreatmentEventDTO> treatmentEventDTOS = nurseService.getUrgentTreatmentEvents();
+        if (!treatmentEventDTOS.isEmpty()) {
+            logger.info("MedHelper_LOGS: In NurseController: The action getUrgentTreatmentEvents() completed successfully");
+            modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
+        } else {
+            logger.info("MedHelper_LOGS: The action getUrgentTreatmentEvents() returned empty list");
+            modelMap.addAttribute(MESSAGE,
+                    "INFO: You don't have any urgent treatment events yet.");
+        }
+        return URGENT_TREATMENT_EVENTS_JSP;
+    }
+
+
+    /**
+     * Shows treatment events that a nurse should perform today
+     *
+     * @param modelMap ModelMap
+     * @return page with current treatment events for today
+     */
+    @GetMapping("/today-treatment-events")
+    public String getTodayTreatmentEvents(ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In NurseController - handler method getTodayTreatmentEvents(), GET");
+        List<TreatmentEventDTO> treatmentEventDTOS = nurseService.getTodayTreatmentEvents();
+        if (!treatmentEventDTOS.isEmpty()) {
+            logger.info("MedHelper_LOGS: In NurseController: The action getTodayTreatmentEvents() completed successfully");
+            modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
+        } else {
+            logger.info("MedHelper_LOGS: The action getTodayTreatmentEvents() returned empty list");
+            modelMap.addAttribute(MESSAGE,
+                    "INFO: You don't have any treatment events today.");
+        }
+        return TODAY_TREATMENT_EVENTS_JSP;
     }
 
 
@@ -135,7 +184,7 @@ public class NurseController {
             logger.info("MedHelper_LOGS: In NurseController: handler method showSelectedTreatmentDetails() returns treatment event found by id");
             modelMap.addAttribute("treatmentEventDetails", treatmentEventDTO);
         } else {
-            modelMap.addAttribute("message", "Treatment event with specified id was not found");
+            modelMap.addAttribute(MESSAGE, "Treatment event with specified id was not found");
         }
         return TREATMENT_EVENT_DETAILS_JSP;
     }

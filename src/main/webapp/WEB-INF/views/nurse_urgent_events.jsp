@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page import="java.time.LocalTime" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -45,12 +46,12 @@
                     </a>
                 </li>
                 <li class="item" id="urgentEvents">
-                    <a href="${pageContext.request.contextPath}/nurse/show-completed-treatment-events" class="menu-btn">
+                    <a href="${pageContext.request.contextPath}/nurse/urgent-treatment-events" class="menu-btn">
                         <i class="fas fa-first-aid"></i><span>Urgent</span>
                     </a>
                 </li>
                 <li class="item" id="todayEvents">
-                    <a href="${pageContext.request.contextPath}/nurse/show-completed-treatment-events" class="menu-btn">
+                    <a href="${pageContext.request.contextPath}/nurse/today-treatment-events" class="menu-btn">
                         <i class="far fa-calendar-plus"></i><span>Today</span>
                     </a>
                 </li>
@@ -65,7 +66,17 @@
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
     <div class="main-container" style="height: 90vh;">
-        Treatment events
+        <h5>URGENT</h5>
+        <div style="float: right; padding-right: 20px; color: #1d3d4e">
+            <%
+                response.setIntHeader("Refresh", 5);
+                LocalTime now = LocalTime.now();
+                int hour = now.getHour();
+                int minute = now.getMinute();
+                String CT = hour + ":" + minute;
+                out.println("Current time: " + CT + "\n");
+            %>
+        </div>
         <table class="table table-striped table-borderless .table-condensed " style="text-align: center">
             <thead class="thead-mine">
             <tr class="tr-mine">

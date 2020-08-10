@@ -44,6 +44,16 @@
                         <i class="fas fa-clinic-medical"></i><span>Main page</span>
                     </a>
                 </li>
+                <li class="item" id="urgentEvents">
+                    <a href="${pageContext.request.contextPath}/nurse/urgent-treatment-events" class="menu-btn">
+                        <i class="fas fa-first-aid"></i><span>Urgent</span>
+                    </a>
+                </li>
+                <li class="item" id="todayEvents">
+                    <a href="${pageContext.request.contextPath}/nurse/today-treatment-events" class="menu-btn">
+                        <i class="far fa-calendar-plus"></i><span>Today</span>
+                    </a>
+                </li>
                 <li class="item" id="completedEvents">
                     <a href="${pageContext.request.contextPath}/nurse/show-completed-treatment-events" class="menu-btn">
                         <i class="fas fa-list-ol"></i><span>Completed</span>
@@ -55,7 +65,7 @@
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
     <div class="main-container" style="height: 90vh;">
-        Treatment events
+        <h5>COMPLETED</h5>
         <table class="table table-striped table-borderless .table-condensed " style="text-align: center">
             <thead class="thead-mine">
             <tr class="tr-mine">
