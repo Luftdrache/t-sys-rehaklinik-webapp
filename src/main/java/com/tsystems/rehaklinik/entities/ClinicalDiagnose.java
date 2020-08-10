@@ -39,7 +39,7 @@ public class ClinicalDiagnose implements Serializable {
     private String fullDiagnosisDescription;
 
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH})
     @JoinColumn(name = "medical_record_id", referencedColumnName = "medical_record_id")
     private MedicalRecord medicalRecord;
 

@@ -71,7 +71,9 @@ public class DoctorServiceImpl implements DoctorService {
     public PrescriptionShortViewDTO editPrescription(PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO) {
         Prescription prescriptionToEdit = prescriptionDAO.findPrescriptionById(prescriptionTreatmentPatternDTO.getPrescriptionId());
         prescriptionToEdit = PrescriptionTreatmentPatternDTOConverter.convertFromDTO(prescriptionToEdit, prescriptionTreatmentPatternDTO);
-        return new PrescriptionShortViewDTO(prescriptionDAO.updatePrescription(prescriptionToEdit));
+        Prescription edited = prescriptionDAO.updatePrescription(prescriptionToEdit);
+
+        return new PrescriptionShortViewDTO(edited);
     }
 
 
