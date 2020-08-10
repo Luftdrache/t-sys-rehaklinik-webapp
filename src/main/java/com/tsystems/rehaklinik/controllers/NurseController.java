@@ -29,9 +29,27 @@ public class NurseController {
     private static final String ERROR_PAGE_JSP = "input_data_error_page";
     private static final String URGENT_TREATMENT_EVENTS_JSP = "nurse_urgent_events";
     private static final String TODAY_TREATMENT_EVENTS_JSP = "nurse_today_events";
+    private static final String OVERDUE_TREATMENT_EVENTS_JSP = "nurse_overdue_treatment_events";
 
     private static final String MESSAGE = "message";
     protected static final String TREATMENT_EVENT_LIST = "treatmentEventList";
+
+
+
+    @GetMapping("/show-overdue-treatment-events")
+    public String showOverdueTreatmentEvents(ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In NurseController: handler method showOverdueTreatmentEvents(), GET");
+        List<TreatmentEventDTO> treatmentEventDTOS = nurseService.findOverdueTreatmentEvents();
+        if (!treatmentEventDTOS.isEmpty()) {
+            logger.info("MedHelper_LOGS: In NurseController: The action showOverdueTreatmentEvents() completed successfully");
+            modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
+        } else {
+            logger.info("MedHelper_LOGS: The action showOverdueTreatmentEvents() returned empty list");
+            modelMap.addAttribute(MESSAGE,
+                    "INFO: You don't have overdue treatment events. Nice work!");
+        }
+        return OVERDUE_TREATMENT_EVENTS_JSP;
+    }
 
 
 

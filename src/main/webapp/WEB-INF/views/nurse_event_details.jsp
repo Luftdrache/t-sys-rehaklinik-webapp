@@ -49,7 +49,7 @@
                 </li>
                 <li class="item" id="#urgentEvents">
                     <a href="${pageContext.request.contextPath}/nurse/urgent-treatment-events" class="menu-btn" style="font-size: 20px;">
-                        <i class="fas fa-hourglass-end"></i><span>Urgent</span>
+                        <i class="fas fa-ambulance"></i><span>Urgent</span>
                     </a>
                 </li>
                 <li class="item" id="#todayEvents">
@@ -60,6 +60,11 @@
                 <li class="item" id="#completedEvents">
                     <a href="${pageContext.request.contextPath}/nurse/show-completed-treatment-events" class="menu-btn" style="font-size: 20px;">
                         <i class="fas fa-list-ol"></i><span>Completed</span>
+                    </a>
+                </li>
+                <li class="item" id="overdueEvents">
+                    <a href="${pageContext.request.contextPath}/nurse/show-overdue-treatment-events" class="menu-btn">
+                        <i class="fas fa-hourglass-end"></i><span>Overdue</span>
                     </a>
                 </li>
             </ul>

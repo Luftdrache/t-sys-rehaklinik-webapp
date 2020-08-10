@@ -24,6 +24,22 @@ public class NurseServiceImpl implements NurseService {
 
 
     @Override
+    public List<TreatmentEventDTO> findOverdueTreatmentEvents() {
+        logger.info("MedHelper_LOGS: In NurseServiceImpl - in findOverdueTreatmentEvents() method");
+        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findOverdueTreatmentEvents();
+        List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
+        if (treatmentEventList != null) {
+            for (TreatmentEvent tEvent : treatmentEventList) {
+                treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
+            }
+            return treatmentEventDTOList;
+        }
+        return Collections.emptyList();
+    }
+
+
+
+    @Override
     public boolean setTreatmentEventToCompleted(int treatmentEventId) {
         logger.info("MedHelper_LOGS: In NurseServiceImpl - in setTreatmentEventToCompleted() method");
         TreatmentEvent setToCompleted = treatmentEventDAO.findTreatmentEventById(treatmentEventId);

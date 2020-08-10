@@ -66,7 +66,7 @@
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
     <div class="main-container" style="height: 90vh;">
-        Patients:
+        <h5>PATIENTS</h5>
         <table class="table table-striped table-borderless .table-condensed ">
             <thead class="thead-mine">
             <tr class="tr-mine">

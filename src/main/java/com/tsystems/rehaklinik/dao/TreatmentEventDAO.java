@@ -33,7 +33,7 @@ public interface TreatmentEventDAO {
 
 
     /**
-     * Finds planned and overdue treatment events
+     * Finds planned treatment events
      *
      * @return found treatment event list
      */
@@ -100,5 +100,11 @@ public interface TreatmentEventDAO {
     List<TreatmentEvent> findTreatmentEventsByPatientsSurname(String surname);
 
 
+    /**
+     * Finds all overdue treatment events
+     *
+     * @return overdue treatment events list
+     */
+    List<TreatmentEvent> findOverdueTreatmentEvents();
 }
 

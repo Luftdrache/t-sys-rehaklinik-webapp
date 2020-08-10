@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page import="java.time.LocalTime" %>
+<%@ page import="java.time.LocalDateTime" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -71,8 +73,20 @@
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
     <div class="main-container" style="height: 90vh;">
-        <h5>COMPLETED</h5>
-        <table class="table table-striped table-borderless .table-condensed " style="text-align: center">
+        <%
+            response.setIntHeader("Refresh", 300);
+        %>
+        <h5>OVERDUE</h5>
+        <div style="float: right; padding-right: 30px">
+            <%
+                response.setIntHeader("Refresh", 30);
+                LocalDateTime now = LocalDateTime.now();
+                String CT = now.getDayOfMonth() + " "
+                        + (now.getMonth()+"").toLowerCase() + " " + now.getYear() + ",   " + now.getHour() + ":" + now.getMinute();
+                out.println(CT + "\n");
+            %>
+        </div>
+        <table class="table table-striped table-borderless .table-condensed " style="text-align: center;">
             <thead class="thead-mine">
             <tr class="tr-mine">
                 <th scope="col"></th>
@@ -88,24 +102,48 @@
             <tbody class="table table-hover" style="text-align: center">
             <c:forEach items="${treatmentEventList}" var="tEvent">
                 <tr style=" padding: 0">
-                    <td>#</td>
-                    <td style="color: forestgreen; font-weight: bold">${tEvent.treatmentEventTime}</td>
-                    <td style="color: forestgreen; font-weight: bold">${tEvent.treatmentEventDate}</td>
-                    <td>${tEvent.treatmentEventStatus}</td>
-                    <td>${tEvent.patient}</td>
-                    <td>${tEvent.medicineProcedureName}</td>
-                    <td>${tEvent.treatmentType}</td>
-                    <td class="text-right row">
-                        <div style='margin-left:20px'>
-                            <form:form action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
-                                  method="get">
-                                <button type="submit" class="btn btn-primary btn-sm" value="Details"
-                                        style="background-color: yellowgreen">
-                                    <i class="fas fa-eye"></i>
+                <c:if test="${tEvent.treatmentEventStatus == 'CANCELLED'}">
+                    <tr style=" padding: 0; background-color: #8FC5E9; color: black">
+                </c:if>
+                <td>#</td>
+                <td style="color: forestgreen; font-weight: bold">${tEvent.treatmentEventTime}</td>
+                <td style="color: forestgreen; font-weight: bold">${tEvent.treatmentEventDate}</td>
+                <td>${tEvent.treatmentEventStatus}</td>
+                <td>${tEvent.patient}</td>
+                <td>${tEvent.medicineProcedureName}</td>
+                <td>${tEvent.treatmentType}</td>
+                <td class="text-right row">
+                    <div style="margin-left:20px;">
+                        <form action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
+                              method="get">
+                            <button type="submit" class="btn btn-primary btn-sm" value="Details"
+                                    style="background-color: yellowgreen;">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <c:if test="${tEvent.treatmentEventStatus != 'CANCELLED'
+                    && tEvent.treatmentEventStatus != 'COMPLETED' }">
+                        <div style='margin-left:10px'>
+                            <form action="${pageContext.request.contextPath}/nurse/treatment-event-set-completed"
+                                  method="post">
+                                <input type="hidden" name="tEvent" value="${tEvent.treatmentEventId}">
+                                <button type="submit" class="btn btn-primary btn-sm" value="Completed"
+                                        style="background-color: darkslategray">
+                                    <i class="fas fa-check"></i>
                                 </button>
-                            </form:form>
+                            </form>
                         </div>
-                    </td>
+                        <div style='margin-left:10px'>
+                            <c:set var="treatmentEventId" value="0" scope="page"/>
+                            <button type="submit" id="cancel-button" name="cancel-button"
+                                    class="btn btn-primary btn-sm"
+                                    value="Cancel" style="background-color: darkred" onclick="">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </c:if>
+                </td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -116,7 +154,7 @@
     </div>
     <!-- *******MAIN CONTAINER******* -->
 </div>
-
+<%@include file="shared/cancel_t_event_popup.jsp" %>
 
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 <!-- Optional JavaScript -->
@@ -135,6 +173,14 @@
         $(".sidebar-btn").click(function () {
             $(".wrapper").toggleClass("collapse");
         });
+    });
+
+    document.getElementById('cancel-button').addEventListener('click', function () {
+        document.querySelector(".popup").style.display = "flex";
+    });
+
+    document.getElementById('close-icon').addEventListener('click', function () {
+        document.querySelector(".popup").style.display = "none";
     });
 </script>
 </body>

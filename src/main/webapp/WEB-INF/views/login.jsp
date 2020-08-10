@@ -41,28 +41,34 @@
         <img src="${pageContext.request.contextPath}/resources/images/startimg.jpg"
              style="width: 100%; height: 80%; position: relative" class="shadow-lg" alt="Error image loading">
     </div>
-    <div style="left: 40%; top: 42%; width: 19%; position: absolute;">
+    <div class="error" style="left: 43%; top: 34%; width: 20%; position: absolute;">
+        <c:if test="${param.error != null}">
+            <i>You entered invalid <br> username or password</i>
+        </c:if>
+    </div>
+    <div style="left: 41%; top: 44%; width: 22%; position: absolute;">
         <form:form action="/login/process" method="post">
-            <div class="error">
-                <c:if test="${param.error != null}">
-                    <i>You entered invalid <br> username or password</i>
-                </c:if>
-            </div>
             <div class="input-group form-group">
                 <label>
-                    <input type="text" name="username" id="username" class="form-control" placeholder="username"
+                    <input type="text" required="" name="username" id="username" class="form-control"
+                           placeholder="username"
+                           oninvalid="this.setCustomValidity('Please enter a username')"
+                           oninput="setCustomValidity('')"
                            style="background-color: whitesmoke">
                 </label>
             </div>
             <div class="input-group form-group">
                 <label>
-                    <input type="password" name="password" id="password" class="form-control" placeholder="password"
+                    <input type="password" required="" name="password" id="password" class="form-control"
+                           placeholder="password"
+                           oninvalid="this.setCustomValidity('Please enter a password')"
+                           oninput="setCustomValidity('')"
                            style=" background-color: lightsteelblue">
                 </label>
             </div>
             <div class="form-group" style="position: center">
                 <input type="submit" value="Sign in" class="btn login_btn"
-                       style="background-color: orange; margin-left: 32%; opacity: 0.9">
+                       style="background-color: orange; margin-left: 24%; opacity: 0.9">
             </div>
         </form:form>
     </div>
