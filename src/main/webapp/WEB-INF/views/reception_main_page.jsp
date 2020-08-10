@@ -26,46 +26,61 @@
 <body>
 <!--wrapper start-->
 <div class="wrapper">
-    <%@include file="shared/shared_header.jsp"%>
+    <%@include file="shared/shared_header.jsp" %>
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
             <center class="profile">
                 <img src="${pageContext.request.contextPath}/resources/images/reception-avt-2.jpg" alt="">
-                <p>Receptionist</p>
-            </center><ul>
-            <li class="item" id="#patients">
-                <a href="${pageContext.request.contextPath}/reception/start-page" class="menu-btn">
-                    <i class="fas fa-users"></i><span>Patients</span>
-                </a>
-            </li>
-            <li class="item" id="prescriptions">
-                <a href="${pageContext.request.contextPath}/reception/add-patient" class="menu-btn">
-                    <i class="fas fa-user-plus"></i><span>Add new</span>
-                </a>
-            </li>
-            <li class="item" id="settings">
-                <a href="#settings" class="menu-btn">
-                    <i class="fas fa-cog"></i><span>Settings <i class="fas fa-chevron-down drop-down"></i></span>
-                </a>
-                <div class="sub-menu">
-                    <a href="#"><i class="fas fa-lock"></i><span>Password</span></a>
-                    <a href="#"><i class="fas fa-language"></i><span>Language</span></a>
-                </div>
-            </li>
-            <li class="item">
-                <a href="#" class="menu-btn">
-                    <i class="fas fa-info-circle"></i><span>About</span>
-                </a>
-            </li>
-        </ul>
+                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication
+                        property="principal.employee.surname"/></p>
+                <p><sec:authentication property="principal.employee.role"/></p>
+            </center>
+            <ul>
+                <li class="item" id="#patients">
+                    <a href="${pageContext.request.contextPath}/reception/start-page" class="menu-btn">
+                        <i class="fas fa-users"></i><span>Patients</span>
+                    </a>
+                </li>
+                <li class="item" id="prescriptions">
+                    <a href="${pageContext.request.contextPath}/reception/add-patient" class="menu-btn">
+                        <i class="fas fa-user-plus"></i><span>Add new</span>
+                    </a>
+                </li>
+                <li class="item" id="settings">
+                    <a href="#settings" class="menu-btn">
+                        <i class="fas fa-cog"></i><span>Settings <i class="fas fa-chevron-down drop-down"></i></span>
+                    </a>
+                    <div class="sub-menu">
+                        <a href="#"><i class="fas fa-lock"></i><span>Password</span></a>
+                        <a href="#"><i class="fas fa-language"></i><span>Language</span></a>
+                    </div>
+                </li>
+                <li class="item">
+                    <a href="#" class="menu-btn">
+                        <i class="fas fa-info-circle"></i><span>About</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
     <div class="main-container" style="height: 90vh;">
         <div class="container-fluid">
-            <h5>Patients: </h5>
+            <h5>PATIENTS</h5>
+            <div style="float:left; margin-bottom: 10px">
+                <form:form class="form-inline mr-auto"
+                           action="${pageContext.request.contextPath}/reception/find-patient-by-surname/"
+                           method="get">
+                    <input class="form-control" type="text" placeholder="Enter Surname" aria-label="Search"
+                           name="surname" value="${surname}">
+                    <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2"
+                            style="background-color: orange"
+                            type="submit"><i class="fas fa-search"></i> Search
+                    </button>
+                </form:form>
+            </div>
             <table class="table table-striped table-borderless .table-condensed ">
                 <thead class="thead-mine">
                 <tr class="tr-mine">
@@ -92,22 +107,24 @@
                         <td>${pat.insurancePolicyCode}</td>
                         <td>${pat.attendingDoctor}</td>
                         <td class="text-right row padding-right: 5px">
-                            <form:form action="${pageContext.request.contextPath}/reception/patient-details/${pat.patientId}"
-                                  method="get">
+                            <form:form
+                                    action="${pageContext.request.contextPath}/reception/patient-details/${pat.patientId}"
+                                    method="get">
                                 <button type="submit" class="btn btn-primary btn-sm" value="Profile"
                                         style="background-color: yellowgreen">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </form:form>
-                            <form:form action="${pageContext.request.contextPath}/reception/edit-patient-data/${pat.patientId}"
-                                  method="get">
+                            <form:form
+                                    action="${pageContext.request.contextPath}/reception/edit-patient-data/${pat.patientId}"
+                                    method="get">
                                 <button type="submit" class="btn btn-primary btn-sm" value="Edit"
                                         style="background-color: yellowgreen">
                                     <i class="fas fa-edit"></i>
                                 </button>
                             </form:form>
                             <form:form action="${pageContext.request.contextPath}/reception/delete-patient"
-                                  method="post">
+                                       method="post">
                                 <input type="hidden" name="patientIdToDelete" value="${pat.patientId}">
                                 <button type="submit" class="btn btn-primary btn-sm" value="Delete"
                                         style="background-color: yellowgreen">
@@ -121,22 +138,6 @@
             </table>
             <div content="container" class="col-sm-8 col-sm-offset-4">
                 <p>${message}</p>
-            </div>
-            <div>
-                <nav class="navbar navbar-expand-lg navbar-dark blue lighten-2 mb-4">
-                    <div class="col-sm-5 col-sm-offset-6" id="navbarSupportedContent">
-                        <form:form class="form-inline mr-auto"
-                              action="${pageContext.request.contextPath}/reception/find-patient-by-surname/"
-                              method="get">
-                            <input class="form-control" type="text" placeholder="Search" aria-label="Search"
-                                   name="surname" value="${surname}">
-                            <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2"
-                                    style="background-color: orange"
-                                    type="submit">Search
-                            </button>
-                        </form:form>
-                    </div>
-                </nav>
             </div>
         </div>
     </div>

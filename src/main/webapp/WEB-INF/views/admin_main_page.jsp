@@ -32,7 +32,8 @@
         <div class="sidebar-menu">
             <center class="profile">
                 <img src="${pageContext.request.contextPath}/resources/images/admin-avt.png" alt="">
-                <p>Admin</p>
+                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication property="principal.employee.surname"/></p>
+                <p><sec:authentication property="principal.employee.role"/></p>
             </center>
             <ul>
                 <li class="item" id="#patients">
@@ -65,7 +66,20 @@
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
     <div class="main-container" style="height: 90vh;">
-        Employees:
+        <h5>ALL EMPLOYEES</h5>
+        <div style="float:left; margin-bottom: 10px">
+            <form:form class="form-inline mr-auto"
+                       action="${pageContext.request.contextPath}/admin/find-employee-by-surname"
+                       method="get">
+                <input class="form-control" type="text" placeholder="Enter Surname" aria-label="Search" name="surname"
+                       value="${surname}">
+                <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2"
+                        style="background-color: orange"
+                        type="submit"><i class="fas fa-search"></i> Search
+                </button>
+            </form:form>
+        </div>
+
         <table class="table table-striped table-borderless .table-condensed ">
             <thead class="thead-mine">
             <tr class="tr-mine">
@@ -118,22 +132,6 @@
         </table>
         <div content="container" class="col-sm-8 col-sm-offset-4">
             <p>${message}</p>
-        </div>
-        <div>
-            <nav class="navbar navbar-expand-lg navbar-dark blue lighten-2 mb-4">
-                <div class="col-sm-5 col-sm-offset-6" id="navbarSupportedContent">
-                    <form:form class="form-inline mr-auto"
-                          action="${pageContext.request.contextPath}/admin/find-employee-by-surname"
-                          method="get">
-                        <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="surname"
-                               value="${surname}">
-                        <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2"
-                                style="background-color: orange"
-                                type="submit">Search
-                        </button>
-                    </form:form>
-                </div>
-            </nav>
         </div>
     </div>
     <!-- *******MAIN CONTAINER******* -->

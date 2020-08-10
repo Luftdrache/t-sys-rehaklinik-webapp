@@ -33,26 +33,29 @@
 <!--wrapper start-->
 <div class="wrapper">
     <!--header menu start-->
-   <%@include file="shared/shared_header.jsp" %>
+    <%@include file="shared/shared_header.jsp" %>
     <!--header menu end-->
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
             <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/admin-avt.png" alt="" >
-                <p style="font-size: 20px">Admin</p>
+                <img src="${pageContext.request.contextPath}/resources/images/admin-avt.png" alt="">
+                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication
+                        property="principal.employee.surname"/></p>
+                <p><sec:authentication property="principal.employee.role"/></p>
             </center>
-            <ul><li class="item" id="#employees" style="font-size: 20px">
-                <a href="${pageContext.request.contextPath}/admin/start-page" class="menu-btn">
-                    <i class="fas fa-users"></i><span>Main page</span>
-                </a>
-            </li>
-            <li class="item" id="#prescriptions" style="font-size: 20px">
-                <a href="${pageContext.request.contextPath}/admin/add-employee" class="menu-btn">
-                    <i class="fas fa-user-plus"></i><span>Add new</span>
-                </a>
-            </li>
-            </li>
+            <ul>
+                <li class="item" id="#employees" style="font-size: 20px">
+                    <a href="${pageContext.request.contextPath}/admin/start-page" class="menu-btn">
+                        <i class="fas fa-users"></i><span>Main page</span>
+                    </a>
+                </li>
+                <li class="item" id="#prescriptions" style="font-size: 20px">
+                    <a href="${pageContext.request.contextPath}/admin/add-employee" class="menu-btn">
+                        <i class="fas fa-user-plus"></i><span>Add new</span>
+                    </a>
+                </li>
+                </li>
             </ul>
         </div>
     </div>
@@ -63,9 +66,9 @@
             <div content="container" class="col-sm-8 col-sm-offset-2"
                  style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
                 <form:form action="${pageContext.request.contextPath}/admin/add-employee"
-                      method="post"
-                      class="form-horizontal"
-                      role="form">
+                           method="post"
+                           class="form-horizontal"
+                           role="form">
                     <div style="padding-left: 10%">
                         <h2>Add New Employee</h2>
                         <span class="help-block">*Required fields</span>
@@ -95,7 +98,8 @@
                     <div class="form-group">
                         <label for="username" class="col-sm-4 control-label">Username*</label>
                         <div class="col-sm-6">
-                            <input required type="text" id="username" name="authenticationDataEmployee.username" placeholder="Username"
+                            <input required type="text" id="username" name="authenticationDataEmployee.username"
+                                   placeholder="Username"
                                    class="form-control">
                         </div>
                     </div>
@@ -109,7 +113,8 @@
                     <div class="form-group">
                         <label for="dateOfBirth" class="col-sm-4 control-label">Date of Birth*</label>
                         <div class="col-sm-6">
-                            <input required type="date" id="dateOfBirth" name="dateOfBirth" min="1920-01-01" max="2010-01-01"
+                            <input required type="date" id="dateOfBirth" name="dateOfBirth" min="1920-01-01"
+                                   max="2010-01-01"
                                    class="form-control">
                         </div>
                     </div>
@@ -179,13 +184,15 @@
                             </select>
                         </div>
                     </div>
-                    <input type="submit" class="btn login_btn" value="Add New Employee"
-                           style="background-color: orange; opacity: 0.9;"/>
+                    <div style="padding-left: 40%">
+                        <input type="submit" class="btn login_btn" value="Add New Employee"
+                               style="background-color: orange; opacity: 0.9;"/>
+                    </div>
                 </form:form>
-<%--                <div>--%>
-<%--                    <h4> ${message}</h4>--%>
-<%--                    <h5>${newEmployee.toString()}</h5>--%>
-<%--                </div>--%>
+                <%--                <div>--%>
+                <%--                    <h4> ${message}</h4>--%>
+                <%--                    <h5>${newEmployee.toString()}</h5>--%>
+                <%--                </div>--%>
             </div>
         </div>
 

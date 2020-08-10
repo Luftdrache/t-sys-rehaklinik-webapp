@@ -37,7 +37,8 @@
         <div class="sidebar-menu">
             <center class="profile">
                 <img src="${pageContext.request.contextPath}/resources/images/nurse-avt.png" alt="">
-                <p style="font-size: 20px; ">Nurse</p>
+                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication property="principal.employee.surname"/></p>
+                <p><sec:authentication property="principal.employee.role"/></p>
             </center>
             <ul>
                 <li class="item" id="#patients">
