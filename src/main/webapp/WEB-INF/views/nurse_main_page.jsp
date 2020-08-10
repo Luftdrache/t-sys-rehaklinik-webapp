@@ -67,12 +67,16 @@
     <!-- *******MAIN CONTAINER******* -->
     <%--    <c:set var="treatmentEventId" value="7" scope="application"/>--%>
     <div class="main-container" style="height: 90vh;">
+        <%
+            response.setIntHeader("Refresh", 300);
+        %>
         <h5>${tableHeader}</h5>
         <div style="float:left; margin-bottom: 10px">
             <form:form class="form-inline mr-auto"
                        action="${pageContext.request.contextPath}/nurse/find-events-by-surname"
                        method="get">
-                <input class="form-control" type="text" placeholder="Enter Surname" aria-label="Search" name="patientSurname"
+                <input class="form-control" type="text" placeholder="Enter Surname" aria-label="Search"
+                       name="patientSurname"
                        value="${patientSurname}">
                 <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2"
                         style="background-color: orange"
@@ -81,10 +85,10 @@
             </form:form>
         </div>
         <div style="float: right;margin-right: 30px">
-        <jsp:useBean id="now" class="java.util.Date" scope="page"/>
-        <fmt:setLocale value="en-EN" scope="session"/>
-        Today is
-        <fmt:formatDate type="date" value="${now}" dateStyle="full"/>
+            <jsp:useBean id="now" class="java.util.Date" scope="page"/>
+            <fmt:setLocale value="en-EN" scope="session"/>
+            Today is
+            <fmt:formatDate type="date" value="${now}" dateStyle="full"/>
         </div>
         <table class="table table-striped table-borderless .table-condensed " style="text-align: center">
             <thead class="thead-mine">
@@ -111,8 +115,9 @@
                     <td>${tEvent.treatmentType}</td>
                     <td class="text-right row">
                         <div style='margin-left:20px'>
-                            <form:form action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
-                                  method="get">
+                            <form:form
+                                    action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
+                                    method="get">
                                 <button type="submit" class="btn btn-primary btn-sm" value="Details"
                                         style="background-color: yellowgreen">
                                     <i class="fas fa-eye"></i>
@@ -121,8 +126,9 @@
                         </div>
                         <div style='margin-left:10px'>
                             <form:form action="${pageContext.request.contextPath}/nurse/treatment-event-set-completed"
-                                  method="post">
-                                <input type="hidden" id="treatmentEventId" name="treatmentEventId" value="${tEvent.treatmentEventId}">
+                                       method="post">
+                                <input type="hidden" id="treatmentEventId" name="treatmentEventId"
+                                       value="${tEvent.treatmentEventId}">
                                 <button type="submit" class="btn btn-primary btn-sm" value="Completed"
                                         style="background-color: darkslategray">
                                     <i class="fas fa-check"></i>

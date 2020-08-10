@@ -4,7 +4,7 @@ public enum EventStatus {
     PLANNED("Planned"),
     COMPLETED("Completed"),
     CANCELLED("Cancelled"),
-    OUT_OF_TIME("Out of Time");
+    OVERDUE("Overdue");
 
     private String eventStatus;
 

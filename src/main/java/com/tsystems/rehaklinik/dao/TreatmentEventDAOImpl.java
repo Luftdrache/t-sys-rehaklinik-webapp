@@ -29,12 +29,10 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
     private EntityManager entityManager;
 
 
-
     @Override
     public boolean deleteAllPatientTreatmentEvents(int patientId) {
         return false;
     }
-
 
 
     //********* done *************
@@ -62,7 +60,7 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding all today treatment events");
         LocalDate today = LocalDate.now();
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: current date is {}", today);
-
+        checkOverdueTreatmentEvents();
         return entityManager.createQuery(
                 "SELECT t FROM TreatmentEvent t " +
                         "WHERE t.treatmentEventDate = :today " +
@@ -76,6 +74,7 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
     @Override
     public List<TreatmentEvent> findUrgentTreatmentEvents() {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding all urgent treatment events");
+        checkOverdueTreatmentEvents();
         LocalTime startTimePeriod = LocalTime.now();
         LocalTime endTimePeriod = LocalTime.now().plusHours(1);
         LocalDate today = LocalDate.now();
@@ -108,6 +107,7 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
     @Override
     public List<TreatmentEvent> findAllPlannedTreatmentEvents() {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding all treatment events except cancelled");
+        checkOverdueTreatmentEvents();
         return entityManager.createQuery(
                 "SELECT t FROM TreatmentEvent t " +
                         "WHERE t.treatmentEventStatus <> :statusCanceled " +
@@ -150,5 +150,31 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
                 .setParameter("surname", surname)
                 .getResultList();
     }
+
+
+    private void checkOverdueTreatmentEvents() {
+        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: checking overdue treatment events");
+        LocalTime overdueTime = LocalTime.now().plusHours(1);
+        LocalDate today = LocalDate.now();
+
+        List<TreatmentEvent> overdue = entityManager.createQuery(
+                "SELECT t FROM TreatmentEvent t " +
+                        "WHERE t.treatmentEventStatus = :status " +
+                        "AND t.treatmentEventTime < :overdueTime " +
+                        "AND t.treatmentEventDate = :today " +
+                        "ORDER BY t.treatmentEventDate, t.treatmentEventTime",
+                TreatmentEvent.class)
+                .setParameter("status", EventStatus.PLANNED)
+                .setParameter("overdueTime", overdueTime)
+                .setParameter("today", today )
+                .getResultList();
+        if (overdue != null) {
+            for (TreatmentEvent tEvent : overdue) {
+                tEvent.setTreatmentEventStatus(EventStatus.OVERDUE);
+                entityManager.merge(tEvent);
+            }
+        }
+    }
+
 
 }

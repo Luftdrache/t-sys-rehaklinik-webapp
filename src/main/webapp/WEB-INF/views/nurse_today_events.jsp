@@ -66,6 +66,9 @@
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
     <div class="main-container" style="height: 90vh;">
+        <%
+            response.setIntHeader("Refresh", 300);
+        %>
         <h5>TODAY</h5>
         <div style="float: right; padding-right: 30px">
             <jsp:useBean id="now" class="java.util.Date" scope="page"/>

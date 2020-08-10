@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -50,7 +51,7 @@ public class TreatmentEvent implements Serializable {
 
     @NotNull(message = "Treatment event status must be set")
     @Enumerated(EnumType.STRING)
-    @Column(name = "treatment_event_status", columnDefinition ="ENUM ('PLANNED', 'COMPLETED', 'CANCELLED')",
+    @Column(name = "treatment_event_status", columnDefinition ="ENUM ('PLANNED', 'COMPLETED', 'CANCELLED', 'OVERDUE')",
             nullable = false, length = 100)
     private EventStatus treatmentEventStatus;
 }

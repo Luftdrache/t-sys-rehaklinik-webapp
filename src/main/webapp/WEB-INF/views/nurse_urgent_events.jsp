@@ -69,7 +69,7 @@
         <h5>URGENT</h5>
         <div style="float: right; padding-right: 20px; color: #1d3d4e">
             <%
-                response.setIntHeader("Refresh", 5);
+                response.setIntHeader("Refresh", 30);
                 LocalTime now = LocalTime.now();
                 int hour = now.getHour();
                 int minute = now.getMinute();
