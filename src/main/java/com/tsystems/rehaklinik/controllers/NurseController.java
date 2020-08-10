@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class NurseController {
 
     private static final String MESSAGE = "message";
     protected static final String TREATMENT_EVENT_LIST = "treatmentEventList";
+
 
 
     /**
@@ -112,14 +115,17 @@ public class NurseController {
     @GetMapping("/start-page")
     public String showNursePage(ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In NurseController: handler method showNursePage(), GET");
-        List<TreatmentEventDTO> treatmentEventDTOS = nurseService.findAllPlannedTreatmentEvents();
-        if (!treatmentEventDTOS.isEmpty()) {
-            logger.info("MedHelper_LOGS: In NurseController: The action showNursePage() completed successfully");
-            modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
-        } else {
-            logger.info("MedHelper_LOGS: The action showNursePage() returned empty list");
-            modelMap.addAttribute(MESSAGE,
-                    "INFO: You don't have any treatment events yet. Rest a little bit!");
+        if(modelMap.isEmpty()) {
+            modelMap.addAttribute("tableHeader", "ALL PLANNED TREATMENT EVENTS");
+            List<TreatmentEventDTO> treatmentEventDTOS = nurseService.findAllPlannedTreatmentEvents();
+            if (!treatmentEventDTOS.isEmpty()) {
+                logger.info("MedHelper_LOGS: In NurseController: The action showNursePage() completed successfully");
+                modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
+            } else {
+                logger.info("MedHelper_LOGS: The action showNursePage() returned empty list");
+                modelMap.addAttribute(MESSAGE,
+                        "INFO: You don't have any treatment events yet. Rest a little bit!");
+            }
         }
         return MAIN_NURSE_JSP;
     }
@@ -189,6 +195,32 @@ public class NurseController {
         return TREATMENT_EVENT_DETAILS_JSP;
     }
 
+
+    /**
+     * Finds patient's treatment events by surname
+     *
+     * @param patientSurname patient's surname
+     * @param redirectAttributes redirect attributes
+     * @return search result
+     */
+    @GetMapping("/find-events-by-surname")
+    public RedirectView findTreatmentEventsBySurname(@RequestParam("patientSurname") String patientSurname,
+                                                     RedirectAttributes redirectAttributes) {
+        logger.info("MedHelper_LOGS: In NurseController - handler method findTreatmentEventsBySurname(), GET");
+
+        RedirectView redirectView = new RedirectView("/nurse/start-page", true);
+        List<TreatmentEventDTO> treatmentEventDTOS = nurseService.findTreatmentEventsByPatientsSurname(patientSurname);
+        redirectAttributes.addFlashAttribute("tableHeader", "SEARCH RESULT");
+        if (!treatmentEventDTOS.isEmpty()) {
+            logger.info("MedHelper_LOGS: In NurseController: The action findTreatmentEventsBySurname() completed successfully");
+            redirectAttributes.addFlashAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
+        } else {
+            logger.info("MedHelper_LOGS: The action  findTreatmentEventsBySurname() returned empty list");
+            redirectAttributes.addFlashAttribute(MESSAGE,
+                    "INFO: The patient with the specified surname not found");
+        }
+        return redirectView;
+    }
 
     @Autowired
     public NurseController(NurseService nurseService) {

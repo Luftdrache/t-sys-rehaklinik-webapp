@@ -22,4 +22,6 @@ public interface NurseService {
     List<TreatmentEventDTO> getUrgentTreatmentEvents();
 
     List<TreatmentEventDTO> getTodayTreatmentEvents();
+
+    List<TreatmentEventDTO> findTreatmentEventsByPatientsSurname(String surname);
 }

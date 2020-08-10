@@ -47,7 +47,7 @@
                 </li>
                 <li class="item" id="urgentEvents">
                     <a href="${pageContext.request.contextPath}/nurse/urgent-treatment-events" class="menu-btn">
-                        <i class="fas fa-first-aid"></i><span>Urgent</span>
+                        <i class="fas fa-hourglass-end"></i><span>Urgent</span>
                     </a>
                 </li>
                 <li class="item" id="todayEvents">
@@ -67,8 +67,20 @@
     <!-- *******MAIN CONTAINER******* -->
     <%--    <c:set var="treatmentEventId" value="7" scope="application"/>--%>
     <div class="main-container" style="height: 90vh;">
-        <h5>ALL PLANNED TREATMENT EVENTS</h5>
-        <div style="float: right">
+        <h5>${tableHeader}</h5>
+        <div style="float:left; margin-bottom: 10px">
+            <form:form class="form-inline mr-auto"
+                       action="${pageContext.request.contextPath}/nurse/find-events-by-surname"
+                       method="get">
+                <input class="form-control" type="text" placeholder="Enter Surname" aria-label="Search" name="patientSurname"
+                       value="${patientSurname}">
+                <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2"
+                        style="background-color: orange"
+                        type="submit"><i class="fas fa-search"></i> Search
+                </button>
+            </form:form>
+        </div>
+        <div style="float: right;margin-right: 30px">
         <jsp:useBean id="now" class="java.util.Date" scope="page"/>
         <fmt:setLocale value="en-EN" scope="session"/>
         Today is

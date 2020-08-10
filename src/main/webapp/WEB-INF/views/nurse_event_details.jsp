@@ -46,6 +46,21 @@
                         <i class="fas fa-clinic-medical"></i><span>Main page</span>
                     </a>
                 </li>
+                <li class="item" id="#urgentEvents">
+                    <a href="${pageContext.request.contextPath}/nurse/urgent-treatment-events" class="menu-btn" style="font-size: 20px;">
+                        <i class="fas fa-hourglass-end"></i><span>Urgent</span>
+                    </a>
+                </li>
+                <li class="item" id="#todayEvents">
+                    <a href="${pageContext.request.contextPath}/nurse/today-treatment-events" class="menu-btn" style="font-size: 20px;">
+                        <i class="far fa-calendar-plus"></i><span>Today</span>
+                    </a>
+                </li>
+                <li class="item" id="#completedEvents">
+                    <a href="${pageContext.request.contextPath}/nurse/show-completed-treatment-events" class="menu-btn" style="font-size: 20px;">
+                        <i class="fas fa-list-ol"></i><span>Completed</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -61,7 +76,7 @@
                 TREATMENT EVENT DETAILS </span>
                 </div>
                 <c:set var="status" value="${treatmentEventDetails.treatmentEventStatus}"></c:set>
-                <c:if test="${status != 'CANCELLED'}">
+                <c:if test="${status != 'CANCELLED' && status != 'COMPLETED'}">
                     <div class="col-sm-offset-5">
                             <button type="submit" class="btn btn-primary btn-sm"
                                     style="background-color: darkred; font-size: 16px"

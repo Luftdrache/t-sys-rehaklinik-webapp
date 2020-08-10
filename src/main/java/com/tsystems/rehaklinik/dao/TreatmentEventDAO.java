@@ -25,5 +25,7 @@ public interface TreatmentEventDAO {
     List<TreatmentEvent> findUrgentTreatmentEvents();
 
     List<TreatmentEvent> findTodayTreatmentEvents();
+
+    List<TreatmentEvent> findTreatmentEventsByPatientsSurname(String surname);
 }
 

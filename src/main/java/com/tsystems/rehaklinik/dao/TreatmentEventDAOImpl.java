@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -28,21 +29,33 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
     private EntityManager entityManager;
 
 
-    @Override
-    public TreatmentEvent setCompleted(TreatmentEvent treatmentEvent) {
-        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: Change treatment event  status to 'Completed'");
-        return entityManager.merge(treatmentEvent);
-    }
-
-
-
 
     @Override
     public boolean deleteAllPatientTreatmentEvents(int patientId) {
         return false;
     }
 
-//********* done *************
+
+
+    //********* done *************
+    @Override
+    public TreatmentEvent createTreatmentEvent(TreatmentEvent treatmentEvent) {
+        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: adding new treatment event");
+        entityManager.persist(treatmentEvent);
+        return treatmentEvent;
+    }
+
+    @Override
+    public TreatmentEvent cancelTreatmentEvent(TreatmentEvent treatmentEvent) {
+        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: cancelling treatment event");
+        return entityManager.merge(treatmentEvent);
+    }
+
+    @Override
+    public TreatmentEvent setCompleted(TreatmentEvent treatmentEvent) {
+        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: Change treatment event  status to 'Completed'");
+        return entityManager.merge(treatmentEvent);
+    }
 
     @Override
     public List<TreatmentEvent> findTodayTreatmentEvents() {
@@ -127,18 +140,15 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
                 TreatmentEvent.class).getResultList();
     }
 
-    @Override
-    public TreatmentEvent cancelTreatmentEvent(TreatmentEvent treatmentEvent) {
-        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: cancelling treatment event");
-        return entityManager.merge(treatmentEvent);
-    }
-
 
     @Override
-    public TreatmentEvent createTreatmentEvent(TreatmentEvent treatmentEvent) {
-        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: adding new treatment event");
-        entityManager.persist(treatmentEvent);
-        return treatmentEvent;
+    public List<TreatmentEvent> findTreatmentEventsByPatientsSurname(String surname) {
+        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding treatment events by patient's surname");
+        return entityManager.createQuery(
+                "select t from TreatmentEvent t where lower(t.patient.surname) LIKE lower(:surname) " +
+                        "ORDER BY t.treatmentEventStatus asc, t.treatmentEventDate, t.treatmentEventTime", TreatmentEvent.class)
+                .setParameter("surname", surname)
+                .getResultList();
     }
 
 }

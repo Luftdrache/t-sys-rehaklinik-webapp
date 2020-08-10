@@ -47,7 +47,7 @@
                 </li>
                 <li class="item" id="urgentEvents">
                     <a href="${pageContext.request.contextPath}/nurse/urgent-treatment-events" class="menu-btn">
-                        <i class="fas fa-first-aid"></i><span>Urgent</span>
+                        <i class="fas fa-hourglass-end"></i><span>Urgent</span>
                     </a>
                 </li>
                 <li class="item" id="todayEvents">
