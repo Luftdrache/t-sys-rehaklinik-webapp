@@ -30,14 +30,31 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
 
 
     @Override
-    public boolean deleteAllPatientTreatmentEvents(int patientId) {
-        return false;
+    public List<TreatmentEvent> findTreatmentEventByName(String tEventName) {
+        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding treatment events by name");
+        return entityManager.createQuery(
+                "SELECT t FROM TreatmentEvent t " +
+                        "WHERE lower(t.prescription.medicineAndProcedure.medicineProcedureName) LIKE lower(:tEventName) " +
+                        "ORDER BY  t.treatmentEventStatus ASC, t.treatmentEventDate, t.treatmentEventTime",
+                TreatmentEvent.class)
+                .setParameter("tEventName", "%" + tEventName + "%")
+                .getResultList();
     }
 
 
+    @Override
+    public List<TreatmentEvent> findTreatmentEventByPatientId(int id) {
+        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding treatment events by selected patient");
+        return entityManager.createQuery(
+                "SELECT t FROM TreatmentEvent t " +
+                        "WHERE t.patient.patientId = :id " +
+                        "ORDER BY  t.treatmentEventStatus ASC, t.treatmentEventDate, t.treatmentEventTime",
+                TreatmentEvent.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
 
 
-    //********* done *************
     @Override
     public TreatmentEvent createTreatmentEvent(TreatmentEvent treatmentEvent) {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: adding new treatment event");
@@ -45,17 +62,33 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
         return treatmentEvent;
     }
 
+
     @Override
     public TreatmentEvent cancelTreatmentEvent(TreatmentEvent treatmentEvent) {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: cancelling treatment event");
         return entityManager.merge(treatmentEvent);
     }
 
+
     @Override
     public TreatmentEvent setCompleted(TreatmentEvent treatmentEvent) {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: Change treatment event  status to 'Completed'");
         return entityManager.merge(treatmentEvent);
     }
+
+
+    @Override
+    public boolean deletePrescriptionPlannedTreatmentEvents(List<TreatmentEvent> treatmentEvents) {
+        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: deleting planned treatment events by selected prescription");
+        if (treatmentEvents != null) {
+            for (TreatmentEvent tEvent : treatmentEvents) {
+                entityManager.remove(tEvent);
+            }
+            return true;
+        }
+        return false;
+    }
+
 
     @Override
     public List<TreatmentEvent> findTodayTreatmentEvents() {
@@ -168,7 +201,7 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
                 TreatmentEvent.class)
                 .setParameter("status", EventStatus.PLANNED)
                 .setParameter("overdueTime", overdueTime)
-                .setParameter("today", today )
+                .setParameter("today", today)
                 .getResultList();
         if (overdue != null) {
             for (TreatmentEvent tEvent : overdue) {
@@ -178,11 +211,7 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
         }
     }
 
-    /**
-     * Finds all overdue treatment events
-     *
-     * @return overdue treatment events list
-     */
+
     @Override
     public List<TreatmentEvent> findOverdueTreatmentEvents() {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding overdue treatment events");
@@ -192,6 +221,19 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
                         "ORDER BY t.treatmentEventDate, t.treatmentEventTime",
                 TreatmentEvent.class).
                 setParameter("statusOverdue", EventStatus.OVERDUE)
+                .getResultList();
+    }
+
+
+    @Override
+    public List<TreatmentEvent> findPlannedTreatmentEventsByPrescriptionId(int prescriptionId) {
+        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding all planned treatment events by prescription id");
+        return entityManager.createQuery("SELECT t FROM TreatmentEvent t " +
+                "WHERE t.treatmentEventStatus = :status " +
+                "AND t.prescription.prescriptionId = :prescriptionId " +
+                "ORDER BY t.treatmentEventDate, t.treatmentEventTime", TreatmentEvent.class)
+                .setParameter("status", EventStatus.PLANNED)
+                .setParameter("prescriptionId", prescriptionId)
                 .getResultList();
     }
 }

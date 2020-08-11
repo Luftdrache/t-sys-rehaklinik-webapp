@@ -1,8 +1,6 @@
 package com.tsystems.rehaklinik.services;
 
 import com.tsystems.rehaklinik.dto.*;
-import com.tsystems.rehaklinik.entities.MedicalRecord;
-import com.tsystems.rehaklinik.entities.Prescription;
 
 
 import java.util.List;
@@ -34,5 +32,11 @@ public interface DoctorService {
     PrescriptionShortViewDTO editPrescription(PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO);
 
     boolean cancelPrescription(int prescriptionId);
+
+    List<PatientShortViewDTO> findPatientBySurname(String surname);
+
+    List<TreatmentEventDTO> findTreatmentEventsByPatientId(int id);
+
+    List<TreatmentEventDTO> findTreatmentEventByName(String tEventName);
 
 }

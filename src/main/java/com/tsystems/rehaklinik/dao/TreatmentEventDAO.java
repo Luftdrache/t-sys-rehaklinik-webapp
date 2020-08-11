@@ -41,12 +41,12 @@ public interface TreatmentEventDAO {
 
 
     /**
-     * Deletes selected treatment event
+     * Deletes all patient's planned treatment events when they are no longer necessary
      *
-     * @param patientId patient id
-     * @return boolean result of deleting operation
+     * @param treatmentEvents treatment events list
+     * @return operation result: true or false
      */
-    boolean deleteAllPatientTreatmentEvents(int patientId);
+    boolean deletePrescriptionPlannedTreatmentEvents(List<TreatmentEvent> treatmentEvents);
 
 
     /**
@@ -106,5 +106,31 @@ public interface TreatmentEventDAO {
      * @return overdue treatment events list
      */
     List<TreatmentEvent> findOverdueTreatmentEvents();
+
+
+    /**
+     * Finds all planned treatment events by selected prescription id
+     *
+     * @return planned treatment events list
+     */
+    List<TreatmentEvent> findPlannedTreatmentEventsByPrescriptionId(int PrescriptionId);
+
+
+    /**
+     * Finds all planned treatment events by selected patient id
+     *
+     * @param id patient id
+     * @return found selected patient treatment events
+     */
+    List<TreatmentEvent> findTreatmentEventByPatientId(int id);
+
+
+    /**
+     * Finds all planned treatment events by specified name
+     *
+     * @param tEventName treatment event name
+     * @return treatment events found by specified name
+     */
+    List<TreatmentEvent> findTreatmentEventByName(String tEventName);
 }
 

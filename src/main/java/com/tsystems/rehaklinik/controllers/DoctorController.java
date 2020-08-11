@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -29,7 +31,6 @@ public class DoctorController {
 
     private static final String MAIN_DOCTOR_JSP = "doctor_main_page";
     private static final String MEDICAL_RECORD_JSP = "doctor_medical_record";
-    private static final String EDIT_MEDICAL_RECORD_JSP = "doctor_edit_medical_record";
     private static final String ERROR_PAGE_JSP = "input_data_error_page";
     private static final String HOSPITALISATION_JSP = "doctor_hospitalisation";
     private static final String DIAGNOSIS_JSP = "doctor_add_diagnosis";
@@ -41,23 +42,8 @@ public class DoctorController {
     private static final String SHOW_PATIENT_TREATMENT_EVENTS_JSP = "doctor_patient_treatment_events";
 
     private static final String MESSAGE = "message";
+    protected static final String TREATMENT_EVENT_LIST = "treatmentEventList";
 
-
-    @PostMapping("/edit-clinical-diagnosis")
-    public String editSelectedDiagnosis(@Valid @ModelAttribute("editClinicalDiagnosis") ClinicalDiagnosisDTO clinicalDiagnosisDTO,
-                                        BindingResult bindingResult, ModelMap modelMap) {
-        logger.info("MedHelper_LOGS: In DoctorController - handler method editSelectedDiagnosis(), POST");
-        if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
-            return ERROR_PAGE_JSP;
-        }
-        doctorService.editClinicalDiagnosis(clinicalDiagnosisDTO);
-        int medicalRecordId = clinicalDiagnosisDTO.getMedicalRecord().getMedicalRecordId();
-        return "redirect:/doctor/medical-record/" + medicalRecordId;
-    }
-
-
-
-    //--------------------------------------------------------------------
 
     /**
      * Returns main doctor's page with his patient list on it. Start page.
@@ -69,13 +55,15 @@ public class DoctorController {
     public String showDoctorsPatients(ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method showDoctorsPatients(), GET");
         List<PatientShortViewDTO> doctorsPatients = doctorService.patients();
-        if (doctorsPatients != null) {
-            logger.info("MedHelper_LOGS: The action showDoctorsPatients() completed successfully");
-            modelMap.addAttribute("doctorsPatients", doctorsPatients);
-        } else {
-            modelMap.addAttribute("messageToDoctor",
-                    "INFO: You don't have any patients yet");
-            logger.info("MedHelper_LOGS: The action showDoctorsPatients() returned null");
+        if (modelMap.isEmpty()) {
+            if (doctorsPatients != null) {
+                logger.info("MedHelper_LOGS: The action showDoctorsPatients() completed successfully");
+                modelMap.addAttribute("doctorsPatients", doctorsPatients);
+            } else {
+                modelMap.addAttribute(MESSAGE,
+                        "INFO: You don't have any patients yet");
+                logger.info("MedHelper_LOGS: The action showDoctorsPatients() returned null");
+            }
         }
         return MAIN_DOCTOR_JSP;
     }
@@ -215,7 +203,7 @@ public class DoctorController {
      * Cancels selected prescription. All treatment events become cancelled
      *
      * @param prescriptionIdToCancel prescription id
-     * @param modelMap ModelMap
+     * @param modelMap               ModelMap
      * @return page with all patient's treatment events
      */
     @PostMapping("/cancel-prescription")
@@ -305,6 +293,27 @@ public class DoctorController {
 
 
     /**
+     * Changes selected clinical diagnosis
+     *
+     * @param clinicalDiagnosisDTO clinicalDiagnosisDTO
+     * @param bindingResult        binding result
+     * @param modelMap             ModelMap
+     * @return redirects to page with medical record
+     */
+    @PostMapping("/edit-clinical-diagnosis")
+    public String editSelectedDiagnosis(@Valid @ModelAttribute("editClinicalDiagnosis") ClinicalDiagnosisDTO clinicalDiagnosisDTO,
+                                        BindingResult bindingResult, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method editSelectedDiagnosis(), POST");
+        if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
+            return ERROR_PAGE_JSP;
+        }
+        doctorService.editClinicalDiagnosis(clinicalDiagnosisDTO);
+        int medicalRecordId = clinicalDiagnosisDTO.getMedicalRecord().getMedicalRecordId();
+        return "redirect:/doctor/medical-record/" + medicalRecordId;
+    }
+
+
+    /**
      * Deletes selected clinical diagnosis
      *
      * @param cDiagnosisIdToDelete clinical diagnosis id
@@ -359,6 +368,82 @@ public class DoctorController {
         modelMap.addAttribute("medrec", hospitalisation.getMedicalRecordId());
         modelMap.addAttribute("medicalRecord", medicalRecord);
         return MEDICAL_RECORD_JSP;
+    }
+
+    //-------------------- Other ----------------------------------------------------------
+
+    /**
+     * Finds a patient by surname
+     *
+     * @param surname            patient's surname
+     * @param modelMap           ModelMap
+     * @param redirectAttributes RedirectAttributes
+     * @return page with found result or message about unsuccessful search
+     */
+    @GetMapping("/find-patient-by-surname")
+    public RedirectView findPatientBySurname(@RequestParam("surname") String surname, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method findPatientBySurname()");
+        RedirectView redirectView = new RedirectView("/doctor/start-page", true);
+        List<PatientShortViewDTO> patientShortViewDTOS = doctorService.findPatientBySurname(surname);
+        if (patientShortViewDTOS != null) {
+            redirectAttributes.addFlashAttribute("doctorsPatients", patientShortViewDTOS);
+            logger.info("MedHelper_LOGS: The patient(-s) with surname = {} was(were) found successfully", surname);
+            for (PatientShortViewDTO patient : patientShortViewDTOS) {
+                logger.info(patient.toString());
+            }
+        } else {
+            redirectAttributes.addFlashAttribute(MESSAGE, "You don't have a patient with surname = " + surname +
+                    "  in database");
+            logger.info("MedHelper_LOGS: There is no patient with surname = {} in database", surname);
+        }
+        return redirectView;
+    }
+
+
+    /**
+     * Shows all found patient's treatment events
+     *
+     * @param patientId patient id
+     * @param modelMap  ModelMap
+     * @return page with all found patient's treatment events
+     */
+    @GetMapping("/show-patient-treatment-events/{id}")
+    public String showPatientTreatmentEvents(@PathVariable("id") int patientId, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method showPatientTreatmentEvents(), GET");
+        if (modelMap.isEmpty()) {
+            List<TreatmentEventDTO> treatmentEventDTOS = doctorService.findTreatmentEventsByPatientId(patientId);
+            if (!treatmentEventDTOS.isEmpty()) {
+                logger.info("MedHelper_LOGS: In DoctorController: The action showPatientTreatmentEvents() completed successfully");
+                modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
+            } else {
+                logger.info("MedHelper_LOGS: The action showPatientTreatmentEvents() returned empty list");
+                modelMap.addAttribute(MESSAGE,
+                        "INFO: Patient doesn't have treatment events now.");
+            }
+        }
+        modelMap.addAttribute("currentPatientId", patientId);
+        return SHOW_PATIENT_TREATMENT_EVENTS_JSP;
+    }
+
+
+    @GetMapping("/find-treatment-event-by-name/{id}")
+    public RedirectView findTreatmentEventByName(@PathVariable("id") int patientId,
+                                                 @RequestParam("tEventName") String tEventName,
+                                                 ModelMap modelMap, RedirectAttributes redirectAttributes) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method  findTreatmentEventByName(), GET");
+        List<TreatmentEventDTO> treatmentEventDTOS = doctorService.findTreatmentEventByName(tEventName);
+        RedirectView redirectView = new RedirectView("/doctor/show-patient-treatment-events/" + patientId, true);
+
+        List<TreatmentEventDTO> patientShortViewDTOS = doctorService.findTreatmentEventByName(tEventName);
+        if (!treatmentEventDTOS.isEmpty()) {
+            logger.info("MedHelper_LOGS: In DoctorController: The action findTreatmentEventByName() completed successfully");
+            redirectAttributes.addFlashAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
+        } else {
+            logger.info("MedHelper_LOGS: The action findTreatmentEventByName() returned empty list");
+            redirectAttributes.addFlashAttribute(MESSAGE,
+                    "INFO: The patient was not prescribed the specified medication or procedure.");
+        }
+        return redirectView;
     }
 
 

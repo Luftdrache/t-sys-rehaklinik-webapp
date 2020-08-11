@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "medicines_and_procedures", schema = "rehaklinik",
-        uniqueConstraints = @UniqueConstraint(columnNames = "medicine_procedure_name",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"medicine_procedure_id", "medicine_procedure_name"},
                 name = "UNQ_MEDICINE_PROCEDURE_NAME"))
 @Getter
 @Setter

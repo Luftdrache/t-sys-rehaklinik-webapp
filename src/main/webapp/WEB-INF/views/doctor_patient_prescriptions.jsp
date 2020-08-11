@@ -79,27 +79,31 @@
         <table class="table table-striped table-borderless .table-condensed ">
             <thead class="thead-mine">
             <tr class="tr-mine">
-                <th scope="col"> </th>
+                <th scope="col">Id</th>
                 <th scope="col">Name</th>
                 <th scope="col">Type</th>
                 <th scope="col">Dose</th>
                 <th scope="col">Method</th>
                 <th scope="col">Start Date</th>
                 <th scope="col">End Date</th>
+                <th scope="col">Status</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody class="table table-hover">
-            <c:forEach items="${patientPrescriptionsList}" var="patPrescription">
+            <c:forEach items="${patientPrescriptionsList}" var="patPrescription" varStatus="status">
                 <tr>
-                    <td>#</td>
+                    <td>${status.count}</td>
                     <td>${patPrescription.name}</td>
                     <td>${patPrescription.treatmentType}</td>
                     <td>${patPrescription.dose}</td>
                     <td>${patPrescription.administeringMedicationMethod}</td>
                     <td>${patPrescription.startTreatment}</td>
                     <td>${patPrescription.endTreatment}</td>
+                    <td>${patPrescription.prescriptionStatus}</td>
                     <td class="text-right row padding-right: 5px">
+
+                        <c:if test="${patPrescription.prescriptionStatus!= 'CANCELLED'}">
                         <form:form action="${pageContext.request.contextPath}/doctor/edit-prescription/${patPrescription.prescriptionId}"
                               method="get">
                             <button type="submit" class="btn btn-primary btn-sm" value="Edit"
@@ -115,6 +119,7 @@
                                 <i class="fas fa-ban"></i>
                             </button>
                         </form:form>
+                        </c:if>
                         <form:form action="${pageContext.request.contextPath}/doctor/delete-prescription" method="post">
                             <input type="hidden" name="patient" value="${patientId}">
                             <input type="hidden" name="prescriptionIdToDelete" value="${patPrescription.prescriptionId}">

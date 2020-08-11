@@ -64,7 +64,7 @@
             <div class="row">
                 <div class="col-md-4" style="color: darkred; font-weight: 700"><i class="fas fa-user-nurse"></i> Name:
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <p class="font-italic"> ${employee.firstName} ${employee.middleName} ${employee.surname}</p>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                 <div class="col-md-4" style="color: darkred; font-weight: 700"><i class="fas fa-briefcase"></i>
                     Position:
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <p class="font-italic">${employee.position}</p>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                 <div class="col-md-4" style="color: darkred; font-weight: 700"><i class="fas fa-level-up-alt"></i>
                     Category:
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <p class="font-italic">${employee.qualificationCategory.toString()}</p>
                 </div>
             </div>
@@ -88,7 +88,7 @@
                 <div class="col-md-4" style="color: darkred; font-weight: 700">
                     <i class="fas fa-birthday-cake"></i> Date of Birth:
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <p class="font-italic">${employee.dateOfBirth}</p>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                 <div class="col-md-4" style="color: darkred; font-weight: 700">
                     <i class="fas fa-city"></i> Address:
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <p class="font-italic">${employee.address}</p>
                 </div>
             </div>
@@ -104,7 +104,7 @@
                 <div class="col-md-4" style="color: darkred; font-weight: 700">
                     <i class="fas fa-passport"></i> Passport Id:
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <p class="font-italic">${employee.passportId}</p>
                 </div>
             </div>
@@ -112,7 +112,7 @@
                 <div class="col-md-4" style="color: darkred; font-weight: 700">
                     <i class="fas fa-phone-square-alt"></i> Phone:
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <p class="font-italic">${employee.phoneNumber}</p>
                 </div>
             </div>
@@ -120,7 +120,7 @@
                 <div class="col-md-4" style="color: darkred; font-weight: 700">
                     <i class="fas fa-envelope"></i> Email:
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <p class="font-italic">${employee.email}</p>
                 </div>
             </div>
@@ -128,7 +128,7 @@
                 <div class="col-md-4" style="color: darkred; font-weight: 700">
                     <i class="fas fa-user-tag"></i> Role:
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <p class="font-italic">${employee.role}</p>
                 </div>
             </div>

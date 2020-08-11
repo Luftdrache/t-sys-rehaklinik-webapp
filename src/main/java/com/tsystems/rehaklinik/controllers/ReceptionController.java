@@ -240,9 +240,9 @@ public class ReceptionController {
                 logger.info(patient.toString());
             }
         } else {
-            redirectAttributes.addFlashAttribute(MESSAGE, "There is no employee with surname = " + surname +
+            redirectAttributes.addFlashAttribute(MESSAGE, "There is no patient with surname = " + surname +
                     "  in database");
-            logger.info("MedHelper_LOGS: There is no employee with surname = {} in database", surname);
+            logger.info("MedHelper_LOGS: There is no patient with surname = {} in database", surname);
         }
         return redirectView;
     }

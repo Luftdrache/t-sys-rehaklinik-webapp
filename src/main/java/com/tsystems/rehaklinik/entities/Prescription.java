@@ -1,5 +1,7 @@
 package com.tsystems.rehaklinik.entities;
 
+import com.tsystems.rehaklinik.types.PrescriptionStatus;
+import com.tsystems.rehaklinik.types.QualificationCategories;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -36,6 +38,10 @@ public class Prescription implements Serializable {
 
     @Column(name = "end_treatment", nullable = false)
     private LocalDate endTreatment;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "prescription_status", columnDefinition = "ENUM('TBD', 'CANCELLED')", nullable = false)
+    private PrescriptionStatus prescriptionStatus;
 
     @ManyToOne
     @JoinColumn(name = "patient_id", referencedColumnName = "patient_id", nullable = false)

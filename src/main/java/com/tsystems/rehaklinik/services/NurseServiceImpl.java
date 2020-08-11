@@ -38,7 +38,6 @@ public class NurseServiceImpl implements NurseService {
     }
 
 
-
     @Override
     public boolean setTreatmentEventToCompleted(int treatmentEventId) {
         logger.info("MedHelper_LOGS: In NurseServiceImpl - in setTreatmentEventToCompleted() method");

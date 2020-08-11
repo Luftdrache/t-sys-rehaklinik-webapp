@@ -1,12 +1,11 @@
 package com.tsystems.rehaklinik.dto;
 
 import com.tsystems.rehaklinik.entities.Prescription;
-import com.tsystems.rehaklinik.types.TreatmentType;
+import com.tsystems.rehaklinik.types.PrescriptionStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -21,6 +20,7 @@ public class PrescriptionShortViewDTO {
     private String administeringMedicationMethod;
     private String startTreatment;
     private String endTreatment;
+    private PrescriptionStatus prescriptionStatus;
 
 
     public PrescriptionShortViewDTO(Prescription prescription) {
@@ -33,5 +33,6 @@ public class PrescriptionShortViewDTO {
         this.administeringMedicationMethod = prescription.getAdministeringMedicationMethod();
         this.startTreatment = formatter.format(prescription.getStartTreatment());
         this.endTreatment = formatter.format(prescription.getEndTreatment());
+        this.prescriptionStatus = prescription.getPrescriptionStatus();
     }
 }

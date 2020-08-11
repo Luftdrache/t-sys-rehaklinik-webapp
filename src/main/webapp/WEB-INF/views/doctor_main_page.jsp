@@ -67,6 +67,18 @@
     <!-- *******MAIN CONTAINER******* -->
     <div class="main-container" style="height: 90vh;">
         <h5>PATIENTS</h5>
+        <div style="float:left; margin-bottom: 10px">
+            <form:form class="form-inline mr-auto"
+                       action="${pageContext.request.contextPath}/doctor/find-patient-by-surname"
+                       method="get">
+                <input class="form-control" type="text" placeholder="Enter Surname" aria-label="Search" name="surname"
+                       value="${surname}">
+                <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2"
+                        style="background-color: orange"
+                        type="submit"><i class="fas fa-search"></i> Search
+                </button>
+            </form:form>
+        </div>
         <table class="table table-striped table-borderless .table-condensed ">
             <thead class="thead-mine">
             <tr class="tr-mine">
@@ -81,11 +93,11 @@
             </tr>
             </thead>
             <tbody class="table table-hover">
-            <c:forEach items="${doctorsPatients}" var="pat">
+            <c:forEach items="${doctorsPatients}" var="pat" varStatus="status">
                 <tr>
-                    <td>${pat.patientId}</td>
+                    <td>${status.count}</td>
                     <td>${pat.name}</td>
-                    <td>${pat.gender}</td>
+                    <td>${pat.gender.toString()}</td>
                     <td>${pat.age}</td>
                     <td>${pat.phone}</td>
                     <td>${pat.insuranceCompany}</td>
@@ -105,11 +117,21 @@
                                 <i class="fas fa-tablets"></i>
                             </button>
                         </form:form>
+                        <form:form action="${pageContext.request.contextPath}/doctor/show-patient-treatment-events/${pat.patientId}"
+                                   method="get">
+                            <button type="submit" class="btn btn-primary btn-sm" value="Treatment Events"
+                                    style="background-color: yellowgreen">
+                                <i class="fas fa-list-ul"></i>
+                            </button>
+                        </form:form>
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
+        <div content="container" class="col-sm-8 col-sm-offset-4">
+            <p>${message}</p>
+        </div>
     </div>
     <!-- *******MAIN CONTAINER******* -->
 </div>

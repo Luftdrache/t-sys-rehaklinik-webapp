@@ -75,7 +75,7 @@
         <table class="table table-striped table-borderless .table-condensed " style="text-align: center">
             <thead class="thead-mine">
             <tr class="tr-mine">
-                <th scope="col"></th>
+                <th scope="col">Id</th>
                 <th scope="col">Time</th>
                 <th scope="col">Data</th>
                 <th scope="col">Status</th>
@@ -86,9 +86,9 @@
             </tr>
             </thead>
             <tbody class="table table-hover" style="text-align: center">
-            <c:forEach items="${treatmentEventList}" var="tEvent">
+            <c:forEach items="${treatmentEventList}" var="tEvent" varStatus="status">
                 <tr style=" padding: 0">
-                    <td>#</td>
+                    <td>${status.count}</td>
                     <td style="color: forestgreen; font-weight: bold">${tEvent.treatmentEventTime}</td>
                     <td style="color: forestgreen; font-weight: bold">${tEvent.treatmentEventDate}</td>
                     <td>${tEvent.treatmentEventStatus}</td>

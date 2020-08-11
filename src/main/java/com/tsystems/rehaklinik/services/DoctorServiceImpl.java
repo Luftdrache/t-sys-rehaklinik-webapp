@@ -6,6 +6,8 @@ import com.tsystems.rehaklinik.dao.*;
 import com.tsystems.rehaklinik.dto.*;
 import com.tsystems.rehaklinik.entities.*;
 import com.tsystems.rehaklinik.types.EventStatus;
+import com.tsystems.rehaklinik.types.HospitalStayStatus;
+import com.tsystems.rehaklinik.types.PrescriptionStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,16 +32,24 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public boolean cancelPrescription(int prescriptionId) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl --> in cancelPrescription() method");
         Prescription prescription = prescriptionDAO.findPrescriptionById(prescriptionId);
-        List<TreatmentEvent> treatmentEventList = prescription.getTreatmentEvents();
-        if (treatmentEventList != null) {
-            for (TreatmentEvent tEvent : treatmentEventList) {
-                tEvent.setTreatmentEventStatus(EventStatus.CANCELLED);
-                tEvent.setCancelReason("Cancelled by doctor");
-                treatmentEventDAO.cancelTreatmentEvent(tEvent);
+        prescription.setPrescriptionStatus(PrescriptionStatus.CANCELLED);
+        Prescription cancelled = prescriptionDAO.updatePrescription(prescription);
+        if (cancelled.getPrescriptionId() == prescription.getPrescriptionId()
+                && cancelled.getPrescriptionStatus() == prescription.getPrescriptionStatus()) {
+            logger.info("MedHelper_LOGS: In DoctorServiceImpl: cancelPrescription(): prescription cancelled");
+            List<TreatmentEvent> treatmentEventList = prescription.getTreatmentEvents();
+            if (treatmentEventList != null) {
+                for (TreatmentEvent tEvent : treatmentEventList) {
+                    tEvent.setTreatmentEventStatus(EventStatus.CANCELLED);
+                    tEvent.setCancelReason("Cancelled by doctor");
+                    treatmentEventDAO.cancelTreatmentEvent(tEvent);
+                }
+                return true;
             }
-            return true;
         }
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl: cancelPrescription(): Failed to change prescription status");
         return false;
     }
 
@@ -53,10 +63,10 @@ public class DoctorServiceImpl implements DoctorService {
         return editedClinicalDiagnose;
     }
 
-    //--------------------------------------------------------------------------------------
     @Override
     public PrescriptionDTO addPrescription(PrescriptionDTO prescriptionDTO) {
         Prescription prescription = PrescriptionMapper.INSTANCE.fromDTO(prescriptionDTO);
+        prescription.setPrescriptionStatus(PrescriptionStatus.TBD);
         Prescription newPrescription = prescriptionDAO.createPrescription(prescription);
         PrescriptionDTO savedPrescriptionDTO = PrescriptionMapper.INSTANCE.toDTO(newPrescription);
         List<TreatmentEvent> treatmentEventList = treatmentEventGenerationService.generateTreatmentEvents(newPrescription);
@@ -69,10 +79,20 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public PrescriptionShortViewDTO editPrescription(PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl --> editPrescription() method");
         Prescription prescriptionToEdit = prescriptionDAO.findPrescriptionById(prescriptionTreatmentPatternDTO.getPrescriptionId());
         prescriptionToEdit = PrescriptionTreatmentPatternDTOConverter.convertFromDTO(prescriptionToEdit, prescriptionTreatmentPatternDTO);
+        prescriptionToEdit.setPrescriptionStatus(PrescriptionStatus.TBD);
         Prescription edited = prescriptionDAO.updatePrescription(prescriptionToEdit);
-
+        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findPlannedTreatmentEventsByPrescriptionId(edited.getPrescriptionId());
+        boolean result = treatmentEventDAO.deletePrescriptionPlannedTreatmentEvents(treatmentEventList);
+        if (!result) {
+            logger.info("MedHelper_LOGS: In DoctorServiceImpl: editPrescription(): failed attempt to delete planned events");
+        }
+        List<TreatmentEvent> newTreatmentEvents = treatmentEventGenerationService.generateTreatmentEvents(edited);
+        for (TreatmentEvent tEvent : newTreatmentEvents) {
+            treatmentEventDAO.createTreatmentEvent(tEvent);
+        }
         return new PrescriptionShortViewDTO(edited);
     }
 
@@ -120,6 +140,16 @@ public class DoctorServiceImpl implements DoctorService {
         MedicalRecord medicalRecord = MedicalRecordMapper.INSTANCE.fromDTO(medicalRecordDTO);
         medicalRecordDAO.updateMedicalRecord(medicalRecord);
 
+        //When discharged:
+        if (medicalRecord.getHospitalStayStatus() == HospitalStayStatus.DISCHARGED) {
+            List<Prescription> prescriptionList = prescriptionDAO.fidAllPrescriptionsByPatientId(
+                    medicalRecord.getPatient().getPatientId());
+            if (prescriptionList != null) {
+                for (Prescription p : prescriptionList) {
+                    cancelPrescription(p.getPrescriptionId());
+                }
+            }
+        }
         return medicalRecordDTO;
     }
 
@@ -193,6 +223,46 @@ public class DoctorServiceImpl implements DoctorService {
         return null;
     }
 
+    @Override
+    public List<PatientShortViewDTO> findPatientBySurname(String surname) {
+        List<Patient> allPatientsFound = patientDAO.findPatientBySurname(surname);
+        List<PatientShortViewDTO> patientShortViewDTOS = new ArrayList<>();
+        if (!allPatientsFound.isEmpty()) {
+            for (Patient patient : allPatientsFound) {
+                patientShortViewDTOS.add(new PatientShortViewDTO(patient));
+            }
+            return patientShortViewDTOS;
+        }
+        return null;
+    }
+
+
+    @Override
+    public List<TreatmentEventDTO> findTreatmentEventsByPatientId(int id) {
+        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findTreatmentEventByPatientId(id);
+        List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
+        if (treatmentEventList != null) {
+            for (TreatmentEvent tEvent : treatmentEventList) {
+                treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
+            }
+            return treatmentEventDTOList;
+        }
+        return Collections.emptyList();
+    }
+
+
+    @Override
+    public List<TreatmentEventDTO> findTreatmentEventByName(String tEventName) {
+        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findTreatmentEventByName(tEventName);
+        List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
+        if (treatmentEventList != null) {
+            for (TreatmentEvent tEvent : treatmentEventList) {
+                treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
+            }
+            return treatmentEventDTOList;
+        }
+        return Collections.emptyList();
+    }
 
     @Autowired
     public DoctorServiceImpl(PatientDAO patientDAO, MedicalRecordDAO medicalRecordDAO, ClinicalDiagnosisDAO clinicalDiagnosisDAO, PrescriptionDAO prescriptionDAO, TreatmentEventGenerationService treatmentEventGenerationService, TreatmentEventDAO treatmentEventDAO) {

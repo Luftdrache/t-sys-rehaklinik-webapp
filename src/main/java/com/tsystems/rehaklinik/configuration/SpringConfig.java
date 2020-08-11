@@ -65,6 +65,6 @@ public class SpringConfig implements WebMvcConfigurer {
         registry.addConverter(new EventStatusStringToEnumConverter());
         registry.addConverter(new HospitalStayStatusStringToEnumConverter());
         registry.addConverter(new TreatmentTypeStringToEnumConverter());
-
+        registry.addConverter(new PrescriptionStatusStringToEnumConverter());
     }
 }

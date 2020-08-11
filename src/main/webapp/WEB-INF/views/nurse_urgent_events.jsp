@@ -97,9 +97,9 @@
             </tr>
             </thead>
             <tbody class="table table-hover" style="text-align: center">
-            <c:forEach items="${treatmentEventList}" var="tEvent">
+            <c:forEach items="${treatmentEventList}" var="tEvent" varStatus="status">
                 <tr style=" padding: 0">
-                    <td>#</td>
+                    <td>${status.count}</td>
                     <td style="color: forestgreen; font-weight: bold">${tEvent.treatmentEventTime}</td>
                     <td style="color: forestgreen; font-weight: bold">${tEvent.treatmentEventDate}</td>
                     <td>${tEvent.treatmentEventStatus}</td>

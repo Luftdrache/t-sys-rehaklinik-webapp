@@ -96,9 +96,9 @@
                 </tr>
                 </thead>
                 <tbody class="table table-hover">
-                <c:forEach items="${allPatients}" var="pat">
+                <c:forEach items="${allPatients}" var="pat" varStatus="status">
                     <tr>
-                        <td>${pat.patientId}</td>
+                        <td>${status.count}</td>
                         <td>${pat.name}</td>
                         <td>${pat.gender}</td>
                         <td>${pat.age}</td>

@@ -92,9 +92,9 @@
             </tr>
             </thead>
             <tbody class="table table-hover">
-            <c:forEach items="${allEmployees}" var="empl">
+            <c:forEach items="${allEmployees}" var="empl" varStatus="status">
                 <tr>
-                    <td>${empl.employeeId}</td>
+                    <td>${status.count}</td>
                     <td>${empl.name}</td>
                     <td>${empl.position}</td>
                     <td>${empl.qualificationCategory}</td>
