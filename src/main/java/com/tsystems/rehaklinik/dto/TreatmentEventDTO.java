@@ -40,9 +40,9 @@ public class TreatmentEventDTO {
                 + treatmentEvent.getPatient().getFirstName() + " "
                 + treatmentEvent.getPatient().getMiddleName();
         this.hospitalDepartment = treatmentEvent.getPrescription().getPatient().getMedicalRecord().getHospitalDepartment();
-        if (this.hospitalDepartment.equals("")) this.hospitalDepartment = "&mdash;";
+        if (this.hospitalDepartment == null || this.hospitalDepartment.equals("")) this.hospitalDepartment = "&mdash;";
         this.hospitalWard = Integer.toString(treatmentEvent.getPrescription().getPatient().getMedicalRecord().getHospitalWard());
-        if (this.hospitalWard.equals("")) this.hospitalWard = "&mdash;";
+        if (this.hospitalWard.equals("") || this.hospitalWard.equals(0)) this.hospitalWard = "&mdash;";
         this.treatmentEventDate = formatter.format(treatmentEvent.getTreatmentEventDate());
         this.treatmentEventTime = treatmentEvent.getTreatmentEventTime();
         this.medicineProcedureName = treatmentEvent.getPrescription().getMedicineAndProcedure().getMedicineProcedureName();

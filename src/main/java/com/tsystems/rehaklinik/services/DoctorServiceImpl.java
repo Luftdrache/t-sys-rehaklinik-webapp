@@ -118,6 +118,7 @@ public class DoctorServiceImpl implements DoctorService {
         }
         medicalRecordDTO.setClinicalDiagnosis(clinicalDiagnosisDTOSet);
         MedicalRecord medicalRecord = MedicalRecordMapper.INSTANCE.fromDTO(medicalRecordDTO);
+        medicalRecordDAO.updateMedicalRecord(medicalRecord);
 
         return medicalRecordDTO;
     }

@@ -86,11 +86,13 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
                         "WHERE t.treatmentEventTime >= :startTimePeriod " +
                         "AND t.treatmentEventTime <= :endTimePeriod " +
                         "AND t.treatmentEventDate = :today " +
+                        "AND t.treatmentEventStatus = :status " +
                         "ORDER BY t.treatmentEventDate, t.treatmentEventTime",
                 TreatmentEvent.class)
                 .setParameter("startTimePeriod", startTimePeriod)
                 .setParameter("endTimePeriod", endTimePeriod)
                 .setParameter("today", today)
+                .setParameter("status", EventStatus.PLANNED)
                 .getResultList();
     }
 
@@ -160,7 +162,7 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
         List<TreatmentEvent> overdue = entityManager.createQuery(
                 "SELECT t FROM TreatmentEvent t " +
                         "WHERE t.treatmentEventStatus = :status " +
-                        "AND t.treatmentEventTime < :overdueTime " +
+                        "AND t.treatmentEventTime <= :overdueTime " +
                         "AND t.treatmentEventDate = :today " +
                         "ORDER BY t.treatmentEventDate, t.treatmentEventTime",
                 TreatmentEvent.class)
@@ -184,7 +186,6 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
     @Override
     public List<TreatmentEvent> findOverdueTreatmentEvents() {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding overdue treatment events");
-        checkOverdueTreatmentEvents();
         return entityManager.createQuery(
                 "SELECT t FROM TreatmentEvent t " +
                         "WHERE t.treatmentEventStatus = :statusOverdue " +

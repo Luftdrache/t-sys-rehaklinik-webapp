@@ -125,6 +125,7 @@
                                     action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
                                     method="get">
                                 <button type="submit" class="btn btn-primary btn-sm" value="Details"
+                                        title="See details"
                                         style="background-color: yellowgreen">
                                     <i class="fas fa-eye"></i>
                                 </button>
@@ -136,6 +137,7 @@
                                 <input type="hidden" id="treatmentEventId" name="treatmentEventId"
                                        value="${tEvent.treatmentEventId}">
                                 <button type="submit" class="btn btn-primary btn-sm" value="Completed"
+                                        title='Change status to "Completed"'
                                         style="background-color: darkslategray">
                                     <i class="fas fa-check"></i>
                                 </button>
@@ -144,6 +146,7 @@
                         <div style='margin-left:10px'>
                             <button type="submit" id="cancel-button" name="cancel-button" class="btn btn-primary btn-sm"
                                     value="Cancel" style="background-color: darkred"
+                                    title="Cancel treatment event"
                                     onclick="setVariable('${tEvent.treatmentEventId}')">
                                 <i class="fas fa-times"></i>
                             </button>

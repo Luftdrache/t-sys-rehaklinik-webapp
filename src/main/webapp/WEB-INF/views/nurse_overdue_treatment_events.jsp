@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page import="java.time.LocalTime" %>
 <%@ page import="java.time.LocalDateTime" %>
 <html>
 <head>
@@ -114,25 +113,26 @@
                 <td>${tEvent.treatmentType}</td>
                 <td class="text-right row">
                     <div style="margin-left:20px;">
-                        <form action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
+                        <form:form action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
                               method="get">
                             <button type="submit" class="btn btn-primary btn-sm" value="Details"
+                                    title="See details"
                                     style="background-color: yellowgreen;">
                                 <i class="fas fa-eye"></i>
                             </button>
-                        </form>
+                        </form:form>
                     </div>
                     <c:if test="${tEvent.treatmentEventStatus != 'CANCELLED'
                     && tEvent.treatmentEventStatus != 'COMPLETED' }">
                         <div style='margin-left:10px'>
-                            <form action="${pageContext.request.contextPath}/nurse/treatment-event-set-completed"
+                            <form:form action="${pageContext.request.contextPath}/nurse/treatment-event-set-completed"
                                   method="post">
-                                <input type="hidden" name="tEvent" value="${tEvent.treatmentEventId}">
+                                <input type="hidden" id="treatmentEventId" name="treatmentEventId" value="${tEvent.treatmentEventId}">
                                 <button type="submit" class="btn btn-primary btn-sm" value="Completed"
                                         style="background-color: darkslategray">
                                     <i class="fas fa-check"></i>
                                 </button>
-                            </form>
+                            </form:form>
                         </div>
                         <div style='margin-left:10px'>
                             <c:set var="treatmentEventId" value="0" scope="page"/>

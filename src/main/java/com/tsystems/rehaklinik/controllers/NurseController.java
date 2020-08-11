@@ -48,6 +48,9 @@ public class NurseController {
             modelMap.addAttribute(MESSAGE,
                     "INFO: You don't have overdue treatment events. Nice work!");
         }
+        for (TreatmentEventDTO td: treatmentEventDTOS) {
+            logger.info("Overdue {}", td.getTreatmentEventId());
+        }
         return OVERDUE_TREATMENT_EVENTS_JSP;
     }
 
@@ -181,6 +184,7 @@ public class NurseController {
     public String getTodayTreatmentEvents(ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In NurseController - handler method getTodayTreatmentEvents(), GET");
         List<TreatmentEventDTO> treatmentEventDTOS = nurseService.getTodayTreatmentEvents();
+
         if (!treatmentEventDTOS.isEmpty()) {
             logger.info("MedHelper_LOGS: In NurseController: The action getTodayTreatmentEvents() completed successfully");
             modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
