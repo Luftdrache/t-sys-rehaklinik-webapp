@@ -20,7 +20,7 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public AuthenticationData findUserByUsername(String username) {
-        logger.info("MedHelper_LOGS: AuthServiceImpl: Finding user authentication data");
+        logger.info("MedHelper_LOGS: AuthServiceImpl: findUserByUsername() --> finding user authentication data");
         AuthenticationData authenticationData =  authDAO.findByUsername(username);
         return authenticationData;
     }

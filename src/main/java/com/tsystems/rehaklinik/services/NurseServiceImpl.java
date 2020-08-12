@@ -25,7 +25,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public List<TreatmentEventDTO> findOverdueTreatmentEvents() {
-        logger.info("MedHelper_LOGS: In NurseServiceImpl - in findOverdueTreatmentEvents() method");
+        logger.info("MedHelper_LOGS: In NurseServiceImpl --> in findOverdueTreatmentEvents() method");
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findOverdueTreatmentEvents();
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
         if (treatmentEventList != null) {
@@ -40,7 +40,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public boolean setTreatmentEventToCompleted(int treatmentEventId) {
-        logger.info("MedHelper_LOGS: In NurseServiceImpl - in setTreatmentEventToCompleted() method");
+        logger.info("MedHelper_LOGS: In NurseServiceImpl --> in setTreatmentEventToCompleted() method");
         TreatmentEvent setToCompleted = treatmentEventDAO.findTreatmentEventById(treatmentEventId);
         if (setToCompleted == null) {
             return false;
@@ -54,7 +54,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public List<TreatmentEventDTO> getTodayTreatmentEvents() {
-        logger.info("MedHelper_LOGS: In NurseServiceImpl - in getTodayTreatmentEvents() method");
+        logger.info("MedHelper_LOGS: In NurseServiceImpl --> in getTodayTreatmentEvents() method");
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findTodayTreatmentEvents();
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
         if (treatmentEventList != null) {
@@ -69,7 +69,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public boolean cancelTreatmentEvent(int treatmentEventId, String cancelReason) {
-        logger.info("MedHelper_LOGS: In NurseServiceImpl - in cancelTreatmentEvent() method");
+        logger.info("MedHelper_LOGS: In NurseServiceImpl --> in cancelTreatmentEvent() method");
         TreatmentEvent treatmentEventToCancel = treatmentEventDAO.findTreatmentEventById(treatmentEventId);
         if (treatmentEventToCancel == null) {
             return false;
@@ -84,7 +84,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public List<TreatmentEventDTO> findAllCompletedTreatmentEvents() {
-        logger.info("MedHelper_LOGS: In NurseServiceImpl - in findAllCompletedTreatmentEvents() method");
+        logger.info("MedHelper_LOGS: In NurseServiceImpl --> in findAllCompletedTreatmentEvents() method");
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findAllCompletedTreatmentEvents();
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
         if (treatmentEventList != null) {
@@ -99,7 +99,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public List<TreatmentEventDTO> findAllPlannedTreatmentEvents() {
-        logger.info("MedHelper_LOGS: In NurseServiceImpl - in findAllPlannedTreatmentEvents() method");
+        logger.info("MedHelper_LOGS: In NurseServiceImpl --> in findAllPlannedTreatmentEvents() method");
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findAllPlannedTreatmentEvents();
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
         if (treatmentEventList != null) {
@@ -114,7 +114,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public TreatmentEventDTO findTreatmentEventById(int treatmentEventId) {
-        logger.info("MedHelper_LOGS: In NurseServiceImpl - in findTreatmentEventById() method");
+        logger.info("MedHelper_LOGS: In NurseServiceImpl --> in findTreatmentEventById() method");
         TreatmentEvent foundTreatmentEvent = treatmentEventDAO.findTreatmentEventById(treatmentEventId);
         if (foundTreatmentEvent != null) {
             return new TreatmentEventDTO(foundTreatmentEvent);
@@ -125,7 +125,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public List<TreatmentEventDTO> findAllTreatmentEvents() {
-        logger.info("MedHelper_LOGS: In NurseServiceImpl - in findAllTreatmentEvents() method");
+        logger.info("MedHelper_LOGS: In NurseServiceImpl --> in findAllTreatmentEvents() method");
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findAllTreatmentEvents();
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
         if (treatmentEventList != null) {
@@ -140,7 +140,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public List<TreatmentEventDTO> getUrgentTreatmentEvents() {
-        logger.info("MedHelper_LOGS: In NurseServiceImpl - in getUrgentTreatmentEvents() method");
+        logger.info("MedHelper_LOGS: In NurseServiceImpl --> in getUrgentTreatmentEvents() method");
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findUrgentTreatmentEvents();
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
         if (treatmentEventList != null) {
@@ -155,7 +155,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public List<TreatmentEventDTO> findTreatmentEventsByPatientsSurname(String surname) {
-        logger.info("MedHelper_LOGS: In NurseServiceImpl - in findTreatmentEventsByPatientsSurname() method");
+        logger.info("MedHelper_LOGS: In NurseServiceImpl --> in findTreatmentEventsByPatientsSurname() method");
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findTreatmentEventsByPatientsSurname(surname);
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
         if (treatmentEventList != null) {

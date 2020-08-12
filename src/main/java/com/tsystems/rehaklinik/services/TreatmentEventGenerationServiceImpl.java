@@ -3,6 +3,8 @@ package com.tsystems.rehaklinik.services;
 import com.tsystems.rehaklinik.entities.Prescription;
 import com.tsystems.rehaklinik.entities.TreatmentEvent;
 import com.tsystems.rehaklinik.types.EventStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,8 @@ import java.util.List;
 @Transactional
 public class TreatmentEventGenerationServiceImpl implements TreatmentEventGenerationService {
 
+    private static Logger logger = LoggerFactory.getLogger(TreatmentEventGenerationServiceImpl.class);
+
     /**
      * Generates treatment event(-s) (with status = PLANNED) immediately after a new prescription added to database
      *
@@ -25,6 +29,7 @@ public class TreatmentEventGenerationServiceImpl implements TreatmentEventGenera
      */
     @Override
     public List<TreatmentEvent> generateTreatmentEvents(Prescription prescription) {
+        logger.info("MedHelper_LOGS: In TreatmentEventGenerationServiceImpl --> in generateTreatmentEvents() method");
         List<TreatmentEvent> treatmentEventsList = new ArrayList<>();
 
         List<LocalDate> treatmentDates = defineTreatmentDates(prescription);
@@ -70,7 +75,7 @@ public class TreatmentEventGenerationServiceImpl implements TreatmentEventGenera
      * @return list with all dates when treatment should be performed
      */
     private List<LocalDate> defineTreatmentDates(Prescription prescription) {
-
+        logger.info("MedHelper_LOGS: In TreatmentEventGenerationServiceImpl --> in defineTreatmentDates() method");
         List<LocalDate> treatmentDates = new ArrayList<>();
         LocalDate startDate = prescription.getStartTreatment();
         LocalDate tmpDate;

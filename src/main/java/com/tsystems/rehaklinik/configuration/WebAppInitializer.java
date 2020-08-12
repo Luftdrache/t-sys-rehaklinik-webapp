@@ -2,27 +2,47 @@ package com.tsystems.rehaklinik.configuration;
 
 
 import org.springframework.core.annotation.Order;
+
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 
 //Works as web.xml
 @Order(1)
-public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer{
+public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {JPAConfig.class, DateTimeConfig.class, SecurityConfig.class
+        return new Class<?>[]{JPAConfig.class, DateTimeConfig.class, SecurityConfig.class
         };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] {SpringConfig.class};
+        return new Class<?>[]{SpringConfig.class};
     }
 
     @Override
     protected String[] getServletMappings() {
-        return new String[] {"/"}; //Send all req-s to DispatcherServlet
+        return new String[]{"/"}; //Send all req-s to DispatcherServlet
     }
+
+
+    @Override
+    protected DispatcherServlet createDispatcherServlet(WebApplicationContext servletAppContext) {
+        DispatcherServlet dispatcherServlet = (DispatcherServlet) super.createDispatcherServlet(servletAppContext);
+        dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
+        return dispatcherServlet;
+    }
+
+//    @Override
+//    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+//        registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
+//    }
 }

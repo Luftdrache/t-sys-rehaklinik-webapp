@@ -46,14 +46,8 @@ public class SpringConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 
-    @Override
-    public void configureDefaultServletHandling(
-            DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
-
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -67,4 +61,10 @@ public class SpringConfig implements WebMvcConfigurer {
         registry.addConverter(new TreatmentTypeStringToEnumConverter());
         registry.addConverter(new PrescriptionStatusStringToEnumConverter());
     }
+
+//    @Override
+//    public void configureDefaultServletHandling(
+//            DefaultServletHandlerConfigurer configurer) {
+////        configurer.enable();
+//    }
 }

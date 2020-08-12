@@ -29,6 +29,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public EmployeeDTO addNewEmployee(EmployeeDTO employeeDTO) {
+        logger.info("MedHelper_LOGS: AdminServiceImpl --> in addNewEmployee() method");
         employeeDTO.getAuthenticationDataEmployee()
                 .setPassword(passwordEncoder.encode(employeeDTO.getAuthenticationDataEmployee().getPassword()));
         Employee newEmployeeToSave = EmployeeMapper.INSTANCE.fromDTO(employeeDTO);
@@ -39,6 +40,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public EmployeeDTO editEmployee(EmployeeDTO employeeDTO) {
+        logger.info("MedHelper_LOGS: AdminServiceImpl --> in editEmployee() method");
         Employee employeeToEdit =  EmployeeMapper.INSTANCE.fromDTO(employeeDTO);
         Employee editedEmployee = employeeDAO.updateEmployee(employeeToEdit);
         EmployeeDTO editedEmployeeDTO = EmployeeMapper.INSTANCE.toDTO(editedEmployee);
@@ -47,6 +49,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String deleteEmployeeById(int id) {
+        logger.info("MedHelper_LOGS: AdminServiceImpl --> in deleteEmployeeById() method");
         boolean actionResult = employeeDAO.deleteEmployee(id);
         return !actionResult
                 ? "Failed attempt to delete employee's data"
@@ -56,6 +59,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<EmployeeShortViewDTO> showAllEmployees() {
+        logger.info("MedHelper_LOGS: AdminServiceImpl --> in showAllEmployees() method");
         List<Employee> allEmployeesFound = employeeDAO.findAll();
         List<EmployeeShortViewDTO> employeesDTO = new ArrayList<>();
         if (!allEmployeesFound.isEmpty()) {
@@ -64,12 +68,14 @@ public class AdminServiceImpl implements AdminService {
             }
             return employeesDTO;
         }
+        logger.info("MedHelper_LOGS: AdminServiceImpl: findEmployeeBySurname() --> operation returned empty list");
         return null;
     }
 
 
     @Override
     public List<EmployeeShortViewDTO> findEmployeeBySurname(String surname) {
+        logger.info("MedHelper_LOGS: AdminServiceImpl --> in findEmployeeBySurname() method");
         List<Employee> allEmployeesFound = employeeDAO.findEmployeeBySurname(surname);
         List<EmployeeShortViewDTO> employeesDTO = new ArrayList<>();
         if (!allEmployeesFound.isEmpty()) {
@@ -78,14 +84,17 @@ public class AdminServiceImpl implements AdminService {
             }
             return employeesDTO;
         }
+        logger.info("MedHelper_LOGS: AdminServiceImpl: findEmployeeBySurname() --> there is no employee with such surname in database");
         return null;
     }
 
 
     @Override
     public EmployeeDTO getEmployeeById(int employeeId) {
+        logger.info("MedHelper_LOGS: AdminServiceImpl --> in getEmployeeById() method");
         Employee foundEmployee = employeeDAO.findEmployeeById(employeeId);
         if(foundEmployee != null) {
+            logger.info("MedHelper_LOGS: AdminServiceImpl: getEmployeeById() --> employee was not found");
             return EmployeeDTOConverter.toDTO(foundEmployee);
         }
         return null;

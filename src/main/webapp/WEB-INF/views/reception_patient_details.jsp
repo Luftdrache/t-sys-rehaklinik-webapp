@@ -33,7 +33,8 @@
         <div class="sidebar-menu">
             <center class="profile">
                 <img src="${pageContext.request.contextPath}/resources/images/reception-avt-2.jpg" alt="">
-                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication property="principal.employee.surname"/></p>
+                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication
+                        property="principal.employee.surname"/></p>
                 <p><sec:authentication property="principal.employee.role"/></p>
             </center>
             <ul>
@@ -135,7 +136,8 @@ background-size: contain; background-repeat: no-repeat; background-position: rig
                 </div>
                 <c:choose>
                     <c:when test="${empty patientInfo.attendingDoctorId}">
-                        <p style="color: darkred; font-weight: 700"><i class="fas fa-user-nurse"></i> Attending doctor: None yet</p>
+                        <p style="color: darkred; font-weight: 700"><i class="fas fa-user-nurse"></i> Attending doctor:
+                            None yet</p>
                     </c:when>
                     <c:otherwise>
                         <h6 style="color: darkred; font-weight: 700">

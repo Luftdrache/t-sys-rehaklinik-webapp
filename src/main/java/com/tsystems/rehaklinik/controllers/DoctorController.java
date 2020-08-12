@@ -426,6 +426,15 @@ public class DoctorController {
     }
 
 
+    /**
+     * Search treatment events by name
+     *
+     * @param patientId patient id
+     * @param tEventName name of treatment event (medicine or procedure name)
+     * @param modelMap ModelMap
+     * @param redirectAttributes RedirectAttributes
+     * @return redirects to page with result of search
+     */
     @GetMapping("/find-treatment-event-by-name/{id}")
     public RedirectView findTreatmentEventByName(@PathVariable("id") int patientId,
                                                  @RequestParam("tEventName") String tEventName,

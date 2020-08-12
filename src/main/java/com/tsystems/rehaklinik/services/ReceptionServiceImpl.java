@@ -28,6 +28,7 @@ import java.util.List;
 public class ReceptionServiceImpl implements ReceptionService {
 
     private static Logger logger = LoggerFactory.getLogger(ReceptionServiceImpl.class);
+
     private final PatientDAO patientDAO;
     private final EmployeeDAO employeeDAO;
     private final PasswordEncoder passwordEncoder;
@@ -35,6 +36,7 @@ public class ReceptionServiceImpl implements ReceptionService {
 
     @Override
     public PatientDTO getPatientById(int id) {
+        logger.info("MedHelper_LOGS: In ReceptionServiceImpl --> in getPatientById() method");
         Patient foundPatient = patientDAO.findPatientById(id);
         if (foundPatient != null) {
             return PatientDTOConverter.toDTO(foundPatient);
@@ -45,6 +47,7 @@ public class ReceptionServiceImpl implements ReceptionService {
 
     @Override
     public PatientDTO addNewPatient(PatientDTO patientDTO) {
+        logger.info("MedHelper_LOGS: In ReceptionServiceImpl --> in addNewPatient() method");
         patientDTO.getAuthenticationDataPatient().
                 setPassword(passwordEncoder.encode(patientDTO.getAuthenticationDataPatient().getPassword()));
         Patient newPatientToSave = PatientDTOConverter.fromDTO(patientDTO);
@@ -55,6 +58,7 @@ public class ReceptionServiceImpl implements ReceptionService {
 
     @Override
     public PatientDTO editPatient(PatientDTO patientDTO) {
+        logger.info("MedHelper_LOGS: In ReceptionServiceImpl --> in editPatient() method");
         Employee employee = employeeDAO.findEmployeeById(patientDTO.getAttendingDoctorId().getEmployeeId());
         Patient patientToEdit = PatientDTOConverter.fromDTO(patientDTO);
         patientToEdit.setAttendingDoctorId(employee);
@@ -65,6 +69,7 @@ public class ReceptionServiceImpl implements ReceptionService {
 
     @Override
     public List<EmployeeShortViewDTO> getAllDoctors() {
+        logger.info("MedHelper_LOGS: In ReceptionServiceImpl --> in getAllDoctors() method");
         List<Employee> doctors = employeeDAO.findAllDoctors();
         List<EmployeeShortViewDTO> doctorsDTO = new ArrayList<>();
         if (!doctors.isEmpty()) {
@@ -78,12 +83,14 @@ public class ReceptionServiceImpl implements ReceptionService {
 
     @Override
     public String deletePatientById(int id) {
+        logger.info("MedHelper_LOGS: In ReceptionServiceImpl --> in deletePatientById() method");
         return patientDAO.deletePatient(id);
     }
 
 
     @Override
     public List<PatientShortViewDTO> showAllPatients() {
+        logger.info("MedHelper_LOGS: In ReceptionServiceImpl --> in showAllPatients() method");
         List<Patient> allPatients = patientDAO.findAll();
         List<PatientShortViewDTO> patientsDTO = new ArrayList<>();
         if (!allPatients.isEmpty()) {
@@ -97,6 +104,7 @@ public class ReceptionServiceImpl implements ReceptionService {
 
     @Override
     public PatientDTO setAttendingDoctor(int doctorId, int patientId) {
+        logger.info("MedHelper_LOGS: In ReceptionServiceImpl --> in setAttendingDoctor() method");
         Patient patient = patientDAO.findPatientById(patientId);
         patient.setAttendingDoctorId(employeeDAO.findEmployeeById(doctorId));
         Patient patientWithDoctor = patientDAO.updatePatient(patient);
@@ -105,6 +113,7 @@ public class ReceptionServiceImpl implements ReceptionService {
 
     @Override
     public List<PatientShortViewDTO> findPatientBySurname(String surname) {
+        logger.info("MedHelper_LOGS: In ReceptionServiceImpl --> in findPatientBySurname() method");
         List<Patient> allFoundPatients = patientDAO.findPatientBySurname(surname);
         List<PatientShortViewDTO> patientShortViewDTOS = new ArrayList<>();
         if (!allFoundPatients.isEmpty()) {

@@ -32,7 +32,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public boolean cancelPrescription(int prescriptionId) {
-        logger.info("MedHelper_LOGS: In DoctorServiceImpl --> in cancelPrescription() method");
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in cancelPrescription() method");
         Prescription prescription = prescriptionDAO.findPrescriptionById(prescriptionId);
         prescription.setPrescriptionStatus(PrescriptionStatus.CANCELLED);
         Prescription cancelled = prescriptionDAO.updatePrescription(prescription);
@@ -55,6 +55,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public ClinicalDiagnosisDTO editClinicalDiagnosis(ClinicalDiagnosisDTO clinicalDiagnosisDTO) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in editClinicalDiagnosis() method");
         ClinicalDiagnose clinicalDiagnoseToEdit = ClinicalDiagnoseDTOConverter.fromDTO(clinicalDiagnosisDTO);
         MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(clinicalDiagnosisDTO.getMedicalRecord().getMedicalRecordId());
         clinicalDiagnoseToEdit.setMedicalRecord(medicalRecord);
@@ -65,6 +66,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public PrescriptionDTO addPrescription(PrescriptionDTO prescriptionDTO) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in addPrescription() method");
         Prescription prescription = PrescriptionMapper.INSTANCE.fromDTO(prescriptionDTO);
         prescription.setPrescriptionStatus(PrescriptionStatus.TBD);
         Prescription newPrescription = prescriptionDAO.createPrescription(prescription);
@@ -79,7 +81,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public PrescriptionShortViewDTO editPrescription(PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO) {
-        logger.info("MedHelper_LOGS: In DoctorServiceImpl --> editPrescription() method");
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl --> in editPrescription() method");
         Prescription prescriptionToEdit = prescriptionDAO.findPrescriptionById(prescriptionTreatmentPatternDTO.getPrescriptionId());
         prescriptionToEdit = PrescriptionTreatmentPatternDTOConverter.convertFromDTO(prescriptionToEdit, prescriptionTreatmentPatternDTO);
         prescriptionToEdit.setPrescriptionStatus(PrescriptionStatus.TBD);
@@ -99,6 +101,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public PrescriptionTreatmentPatternDTO findPrescriptionById(int prescriptionId) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in PrescriptionTreatmentPatternDTO() method");
         Prescription prescription = prescriptionDAO.findPrescriptionById(prescriptionId);
         return new PrescriptionTreatmentPatternDTO(prescription);
     }
@@ -106,6 +109,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public boolean deletePrescription(int prescriptionId) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in deletePrescription() method");
         boolean result = prescriptionDAO.deletePrescriptionById(prescriptionId);
         logger.info("MedHelper_LOGS: DoctorServiceImpl: result of deleting is {}", result);
         return result;
@@ -114,6 +118,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<PrescriptionShortViewDTO> findAllPatientsPrescription(int patientId) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in findAllPatientsPrescription() method");
         List<Prescription> prescriptionsList = prescriptionDAO.fidAllPrescriptionsByPatientId(patientId);
         List<PrescriptionShortViewDTO> prescriptionDTOS = new ArrayList<>();
         if (prescriptionsList != null) {
@@ -128,6 +133,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public MedicalRecordDTO setHospitalisation(MedicalRecordDTO medicalRecordDTO) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in setHospitalisation() method");
         int id = medicalRecordDTO.getMedicalRecordId();
         Patient patient = patientDAO.findPatientById(id);
         medicalRecordDTO.setPatient(PatientDTOConverter.toDTO(patient));
@@ -156,6 +162,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public ClinicalDiagnosisDTO getClinicalDiagnosisDTO(int clinicalDiagnoseId) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in getClinicalDiagnosisDTO() method");
         ClinicalDiagnose clinicalDiagnose = clinicalDiagnosisDAO.getClinicalDiagnosisById(clinicalDiagnoseId);
         if (clinicalDiagnose != null) {
             return ClinicalDiagnoseDTOConverter.toDTO(clinicalDiagnose);
@@ -166,6 +173,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public MedicalRecordDTO setNewDiagnosis(ClinicalDiagnosisDTO clinicalDiagnosisDTO, int medRecordId) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in setNewDiagnosis() method");
         MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(medRecordId);
         Set<ClinicalDiagnose> diagnosisSet = medicalRecord.getClinicalDiagnosis();
         ClinicalDiagnose clinicalDiagnose = ClinicalDiagnoseMapper.INSTANCE.fromDTO(clinicalDiagnosisDTO);
@@ -188,12 +196,14 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public boolean deleteClinicalDiagnosisById(int cdId) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in deleteClinicalDiagnosisById() method");
         return clinicalDiagnosisDAO.deleteClinicalDiagnosis(cdId);
     }
 
 
     @Override
     public List<PatientShortViewDTO> patients() {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in patients() method");
         List<Patient> allPatients = patientDAO.findAll();
         List<PatientShortViewDTO> patientsDTO = new ArrayList<>();
         if (!allPatients.isEmpty()) {
@@ -208,6 +218,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public MedicalRecordDTO getMedicalRecord(int patientId) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in getMedicalRecord() method");
         MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(patientId);
         if (medicalRecord != null) {
             MedicalRecordDTO medicalRecordDTO = MedicalRecordConverter.toDTO(medicalRecord);
@@ -225,6 +236,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<PatientShortViewDTO> findPatientBySurname(String surname) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in findPatientBySurname() method");
         List<Patient> allPatientsFound = patientDAO.findPatientBySurname(surname);
         List<PatientShortViewDTO> patientShortViewDTOS = new ArrayList<>();
         if (!allPatientsFound.isEmpty()) {
@@ -239,6 +251,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<TreatmentEventDTO> findTreatmentEventsByPatientId(int id) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in findTreatmentEventsByPatientId() method");
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findTreatmentEventByPatientId(id);
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
         if (treatmentEventList != null) {
@@ -253,6 +266,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<TreatmentEventDTO> findTreatmentEventByName(String tEventName) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in findTreatmentEventByName() method");
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findTreatmentEventByName(tEventName);
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
         if (treatmentEventList != null) {
