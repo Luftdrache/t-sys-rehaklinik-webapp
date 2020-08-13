@@ -1,10 +1,8 @@
 package com.tsystems.rehaklinik.services;
 
 
-import com.tsystems.rehaklinik.converters.DTOconverters.EmployeeDTOConverter;
 import com.tsystems.rehaklinik.dao.EmployeeDAO;
 import com.tsystems.rehaklinik.dao.PatientDAO;
-import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
 import com.tsystems.rehaklinik.dto.PatientDTO;
 import com.tsystems.rehaklinik.converters.DTOconverters.PatientDTOConverter;
@@ -84,7 +82,11 @@ public class ReceptionServiceImpl implements ReceptionService {
     @Override
     public String deletePatientById(int id) {
         logger.info("MedHelper_LOGS: In ReceptionServiceImpl --> in deletePatientById() method");
-        return patientDAO.deletePatient(id);
+        boolean result = patientDAO.deletePatient(id);
+        if (result) {
+            return "patient with id = " + id + "deleted successfully";
+        }
+        return "Failed attempt to delete patient with id = " + id + " (patient does not exist)";
     }
 
 

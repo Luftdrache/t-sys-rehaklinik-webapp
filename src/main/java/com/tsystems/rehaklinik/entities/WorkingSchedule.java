@@ -47,5 +47,4 @@ public class WorkingSchedule implements Serializable {
     @OneToMany(mappedBy = "workingSchedule")
     private List<Employee> employees;
 
-
 }

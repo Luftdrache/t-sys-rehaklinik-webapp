@@ -43,16 +43,16 @@ public class PatientDAOImpl implements PatientDAO {
     }
 
     @Override
-    public String deletePatient(int patientId) {
+    public boolean deletePatient(int patientId) {
         logger.info("MedHelper_LOGS: PatientDAO: Delete patient by id");
         Patient patient = entityManager.find(Patient.class, patientId);
         if (patient != null) {
             entityManager.remove(patient);
             logger.info("MedHelper_LOGS: PatientDAO: patient with id = {} deleted", patientId);
-            return "Patient deleted successfully";
+            return true;
         }
         logger.info("MedHelper_LOGS: PatientDAO: Patient with id = {} does not exist", +patientId);
-        return "The specified patient with id= " + patientId + " does not exist";
+        return false;
     }
 
     @Override
@@ -64,11 +64,13 @@ public class PatientDAOImpl implements PatientDAO {
 
     @Override
     public Patient updatePatient(Patient patient) {
-        logger.info("MedHelper_LOGS: PatientDAO: Data about an patient with the id = {} is updated", patient.getPatientId());
+        logger.info("MedHelper_LOGS: PatientDAO: Data about an patient with the id = {} is updated",
+                patient.getPatientId());
         if (patient.getPatientId() != 0 && entityManager.find(Patient.class, patient.getPatientId()) != null) {
             try {
                 Patient editedPatient = entityManager.merge(patient);
-                logger.info("MedHelper_LOGS: PatientDAO: Successful attempt to edit an patient with an id = {} ", patient.getPatientId());
+                logger.info("MedHelper_LOGS: PatientDAO: Successful attempt to edit an patient with an id = {} ",
+                        patient.getPatientId());
                 return editedPatient;
             } catch (PersistenceException exception) {
                 logger.info(exception.getMessage());

@@ -5,6 +5,11 @@ import com.tsystems.rehaklinik.dto.*;
 
 import java.util.List;
 
+/**
+ * Doctor service.
+ *
+ * @author Julia Dalskaya
+ */
 public interface DoctorService {
 
     List<PatientShortViewDTO> patients();

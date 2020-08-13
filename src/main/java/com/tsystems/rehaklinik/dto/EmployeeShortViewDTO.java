@@ -3,14 +3,21 @@ package com.tsystems.rehaklinik.dto;
 import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.types.QualificationCategories;
 import com.tsystems.rehaklinik.types.Roles;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 
+/**
+ * DTO for {@link Employee} objects. It is a shortened representation of an object.
+ *
+ * @author Julia Dalskaya
+ */
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeShortViewDTO {
     private int employeeId;
     private String name;

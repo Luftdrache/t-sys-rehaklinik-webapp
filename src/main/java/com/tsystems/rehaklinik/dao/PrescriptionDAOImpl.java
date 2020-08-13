@@ -26,10 +26,10 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
     public Prescription createPrescription(Prescription prescription) {
         logger.info("MedHelper_LOGS: PrescriptionDAO: Add new prescription");
         entityManager.persist(prescription);
-        logger.info("MedHelper_LOGS:  PrescriptionDAO: Added new prescription for patient: "
-                + prescription.getPatient().getFirstName()
-                + prescription.getPatient().getMiddleName()
-                + prescription.getPatient().getSurname());
+        logger.info("MedHelper_LOGS:  PrescriptionDAO: Added new prescription for patient: {}",
+                prescription.getPatient().getFirstName() + " "
+                        + prescription.getPatient().getMiddleName() + " "
+                        + prescription.getPatient().getSurname());
         return prescription;
     }
 
@@ -58,7 +58,7 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
         Prescription prescription = findPrescriptionById(id);
         if (prescription != null) {
             entityManager.remove(prescription);
-            logger.info("MedHelper_LOGS: PrescriptionDAOImpl: prescription with id = {} deleted", id );
+            logger.info("MedHelper_LOGS: PrescriptionDAOImpl: prescription with id = {} deleted", id);
             return true;
         }
         logger.info("MedHelper_LOGS: PrescriptionDAOImpl:  prescription with id = {} does not exist", id);

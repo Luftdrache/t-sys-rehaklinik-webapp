@@ -1,11 +1,7 @@
 package com.tsystems.rehaklinik.dao;
 
-import com.tsystems.rehaklinik.converters.LocalTimeAttributeConverter;
-import com.tsystems.rehaklinik.entities.Employee;
-import com.tsystems.rehaklinik.entities.Prescription;
 import com.tsystems.rehaklinik.entities.TreatmentEvent;
 import com.tsystems.rehaklinik.types.EventStatus;
-import com.tsystems.rehaklinik.types.Roles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -13,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TemporalType;
-import javax.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -24,6 +18,9 @@ import java.util.List;
 public class TreatmentEventDAOImpl implements TreatmentEventDAO {
 
     private static Logger logger = LoggerFactory.getLogger(TreatmentEventDAOImpl.class);
+
+    private static final String STATUS = "status";
+    private static final String TODAY = "today";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -101,7 +98,7 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
                         "WHERE t.treatmentEventDate = :today " +
                         "ORDER BY  t.treatmentEventStatus asc, t.treatmentEventDate, t.treatmentEventTime",
                 TreatmentEvent.class)
-                .setParameter("today", today)
+                .setParameter(TODAY, today)
                 .getResultList();
     }
 
@@ -124,8 +121,8 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
                 TreatmentEvent.class)
                 .setParameter("startTimePeriod", startTimePeriod)
                 .setParameter("endTimePeriod", endTimePeriod)
-                .setParameter("today", today)
-                .setParameter("status", EventStatus.PLANNED)
+                .setParameter(TODAY, today)
+                .setParameter(STATUS, EventStatus.PLANNED)
                 .getResultList();
     }
 
@@ -137,7 +134,7 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
                 "SELECT t FROM TreatmentEvent t " +
                         "WHERE t.treatmentEventStatus = :status " +
                         "ORDER BY t.treatmentEventDate, t.treatmentEventTime",
-                TreatmentEvent.class).setParameter("status", EventStatus.COMPLETED).getResultList();
+                TreatmentEvent.class).setParameter(STATUS, EventStatus.COMPLETED).getResultList();
     }
 
 
@@ -199,9 +196,9 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
                         "AND t.treatmentEventDate = :today " +
                         "ORDER BY t.treatmentEventDate, t.treatmentEventTime",
                 TreatmentEvent.class)
-                .setParameter("status", EventStatus.PLANNED)
+                .setParameter(STATUS, EventStatus.PLANNED)
                 .setParameter("overdueTime", overdueTime)
-                .setParameter("today", today)
+                .setParameter(TODAY, today)
                 .getResultList();
         if (overdue != null) {
             for (TreatmentEvent tEvent : overdue) {
@@ -232,7 +229,7 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
                 "WHERE t.treatmentEventStatus = :status " +
                 "AND t.prescription.prescriptionId = :prescriptionId " +
                 "ORDER BY t.treatmentEventDate, t.treatmentEventTime", TreatmentEvent.class)
-                .setParameter("status", EventStatus.PLANNED)
+                .setParameter(STATUS, EventStatus.PLANNED)
                 .setParameter("prescriptionId", prescriptionId)
                 .getResultList();
     }

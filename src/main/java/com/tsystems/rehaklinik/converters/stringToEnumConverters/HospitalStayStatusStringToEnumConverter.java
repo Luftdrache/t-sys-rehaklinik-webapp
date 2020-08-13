@@ -6,7 +6,7 @@ import org.springframework.core.convert.converter.Converter;
 public class HospitalStayStatusStringToEnumConverter implements Converter<String, HospitalStayStatus> {
     @Override
     public HospitalStayStatus convert(String source) {
-       source = source.equals("Being Treated") ? source = "BEING_TREATED" : source;
-       return HospitalStayStatus.valueOf(source.toUpperCase());
+        source = source.equals("Being Treated") ? "BEING_TREATED" : source;
+        return HospitalStayStatus.valueOf(source.toUpperCase());
     }
 }

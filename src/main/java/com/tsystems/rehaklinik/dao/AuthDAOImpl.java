@@ -2,8 +2,6 @@ package com.tsystems.rehaklinik.dao;
 
 
 import com.tsystems.rehaklinik.entities.AuthenticationData;
-import com.tsystems.rehaklinik.entities.Employee;
-import com.tsystems.rehaklinik.entities.MedicalRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -28,11 +26,11 @@ public class AuthDAOImpl implements AuthDAO {
         logger.info("MedHelper_LOGS: AuthDAOImpl: Finding user data by username");
         TypedQuery<AuthenticationData> query = entityManager.createQuery(
                 "SELECT u FROM AuthenticationData u WHERE u.username LIKE :username", AuthenticationData.class);
-        query.setParameter("username", "%" + username + "%");
+        query.setParameter("username", username);
         try {
             return query.getSingleResult();
-        } catch (NoResultException exception) { //Runtime
-            logger.info("MedHelper_LOGS: AuthDAOImpl: NoResultException exception thrown");
+        } catch (NoResultException exception) {
+            logger.error("MedHelper_LOGS: AuthDAOImpl: NoResultException exception thrown");
             return null;
         }
     }

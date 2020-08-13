@@ -1,7 +1,6 @@
 package com.tsystems.rehaklinik.dto;
 
-import com.tsystems.rehaklinik.entities.AuthenticationData;
-import com.tsystems.rehaklinik.entities.Patient;
+import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.entities.WorkingSchedule;
 import com.tsystems.rehaklinik.types.QualificationCategories;
 import com.tsystems.rehaklinik.types.Roles;
@@ -16,6 +15,12 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
 
+
+/**
+ * DTO for {@link Employee} objects
+ *
+ * @author Julia Dalskaya
+ */
 @Getter
 @Setter
 @NoArgsConstructor

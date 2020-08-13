@@ -6,6 +6,11 @@ import com.tsystems.rehaklinik.dto.PatientShortViewDTO;
 
 import java.util.List;
 
+/**
+ * Reception service.
+ *
+ * @author Julia Dalskaya
+ */
 public interface ReceptionService {
 
     PatientDTO addNewPatient(PatientDTO patient);

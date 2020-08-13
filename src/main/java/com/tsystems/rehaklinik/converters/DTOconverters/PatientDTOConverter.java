@@ -1,15 +1,12 @@
 package com.tsystems.rehaklinik.converters.DTOconverters;
 
-import com.tsystems.rehaklinik.dao.EmployeeDAO;
 import com.tsystems.rehaklinik.dto.AuthenticationDataDTO;
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.dto.MedicalRecordDTO;
 import com.tsystems.rehaklinik.dto.PatientDTO;
 import com.tsystems.rehaklinik.entities.AuthenticationData;
-import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
 import com.tsystems.rehaklinik.entities.Patient;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 public class PatientDTOConverter {

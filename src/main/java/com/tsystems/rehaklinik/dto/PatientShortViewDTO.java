@@ -8,6 +8,11 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.Period;
 
+/**
+ * DTO for {@link Patient} objects. It is a shortened representation of an object.
+ *
+ * @author Julia Dalskaya
+ */
 @Getter
 @Setter
 public class PatientShortViewDTO {

@@ -17,6 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * Admin service implementation.
+ *
+ * @author Julia Dalskaya
+ */
 @Service("AdminService")
 @Transactional
 public class AdminServiceImpl implements AdminService {
@@ -34,7 +39,7 @@ public class AdminServiceImpl implements AdminService {
                 .setPassword(passwordEncoder.encode(employeeDTO.getAuthenticationDataEmployee().getPassword()));
         Employee newEmployeeToSave = EmployeeMapper.INSTANCE.fromDTO(employeeDTO);
         Employee newEmployee = employeeDAO.createEmployee(newEmployeeToSave);
-        EmployeeDTO savedEmployee = EmployeeMapper.INSTANCE.toDTO(newEmployeeToSave);
+        EmployeeDTO savedEmployee = EmployeeMapper.INSTANCE.toDTO(newEmployee);
         return savedEmployee;
     }
 

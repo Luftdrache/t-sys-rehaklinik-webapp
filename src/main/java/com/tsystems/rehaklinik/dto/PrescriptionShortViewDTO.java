@@ -9,6 +9,12 @@ import lombok.Setter;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+
+/**
+ * DTO for {@link Prescription} objects. It is a shortened representation of an object.
+ *
+ * @author Julia Dalskaya
+ */
 @Getter
 @Setter
 @NoArgsConstructor

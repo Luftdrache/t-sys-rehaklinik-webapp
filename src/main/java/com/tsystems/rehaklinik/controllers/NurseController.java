@@ -15,6 +15,12 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
+
+/**
+ * Processes requests from a nurse
+ *
+ * @author Julia Dalskaya
+ */
 @Controller
 @RequestMapping("/nurse")
 public class NurseController {
@@ -35,7 +41,12 @@ public class NurseController {
     protected static final String TREATMENT_EVENT_LIST = "treatmentEventList";
 
 
-
+    /**
+     * Shows overdue treatment events
+     *
+     * @param modelMap ModelMap
+     * @return page with overdue treatment events
+     */
     @GetMapping("/show-overdue-treatment-events")
     public String showOverdueTreatmentEvents(ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In NurseController: handler method showOverdueTreatmentEvents(), GET");
@@ -53,7 +64,6 @@ public class NurseController {
         }
         return OVERDUE_TREATMENT_EVENTS_JSP;
     }
-
 
 
     /**
@@ -117,7 +127,8 @@ public class NurseController {
         logger.info("MedHelper_LOGS: In NurseController: handler method showCompletedTreatmentEvents(), GET");
         List<TreatmentEventDTO> treatmentEventDTOS = nurseService.findAllCompletedTreatmentEvents();
         if (!treatmentEventDTOS.isEmpty()) {
-            logger.info("MedHelper_LOGS: In NurseController: The action showCompletedTreatmentEvents() completed successfully");
+            logger.info("MedHelper_LOGS: In NurseController: The action showCompletedTreatmentEvents() " +
+                    "completed successfully");
             modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
         } else {
             logger.info("MedHelper_LOGS: The action showCompletedTreatmentEvents() returned empty list");
@@ -209,7 +220,8 @@ public class NurseController {
         logger.info("MedHelper_LOGS: In NurseController: handler method showSelectedTreatmentDetails(), GET");
         TreatmentEventDTO treatmentEventDTO = nurseService.findTreatmentEventById(id);
         if (treatmentEventDTO != null) {
-            logger.info("MedHelper_LOGS: In NurseController: handler method showSelectedTreatmentDetails() returns treatment event found by id");
+            logger.info("MedHelper_LOGS: In NurseController: handler method showSelectedTreatmentDetails() " +
+                    "returns treatment event found by id");
             modelMap.addAttribute("treatmentEventDetails", treatmentEventDTO);
         } else {
             modelMap.addAttribute(MESSAGE, "Treatment event with specified id was not found");

@@ -1,10 +1,14 @@
 package com.tsystems.rehaklinik.services;
 
 import com.tsystems.rehaklinik.dto.TreatmentEventDTO;
-import com.tsystems.rehaklinik.entities.TreatmentEvent;
 
 import java.util.List;
 
+/**
+ * Nurse service.
+ *
+ * @author Julia Dalskaya
+ */
 public interface NurseService {
 
     List<TreatmentEventDTO> findAllTreatmentEvents();

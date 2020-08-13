@@ -4,7 +4,6 @@ import com.tsystems.rehaklinik.dto.AuthenticationDataDTO;
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.entities.AuthenticationData;
 import com.tsystems.rehaklinik.entities.Employee;
-import com.tsystems.rehaklinik.entities.Prescription;
 
 public class EmployeeDTOConverter {
 

@@ -1,16 +1,21 @@
 package com.tsystems.rehaklinik.dto;
 
-import com.tsystems.rehaklinik.entities.Prescription;
+import com.tsystems.rehaklinik.entities.TreatmentTimePattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalTime;
 import java.util.List;
 
+
+/**
+ * DTO for {@link TreatmentTimePattern} objects
+ *
+ * @author Julia Dalskaya
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,7 +33,7 @@ public class TreatmentTimePatternDTO {
 
     private LocalTime precisionTime;
 
-    @PositiveOrZero (message = "Interval must be null or positive")
+    @PositiveOrZero(message = "Interval must be null or positive")
     private int intervalInHours;
 
     private boolean beforeMeals;

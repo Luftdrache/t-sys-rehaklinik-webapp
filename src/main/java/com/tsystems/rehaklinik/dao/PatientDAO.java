@@ -1,22 +1,67 @@
 package com.tsystems.rehaklinik.dao;
 
-import com.tsystems.rehaklinik.entities.Employee;
+
 import com.tsystems.rehaklinik.entities.Patient;
 
 import java.util.List;
 
+
+/**
+ * DAO for {@link Patient} objects
+ *
+ * @author Julia Dalskaya
+ */
 public interface PatientDAO {
 
+    /**
+     * Creates new patient
+     *
+     * @param patient new patient to save in database
+     * @return created patient
+     */
     Patient createPatient(Patient patient);
 
-    String deletePatient(int patientId);
 
+    /**
+     * Deletes patient by patient's id
+     *
+     * @param patientId patient's id
+     * @return boolean result of deleting operation
+     */
+    boolean deletePatient(int patientId);
+
+
+    /**
+     * Updates patient's data
+     *
+     * @param patient edited patient to update
+     * @return updated patient
+     */
     Patient updatePatient(Patient patient);
 
+
+    /**
+     * Searches for a patient by patient's id
+     *
+     * @param patientId patient's id
+     * @return found patient
+     */
     Patient findPatientById(int patientId);
 
+    /**
+     * Searches patient('s) by id
+     *
+     * @param patientSurname patient's surname
+     * @return found patient list
+     */
     List<Patient> findPatientBySurname(String patientSurname);
 
+
+    /**
+     * Searches for all patients whose information is stored in the database
+     *
+     * @return found patient list
+     */
     List<Patient> findAll();
 
 }

@@ -42,7 +42,11 @@
                     </a>
                 </li>
                 <li class="item" id="show-med-record">
-                    <a href="${pageContext.request.contextPath}/admin/edit/${employee.employeeId}"
+                    <c:set var="emplID" scope="session" value="${employee.employeeId}"></c:set>
+                    <c:if test="${empty emplID}">
+                        <c:set var="emplID"  value="${employeeID}"/>
+                    </c:if>
+                    <a href="${pageContext.request.contextPath}/admin/edit/${emplID}"
                        class="menu-btn">
                         <i class="far fa-edit"></i><span>Edit Employee</span>
                     </a>
@@ -136,6 +140,7 @@
         </div>
     </div>
     <!-- *******MAIN CONTAINER******* -->
+
 </div>
 <!--wrapper end-->
 

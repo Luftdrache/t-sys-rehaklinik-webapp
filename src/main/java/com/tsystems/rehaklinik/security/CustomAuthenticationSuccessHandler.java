@@ -12,6 +12,11 @@ import java.io.IOException;
 import java.util.Set;
 
 
+/**
+ * Custom AuthenticationSuccessHandler. Redirects users to different pages depending on user's role.
+ *
+ * @author Julia Dalskaya
+ */
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 

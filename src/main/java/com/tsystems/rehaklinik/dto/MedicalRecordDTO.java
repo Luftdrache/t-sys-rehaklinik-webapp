@@ -1,7 +1,7 @@
 package com.tsystems.rehaklinik.dto;
 
-import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
-import com.tsystems.rehaklinik.entities.Patient;
+
+import com.tsystems.rehaklinik.entities.MedicalRecord;
 import com.tsystems.rehaklinik.types.HospitalStayStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,6 +13,12 @@ import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.util.Set;
 
+
+/**
+ * DTO for {@link MedicalRecord} objects
+ *
+ * @author Julia Dalskaya
+ */
 @Getter
 @Setter
 @NoArgsConstructor

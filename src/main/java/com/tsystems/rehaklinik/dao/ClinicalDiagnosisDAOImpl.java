@@ -2,8 +2,6 @@ package com.tsystems.rehaklinik.dao;
 
 
 import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
-import com.tsystems.rehaklinik.entities.Employee;
-import com.tsystems.rehaklinik.entities.MedicalRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -14,7 +12,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Repository
@@ -85,7 +82,7 @@ public class ClinicalDiagnosisDAOImpl implements ClinicalDiagnosisDAO {
     @Override
     public Set<ClinicalDiagnose> getAllPatientClinicalDiagnosis(int medicalRecordId) {
         logger.info("MedHelper_LOGS: ClinicalDiagnosisDAO: finding clinical diagnosis by medical record id");
-        return new HashSet<ClinicalDiagnose>(
+        return new HashSet<>(
                 entityManager.createQuery(
                         "SELECT cd FROM ClinicalDiagnose cd WHERE cd.medicalRecord.medicalRecordId = :medicalRecordId",
                         ClinicalDiagnose.class)

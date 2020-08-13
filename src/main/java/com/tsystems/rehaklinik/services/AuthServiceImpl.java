@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("AuthService")
 @Transactional
-public class AuthServiceImpl implements AuthService{
+public class AuthServiceImpl implements AuthService {
 
     private static Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
 
@@ -21,8 +21,7 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public AuthenticationData findUserByUsername(String username) {
         logger.info("MedHelper_LOGS: AuthServiceImpl: findUserByUsername() --> finding user authentication data");
-        AuthenticationData authenticationData =  authDAO.findByUsername(username);
-        return authenticationData;
+        return authDAO.findByUsername(username);
     }
 
 

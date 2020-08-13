@@ -4,13 +4,9 @@ package com.tsystems.rehaklinik.configuration;
 import org.springframework.core.annotation.Order;
 
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
 
 
 //Works as web.xml
@@ -40,9 +36,4 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
         return dispatcherServlet;
     }
-
-//    @Override
-//    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-//        registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
-//    }
 }

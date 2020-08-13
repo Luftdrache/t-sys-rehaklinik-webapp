@@ -6,7 +6,6 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -36,7 +35,7 @@ public class TreatmentEvent implements Serializable {
     private LocalTime treatmentEventTime;
 
     @Column(name = "cancel_reason", length = 100)
-    @Size(min = 5, max = 100, message = "Cancel reason length must be no less than 5 and no more than 100 characters\")")
+    @Size(min = 5, max = 100, message = "Cancel reason length must be no less than 5 and no more than 100 characters")
     private String cancelReason;
 
     @NotNull(message = "Patient must be set (for treatment event)")

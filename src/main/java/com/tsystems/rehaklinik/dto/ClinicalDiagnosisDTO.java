@@ -1,5 +1,6 @@
 package com.tsystems.rehaklinik.dto;
 
+import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
 import lombok.*;
 
@@ -9,6 +10,11 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+/**
+ * DTO for {@link ClinicalDiagnose} objects
+ *
+ * @author Julia Dalskaya
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,9 +26,10 @@ public class ClinicalDiagnosisDTO implements Serializable {
     @NotBlank(message = "Name of the disease mustn't be blank")
     private String mainDisease;
 
+    //For test. Wrong: B274.77","U31","567.". Right:B22.Z154, D17
     @NotNull(message = "ICD-10 code must be set")
     @Size(min = 3, max = 8, message = "ICD-10 code must have minimum 3 and maximum 8 symbols")
-    @Pattern(regexp ="[A-TV-Z][0-9][0-9AB]\\.?[0-9A-TV-Z]{0,4}", message = "Wrong ICD-10 code") //For test. Wrong: B274.77","U31","567.". Right:B22.Z154, D17
+    @Pattern(regexp ="[A-TV-Z][0-9][0-9AB]\\.?[0-9A-TV-Z]{0,4}", message = "Wrong ICD-10 code")
     private String icd10Code;
 
     private String accompanyingPathology;

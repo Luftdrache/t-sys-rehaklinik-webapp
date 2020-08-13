@@ -2,7 +2,6 @@ package com.tsystems.rehaklinik.converters.DTOconverters;
 
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.entities.Employee;
-import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

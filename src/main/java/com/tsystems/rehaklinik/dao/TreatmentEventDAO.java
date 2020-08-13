@@ -1,9 +1,14 @@
 package com.tsystems.rehaklinik.dao;
 
 import com.tsystems.rehaklinik.entities.TreatmentEvent;
-
 import java.util.List;
 
+
+/**
+ * DAO for {@link TreatmentEvent} objects
+ *
+ * @author Julia Dalskaya
+ */
 public interface TreatmentEventDAO {
 
     /**
@@ -16,7 +21,7 @@ public interface TreatmentEventDAO {
 
 
     /**
-     * Cansels selected treatment event
+     * Cancels selected treatment event
      *
      * @param treatmentEvent treatment event to cancel
      * @return canceled treatment event
@@ -25,7 +30,7 @@ public interface TreatmentEventDAO {
 
 
     /**
-     * Finds all treatment events existed in database
+     * Searches for all treatment events existed in database
      *
      * @return found treatment event list
      */
@@ -33,7 +38,7 @@ public interface TreatmentEventDAO {
 
 
     /**
-     * Finds planned treatment events
+     * Searches for a planned treatment events
      *
      * @return found treatment event list
      */
@@ -48,24 +53,6 @@ public interface TreatmentEventDAO {
      */
     boolean deletePrescriptionPlannedTreatmentEvents(List<TreatmentEvent> treatmentEvents);
 
-
-    /**
-     * Finds treatment event by id
-     *
-     * @param treatmentEventId treatment event id
-     * @return found treatment event
-     */
-    TreatmentEvent findTreatmentEventById(int treatmentEventId);
-
-
-    /**
-     * Finds all completed treatment events
-     *
-     * @return all completed treatment events list
-     */
-    List<TreatmentEvent> findAllCompletedTreatmentEvents();
-
-
     /**
      * Assigns 'COMPLETED' status to selected treatment event
      *
@@ -76,7 +63,24 @@ public interface TreatmentEventDAO {
 
 
     /**
-     * Finds all urgent treatment events
+     * Searches for a treatment event by id
+     *
+     * @param treatmentEventId treatment event id
+     * @return found treatment event
+     */
+    TreatmentEvent findTreatmentEventById(int treatmentEventId);
+
+
+    /**
+     * Searches for all completed treatment events
+     *
+     * @return all completed treatment events list
+     */
+    List<TreatmentEvent> findAllCompletedTreatmentEvents();
+
+
+    /**
+     * Searches for all urgent treatment events
      *
      * @return  all urgent treatment events list
      */
@@ -84,7 +88,7 @@ public interface TreatmentEventDAO {
 
 
     /**
-     * Finds all today treatment events
+     * Searches for all today treatment events
      *
      * @return all today treatment events list
      */
@@ -92,7 +96,7 @@ public interface TreatmentEventDAO {
 
 
     /**
-     * Finds all treatment events of the specified patient
+     * Searches for all treatment events of the specified patient
      *
      * @param surname patient's surname
      * @return  all patient's treatment events list
@@ -101,7 +105,7 @@ public interface TreatmentEventDAO {
 
 
     /**
-     * Finds all overdue treatment events
+     * Searches for all overdue treatment events
      *
      * @return overdue treatment events list
      */
@@ -109,15 +113,15 @@ public interface TreatmentEventDAO {
 
 
     /**
-     * Finds all planned treatment events by selected prescription id
+     * Searches for all planned treatment events by selected prescription id
      *
      * @return planned treatment events list
      */
-    List<TreatmentEvent> findPlannedTreatmentEventsByPrescriptionId(int PrescriptionId);
+    List<TreatmentEvent> findPlannedTreatmentEventsByPrescriptionId(int prescriptionId);
 
 
     /**
-     * Finds all planned treatment events by selected patient id
+     * Searches for all planned treatment events by selected patient id
      *
      * @param id patient id
      * @return found selected patient treatment events
@@ -126,7 +130,7 @@ public interface TreatmentEventDAO {
 
 
     /**
-     * Finds all planned treatment events by specified name
+     * Searches for all planned treatment events by specified name
      *
      * @param tEventName treatment event name
      * @return treatment events found by specified name

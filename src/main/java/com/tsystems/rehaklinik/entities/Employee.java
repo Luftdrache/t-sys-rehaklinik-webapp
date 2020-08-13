@@ -51,7 +51,8 @@ public class Employee implements Serializable {
     private String email;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "employee_authentication_data_id", referencedColumnName = "authentication_data_id", nullable = false)
+    @JoinColumn(name = "employee_authentication_data_id", referencedColumnName = "authentication_data_id",
+            nullable = false)
     private AuthenticationData authenticationDataEmployee;
 
     @Column(name = "position", nullable = false, length = 50)

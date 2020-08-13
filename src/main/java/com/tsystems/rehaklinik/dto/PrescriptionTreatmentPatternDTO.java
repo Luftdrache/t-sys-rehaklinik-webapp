@@ -1,13 +1,14 @@
 package com.tsystems.rehaklinik.dto;
 
+
 import com.tsystems.rehaklinik.entities.Prescription;
 import com.tsystems.rehaklinik.types.TreatmentType;
+import com.tsystems.rehaklinik.entities.TreatmentTimePattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,6 +16,12 @@ import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+
+/**
+ * DTO for {@link Prescription} and {@link TreatmentTimePattern} together.
+ *
+ * @author Julia Dalskaya
+ */
 @Getter
 @Setter
 @NoArgsConstructor

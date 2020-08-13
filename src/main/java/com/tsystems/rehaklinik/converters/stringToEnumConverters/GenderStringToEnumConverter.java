@@ -1,6 +1,5 @@
 package com.tsystems.rehaklinik.converters.stringToEnumConverters;
 
-import com.tsystems.rehaklinik.types.EventStatus;
 import com.tsystems.rehaklinik.types.Gender;
 import org.springframework.core.convert.converter.Converter;
 

@@ -1,9 +1,9 @@
 package com.tsystems.rehaklinik.converters.DTOconverters;
 
 import com.tsystems.rehaklinik.dto.ClinicalDiagnosisDTO;
-import com.tsystems.rehaklinik.dto.MedicalRecordDTO;
 import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
+
 
 public class ClinicalDiagnoseDTOConverter {
     public static ClinicalDiagnosisDTO toDTO(ClinicalDiagnose clinicalDiagnose) {

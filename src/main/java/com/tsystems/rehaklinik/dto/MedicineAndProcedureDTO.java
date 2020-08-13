@@ -1,5 +1,6 @@
 package com.tsystems.rehaklinik.dto;
 
+import com.tsystems.rehaklinik.entities.MedicineAndProcedure;
 import com.tsystems.rehaklinik.types.TreatmentType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +10,11 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-
+/**
+ * DTO for {@link MedicineAndProcedure} objects
+ *
+ * @author Julia Dalskaya
+ */
 @Getter
 @Setter
 @NoArgsConstructor

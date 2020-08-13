@@ -1,11 +1,21 @@
 package com.tsystems.rehaklinik.dao;
 
 import com.tsystems.rehaklinik.entities.AuthenticationData;
-import com.tsystems.rehaklinik.entities.Employee;
-import com.tsystems.rehaklinik.types.Roles;
 
+
+/**
+ * DAO for {@link AuthenticationData} objects
+ *
+ * @author Julia Dalskaya
+ */
 public interface AuthDAO {
 
+    /**
+     * Searches for a user by username. Used for authentication.
+     *
+     * @param username username
+     * @return AuthenticationData object
+     */
     AuthenticationData findByUsername(String username);
 
 }

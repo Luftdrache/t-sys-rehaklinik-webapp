@@ -19,6 +19,10 @@
           integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+    <!-- popup about style -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/about_popup_style.css">
+
+
 
     <!-- Title -->
     <title>MedHelper</title>
@@ -31,7 +35,7 @@
     <div class="sidebar">
         <div class="sidebar-menu">
             <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.png" alt="">
+                <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.jpg" alt="">
                 <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication property="principal.employee.surname"/></p>
                 <p><sec:authentication property="principal.employee.role"/></p>
             </center>
@@ -56,7 +60,7 @@
                     </div>
                 </li>
                 <li class="item">
-                    <a href="#" class="menu-btn">
+                    <a href="#" class="menu-btn" onclick="showInfo()">
                         <i class="fas fa-info-circle"></i><span>About</span>
                     </a>
                 </li>
@@ -134,6 +138,7 @@
         </div>
     </div>
     <!-- *******MAIN CONTAINER******* -->
+    <%@include file="shared/about_info_popup.jsp" %>
 </div>
 <!--wrapper end-->
 
@@ -145,6 +150,7 @@
     });
 </script>
 
+<script src="${pageContext.request.contextPath}/resources/js/about_info_popup.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>

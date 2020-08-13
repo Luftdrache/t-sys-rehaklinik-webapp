@@ -105,8 +105,4 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return query.getResultList();
     }
 
-    @Override
-    public List<Employee> findByEmployeePosition(String employeesPosition) {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
 }

@@ -44,7 +44,11 @@
                     </a>
                 </li>
                 <li class="item" id="show-med-record">
-                    <a href="${pageContext.request.contextPath}/reception/edit-patient-data/${patientInfo.patientId}"
+                    <c:set var="patientId" scope="session" value="${patientInfo.patientId}"></c:set>
+                    <c:if test="${empty patientId}">
+                        <c:set var="patientId" value="${patientId}"/>
+                    </c:if>
+                    <a href="${pageContext.request.contextPath}/reception/edit-patient-data/${patientId}"
                        class="menu-btn">
                         <i class="far fa-edit"></i><span>Edit Patient</span>
                     </a>

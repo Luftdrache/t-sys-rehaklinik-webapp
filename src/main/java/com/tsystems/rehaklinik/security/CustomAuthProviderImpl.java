@@ -19,7 +19,11 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Custom AuthenticationProvider. Responsible for user authentication and authorization.
+ *
+ * @author Julia Dalskaya
+ */
 @Component
 public class CustomAuthProviderImpl implements AuthenticationProvider {
 
@@ -33,7 +37,7 @@ public class CustomAuthProviderImpl implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         logger.info("MedHelper_LOGS: CustomAuthProviderImpl: in authenticate() method");
         String username = authentication.getName();
-        logger.info("MedHelper_LOGS: CustomAuthProviderImpl: received username " + username);
+        logger.info("MedHelper_LOGS: CustomAuthProviderImpl: received username {}", username);
         AuthenticationData user = authService.findUserByUsername(username);
         if (user == null) {
             logger.info("MedHelper_LOGS: CustomAuthProviderImpl: bad username");

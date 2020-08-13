@@ -1,9 +1,7 @@
 package com.tsystems.rehaklinik.dto;
 
-import com.tsystems.rehaklinik.entities.MedicineAndProcedure;
-import com.tsystems.rehaklinik.entities.Patient;
+import com.tsystems.rehaklinik.entities.Prescription;
 import com.tsystems.rehaklinik.entities.TreatmentEvent;
-import com.tsystems.rehaklinik.entities.TreatmentTimePattern;
 import com.tsystems.rehaklinik.types.PrescriptionStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +14,12 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
+
+/**
+ * DTO for {@link Prescription} objects
+ *
+ * @author Julia Dalskaya
+ */
 @Getter
 @Setter
 @NoArgsConstructor

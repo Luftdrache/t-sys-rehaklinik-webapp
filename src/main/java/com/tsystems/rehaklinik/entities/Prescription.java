@@ -1,9 +1,7 @@
 package com.tsystems.rehaklinik.entities;
 
 import com.tsystems.rehaklinik.types.PrescriptionStatus;
-import com.tsystems.rehaklinik.types.QualificationCategories;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;

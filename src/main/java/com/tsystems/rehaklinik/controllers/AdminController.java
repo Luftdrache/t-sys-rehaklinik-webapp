@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -86,7 +85,8 @@ public class AdminController {
      * @return the next view name to display or an error page in case of error occurred
      */
     @PostMapping("/add-employee")
-    public String addEmployee(@Valid @ModelAttribute("addEmployee") EmployeeDTO employeeDTO, BindingResult bindingResult, ModelMap model) {
+    public String addEmployee(
+            @Valid @ModelAttribute("addEmployee") EmployeeDTO employeeDTO, BindingResult bindingResult, ModelMap model) {
         logger.info("MedHelper_LOGS: In AdminController:  handler method addEmployee()");
         if (BindingCheck.bindingResultCheck(bindingResult, model)) {
             return ERROR_PAGE_JSP;
@@ -112,7 +112,8 @@ public class AdminController {
         logger.info("MedHelper_LOGS: In AdminController - handler method editEmployeeDataForm(), GET");
         EmployeeDTO employeeToEdit = adminService.getEmployeeById(id);
         if (employeeToEdit != null) {
-            logger.info("MedHelper_LOGS: In AdminController: editEmployeeData(), GET: employee with id = {} found successfully", id);
+            logger.info("MedHelper_LOGS: In AdminController: editEmployeeData()," +
+                    " GET: employee with id = {} found successfully", id);
             modelMap.addAttribute("employeeToEdit", employeeToEdit);
         } else {
             logger.info("MedHelper_LOGS: In AdminController: seeEmployeeDetails(), GET: employee with id = {} not found", id);
@@ -179,10 +180,13 @@ public class AdminController {
         logger.info("MedHelper_LOGS: In AdminController - handler method seeEmployeeDetails(), GET");
         EmployeeDTO employeeDetails = adminService.getEmployeeById(id);
         if (employeeDetails != null) {
-            logger.info("MedHelper_LOGS: In AdminController: seeEmployeeDetails(), GET: employee with id = {} found successfully", id);
+            logger.info("MedHelper_LOGS: In AdminController: seeEmployeeDetails(), " +
+                    "GET: employee with id = {} found successfully", id);
             modelMap.addAttribute(EMPLOYEE, employeeDetails);
         } else {
-            logger.info("MedHelper_LOGS: In AdminController: seeEmployeeDetails(), GET: employee with id = {} not found", id);
+            logger.info("MedHelper_LOGS: In AdminController: seeEmployeeDetails()," +
+                    " GET: employee with id = {} not found", id);
+            modelMap.addAttribute("employeeID", id);
             modelMap.addAttribute(MESSAGE, "There is no data about an employee with such id in the database");
         }
         return EMPLOYEE_DETAILS_JSP;

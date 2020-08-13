@@ -19,11 +19,13 @@
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
           integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <!-- popup style -->
+    <!-- popup cansel style -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/cancel_t_event_popup.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
 
+    <!-- popup about style -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/about_popup_style.css">
 
     <!-- Title -->
     <title>MedHelper</title>
@@ -64,6 +66,11 @@
                 <li class="item" id="overdueEvents">
                     <a href="${pageContext.request.contextPath}/nurse/show-overdue-treatment-events" class="menu-btn">
                         <i class="fas fa-hourglass-end"></i><span>Overdue</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="#" class="menu-btn" onclick="showInfo()">
+                        <i class="fas fa-info-circle"></i><span>About</span>
                     </a>
                 </li>
             </ul>
@@ -161,8 +168,11 @@
         </div>
     </div>
     <!-- *******MAIN CONTAINER******* -->
+    <%@include file="shared/about_info_popup.jsp" %>
 </div>
 <%@include file="shared/cancel_t_event_popup.jsp" %>
+
+<script src="${pageContext.request.contextPath}/resources/js/about_info_popup.js"></script>
 
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 <!-- Optional JavaScript -->
