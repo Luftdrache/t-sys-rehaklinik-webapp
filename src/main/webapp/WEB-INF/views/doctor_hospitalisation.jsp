@@ -33,11 +33,7 @@
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
-            <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.jpg" alt="">
-                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication property="principal.employee.surname"/></p>
-                <p><sec:authentication property="principal.employee.role"/></p>
-            </center>
+            <%@include file="shared/profile.jsp" %>
             <ul>
                 <li class="item" id="#patients" style="font-size: 20px;">
                     <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn">
@@ -62,7 +58,7 @@
                     </a>
                 </li>
                 <li class="item" id="#add-prescription" style="font-size: 20px;">
-                    <a href="#" class="menu-btn">
+                    <a href="${pageContext.request.contextPath}/doctor/medical-record/add-diagnosis/${medrec}" class="menu-btn">
                         <i class="fas fa-tablets"></i><span>Add prescription</span>
                     </a>
                 </li>
@@ -95,6 +91,7 @@
                         <c:forEach items="${HospitalStayStatus.values()}" var="hStayStatus">
                             <option>${hStayStatus.toString()}</option>
                         </c:forEach>
+
                         <%--                        <option selected>${hospitalisationToEdit.hospitalStayStatus}</option>--%>
                     </select>
                 </div>
@@ -125,13 +122,6 @@
 </div>
 <!--wrapper end-->
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".sidebar-btn").click(function () {
-            $(".wrapper").toggleClass("collapse");
-        });
-    });
-</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

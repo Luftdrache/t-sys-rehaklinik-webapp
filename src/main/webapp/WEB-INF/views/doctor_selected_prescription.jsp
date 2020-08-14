@@ -33,26 +33,28 @@
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
-            <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.jpg" alt="">
-                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication property="principal.employee.surname"/></p>
-                <p><sec:authentication property="principal.employee.role"/></p>
-            </center>
+            <%@include file="shared/profile.jsp" %>
             <ul>
-                <li class="item" id="#patients">
+                <li class="item" id="patients">
                     <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn"
                        style="font-size: 20px;">
                         <i class="fas fa-clinic-medical"></i><span>Main page</span>
                     </a>
                 </li>
                 <li class="item" id="show-med-record" style="font-size: 20px;">
-                    <a href="${pageContext.request.contextPath}/doctor/medical-record/${medicalRecordToEdit.medicalRecordId}"
+                    <a href="${pageContext.request.contextPath}/doctor/medical-record/${medrec}"
                        class="menu-btn">
                         <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
                     </a>
                 </li>
+                <li class="item" id="#show-prescriptions" style="font-size: 20px;">
+                    <a href="${pageContext.request.contextPath}/doctor//show-prescription/${medrec}"
+                       class="menu-btn"><i class="fas fa-prescription"></i>Prescriptions</span>
+                    </a>
+                </li>
                 <li class="item" id="add-prescription" style="font-size: 20px;">
-                    <a href="#" class="menu-btn">
+                    <a href="${pageContext.request.contextPath}/doctor/add-prescription/${medrec}"
+                       class="menu-btn">
                         <i class="fas fa-tablets"></i><span>Add prescription</span>
                     </a>
                 </li>
@@ -61,65 +63,99 @@
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container" style="height: 90vh; background-image: url('/resources/images/icon_med_helper.png');
-    background-size: contain; background-repeat: no-repeat; background-position: right">
-        <div class="card" style="font-size: 18px; width: 60%; padding-left: 8%">
+    <div class="main-container" style="min-height:90vh; height: auto;
+    background-image: url('/resources/images/icon_med_helper.png'); background-size: contain;
+    background-repeat: no-repeat; background-position: right">
+        <div class="card" style="font-size: 18px; width: 60%; padding-left: 8%; border-radius: 5%">
             <br>
             <span class="details-title" style="font-weight: 700">
                  PRESCRIPTION DETAILS
             </span>
             <br><br>
             <div class="row">
-                <div class="col-md-4" style="color: darkred; font-weight: 700"><i class="fas fa-file-medical"></i>
+                <div class="col-md-5" style="color: darkred; font-weight: 700"><i class="fas fa-file-medical"></i>
                     Name:
                 </div>
-                <div class="col-md-4">
-                    <p class="font-italic">${prescription.medicineAndProcedure.medicineProcedureName}</p>
+                <div class="col-md-6">
+                    <p class="font-italic">${prescription.medicineProcedureName}</p>
                 </div>
             </div>
             <br>
             <div class="row">
-                <div class="col-md-4" style="color: darkred; font-weight: 700"><i class="fas fa-medkit"></i>
+                <div class="col-md-5" style="color: darkred; font-weight: 700"><i class="fas fa-medkit"></i>
                     Treatment Type:
                 </div>
-                <div class="col-md-4">
-                    <p class="font-italic">${prescription.medicineAndProcedure.treatmentType}</p>
+                <div class="col-md-5">
+                    <div class="font-italic">${prescription.treatmentType}</div>
                 </div>
             </div>
             <br>
             <div class="row">
-                <div class="col-md-4" style="color: darkred; font-weight: 700"><i class="fas fa-pills"></i>
+                <div class="col-md-5" style="color: darkred; font-weight: 700"><i class="fas fa-pills"></i>
                     Dose:
                 </div>
-                <div class="col-md-4">
-                    <p class="font-italic">${prescription.dose}</p>
+                <div class="col-md-5">
+                    <div class="font-italic">${prescription.dose}</div>
                 </div>
             </div>
             <br>
             <div class="row">
-                <div class="col-md-4" style="color: darkred; font-weight: 700">
+                <div class="col-md-5" style="color: darkred; font-weight: 700">
                     <i class="fas fa-syringe"></i> Administering Medication Method
                 </div>
-                <div class="col-md-4">
-                    <p class="font-italic">${prescription.administeringMedicationMethod}</p>
+                <div class="col-md-5">
+                    <div class="font-italic">${prescription.administeringMedicationMethod}</div>
                 </div>
             </div>
             <br>
             <div class="row">
-                <div class="col-md-4" style="color: darkred; font-weight: 700">
-                    <i class="far fa-clock"></i> Start Treatment:
+                <div class="col-md-5" style="color: darkred; font-weight: 700">
+                    <i class="far fa-clock"></i> Start Treatment Period:
                 </div>
-                <div class="col-md-4">
-                    <p class="font-italic">${prescription.startTreatment}</p>
+                <div class="col-md-5">
+                    <div class="font-italic">${prescription.startTreatment}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5" style="color: darkred; font-weight: 700">
+                    <i class="fas fa-clock"></i> End Treatment Period:
+                </div>
+                <div class="col-md-5">
+                    <div class="font-italic">${prescription.endTreatment}</div>
                 </div>
             </div>
             <br>
             <div class="row">
-                <div class="col-md-4" style="color: darkred; font-weight: 700">
-                    <i class="fas fa-clock"></i> End Treatment:
+                <div class="col-md-5" style="color: darkred; font-weight: 700">
+                    <i class="fas fa-user-clock"></i> Time:
                 </div>
-                <div class="col-md-4">
-                    <p class="font-italic">${prescription.endTreatment}</p>
+                <div class="col-md-5">
+                    <div class="font-italic">${prescription.precisionTime}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5" style="color: darkred; font-weight: 700">
+                    <i class="far fa-calendar-alt"></i> Days:
+                </div>
+                <div class="col-md-6">
+                    ${prescription.sunday}
+                    ${prescription.monday}
+                    ${prescription.tuesday}
+                    ${prescription.wednesday}
+                    ${prescription.thursday}
+                    ${prescription.friday}
+                    ${prescription.saturday}
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-5" style="color: darkred; font-weight: 700">
+                    <i class="fas fa-utensils"></i> Additional:
+                </div>
+                <div class="col-md-5">
+                    ${prescription.beforeMeals}
+                    ${prescription.atMeals}
+                    ${prescription.afterMeals}
                 </div>
             </div>
             <div style="color: darkred;font-weight: 700">${message}</div>
@@ -131,13 +167,6 @@
 </div>
 <!--wrapper end-->
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".sidebar-btn").click(function () {
-            $(".wrapper").toggleClass("collapse");
-        });
-    });
-</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -148,6 +177,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
+
 </body>
 </html>
 

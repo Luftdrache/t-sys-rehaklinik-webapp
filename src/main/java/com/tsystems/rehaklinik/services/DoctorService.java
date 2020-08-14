@@ -12,36 +12,42 @@ import java.util.List;
  */
 public interface DoctorService {
 
-    List<PatientShortViewDTO> patients();
-
     MedicalRecordDTO getMedicalRecord(int patientId);
 
     MedicalRecordDTO setHospitalisation(MedicalRecordDTO medicalRecord);
 
-    MedicalRecordDTO setNewDiagnosis(ClinicalDiagnosisDTO clinicalDiagnose, int medRecordId);
+    MedicalRecordDTO setNewDiagnosis(ClinicalDiagnosisDTO clinicalDiagnosisDTO, int medRecordId);
 
-    boolean deleteClinicalDiagnosisById(int clinicalDiagnoseId);
+    boolean deleteClinicalDiagnosisById(int clinicalDiagnosisId);
 
-    ClinicalDiagnosisDTO getClinicalDiagnosisDTO(int clinicalDiagnoseId);
+    ClinicalDiagnosisDTO getClinicalDiagnosis(int clinicalDiagnoseId);
 
     ClinicalDiagnosisDTO editClinicalDiagnosis(ClinicalDiagnosisDTO clinicalDiagnosisDTO);
 
     PrescriptionDTO addPrescription(PrescriptionDTO prescriptionDTO);
 
+    PrescriptionShortViewDTO editPrescription(PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO);
+
     boolean deletePrescription(int prescriptionId);
+
+    boolean cancelPrescription(int prescriptionId);
+
+    boolean deleteTreatmentEvent(int tEventId);
+
+    PrescriptionDetailsDTO getPrescriptionDetails(int prescriptionId);
+
+    List<PatientShortViewDTO> findPatients();
 
     List<PrescriptionShortViewDTO> findAllPatientsPrescription(int patientId);
 
     PrescriptionTreatmentPatternDTO findPrescriptionById(int prescriptionId);
-
-    PrescriptionShortViewDTO editPrescription(PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO);
-
-    boolean cancelPrescription(int prescriptionId);
 
     List<PatientShortViewDTO> findPatientBySurname(String surname);
 
     List<TreatmentEventDTO> findTreatmentEventsByPatientId(int id);
 
     List<TreatmentEventDTO> findTreatmentEventByName(String tEventName);
+
+    boolean cancelTreatmentEvent(int tEventId);
 
 }

@@ -38,12 +38,7 @@
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
-            <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/admin-avt.png" alt="">
-                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication
-                        property="principal.employee.surname"/></p>
-                <p><sec:authentication property="principal.employee.role"/></p>
-            </center>
+            <%@include file="shared/profile.jsp" %>
             <ul>
                 <li class="item" id="#employees" style="font-size: 20px">
                     <a href="${pageContext.request.contextPath}/admin/start-page" class="menu-btn">
@@ -200,14 +195,6 @@
     <!-- *******MAIN CONTAINER******* -->
 </div>
 <!--wrapper end-->
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".sidebar-btn").click(function () {
-            $(".wrapper").toggleClass("collapse");
-        });
-    });
-</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

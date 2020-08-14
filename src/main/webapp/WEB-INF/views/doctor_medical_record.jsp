@@ -30,11 +30,7 @@
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
-            <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.jpg" alt="">
-                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication property="principal.employee.surname"/></p>
-                <p><sec:authentication property="principal.employee.role"/></p>
-            </center>
+            <%@include file="shared/profile.jsp" %>
             <ul>
                 <li class="item" id="#patients">
                     <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn">
@@ -58,10 +54,21 @@
                         <i class="fas fa-stethoscope"></i><span>Add diagnosis</span>
                     </a>
                 </li>
+                <li class="item" id="#show-prescriptions">
+                    <a href="${pageContext.request.contextPath}/doctor/show-prescription/${medicalRecord.medicalRecordId}"
+                       class="menu-btn"><i class="fas fa-prescription"></i>Prescriptions</span>
+                    </a>
+                </li>
                 <li class="item" id="#add-prescription">
                     <a href="${pageContext.request.contextPath}/doctor/add-prescription/${medicalRecord.medicalRecordId}"
                        class="menu-btn">
                         <i class="fas fa-tablets"></i><span>Add prescription</span>
+                    </a>
+                </li>
+                <li class="item" id="#events">
+                    <a href="${pageContext.request.contextPath}/doctor/show-patient-treatment-events/${medicalRecord.medicalRecordId}"
+                       class="menu-btn">
+                        <i class="fas fa-list-ul"></i><span>Treatment Events</span>
                     </a>
                 </li>
             </ul>
@@ -69,7 +76,7 @@
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container">
+    <div class="main-container" style="background-color: #DEF0FF; min-height: 90vh; height: auto">
         MEDICAL RECORD
         <div class="card">
             <p style="font-weight: bold">Personal info:</p>
@@ -248,13 +255,6 @@
 </div>
 <!--wrapper end-->
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".sidebar-btn").click(function () {
-            $(".wrapper").toggleClass("collapse");
-        });
-    });
-</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

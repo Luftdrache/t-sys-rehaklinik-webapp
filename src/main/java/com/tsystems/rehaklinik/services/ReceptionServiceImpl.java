@@ -128,7 +128,10 @@ public class ReceptionServiceImpl implements ReceptionService {
     }
 
     @Autowired
-    public ReceptionServiceImpl(PatientDAO patientDAO, EmployeeDAO employeeDAO, AdminService adminService, PasswordEncoder passwordEncoder) {
+    public ReceptionServiceImpl(PatientDAO patientDAO,
+                                EmployeeDAO employeeDAO,
+                                AdminService adminService,
+                                PasswordEncoder passwordEncoder) {
         this.patientDAO = patientDAO;
         this.employeeDAO = employeeDAO;
         this.passwordEncoder = passwordEncoder;

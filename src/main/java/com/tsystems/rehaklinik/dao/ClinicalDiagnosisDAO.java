@@ -16,7 +16,7 @@ public interface ClinicalDiagnosisDAO {
      * creates new clinical diagnosis
      *
      * @param clinicalDiagnosis clinical diagnosis
-     * @return  created clinical diagnosis
+     * @return created clinical diagnosis
      */
     ClinicalDiagnose createClinicalDiagnosis(ClinicalDiagnose clinicalDiagnosis);
 
@@ -33,10 +33,10 @@ public interface ClinicalDiagnosisDAO {
     /**
      * Deletes clinical diagnosis
      *
-     * @param id clinical diagnosis id
+     * @param clinicalDiagnose clinical diagnosis to delete
      * @return boolean result of deleting operation
      */
-    boolean deleteClinicalDiagnosis(int id);
+    boolean deleteClinicalDiagnosis(ClinicalDiagnose clinicalDiagnose);
 
 
     /**

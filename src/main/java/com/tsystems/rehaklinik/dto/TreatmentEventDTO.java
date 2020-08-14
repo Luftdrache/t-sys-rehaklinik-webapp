@@ -22,6 +22,7 @@ import java.util.Locale;
 @NoArgsConstructor
 public class TreatmentEventDTO {
     private int treatmentEventId;
+    private int patientId;
     private String patient;
     private String hospitalDepartment;
     private String hospitalWard;
@@ -44,6 +45,7 @@ public class TreatmentEventDTO {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale("en"));
 
         this.treatmentEventId = treatmentEvent.getTreatmentEventId();
+        this.patientId = treatmentEvent.getPatient().getPatientId();
         this.patient = treatmentEvent.getPatient().getSurname() + ", "
                 + treatmentEvent.getPatient().getFirstName() + " "
                 + treatmentEvent.getPatient().getMiddleName();

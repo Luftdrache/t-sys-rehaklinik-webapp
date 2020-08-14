@@ -30,7 +30,8 @@ public class EmployeeShortViewDTO {
 
     public EmployeeShortViewDTO(Employee employeeFromDao) {
         this.employeeId = employeeFromDao.getEmployeeId();
-        this.name = employeeFromDao.getFirstName() + " " + employeeFromDao.getMiddleName() + " " + employeeFromDao.getSurname();
+        this.name = employeeFromDao.getFirstName() + " " + employeeFromDao.getMiddleName() +
+                " " + employeeFromDao.getSurname();
         this.position = employeeFromDao.getPosition();
         this.qualificationCategory = employeeFromDao.getQualificationCategory();
         this.phone = employeeFromDao.getPhoneNumber();

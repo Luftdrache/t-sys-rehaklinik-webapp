@@ -34,11 +34,7 @@
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
-            <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/nurse-avt.png" alt="">
-                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication property="principal.employee.surname"/></p>
-                <p><sec:authentication property="principal.employee.role"/></p>
-            </center>
+            <%@include file="shared/profile.jsp" %>
             <ul>
                 <li class="item" id="events">
                     <a href="${pageContext.request.contextPath}/nurse/start-page" class="menu-btn">
@@ -130,12 +126,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js"
         integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"
         crossorigin="anonymous"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".sidebar-btn").click(function () {
-            $(".wrapper").toggleClass("collapse");
-        });
-    });
-</script>
+
 </body>
 </html>

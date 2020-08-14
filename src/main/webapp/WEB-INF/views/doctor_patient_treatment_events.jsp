@@ -35,18 +35,24 @@
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
-            <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.jpg" alt="">
-                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication property="principal.employee.surname"/></p>
-                <p><sec:authentication property="principal.employee.role"/></p>
-            </center>
+            <%@include file="shared/profile.jsp" %>
             <ul>
                 <li class="item" id="#patients">
                     <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn">
                         <i class="fas fa-clinic-medical"></i><span>Main page</span>
                     </a>
                 </li>
-
+                <li class="item" id="#show-med-record">
+                    <a href="${pageContext.request.contextPath}/doctor/medical-record/${currentPatientId}"
+                       class="menu-btn">
+                        <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
+                    </a>
+                </li>
+                <li class="item" id="#show-prescriptions">
+                    <a href="${pageContext.request.contextPath}/doctor/show-prescription/${currentPatientId}"
+                       class="menu-btn"><i class="fas fa-prescription"></i>Prescriptions</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -90,11 +96,11 @@
                     <td>${tEvent.treatmentEventStatus}</td>
                     <td>${tEvent.patient}</td>
                     <td>${tEvent.medicineProcedureName}</td>
-                    <td>${tEvent.treatmentType}</td>
+                    <td>${tEvent.treatmentType.toString()}</td>
                     <td class="text-right row">
                         <div style='margin-left:20px'>
                             <form:form
-                                    action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
+                                    action="${pageContext.request.contextPath}/doctor/treatment-event-details/${tEvent.treatmentEventId}"
                                     method="get">
                                 <button type="submit" class="btn btn-primary btn-sm" value="Details"
                                         title="See details"
@@ -103,33 +109,51 @@
                                 </button>
                             </form:form>
                         </div>
+                        <c:if test="${tEvent.treatmentEventStatus != 'CANCELLED' && tEvent.treatmentEventStatus != 'COMPLETED'}">
+                            <div style='margin-left:10px'>
+                                <form:form
+                                        action="${pageContext.request.contextPath}/doctor/treatment-event-set-completed"
+                                        method="post">
+                                    <input type="hidden" id="treatmentEventId" name="treatmentEventId"
+                                           value="${tEvent.treatmentEventId}">
+                                    <input type="hidden" id="patientId" name="patientId"
+                                           value="${tEvent.patientId}">
+                                    <button type="submit" class="btn btn-primary btn-sm" value="Completed"
+                                            title='Change status to "Completed"'
+                                            style="background-color: yellowgreen">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </form:form>
+                            </div>
+                            <div style='margin-left:10px'>
+                                <form:form action="${pageContext.request.contextPath}/doctor/cancel-treatment-event"
+                                           method="post"
+                                           class="form-horizontal"
+                                           role="form">
+                                    <input type="hidden" id="tEvent" name="tEvent" value="${tEvent.treatmentEventId}"/>
+                                    <input type="hidden" id="patientId" name="patientId" value="${tEvent.patientId}"/>
+                                    <button type="submit" id="cancel-button" name="cancel-button"
+                                            class="btn btn-primary btn-sm"
+                                            value="Cancel" style="background-color: yellowgreen"
+                                            title="Cancel treatment event">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </form:form>
+                            </div>
+                        </c:if>
                         <div style='margin-left:10px'>
-                            <form:form action="${pageContext.request.contextPath}/nurse/treatment-event-set-completed"
+                            <form:form action="${pageContext.request.contextPath}/doctor/delete-treatment-event"
                                        method="post">
-                                <input type="hidden" id="treatmentEventId" name="treatmentEventId"
+                                <input type="hidden" id="tEventIdToDelete" name="tEventIdToDelete"
                                        value="${tEvent.treatmentEventId}">
-                                <button type="submit" class="btn btn-primary btn-sm" value="Completed"
-                                        title='Change status to "Completed"'
-                                        style="background-color: darkslategray">
-                                    <i class="fas fa-check"></i>
+                                <input type="hidden" id="patient" name="patient"
+                                       value="${tEvent.patientId}">
+                                <button type="submit" class="btn btn-primary btn-sm"
+                                        title="Delete treatment event"
+                                        style="background-color: yellowgreen; color: black">
+                                    <i class="fas fa-trash"></i>
                                 </button>
                             </form:form>
-                        </div>
-                        <div style='margin-left:10px'>
-                            <button type="submit" id="cancel-button" name="cancel-button" class="btn btn-primary btn-sm"
-                                    value="Cancel" style="background-color: darkred"
-                                    title="Cancel"
-                                    onclick="setVariable('${tEvent.treatmentEventId}')">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        <div style='margin-left:10px'>
-                            <button type="submit" id="delete-button" name="delete-button" class="btn btn-primary btn-sm"
-                                    value="Delete" style="background-color: darkred"
-                                    title="Delete"
-                                    onclick="setVariable('${tEvent.treatmentEventId}')">
-                                <i class="fas fa-trash"></i>
-                            </button>
                         </div>
                     </td>
                 </tr>
@@ -142,7 +166,6 @@
     </div>
     <!-- *******MAIN CONTAINER******* -->
 </div>
-<%@include file="shared/cancel_t_event_popup.jsp" %>
 
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 <!-- Optional JavaScript -->
@@ -156,21 +179,5 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js"
         integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"
         crossorigin="anonymous"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".sidebar-btn").click(function () {
-            $(".wrapper").toggleClass("collapse");
-        });
-    });
-
-    function setVariable(tEventId) {
-        document.querySelector(".popup").style.display = "flex";
-        document.getElementById("tEvent").value = tEventId;
-    }
-
-    document.getElementById('close-icon').addEventListener('click', function () {
-        document.querySelector(".popup").style.display = "none";
-    });
-</script>
 </body>
 </html>

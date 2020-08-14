@@ -30,15 +30,16 @@
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
-            <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.jpg" alt="">
-                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication property="principal.employee.surname"/></p>
-                <p><sec:authentication property="principal.employee.role"/></p>
-            </center>
+            <%@include file="shared/profile.jsp" %>
             <ul>
                 <li class="item" id="#patients">
                     <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn">
                         <i class="fas fa-clinic-medical"></i><span>Main page</span>
+                    </a>
+                </li>
+                <li class="item" id="#add-prescription">
+                    <a href="${pageContext.request.contextPath}/doctor/add-prescription/${patientId}" class="menu-btn">
+                        <i class="fas fa-tablets"></i><span>Add prescription</span>
                     </a>
                 </li>
                 <li class="item" id="#show-med-record">
@@ -58,15 +59,10 @@
                         <i class="fas fa-stethoscope"></i><span>Specify diagnosis</span>
                     </a>
                 </li>
-                <li class="item" id="#add-prescription">
-                    <a href="${pageContext.request.contextPath}/doctor/add-prescription/${patientId}" class="menu-btn">
-                        <i class="fas fa-tablets"></i><span>Add prescription</span>
-                    </a>
-                </li>
-                <li class="item" id="#edit-med-record">
-                    <a href="${pageContext.request.contextPath}/doctor/medical-record/edit/${patientId}"
+                <li class="item" id="#events">
+                    <a href="${pageContext.request.contextPath}/doctor/show-patient-treatment-events/${patientId}"
                        class="menu-btn">
-                        <i class="far fa-edit"></i><span>Edit</span>
+                        <i class="fas fa-list-ul"></i><span>Treatment Events</span>
                     </a>
                 </li>
             </ul>
@@ -82,8 +78,6 @@
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
                 <th scope="col">Type</th>
-                <th scope="col">Dose</th>
-                <th scope="col">Method</th>
                 <th scope="col">Start Date</th>
                 <th scope="col">End Date</th>
                 <th scope="col">Status</th>
@@ -96,33 +90,45 @@
                     <td>${status.count}</td>
                     <td>${patPrescription.name}</td>
                     <td>${patPrescription.treatmentType}</td>
-                    <td>${patPrescription.dose}</td>
-                    <td>${patPrescription.administeringMedicationMethod}</td>
                     <td>${patPrescription.startTreatment}</td>
                     <td>${patPrescription.endTreatment}</td>
                     <td>${patPrescription.prescriptionStatus}</td>
                     <td class="text-right row padding-right: 5px">
 
+                        <form:form
+                                action="${pageContext.request.contextPath}/doctor/prescription-details/${patPrescription.prescriptionId}"
+                                method="get">
+                            <input type="hidden" name="medRecordId" , id="medRecordId" value="${patientId}">
+                            <button type="submit" class="btn btn-primary btn-sm" value="Details"
+                                    style="background-color: yellowgreen;">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </form:form>
                         <c:if test="${patPrescription.prescriptionStatus!= 'CANCELLED'}">
-                        <form:form action="${pageContext.request.contextPath}/doctor/edit-prescription/${patPrescription.prescriptionId}"
-                              method="get">
-                            <button type="submit" class="btn btn-primary btn-sm" value="Edit"
-                                    style="background-color: yellowgreen">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </form:form>
-                        <form:form action="${pageContext.request.contextPath}/doctor/cancel-prescription" method="post">
-                            <input type="hidden" name="patient" value="${patientId}">
-                            <input type="hidden" name="prescriptionIdToCancel" value="${patPrescription.prescriptionId}">
-                            <button type="submit" class="btn btn-primary btn-sm" value="Cancel"
-                                    style="background-color: yellowgreen">
-                                <i class="fas fa-ban"></i>
-                            </button>
-                        </form:form>
+                            <form:form
+                                    action="${pageContext.request.contextPath}/doctor/edit-prescription/${patPrescription.prescriptionId}"
+                                    method="get">
+                                <input type="hidden" name="patientId" , id="patientId" value="${patientId}">
+                                <button type="submit" class="btn btn-primary btn-sm" value="Edit"
+                                        style="background-color: yellowgreen">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </form:form>
+                            <form:form action="${pageContext.request.contextPath}/doctor/cancel-prescription"
+                                       method="post">
+                                <input type="hidden" name="patientId" , id="patientId" value="${patientId}">
+                                <input type="hidden" name="prescriptionIdToCancel"
+                                       value="${patPrescription.prescriptionId}">
+                                <button type="submit" class="btn btn-primary btn-sm" value="Cancel"
+                                        style="background-color: yellowgreen">
+                                    <i class="fas fa-ban"></i>
+                                </button>
+                            </form:form>
                         </c:if>
                         <form:form action="${pageContext.request.contextPath}/doctor/delete-prescription" method="post">
                             <input type="hidden" name="patient" value="${patientId}">
-                            <input type="hidden" name="prescriptionIdToDelete" value="${patPrescription.prescriptionId}">
+                            <input type="hidden" name="prescriptionIdToDelete"
+                                   value="${patPrescription.prescriptionId}">
                             <button type="submit" class="btn btn-primary btn-sm" value="Delete"
                                     style="background-color: yellowgreen">
                                 <i class="fa fa-trash"></i>
@@ -141,13 +147,6 @@
 </div>
 <!--wrapper end-->
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".sidebar-btn").click(function () {
-            $(".wrapper").toggleClass("collapse");
-        });
-    });
-</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

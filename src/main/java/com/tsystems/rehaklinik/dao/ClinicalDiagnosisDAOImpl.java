@@ -2,6 +2,7 @@ package com.tsystems.rehaklinik.dao;
 
 
 import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
+import com.tsystems.rehaklinik.entities.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -53,15 +54,17 @@ public class ClinicalDiagnosisDAOImpl implements ClinicalDiagnosisDAO {
 
 
     @Override
-    public boolean deleteClinicalDiagnosis(int id) {
+    public boolean deleteClinicalDiagnosis(ClinicalDiagnose clinicalDiagnose) {
         logger.info("MedHelper_LOGS: ClinicalDiagnosisDAOImpl: Deleting diagnosis by id");
-        ClinicalDiagnose clinicalDiagnose = entityManager.find(ClinicalDiagnose.class, id);
-        clinicalDiagnose.setMedicalRecord(null);
-        if (clinicalDiagnose != null) {
+        int id =  clinicalDiagnose.getClinicalDiagnosisId();
+        entityManager.remove(clinicalDiagnose);
+        ClinicalDiagnose deleted = entityManager.find(ClinicalDiagnose.class, id);
+        if (deleted == null) {
             logger.info("MedHelper_LOGS: ClinicalDiagnosisDAOImpl: Clinical Diagnosis with id = {} deleted", id);
             return true;
         }
-        logger.info("MedHelper_LOGS: ClinicalDiagnosisDAOImpl: Clinical Diagnosis  with id = {} does not exist", id);
+        logger.info("MedHelper_LOGS: ClinicalDiagnosisDAOImpl: Failed attempt to delete " +
+                "clinical diagnosis  with id = {}", id);
         return false;
     }
 

@@ -39,12 +39,7 @@
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
-            <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/admin-avt.png" alt="">
-                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication
-                        property="principal.employee.surname"/></p>
-                <p><sec:authentication property="principal.employee.role"/></p>
-            </center>
+            <%@include file="shared/profile.jsp" %>
             <ul>
                 <li class="item" id="#employees" style="font-size: 20px">
                     <a href="${pageContext.request.contextPath}/admin/start-page" class="menu-btn">

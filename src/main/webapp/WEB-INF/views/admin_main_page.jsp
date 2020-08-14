@@ -32,11 +32,7 @@
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
-            <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/admin-avt.png" alt="">
-                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication property="principal.employee.surname"/></p>
-                <p><sec:authentication property="principal.employee.role"/></p>
-            </center>
+            <%@include file="shared/profile.jsp" %>
             <ul>
                 <li class="item" id="#patients">
                     <a href="${pageContext.request.contextPath}/admin/start-page" class="menu-btn">
@@ -141,13 +137,6 @@
 </div>
 <!--wrapper end-->
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".sidebar-btn").click(function () {
-            $(".wrapper").toggleClass("collapse");
-        });
-    });
-</script>
 
 <script src="${pageContext.request.contextPath}/resources/js/about_info_popup.js"></script>
 

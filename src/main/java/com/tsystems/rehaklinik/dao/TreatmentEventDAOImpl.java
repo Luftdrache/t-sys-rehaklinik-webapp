@@ -75,6 +75,16 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
 
 
     @Override
+    public boolean deleteTreatmentEvents(TreatmentEvent treatmentEvent) {
+        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: deleting  treatment events by id");
+        if(treatmentEvent != null) {
+            entityManager.remove(treatmentEvent);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public boolean deletePrescriptionPlannedTreatmentEvents(List<TreatmentEvent> treatmentEvents) {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: deleting planned treatment events by selected prescription");
         if (treatmentEvents != null) {

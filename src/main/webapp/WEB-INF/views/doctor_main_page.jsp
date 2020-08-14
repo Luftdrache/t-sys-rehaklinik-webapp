@@ -23,7 +23,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/about_popup_style.css">
 
 
-
     <!-- Title -->
     <title>MedHelper</title>
 </head>
@@ -34,20 +33,11 @@
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
-            <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.jpg" alt="">
-                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication property="principal.employee.surname"/></p>
-                <p><sec:authentication property="principal.employee.role"/></p>
-            </center>
+            <%@include file="shared/profile.jsp" %>
             <ul>
                 <li class="item" id="#patients">
                     <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn">
                         <i class="fas fa-users"></i><span>My patients</span>
-                    </a>
-                </li>
-                <li class="item" id="prescriptions">
-                    <a href="${pageContext.request.contextPath}/doctor/show-prescription" class="menu-btn">
-                        <i class="fas fa-tablets"></i><span>Prescriptions</span>
                     </a>
                 </li>
                 <li class="item" id="settings">
@@ -83,7 +73,7 @@
                 </button>
             </form:form>
         </div>
-        <table class="table table-striped table-borderless .table-condensed ">
+        <table id="dtBasicExample" class="table table-striped table-borderless .table-condensed ">
             <thead class="thead-mine">
             <tr class="tr-mine">
                 <th scope="col">Id</th>
@@ -107,27 +97,36 @@
                     <td>${pat.insuranceCompany}</td>
                     <td>${pat.insurancePolicyCode}</td>
                     <td class="text-right row padding-right: 5px">
-                        <form:form action="${pageContext.request.contextPath}/doctor/medical-record/${pat.patientId}"
-                              method="get">
-                            <button type="submit" class="btn btn-primary btn-sm" value="Medical Record"
-                                    style="background-color: yellowgreen">
-                                <i class="fas fa-file-medical-alt"></i>
-                            </button>
-                        </form:form>
-                        <form:form action="${pageContext.request.contextPath}/doctor/show-prescription/${pat.patientId}"
-                              method="get">
-                            <button type="submit" class="btn btn-primary btn-sm" value="Prescriptions"
-                                    style="background-color: yellowgreen">
-                                <i class="fas fa-tablets"></i>
-                            </button>
-                        </form:form>
-                        <form:form action="${pageContext.request.contextPath}/doctor/show-patient-treatment-events/${pat.patientId}"
-                                   method="get">
-                            <button type="submit" class="btn btn-primary btn-sm" value="Treatment Events"
-                                    style="background-color: yellowgreen">
-                                <i class="fas fa-list-ul"></i>
-                            </button>
-                        </form:form>
+                        <div style='margin-left:10px'>
+                            <form:form
+                                    action="${pageContext.request.contextPath}/doctor/medical-record/${pat.patientId}"
+                                    method="get">
+                                <button type="submit" class="btn btn-primary btn-sm" value="Medical Record"
+                                        style="background-color: yellowgreen">
+                                    <i class="fas fa-file-medical-alt"></i>
+                                </button>
+                            </form:form>
+                        </div>
+                        <div style='margin-left:10px'>
+                            <form:form
+                                    action="${pageContext.request.contextPath}/doctor/show-prescription/${pat.patientId}"
+                                    method="get">
+                                <button type="submit" class="btn btn-primary btn-sm" value="Prescriptions"
+                                        style="background-color: yellowgreen">
+                                    <i class="fas fa-tablets"></i>
+                                </button>
+                            </form:form>
+                        </div>
+                        <div style='margin-left:10px'>
+                            <form:form
+                                    action="${pageContext.request.contextPath}/doctor/show-patient-treatment-events/${pat.patientId}"
+                                    method="get">
+                                <button type="submit" class="btn btn-primary btn-sm" value="Treatment Events"
+                                        style="background-color: yellowgreen">
+                                    <i class="fas fa-list-ul"></i>
+                                </button>
+                            </form:form>
+                        </div>
                     </td>
                 </tr>
             </c:forEach>
@@ -142,13 +141,6 @@
 </div>
 <!--wrapper end-->
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".sidebar-btn").click(function () {
-            $(".wrapper").toggleClass("collapse");
-        });
-    });
-</script>
 
 <script src="${pageContext.request.contextPath}/resources/js/about_info_popup.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -160,5 +152,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
+
+
 </body>
 </html>

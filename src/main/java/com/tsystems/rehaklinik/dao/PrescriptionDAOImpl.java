@@ -83,7 +83,8 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
     public List<Prescription> fidAllPrescriptionsByPatientId(int id) {
         logger.info("MedHelper_LOGS: PrescriptionDAOImpl: Finds all patient's prescriptions (by patient's id)");
         return entityManager.createQuery(
-                "SELECT p FROM Prescription p WHERE p.patient.patientId = :patientId ORDER BY p.startTreatment",
+                "SELECT p FROM Prescription p WHERE p.patient.patientId = :patientId " +
+                        "ORDER BY p.prescriptionStatus asc, p.startTreatment",
                 Prescription.class).setParameter("patientId", id).getResultList();
     }
 }

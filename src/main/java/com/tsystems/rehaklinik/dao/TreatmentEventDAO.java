@@ -44,6 +44,13 @@ public interface TreatmentEventDAO {
      */
     List<TreatmentEvent> findAllPlannedTreatmentEvents(); //for nurse
 
+    /**
+     * Deletes treatment event
+     *
+     * @param treatmentEvent treatment event to delete
+     * @return operation result: true or false
+     */
+    boolean deleteTreatmentEvents(TreatmentEvent treatmentEvent);
 
     /**
      * Deletes all patient's planned treatment events when they are no longer necessary

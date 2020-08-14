@@ -33,11 +33,7 @@
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
-            <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/doctor-avt.jpg" alt="">
-                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication property="principal.employee.surname"/></p>
-                <p><sec:authentication property="principal.employee.role"/></p>
-            </center>
+            <%@include file="shared/profile.jsp" %>
             <ul>
                 <li class="item" id="#patients">
                     <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn"
@@ -52,7 +48,7 @@
                     </a>
                 </li>
                 <li class="item" id="add-prescription" style="font-size: 20px;">
-                    <a href="#" class="menu-btn">
+                    <a href="${pageContext.request.contextPath}/doctor/add-prescription/${patientId}" class="menu-btn">
                         <i class="fas fa-tablets"></i><span>Add prescription</span>
                     </a>
                 </li>
@@ -66,8 +62,8 @@
             <div content="container" class="col-sm-8 col-sm-offset-2"
                  style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
                 <form:form action="${pageContext.request.contextPath}/doctor/add-prescription" method="post"
-                      class="form-horizontal"
-                      role="form">
+                           class="form-horizontal"
+                           role="form">
                     <div style="padding-left: 20%">
                         <h2>Add Prescription</h2>
                         <span class="help-block">*Required fields</span>
@@ -224,13 +220,6 @@
     </div>
     <!--wrapper end-->
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".sidebar-btn").click(function () {
-            $(".wrapper").toggleClass("collapse");
-        });
-    });
-</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

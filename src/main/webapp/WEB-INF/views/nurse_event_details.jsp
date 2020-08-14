@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page import="com.tsystems.rehaklinik.types.TreatmentType" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -35,38 +34,65 @@
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
-            <center class="profile">
-                <img src="${pageContext.request.contextPath}/resources/images/nurse-avt.png" alt="">
-                <p><sec:authentication property="principal.employee.firstName"/> <sec:authentication property="principal.employee.surname"/></p>
-                <p><sec:authentication property="principal.employee.role"/></p>
-            </center>
-            <ul>
-                <li class="item" id="#patients">
-                    <a href="${pageContext.request.contextPath}/nurse/start-page" class="menu-btn"
-                       style="font-size: 20px;">
-                        <i class="fas fa-clinic-medical"></i><span>Main page</span>
-                    </a>
-                </li>
-                <li class="item" id="#urgentEvents">
-                    <a href="${pageContext.request.contextPath}/nurse/urgent-treatment-events" class="menu-btn" style="font-size: 20px;">
-                        <i class="fas fa-ambulance"></i><span>Urgent</span>
-                    </a>
-                </li>
-                <li class="item" id="#todayEvents">
-                    <a href="${pageContext.request.contextPath}/nurse/today-treatment-events" class="menu-btn" style="font-size: 20px;">
-                        <i class="far fa-calendar-plus"></i><span>Today</span>
-                    </a>
-                </li>
-                <li class="item" id="#completedEvents">
-                    <a href="${pageContext.request.contextPath}/nurse/show-completed-treatment-events" class="menu-btn" style="font-size: 20px;">
-                        <i class="fas fa-list-ol"></i><span>Completed</span>
-                    </a>
-                </li>
-                <li class="item" id="overdueEvents">
-                    <a href="${pageContext.request.contextPath}/nurse/show-overdue-treatment-events" class="menu-btn">
-                        <i class="fas fa-hourglass-end"></i><span>Overdue</span>
-                    </a>
-                </li>
+            <%@include file="shared/profile.jsp" %>
+            <ul style="font-size: 20px">
+                <sec:authorize access="hasRole('DOCTOR')">
+                    <li class="item" id="#patients">
+                        <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn">
+                            <i class="fas fa-clinic-medical"></i><span>Main page</span>
+                        </a>
+                    </li>
+                    <li class="item" id="#show-med-record">
+                        <a href="${pageContext.request.contextPath}/doctor/medical-record/${treatmentEventDetails.patientId}"
+                           class="menu-btn">
+                            <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
+                        </a>
+                    </li>
+                    <li class="item" id="#show-prescriptions">
+                        <a href="${pageContext.request.contextPath}/doctor/show-prescription/${treatmentEventDetails.patientId}"
+                           class="menu-btn"><i class="fas fa-prescription"></i>Prescriptions</span>
+                        </a>
+                    </li>
+                    <li class="item" id="#show-prescriptions">
+                        <a href="${pageContext.request.contextPath}/doctor/show-patient-treatment-events/${treatmentEventDetails.patientId}"
+                           class="menu-btn"><i class="fas fa-list-ul"></i><span>Treatment Events</span>
+                        </a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="hasRole('NURSE')">
+                    <li class="item" id="#patients">
+                        <a href="${pageContext.request.contextPath}/nurse/start-page" class="menu-btn"
+                           style="font-size: 20px;">
+                            <i class="fas fa-clinic-medical"></i><span>Main page</span>
+                        </a>
+                    </li>
+                    <li class="item" id="#urgentEvents">
+                        <a href="${pageContext.request.contextPath}/nurse/urgent-treatment-events" class="menu-btn"
+                           style="font-size: 20px;">
+                            <i class="fas fa-ambulance"></i><span>Urgent</span>
+                        </a>
+                    </li>
+                    <li class="item" id="#todayEvents">
+                        <a href="${pageContext.request.contextPath}/nurse/today-treatment-events" class="menu-btn"
+                           style="font-size: 20px;">
+                            <i class="far fa-calendar-plus"></i><span>Today</span>
+                        </a>
+                    </li>
+                    <li class="item" id="#completedEvents">
+                        <a href="${pageContext.request.contextPath}/nurse/show-completed-treatment-events"
+                           class="menu-btn"
+                           style="font-size: 20px;">
+                            <i class="fas fa-list-ol"></i><span>Completed</span>
+                        </a>
+                    </li>
+                    <li class="item" id="overdueEvents">
+                        <a href="${pageContext.request.contextPath}/nurse/show-overdue-treatment-events"
+                           class="menu-btn"
+                           style="font-size: 20px;">
+                            <i class="fas fa-hourglass-end"></i><span>Overdue</span>
+                        </a>
+                    </li>
+                </sec:authorize>
             </ul>
         </div>
     </div>
@@ -81,17 +107,19 @@
                 <span class="details-title" style="font-weight: 700">
                 TREATMENT EVENT DETAILS </span>
                 </div>
-                <c:set var="status" value="${treatmentEventDetails.treatmentEventStatus}"></c:set>
-                <c:if test="${status != 'CANCELLED' && status != 'COMPLETED'}">
-                    <div class="col-sm-offset-5">
+                <sec:authorize access="hasRole('NURSE')">
+                    <c:set var="status" value="${treatmentEventDetails.treatmentEventStatus}"></c:set>
+                    <c:if test="${status != 'CANCELLED' && status != 'COMPLETED'}">
+                        <div class="col-sm-offset-5">
                             <button type="submit" class="btn btn-primary btn-sm"
                                     style="background-color: darkred; font-size: 16px"
                                     id="cancel-button" name="cancel-button"
                                     onclick="setVariable('${treatmentEventDetails.treatmentEventId}')">
                                 <i class="fas fa-times"> Cancel</i>
                             </button>
-                    </div>
-                </c:if>
+                        </div>
+                    </c:if>
+                </sec:authorize>
             </div>
             <br><br>
             <div class="row">
@@ -219,12 +247,6 @@
         integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"
         crossorigin="anonymous"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $(".sidebar-btn").click(function () {
-            $(".wrapper").toggleClass("collapse");
-        });
-    });
-
     function setVariable(tEventId) {
         document.querySelector(".popup").style.display = "flex";
         document.getElementById("tEvent").value = tEventId;
