@@ -193,16 +193,20 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
                 .getResultList();
     }
 
-
+    /**
+     * Checks if treatment event is overdue
+     *
+     */
     private void checkOverdueTreatmentEvents() {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: checking overdue treatment events");
         LocalTime overdueTime = LocalTime.now().plusHours(1);
+        LocalTime now = LocalTime.now();
         LocalDate today = LocalDate.now();
 
         List<TreatmentEvent> overdue = entityManager.createQuery(
                 "SELECT t FROM TreatmentEvent t " +
                         "WHERE t.treatmentEventStatus = :status " +
-                        "AND t.treatmentEventTime <= :overdueTime " +
+                        "AND t.treatmentEventTime  <= :overdueTime " +
                         "AND t.treatmentEventDate = :today " +
                         "ORDER BY t.treatmentEventDate, t.treatmentEventTime",
                 TreatmentEvent.class)

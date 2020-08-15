@@ -72,6 +72,9 @@
                         <label for="firstName" class="col-sm-4 control-label">First Name*</label>
                         <div class="col-sm-6">
                             <input required type="text" id="firstName" name="firstName" placeholder="First Name"
+                                   min=3
+                                   oninvalid="this.setCustomValidity('Please enter a first name')"
+                                   oninput="setCustomValidity('')"
                                    class="form-control"
                                    autofocus>
                         </div>
@@ -84,10 +87,13 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="surname" class="col-sm-4 control-label">Last Name*</label>
+                        <label for="surname" class="col-sm-4 control-label">Surname*</label>
                         <div class="col-sm-6">
                             <input required
-                                   type="text" id="surname" name="surname" placeholder="Last Name" class="form-control">
+                                   type="text" id="surname" name="surname" placeholder="Surname"
+                                   oninvalid="this.setCustomValidity('Please enter a surname')"
+                                   oninput="setCustomValidity('')"
+                                   class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
@@ -95,6 +101,8 @@
                         <div class="col-sm-6">
                             <input required type="text" id="username" name="authenticationDataEmployee.username"
                                    placeholder="Username"
+                                   oninvalid="this.setCustomValidity('Please enter a username')"
+                                   oninput="setCustomValidity('')"
                                    class="form-control">
                         </div>
                     </div>
@@ -102,6 +110,8 @@
                         <label for="password" class="col-sm-4 control-label">Password*</label>
                         <div class="col-sm-6">
                             <input required type="password" id="password" name="authenticationDataEmployee.password"
+                                   oninvalid="this.setCustomValidity('Please enter a password')"
+                                   oninput="setCustomValidity('')"
                                    placeholder="Password" class="form-control">
                         </div>
                     </div>
@@ -110,6 +120,8 @@
                         <div class="col-sm-6">
                             <input required type="date" id="dateOfBirth" name="dateOfBirth" min="1920-01-01"
                                    max="2010-01-01"
+                                   oninvalid="this.setCustomValidity('Please enter a date of birth')"
+                                   oninput="setCustomValidity('')"
                                    class="form-control">
                         </div>
                     </div>
@@ -117,6 +129,8 @@
                         <label for="passportId" class="col-sm-4 control-label">Passport Id*</label>
                         <div class="col-sm-6">
                             <input required type="text" id="passportId" name="passportId" placeholder="Passport Id"
+                                   oninvalid="this.setCustomValidity('Please enter a passport id')"
+                                   oninput="setCustomValidity('')"
                                    class="form-control">
                         </div>
                     </div>
@@ -124,6 +138,8 @@
                         <label for="address" class="col-sm-4 control-label">Home Address*</label>
                         <div class="col-sm-6">
                             <input required type="text" id="address" name="address" placeholder="Home Address"
+                                   oninvalid="this.setCustomValidity('Please enter an address')"
+                                   oninput="setCustomValidity('')"
                                    class="form-control">
                         </div>
                     </div>
@@ -131,19 +147,25 @@
                         <label for="phoneNumber" class="col-sm-4 control-label">Phone*</label>
                         <div class="col-sm-6">
                             <input required type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone"
+                                   oninvalid="this.setCustomValidity('Please enter a phone number')"
+                                   oninput="setCustomValidity('')"
                                    class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="email" class="col-sm-4 control-label">Email</label>
                         <div class="col-sm-6">
-                            <input type="email" id="email" placeholder="Email" name="email" class="form-control">
+                            <input type="email" id="email" placeholder="Email"
+                                   name="email" value="@rehaclinic.com"
+                                   class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="position" class="col-sm-4 control-label">Position*</label>
                         <div class="col-sm-6">
                             <input required type="text" id="position" name="position" placeholder="Position"
+                                   oninvalid="this.setCustomValidity('Please enter a position')"
+                                   oninput="setCustomValidity('')"
                                    class="form-control">
                         </div>
                     </div>

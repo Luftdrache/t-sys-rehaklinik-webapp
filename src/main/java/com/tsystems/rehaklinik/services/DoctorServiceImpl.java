@@ -29,6 +29,8 @@ public class DoctorServiceImpl implements DoctorService {
     private final TreatmentEventGenerationService treatmentEventGenerationService;
     private final TreatmentEventDAO treatmentEventDAO;
 
+    private static final int ZERO_ID = 0;
+
 
     @Override
     public boolean cancelPrescription(int prescriptionId) {
@@ -268,7 +270,9 @@ public class DoctorServiceImpl implements DoctorService {
             medicalRecordDTO.setClinicalDiagnosis(clinicalDiagnosisDTOSet);
             return medicalRecordDTO;
         }
-        return null;
+        MedicalRecordDTO nonexistentMedicalRecordDTO = new MedicalRecordDTO();
+        nonexistentMedicalRecordDTO.setMedicalRecordId(ZERO_ID);
+        return nonexistentMedicalRecordDTO;
     }
 
     @Override

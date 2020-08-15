@@ -71,9 +71,12 @@
                     <div class="form-group">
                         <label for="medicineProcedureName" class="col-sm-4 control-label">Name*</label>
                         <div class="col-sm-6">
-                            <input type="text" id="medicineProcedureName"
+                            <input required type="text" id="medicineProcedureName"
                                    name="medicineAndProcedure.medicineProcedureName"
-                                   placeholder="Name" class="form-control" autofocus>
+                                   placeholder="Name"
+                                   oninvalid="this.setCustomValidity('Please enter a medicine or procedure name')"
+                                   oninput="setCustomValidity('')"
+                                   class="form-control" autofocus>
                         </div>
                     </div>
                     <div class="form-group">
@@ -104,15 +107,21 @@
                     <div class="form-group">
                         <label for="startTreatment" class="col-sm-4 control-label">Start Treatment*</label>
                         <div class="col-sm-6">
-                            <input type="date" id="startTreatment" name="startTreatment"
-                                   placeholder="Start Treatment" class="form-control">
+                            <input required type="date" id="startTreatment" name="startTreatment"
+                                   placeholder="Start Treatment"
+                                   oninvalid="this.setCustomValidity('Please set a start treatment date')"
+                                   oninput="setCustomValidity('')"
+                                   class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="endTreatment" class="col-sm-4 control-label">End Treatment*</label>
                         <div class="col-sm-6">
-                            <input type="date" id="endTreatment" name="endTreatment"
-                                   placeholder="End Treatment" class="form-control">
+                            <input required type="date" id="endTreatment" name="endTreatment"
+                                   placeholder="End Treatment"
+                                   oninvalid="this.setCustomValidity('Please set an end treatment date')"
+                                   oninput="setCustomValidity('')"
+                                   class="form-control">
                         </div>
                     </div>
                     <input type="hidden" id="patient"

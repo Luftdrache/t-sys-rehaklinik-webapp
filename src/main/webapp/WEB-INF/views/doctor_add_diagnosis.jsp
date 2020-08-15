@@ -76,17 +76,22 @@
                             Main Disease*
                         </label>
                         <div class="col-sm-6">
-                            <input type="text" id="mainDisease"
+                            <input required type="text" id="mainDisease"
                                    name="mainDisease"
                                    placeholder="Main Disease"
+                                   oninvalid="this.setCustomValidity('Please enter a main disease')"
+                                   oninput="setCustomValidity('')"
                                    class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="icd10Code" class="col-sm-4 control-label">ICD-10*</label>
                         <div class="col-sm-6">
-                            <input type="text" id="icd10Code" name="icd10Code"
-                                   placeholder="ICD-10" class="form-control">
+                            <input required type="text" id="icd10Code" name="icd10Code"
+                                   placeholder="ICD-10"
+                                   oninvalid="this.setCustomValidity('Please enter a ICD-10 code')"
+                                   oninput="setCustomValidity('')"
+                                   class="form-control">
                         </div>
                     </div>
                     <div class="form-group">

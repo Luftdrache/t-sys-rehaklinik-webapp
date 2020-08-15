@@ -42,19 +42,9 @@
                     </a>
                 </li>
                 <li class="item" id="show-med-record" style="font-size: 20px;">
-                    <a href="${pageContext.request.contextPath}/doctor/medical-record/${medicalRecordToEdit.medicalRecordId}"
+                    <a href="${pageContext.request.contextPath}/doctor/medical-record/${CDToEdit.medicalRecord.medicalRecordId}"
                        class="menu-btn">
                         <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
-                    </a>
-                </li>
-                <li class="item" id="edit-med-record" style="font-size: 20px;">
-                    <a href="#" class="menu-btn">
-                        <i class="far fa-edit"></i><span>Edit</span>
-                    </a>
-                </li>
-                <li class="item" id="add-prescription" style="font-size: 20px;">
-                    <a href="#" class="menu-btn">
-                        <i class="fas fa-tablets"></i><span>Add prescription</span>
                     </a>
                 </li>
             </ul>
@@ -81,16 +71,6 @@
                                value="${CDToEdit.clinicalDiagnosisId}"/>
                         <input type="hidden" id="medicalRecord.medicalRecordId" name="medicalRecord.medicalRecordId"
                                value="${CDToEdit.medicalRecord.medicalRecordId}"/>
-<%--                        <input type="hidden" id="medicalRecord.clinicalDiagnosis" name="medicalRecord.clinicalDiagnosis"--%>
-<%--                               value="${CDToEdit.medicalRecord.clinicalDiagnosis}"/>--%>
-<%--                        <input type="hidden" id="medicalRecord.hospitalStayStatus" name="medicalRecord.hospitalStayStatus"--%>
-<%--                               value="${CDToEdit.medicalRecord.hospitalStayStatus}"/>--%>
-<%--                        <input type="hidden" id="medicalRecord.hospitalDepartment" name="medicalRecord.hospitalDepartment"--%>
-<%--                               value="${CDToEdit.medicalRecord.hospitalDepartment}"/>--%>
-<%--                        <input type="hidden" id="medicalRecord.hospitalWard" name="medicalRecord.hospitalWard"--%>
-<%--                               value="${CDToEdit.medicalRecord.hospitalWard}"/>--%>
-                        <!-- HIDDEN -->
-
                         <div class="form-group">
                             <label for="mainDisease" class="col-sm-4 control-label">Main Disease*</label>
                             <div class="col-sm-6">

@@ -48,7 +48,7 @@ public class DoctorController {
     private static final String TREATMENT_EVENT_LIST = "treatmentEventList";
     private static final String MEDICAL_RECORD = "medicalRecord";
     private static final String MEDICAL_RECORD_ID = "medrec";
-
+    private static final int ZERO_ID = 0;
 
     /**
      * Returns main doctor's page with his patient list on it. Start page.
@@ -259,8 +259,12 @@ public class DoctorController {
     @GetMapping("/medical-record/{id}")
     public String showMedicalRecord(@PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method showMedicalRecord(), GET. id = {}", id);
-
         MedicalRecordDTO medicalRecord = doctorService.getMedicalRecord(id);
+        if (medicalRecord.getMedicalRecordId() == ZERO_ID) {
+            medicalRecord.setMedicalRecordId(id);
+            modelMap.addAttribute(MESSAGE, "The medical record with the specified id could not be found. " +
+                    "Please check the URL");
+        }
         modelMap.addAttribute(MEDICAL_RECORD, medicalRecord);
         return MEDICAL_RECORD_JSP;
     }

@@ -58,7 +58,8 @@
                     </a>
                 </li>
                 <li class="item" id="#add-prescription" style="font-size: 20px;">
-                    <a href="${pageContext.request.contextPath}/doctor/medical-record/add-diagnosis/${medrec}" class="menu-btn">
+                    <a href="${pageContext.request.contextPath}/doctor/medical-record/add-diagnosis/${medrec}"
+                       class="menu-btn">
                         <i class="fas fa-tablets"></i><span>Add prescription</span>
                     </a>
                 </li>
@@ -69,8 +70,8 @@
     <!-- *******MAIN CONTAINER******* -->
     <div class="main-container" style="height: 90vh;">
         <form:form action="${pageContext.request.contextPath}/doctor/medical-record/hospitalisation/" method="post"
-              class="form-horizontal"
-              role="form">
+                   class="form-horizontal"
+                   role="form">
             <div style="padding-left: 20%">
                 <h2>Hospitalisation settings
                     for patient ${hospitalisationToEdit.patient.firstName} ${hospitalisationToEdit.patient.surname}</h2>
@@ -89,10 +90,11 @@
                             value="${hospitalisationToEdit.hospitalStayStatus}"
                             class="form-control">
                         <c:forEach items="${HospitalStayStatus.values()}" var="hStayStatus">
-                            <option>${hStayStatus.toString()}</option>
+                            <c:if test="${hStayStatus ne hospitalisationToEdit.hospitalStayStatus}">
+                                <option>${hStayStatus.toString()}</option>
+                            </c:if>
                         </c:forEach>
-
-                        <%--                        <option selected>${hospitalisationToEdit.hospitalStayStatus}</option>--%>
+                        <option selected>${hospitalisationToEdit.hospitalStayStatus.toString()}</option>
                     </select>
                 </div>
             </div>

@@ -102,8 +102,11 @@
                                     value="${prescriptionToEdit.treatmentType}"
                                     class="form-control">
                                 <c:forEach items="${TreatmentType.values()}" var="type">
-                                    <option>${type.toString()}</option>
+                                    <c:if test="${type ne prescriptionToEdit.treatmentType}">
+                                        <option>${type.toString()}</option>
+                                    </c:if>
                                 </c:forEach>
+                                <option selected>${prescriptionToEdit.treatmentType.toString()}</option>
                             </select>
                         </div>
                     </div>

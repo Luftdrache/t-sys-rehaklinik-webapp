@@ -67,7 +67,9 @@
                     <div class="form-group">
                         <label for="firstName" class="col-sm-4 control-label">First Name*</label>
                         <div class="col-sm-5">
-                            <input type="text" id="firstName" name="firstName" placeholder="First Name"
+                            <input required type="text" id="firstName" name="firstName" placeholder="First Name"
+                                   oninvalid="this.setCustomValidity('Please enter a first name')"
+                                   oninput="setCustomValidity('')"
                                    class="form-control"
                                    autofocus>
                         </div>
@@ -80,9 +82,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="surname" class="col-sm-4 control-label">Last Name*</label>
+                        <label for="surname" class="col-sm-4 control-label">Surname*</label>
                         <div class="col-sm-5">
-                            <input type="text" id="surname" name="surname" placeholder="Last Name" class="form-control">
+                            <input required type="text" id="surname" name="surname" placeholder="Surname"
+                                   oninvalid="this.setCustomValidity('Please enter a surname')"
+                                   oninput="setCustomValidity('')"
+                                   class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
@@ -99,27 +104,37 @@
                     <div class="form-group">
                         <label for="dateOfBirth" class="col-sm-4 control-label">Date of Birth*</label>
                         <div class="col-sm-5">
-                            <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control">
+                            <input required type="date" id="dateOfBirth" name="dateOfBirth"
+                                   oninvalid="this.setCustomValidity('Please set a date of birth')"
+                                   oninput="setCustomValidity('')"
+                                   class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="passportId" class="col-sm-4 control-label">Passport Id*</label>
                         <div class="col-sm-5">
-                            <input type="text" id="passportId" name="passportId" placeholder="Passport Id"
+                            <input required type="text" id="passportId" name="passportId"
+                                   placeholder="Passport Id"
+                                   oninvalid="this.setCustomValidity('Please enter a passport id')"
+                                   oninput="setCustomValidity('')"
                                    class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="address" class="col-sm-4 control-label">Home Address*</label>
                         <div class="col-sm-5">
-                            <input type="text" id="address" name="address" placeholder="Home Address"
+                            <input required type="text" id="address" name="address" placeholder="Home Address"
+                                   oninvalid="this.setCustomValidity('Please enter an address')"
+                                   oninput="setCustomValidity('')"
                                    class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="phoneNumber" class="col-sm-4 control-label">Phone*</label>
                         <div class="col-sm-5">
-                            <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone"
+                            <input required type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone"
+                                   oninvalid="this.setCustomValidity('Please enter a phone number')"
+                                   oninput="setCustomValidity('')"
                                    class="form-control">
                         </div>
                     </div>
@@ -132,21 +147,29 @@
                     <div class="form-group">
                         <label for="insurancePolicyCode" class="col-sm-4 control-label">Insurance Policy Code*</label>
                         <div class="col-sm-5">
-                            <input type="text" id="insurancePolicyCode" placeholder="Insurance Policy Code"
+                            <input required type="text" id="insurancePolicyCode"
+                                   placeholder="Insurance Policy Code"
+                                   oninvalid="this.setCustomValidity('Please enter an insurance policy code')"
+                                   oninput="setCustomValidity('')"
                                    name="insurancePolicyCode" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="insuranceCompany" class="col-sm-4 control-label">Insurance Company*</label>
                         <div class="col-sm-5">
-                            <input type="text" id="insuranceCompany" placeholder="Insurance Company"
+                            <input required type="text" id="insuranceCompany"
+                                   placeholder="Insurance Company"
+                                   oninvalid="this.setCustomValidity('Please enter an insurance company name')"
+                                   oninput="setCustomValidity('')"
                                    name="insuranceCompany" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="consentToPersonalDataProcessing" class="col-sm-4 control-label"></label>
                         <div class="col-sm-5">
-                            <input type="checkbox" id="consentToPersonalDataProcessing"
+                            <input required type="checkbox" id="consentToPersonalDataProcessing"
+                                   oninvalid="this.setCustomValidity('Please give your consent to personal data processing')"
+                                   oninput="setCustomValidity('')"
                                    name="consentToPersonalDataProcessing">
                             Consent To Personal Data Processing*
                         </div>
@@ -158,15 +181,21 @@
                     <div class="form-group">
                         <label for="username" class="col-sm-4 control-label">Username*</label>
                         <div class="col-sm-5">
-                            <input type="text" id="username" name="authenticationDataPatient.username" placeholder="Username"
+                            <input required type="text" id="username" name="authenticationDataPatient.username"
+                                   placeholder="Username"
+                                   oninvalid="this.setCustomValidity('Please enter a username')"
+                                   oninput="setCustomValidity('')"
                                    class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="password" class="col-sm-4 control-label">Password*</label>
                         <div class="col-sm-5">
-                            <input type="password" id="password" name="authenticationDataPatient.password"
-                                   placeholder="Password" class="form-control">
+                            <input required type="password" id="password" name="authenticationDataPatient.password"
+                                   placeholder="Password"
+                                   oninvalid="this.setCustomValidity('Please enter a password')"
+                                   oninput="setCustomValidity('')"
+                                   class="form-control">
                         </div>
                     </div>
                     <div style="padding-left: 50%">

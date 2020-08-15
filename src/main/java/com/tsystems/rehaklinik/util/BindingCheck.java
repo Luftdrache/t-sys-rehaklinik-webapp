@@ -24,7 +24,7 @@ public class BindingCheck {
                 if (object instanceof FieldError) {
                     FieldError fieldError = (FieldError) object;
                     modelMap.addAttribute("message", "<p>Details: </p>" + fieldError.getDefaultMessage());
-                    logger.debug("BindingResult Error: {}. Details: {} ", fieldError.getCode(), fieldError.getDefaultMessage());
+                    logger.error("BindingResult Error: {}. Details: {} ", fieldError.getCode(), fieldError.getDefaultMessage());
                     return true;
                 }
             }

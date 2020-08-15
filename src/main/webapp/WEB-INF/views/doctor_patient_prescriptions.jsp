@@ -17,8 +17,10 @@
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
           integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css"/>
 
     <!-- Title -->
     <title>MedHelper</title>
@@ -70,92 +72,98 @@
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container" style="height: 90vh;">
+    <div class="main-container" style="min-height: 90vh; margin-bottom: 0; height: auto">
         Patient's Prescriptions
-        <table class="table table-striped table-borderless .table-condensed ">
-            <thead class="thead-mine">
-            <tr class="tr-mine">
-                <th scope="col">Id</th>
-                <th scope="col">Name</th>
-                <th scope="col">Type</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">End Date</th>
-                <th scope="col">Status</th>
-                <th scope="col">Actions</th>
-            </tr>
-            </thead>
-            <tbody class="table table-hover">
-            <c:forEach items="${patientPrescriptionsList}" var="patPrescription" varStatus="status">
-                <tr>
-                    <td>${status.count}</td>
-                    <td>${patPrescription.name}</td>
-                    <td>${patPrescription.treatmentType}</td>
-                    <td>${patPrescription.startTreatment}</td>
-                    <td>${patPrescription.endTreatment}</td>
-                    <td>${patPrescription.prescriptionStatus}</td>
-                    <td class="text-right row padding-right: 5px">
 
-                        <form:form
-                                action="${pageContext.request.contextPath}/doctor/prescription-details/${patPrescription.prescriptionId}"
-                                method="get">
-                            <input type="hidden" name="medRecordId" , id="medRecordId" value="${patientId}">
-                            <button type="submit" class="btn btn-primary btn-sm" value="Details"
-                                    style="background-color: yellowgreen;">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </form:form>
-                        <c:if test="${patPrescription.prescriptionStatus!= 'CANCELLED'}">
-                            <form:form
-                                    action="${pageContext.request.contextPath}/doctor/edit-prescription/${patPrescription.prescriptionId}"
-                                    method="get">
-                                <input type="hidden" name="patientId" , id="patientId" value="${patientId}">
-                                <button type="submit" class="btn btn-primary btn-sm" value="Edit"
-                                        style="background-color: yellowgreen">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </form:form>
-                            <form:form action="${pageContext.request.contextPath}/doctor/cancel-prescription"
-                                       method="post">
-                                <input type="hidden" name="patientId" , id="patientId" value="${patientId}">
-                                <input type="hidden" name="prescriptionIdToCancel"
-                                       value="${patPrescription.prescriptionId}">
-                                <button type="submit" class="btn btn-primary btn-sm" value="Cancel"
-                                        style="background-color: yellowgreen">
-                                    <i class="fas fa-ban"></i>
-                                </button>
-                            </form:form>
-                        </c:if>
-                        <form:form action="${pageContext.request.contextPath}/doctor/delete-prescription" method="post">
-                            <input type="hidden" name="patient" value="${patientId}">
-                            <input type="hidden" name="prescriptionIdToDelete"
-                                   value="${patPrescription.prescriptionId}">
-                            <button type="submit" class="btn btn-primary btn-sm" value="Delete"
-                                    style="background-color: yellowgreen">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </form:form>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-        <div content="container" class="col-sm-8 col-sm-offset-4">
-            <p>${patientPrescriptionsMessage}</p>
+        <div class="card" style="padding: 0 5px 5px;">
+                <table class="table table-striped table-borderless .table-condensed" id="datatable">
+                    <thead style="background: #A4D349;">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table table-hover">
+                    <c:forEach items="${patientPrescriptionsList}" var="patPrescription" varStatus="status">
+                        <tr>
+                            <td>${status.count}</td>
+                            <td>${patPrescription.name}</td>
+                            <td>${patPrescription.treatmentType}</td>
+                            <td>${patPrescription.startTreatment}</td>
+                            <td>${patPrescription.endTreatment}</td>
+                            <td>${patPrescription.prescriptionStatus}</td>
+                            <td class="text-right row padding-right: 5px">
+                                <div style='margin-left:10px'>
+                                    <form:form
+                                            action="${pageContext.request.contextPath}/doctor/prescription-details/${patPrescription.prescriptionId}"
+                                            method="get">
+                                        <input type="hidden" name="medRecordId" , id="medRecordId" value="${patientId}">
+                                        <button type="submit" class="btn btn-primary btn-sm" value="Details"
+                                                style="background-color: yellowgreen;"
+                                                title="Show details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </form:form>
+                                </div>
+                                <div style='margin-left:10px'>
+                                    <c:if test="${patPrescription.prescriptionStatus!= 'CANCELLED'}">
+                                    <form:form
+                                            action="${pageContext.request.contextPath}/doctor/edit-prescription/${patPrescription.prescriptionId}"
+                                            method="get">
+                                        <input type="hidden" name="patientId" , id="patientId" value="${patientId}">
+                                        <button type="submit" class="btn btn-primary btn-sm" value="Edit"
+                                                style="background-color: yellowgreen"
+                                                title="Edit prescription">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </form:form>
+                                </div>
+                                <div style='margin-left:10px'>
+                                    <form:form action="${pageContext.request.contextPath}/doctor/cancel-prescription"
+                                               method="post">
+                                        <input type="hidden" name="patientId" , id="patientId" value="${patientId}">
+                                        <input type="hidden" name="prescriptionIdToCancel"
+                                               value="${patPrescription.prescriptionId}">
+                                        <button type="submit" class="btn btn-primary btn-sm" value="Cancel"
+                                                style="background-color: yellowgreen"
+                                                title="Cancel prescription">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    </form:form>
+                                    </c:if>
+                                </div>
+                                <div style='margin-left:10px'>
+                                    <form:form action="${pageContext.request.contextPath}/doctor/delete-prescription"
+                                               method="post">
+                                        <input type="hidden" name="patient" value="${patientId}">
+                                        <input type="hidden" name="prescriptionIdToDelete"
+                                               value="${patPrescription.prescriptionId}">
+                                        <button type="submit" class="btn btn-primary btn-sm" value="Delete"
+                                                style="background-color: yellowgreen"
+                                                title="Delete prescription">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form:form>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <div>
+                </div>
+                <div content="container" class="col-sm-8 col-sm-offset-4">
+                    <p>${patientPrescriptionsMessage}</p>
+                </div>
+            <!-- *******MAIN CONTAINER******* -->
         </div>
-    </div>
-    <!-- *******MAIN CONTAINER******* -->
-</div>
-<!--wrapper end-->
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
+        <!--wrapper end-->
+        <%@include file="shared/js_scripts.jsp" %>
+        <script src="${pageContext.request.contextPath}/resources/js/pagination.js"></script>
 </body>
 </html>

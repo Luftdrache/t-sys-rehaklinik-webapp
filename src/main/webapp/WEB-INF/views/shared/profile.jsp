@@ -1,4 +1,4 @@
-<center class="profile">
+<center class="profile" style="font-size: 20px">
     <sec:authorize access="hasRole('ADMIN')">
         <img src="${pageContext.request.contextPath}/resources/images/admin-avt.png" alt="">
     </sec:authorize>

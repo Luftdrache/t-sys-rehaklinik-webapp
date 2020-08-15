@@ -48,7 +48,7 @@
                     </a>
                 </li>
                 <li class="item" id="#show-prescriptions" style="font-size: 20px;">
-                    <a href="${pageContext.request.contextPath}/doctor//show-prescription/${medrec}"
+                    <a href="${pageContext.request.contextPath}/doctor/show-prescription/${medrec}"
                        class="menu-btn"><i class="fas fa-prescription"></i>Prescriptions</span>
                     </a>
                 </li>

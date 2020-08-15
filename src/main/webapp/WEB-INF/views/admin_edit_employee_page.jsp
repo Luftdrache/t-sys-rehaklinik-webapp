@@ -59,7 +59,7 @@
     <div class="main-container" style="background-color: #DEF0FF; height: auto">
         <div class="container-fluid">
             <div content="container" class="col-sm-8 col-sm-offset-2"
-                 style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
+                 style="background-color: #c9e9ff; margin-top: 10px; min-height: 90vh; height: auto; border-radius: 20px">
                 <form:form action="${pageContext.request.contextPath}/admin/edit" method="post" class="form-horizontal"
                            role="form">
                     <div style="padding-left: 10%">
@@ -163,8 +163,12 @@
                                 <select id="qualificationCategory" name="qualificationCategory"
                                         value="${employeeToEdit.qualificationCategory}" class="form-control">
                                     <c:forEach items="${QualificationCategories.values()}" var="qCategory">
-                                        <option>${qCategory.toString()}</option>
+                                        <c:if test="${qCategory.toString() ne employeeToEdit.qualificationCategory.toString()}">
+                                            <option>${qCategory.toString()}</option>
+                                        </c:if>
                                     </c:forEach>
+                                    <option selected>
+                                            ${employeeToEdit.qualificationCategory.toString()}</option>
                                 </select>
                             </div>
                         </div>
@@ -183,10 +187,11 @@
                             <div class="col-sm-6">
                                 <select id="role" name="role" value="${employeeToEdit.role}" class="form-control">
                                     <c:forEach items="${Roles.values()}" var="role">
-                                        <c:if test="${role != 'PATIENT'}">
+                                        <c:if test="${role ne 'PATIENT' and role ne employeeToEdit.role}">
                                             <option>${role.toString()}</option>
                                         </c:if>
                                     </c:forEach>
+                                    <option selected>${employeeToEdit.role.toString()}</option>
                                 </select>
                             </div>
                         </div>
