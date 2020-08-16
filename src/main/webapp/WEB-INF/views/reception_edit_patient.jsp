@@ -52,7 +52,7 @@
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container" style="background-color: #DEF0FF; height: auto">
+    <div class="main-container" style="background-color: #DEF0FF; min-height: 90vh; height: auto">
         <div class="container-fluid">
             <div content="container" class="col-sm-8 col-sm-offset-2"
                  style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">

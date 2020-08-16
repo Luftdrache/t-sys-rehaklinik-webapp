@@ -1,6 +1,5 @@
 package com.tsystems.rehaklinik.entities;
 
-import com.tsystems.rehaklinik.converters.LocalTimeAttributeConverter;
 import com.tsystems.rehaklinik.types.EventStatus;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,6 +11,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+
+/**
+ * Treatment event entity
+ */
 @Entity
 @Table(name = "treatment_events", schema = "rehaklinik")
 @Getter
@@ -24,13 +27,13 @@ public class TreatmentEvent implements Serializable {
     @Column(name = "treatment_event_id", nullable = false, length = 11)
     private int treatmentEventId;
 
-    @NotNull (message = "Treatment event date must be set")
+    @NotNull(message = "Treatment event date must be set")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "treatment_event_date", nullable = false)
     private LocalDate treatmentEventDate;
 
     @NotNull(message = "Treatment event time must be set")
-    @Convert(converter = LocalTimeAttributeConverter.class)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     @Column(name = "treatment_event_time", nullable = false, columnDefinition = "TIME")
     private LocalTime treatmentEventTime;
 
@@ -50,7 +53,7 @@ public class TreatmentEvent implements Serializable {
 
     @NotNull(message = "Treatment event status must be set")
     @Enumerated(EnumType.STRING)
-    @Column(name = "treatment_event_status", columnDefinition ="ENUM ('PLANNED', 'COMPLETED', 'CANCELLED', 'OVERDUE')",
+    @Column(name = "treatment_event_status", columnDefinition = "ENUM ('PLANNED', 'COMPLETED', 'CANCELLED', 'OVERDUE')",
             nullable = false, length = 100)
     private EventStatus treatmentEventStatus;
 }

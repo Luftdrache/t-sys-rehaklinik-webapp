@@ -10,7 +10,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 
 /**
@@ -26,8 +25,15 @@ public class GlobalExceptionHandler {
 
     private static final String COMMON_ERROR_PAGE_JSP = "404_405_500_etc_error_page";
 
+    /**
+     * Handles Exception
+     *
+     * @param req HttpServletRequest
+     * @param ex  Exception
+     * @return common error page
+     */
     @ExceptionHandler(Exception.class)
-    public ModelAndView handleException(HttpSession session, HttpServletRequest req, Exception ex) {
+    public ModelAndView handleException(HttpServletRequest req, Exception ex) {
         logger.error("MedHelper_LOGS: GlobalExceptionHandler: Error occurred with {} ----> {}",
                 req.getRequestURL(), ex.getMessage());
         logger.error("MedHelper_LOGS: GlobalExceptionHandler: SEE DETAILS ----> {}", ex.fillInStackTrace());

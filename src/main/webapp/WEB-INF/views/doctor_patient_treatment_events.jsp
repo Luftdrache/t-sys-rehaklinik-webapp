@@ -66,8 +66,10 @@
             <form:form class="form-inline mr-auto"
                        action="${pageContext.request.contextPath}/doctor/find-treatment-event-by-name/${currentPatientId}"
                        method="get">
-                <input class="form-control" type="text" placeholder="Enter Treatment Name" aria-label="Search"
+                <input required class="form-control" type="text" placeholder="Enter Treatment Name" aria-label="Search"
                        name="tEventName"
+                       oninvalid="this.setCustomValidity('The field is empty')"
+                       oninput="setCustomValidity('')"
                        value="${tEventName}">
                 <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2"
                         style="background-color: orange"

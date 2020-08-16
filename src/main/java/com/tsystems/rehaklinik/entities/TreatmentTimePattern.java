@@ -9,6 +9,9 @@ import java.time.LocalTime;
 import java.util.List;
 
 
+/**
+ * Treatment time pattern entity
+ */
 @Entity
 @Table(name = "treatment_time_patterns", schema = "rehaklinik")
 @Getter
@@ -36,7 +39,7 @@ public class TreatmentTimePattern implements Serializable {
     @Column(name = "Saturday")
     private boolean saturday;
 
-    @Column(name="precision_time")
+    @Column(name = "precision_time")
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime precisionTime;
 

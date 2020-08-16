@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Clinical diagnosis entity
+ */
 @Entity
 @Table(name = "clinical_diagnoses", schema = "rehaklinik",
         uniqueConstraints = @UniqueConstraint(columnNames = {"main_disease", "ICD_10_code", "medical_record_id"},

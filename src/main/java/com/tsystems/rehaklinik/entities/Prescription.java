@@ -9,6 +9,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 
+/**
+ * Prescription entity
+ */
 @Entity
 @Table(name = "prescriptions", schema = "rehaklinik")
 @Getter
@@ -21,7 +24,7 @@ public class Prescription implements Serializable {
     @Column(name = "prescription_id", nullable = false, length = 11)
     private int prescriptionId;
 
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "medicine_procedure_id", referencedColumnName = "medicine_procedure_id", nullable = false)
     private MedicineAndProcedure medicineAndProcedure;
 
@@ -45,7 +48,7 @@ public class Prescription implements Serializable {
     @JoinColumn(name = "patient_id", referencedColumnName = "patient_id", nullable = false)
     private Patient patient;
 
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "treatment_time_pattern_id", referencedColumnName = "treatment_time_pattern_id", nullable = false)
     private TreatmentTimePattern treatmentTimePattern;
 

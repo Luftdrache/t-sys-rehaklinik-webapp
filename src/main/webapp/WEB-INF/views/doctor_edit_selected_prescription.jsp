@@ -42,18 +42,13 @@
                     </a>
                 </li>
                 <li class="item" id="show-med-record" style="font-size: 20px;">
-                    <a href="${pageContext.request.contextPath}/doctor/medical-record/${medicalRecordToEdit.medicalRecordId}"
+                    <a href="${pageContext.request.contextPath}/doctor/medical-record/${prescriptionToEdit.patientId}"
                        class="menu-btn">
                         <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
                     </a>
                 </li>
-                <li class="item" id="edit-med-record" style="font-size: 20px;">
-                    <a href="#" class="menu-btn">
-                        <i class="far fa-edit"></i><span>Edit</span>
-                    </a>
-                </li>
                 <li class="item" id="add-prescription" style="font-size: 20px;">
-                    <a href="#" class="menu-btn">
+                    <a href="${pageContext.request.contextPath}/doctor/add-prescription/${prescriptionToEdit.patientId}" class="menu-btn">
                         <i class="fas fa-tablets"></i><span>Add prescription</span>
                     </a>
                 </li>

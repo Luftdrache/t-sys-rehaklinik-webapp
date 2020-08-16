@@ -25,40 +25,11 @@ public class PatientDAOImpl implements PatientDAO {
 
 
     @Override
-    public List<Patient> findPatientBySurname(String patientSurname) {
-        logger.info("MedHelper_LOGS: EmployeeDAO: Find an employee by surname");
-        TypedQuery<Patient> query = entityManager.createQuery(
-                "select p from Patient p where lower(p.surname) LIKE lower(:patientSurname)", Patient.class);
-        query.setParameter("patientSurname", "%" + patientSurname + "%");
-        return query.getResultList();
-    }
-
-
-    @Override
     public Patient createPatient(Patient patient) {
         logger.info("MedHelper_LOGS: PatientDAO: Add new patient");
         entityManager.persist(patient);
         logger.info("MedHelper_LOGS: PatientDAO: Add new patient");
         return patient;
-    }
-
-    @Override
-    public boolean deletePatient(int patientId) {
-        logger.info("MedHelper_LOGS: PatientDAO: Delete patient by id");
-        Patient patient = entityManager.find(Patient.class, patientId);
-        if (patient != null) {
-            entityManager.remove(patient);
-            logger.info("MedHelper_LOGS: PatientDAO: patient with id = {} deleted", patientId);
-            return true;
-        }
-        logger.info("MedHelper_LOGS: PatientDAO: Patient with id = {} does not exist", +patientId);
-        return false;
-    }
-
-    @Override
-    public List<Patient> findAll() {
-        logger.info("MedHelper_LOGS: PatientDAO: Find all patients");
-        return entityManager.createQuery("SELECT p FROM Patient p ORDER BY p.surname", Patient.class).getResultList();
     }
 
 
@@ -73,11 +44,42 @@ public class PatientDAOImpl implements PatientDAO {
                         patient.getPatientId());
                 return editedPatient;
             } catch (PersistenceException exception) {
-                logger.info(exception.getMessage());
+                logger.error(exception.getMessage());
             }
         }
         logger.info("MedHelper_LOGS: PatientDAO: Failed attempt to edit a patient with an id = {}", patient.getPatientId());
         return null;
+    }
+
+
+    @Override
+    public boolean deletePatient(int patientId) {
+        logger.info("MedHelper_LOGS: PatientDAO: Delete patient by id");
+        Patient patient = entityManager.find(Patient.class, patientId);
+        if (patient != null) {
+            entityManager.remove(patient);
+            logger.info("MedHelper_LOGS: PatientDAO: patient with id = {} deleted", patientId);
+            return true;
+        }
+        logger.info("MedHelper_LOGS: PatientDAO: Patient with id = {} does not exist", +patientId);
+        return false;
+    }
+
+
+    @Override
+    public List<Patient> findAll() {
+        logger.info("MedHelper_LOGS: PatientDAO: Find all patients");
+        return entityManager.createQuery("SELECT p FROM Patient p ORDER BY p.surname", Patient.class).getResultList();
+    }
+
+
+    @Override
+    public List<Patient> findPatientBySurname(String patientSurname) {
+        logger.info("MedHelper_LOGS: EmployeeDAO: Find an employee by surname");
+        return entityManager.createQuery(
+                "select p from Patient p where lower(p.surname) LIKE lower(:patientSurname)", Patient.class)
+                .setParameter("patientSurname", "%" + patientSurname + "%")
+                .getResultList();
     }
 
 

@@ -27,9 +27,10 @@ public class ClinicalDiagnosisDTO implements Serializable {
     private String mainDisease;
 
     //For test. Wrong: B274.77","U31","567.". Right:B22.Z154, D17
-    @NotNull(message = "ICD-10 code must be set")
-    @Size(min = 3, max = 8, message = "ICD-10 code must have minimum 3 and maximum 8 symbols")
-    @Pattern(regexp ="[A-TV-Z][0-9][0-9AB]\\.?[0-9A-TV-Z]{0,4}", message = "Wrong ICD-10 code")
+    @NotNull(message = "ICD-10 code must be set.")
+    @Size(min = 3, max = 8, message = "ICD-10 code must have minimum 3 and maximum 8 symbols.")
+    @Pattern(regexp = "[A-TV-Z][0-9][0-9AB]\\.?[0-9A-TV-Z]{0,4}",
+            message = "Wrong ICD-10 code.  Correct examples: B22.Z154, D17")
     private String icd10Code;
 
     private String accompanyingPathology;

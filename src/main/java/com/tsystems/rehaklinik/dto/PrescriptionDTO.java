@@ -38,7 +38,6 @@ public class PrescriptionDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startTreatment;
 
-    @Future(message = "End treatment date must be in future")
     @NotNull(message = "End treatment date must be set")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endTreatment;

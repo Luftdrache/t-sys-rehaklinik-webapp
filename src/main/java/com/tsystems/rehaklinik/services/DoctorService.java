@@ -16,13 +16,15 @@ public interface DoctorService {
 
     MedicalRecordDTO setHospitalisation(MedicalRecordDTO medicalRecord);
 
+    ClinicalDiagnosisDTO getClinicalDiagnosis(int clinicalDiagnoseId);
+
     MedicalRecordDTO setNewDiagnosis(ClinicalDiagnosisDTO clinicalDiagnosisDTO, int medRecordId);
+
+    ClinicalDiagnosisDTO editClinicalDiagnosis(ClinicalDiagnosisDTO clinicalDiagnosisDTO);
 
     boolean deleteClinicalDiagnosisById(int clinicalDiagnosisId);
 
-    ClinicalDiagnosisDTO getClinicalDiagnosis(int clinicalDiagnoseId);
-
-    ClinicalDiagnosisDTO editClinicalDiagnosis(ClinicalDiagnosisDTO clinicalDiagnosisDTO);
+    PrescriptionDetailsDTO getPrescriptionDetails(int prescriptionId);
 
     PrescriptionDTO addPrescription(PrescriptionDTO prescriptionDTO);
 
@@ -34,7 +36,7 @@ public interface DoctorService {
 
     boolean deleteTreatmentEvent(int tEventId);
 
-    PrescriptionDetailsDTO getPrescriptionDetails(int prescriptionId);
+    boolean cancelTreatmentEvent(int tEventId);
 
     List<PatientShortViewDTO> findPatients();
 
@@ -47,7 +49,5 @@ public interface DoctorService {
     List<TreatmentEventDTO> findTreatmentEventsByPatientId(int id);
 
     List<TreatmentEventDTO> findTreatmentEventByName(String tEventName);
-
-    boolean cancelTreatmentEvent(int tEventId);
 
 }

@@ -102,7 +102,6 @@
                                     <form:form
                                             action="${pageContext.request.contextPath}/doctor/prescription-details/${patPrescription.prescriptionId}"
                                             method="get">
-                                        <input type="hidden" name="medRecordId" , id="medRecordId" value="${patientId}">
                                         <button type="submit" class="btn btn-primary btn-sm" value="Details"
                                                 style="background-color: yellowgreen;"
                                                 title="Show details">
@@ -115,7 +114,6 @@
                                     <form:form
                                             action="${pageContext.request.contextPath}/doctor/edit-prescription/${patPrescription.prescriptionId}"
                                             method="get">
-                                        <input type="hidden" name="patientId" , id="patientId" value="${patientId}">
                                         <button type="submit" class="btn btn-primary btn-sm" value="Edit"
                                                 style="background-color: yellowgreen"
                                                 title="Edit prescription">
@@ -157,8 +155,9 @@
                 </table>
                 <div>
                 </div>
-                <div content="container" class="col-sm-8 col-sm-offset-4">
-                    <p>${patientPrescriptionsMessage}</p>
+                <div content="container" class="col-sm-8 col-sm-offset-4"
+                     style="color: indianred;font-weight: 700; font-size: 20px">
+                    <p>${message}</p>
                 </div>
             <!-- *******MAIN CONTAINER******* -->
         </div>

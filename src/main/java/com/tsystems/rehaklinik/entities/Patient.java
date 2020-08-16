@@ -10,6 +10,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 
+/**
+ * Patient entity
+ */
 @Entity
 @Table(name = "patients", schema = "rehaklinik",
         uniqueConstraints =

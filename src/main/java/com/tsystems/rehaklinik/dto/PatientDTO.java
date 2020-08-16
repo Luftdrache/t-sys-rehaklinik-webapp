@@ -29,6 +29,7 @@ public class PatientDTO {
     private int patientId;
 
     @NotBlank(message = "Patient's first name mustn't be blank or null")
+    @Size(min = 2, max = 50, message = "Patient's first name length must be no less than 2 and no more than 50 characters")
     private String firstName;
 
     private String middleName;
@@ -44,20 +45,23 @@ public class PatientDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
-    @NotNull(message = "Patient's passport id must be set")
+    @NotBlank(message = "Patient's passport id must be set")
+    @Pattern(regexp = "^[0-9\\sA-Z]+$", message = "Wrong characters in passport id")
     private String passportId;
 
     @NotBlank(message = "Patient's address mustn't be blank or null")
     @Size(min = 10, max = 255, message = "Patient's address length must be no less than 10 and no more than 255 characters")
     private String address;
 
-    @NotNull(message = "Patient's phone number must be set")
+    @NotBlank(message = "Patient's phone number must be set")
+    @Size(min = 10, message = "Phone number length must be no less than 10 digits")
+    @Pattern(regexp = "^[0-9\\s\\-()]+$", message = "Wrong characters in phone number")
     private String phoneNumber;
 
     @Pattern(regexp = "(\\w+\\.)*\\w+@(\\w+\\.)+[a-zA-z]{2,}|[ \t]+", message = "Wrong patient's email")
     private String email;
 
-    @NotNull(message = "Insurance Policy Code required")
+    @NotBlank(message = "Insurance Policy Code required")
     private String insurancePolicyCode;
 
     @NotBlank(message = "Patient's insurance company mustn't be blank or null")

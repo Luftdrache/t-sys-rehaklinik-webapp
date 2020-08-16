@@ -108,7 +108,7 @@
                         <label for="startTreatment" class="col-sm-4 control-label">Start Treatment*</label>
                         <div class="col-sm-6">
                             <input required type="date" id="startTreatment" name="startTreatment"
-                                   placeholder="Start Treatment"
+                                   min=""
                                    oninvalid="this.setCustomValidity('Please set a start treatment date')"
                                    oninput="setCustomValidity('')"
                                    class="form-control">
@@ -118,8 +118,9 @@
                         <label for="endTreatment" class="col-sm-4 control-label">End Treatment*</label>
                         <div class="col-sm-6">
                             <input required type="date" id="endTreatment" name="endTreatment"
-                                   placeholder="End Treatment"
-                                   oninvalid="this.setCustomValidity('Please set an end treatment date')"
+                                   min=""
+                                   max="2021-08-16"
+                                   oninvalid="this.setCustomValidity('Please set valid end treatment date')"
                                    oninput="setCustomValidity('')"
                                    class="form-control">
                         </div>
@@ -239,6 +240,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
+
+<script src="${pageContext.request.contextPath}/resources/js/today_date.js"></script>
 </body>
 </html>
 

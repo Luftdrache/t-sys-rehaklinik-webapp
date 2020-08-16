@@ -44,7 +44,7 @@ public class ClinicalDiagnosisDAOImpl implements ClinicalDiagnosisDAO {
                         "Successful attempt to edit a clinical diagnosis with an id = {} ", clinicalDiagnose.getClinicalDiagnosisId());
                 return updClinicalDiagnosis;
             } catch (PersistenceException exception) {
-                logger.info(exception.getMessage());
+                logger.error(exception.getMessage());
             }
         }
         logger.info("MedHelper_LOGS:ClinicalDiagnosisDAO:" +
@@ -56,7 +56,7 @@ public class ClinicalDiagnosisDAOImpl implements ClinicalDiagnosisDAO {
     @Override
     public boolean deleteClinicalDiagnosis(ClinicalDiagnose clinicalDiagnose) {
         logger.info("MedHelper_LOGS: ClinicalDiagnosisDAOImpl: Deleting diagnosis by id");
-        int id =  clinicalDiagnose.getClinicalDiagnosisId();
+        int id = clinicalDiagnose.getClinicalDiagnosisId();
         entityManager.remove(clinicalDiagnose);
         ClinicalDiagnose deleted = entityManager.find(ClinicalDiagnose.class, id);
         if (deleted == null) {

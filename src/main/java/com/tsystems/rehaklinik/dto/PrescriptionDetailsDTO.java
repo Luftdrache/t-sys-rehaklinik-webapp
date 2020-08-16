@@ -2,6 +2,7 @@ package com.tsystems.rehaklinik.dto;
 
 import com.tsystems.rehaklinik.types.TreatmentType;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -11,8 +12,10 @@ import java.util.Locale;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class PrescriptionDetailsDTO {
     private int prescriptionId;
+    private int medicalRecordId;
     private int medicineProcedureId;
     private String medicineProcedureName;
     private String treatmentType;
@@ -33,6 +36,7 @@ public class PrescriptionDetailsDTO {
     private String saturday;
     private LocalTime precisionTime;
 
+
     private static final String LONG_DASH = "&mdash;";
     private static final LocalTime DEFAULT_TIME = LocalTime.of(07, 00);
 
@@ -41,6 +45,7 @@ public class PrescriptionDetailsDTO {
         String doseInfo = prescription.getDose();
         String method = prescription.getAdministeringMedicationMethod();
 
+        this.medicalRecordId = prescription.getPatientId();
         this.prescriptionId = prescription.getPrescriptionId();
         this.medicineProcedureId = prescription.getMedicineProcedureId();
         this.medicineProcedureName = prescription.getMedicineProcedureName();
@@ -87,10 +92,11 @@ public class PrescriptionDetailsDTO {
             this.beforeMeals = "Before Meals";
         }
         if (prescription.isAtMeals()) {
-            this.atMeals= "At Meals";
+            this.atMeals = "At Meals";
         }
         if (prescription.isAfterMeals()) {
             this.afterMeals = "After Meals";
         }
     }
+
 }

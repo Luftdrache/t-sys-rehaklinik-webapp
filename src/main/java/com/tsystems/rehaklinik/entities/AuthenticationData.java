@@ -6,6 +6,10 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 
+
+/**
+ * Authentication data entity
+ */
 @Entity
 @Table(name = "authentication_data", schema = "rehaklinik",
         uniqueConstraints = {

@@ -24,21 +24,6 @@ public class NurseServiceImpl implements NurseService {
 
 
     @Override
-    public List<TreatmentEventDTO> findOverdueTreatmentEvents() {
-        logger.info("MedHelper_LOGS: In NurseServiceImpl --> in findOverdueTreatmentEvents() method");
-        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findOverdueTreatmentEvents();
-        List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
-        if (treatmentEventList != null) {
-            for (TreatmentEvent tEvent : treatmentEventList) {
-                treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
-            }
-            return treatmentEventDTOList;
-        }
-        return Collections.emptyList();
-    }
-
-
-    @Override
     public boolean setTreatmentEventToCompleted(int treatmentEventId) {
         logger.info("MedHelper_LOGS: In NurseServiceImpl --> in setTreatmentEventToCompleted() method");
         TreatmentEvent setToCompleted = treatmentEventDAO.findTreatmentEventById(treatmentEventId);
@@ -57,13 +42,29 @@ public class NurseServiceImpl implements NurseService {
         logger.info("MedHelper_LOGS: In NurseServiceImpl --> in getTodayTreatmentEvents() method");
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findTodayTreatmentEvents();
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
-        if (treatmentEventList != null) {
+        if (!treatmentEventList.isEmpty()) {
             for (TreatmentEvent tEvent : treatmentEventList) {
                 treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
             }
-            return treatmentEventDTOList;
         }
-        return Collections.emptyList();
+        return treatmentEventDTOList;
+    }
+
+
+    @Override
+    public List<TreatmentEventDTO> getUrgentTreatmentEvents() {
+        logger.info("MedHelper_LOGS: In NurseServiceImpl --> in getUrgentTreatmentEvents() method");
+        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findUrgentTreatmentEvents();
+        if (treatmentEventList.isEmpty()) {
+            logger.info(treatmentEventList + " EMPTY");
+        }
+        List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
+        if (!treatmentEventList.isEmpty()) {
+            for (TreatmentEvent tEvent : treatmentEventList) {
+                treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
+            }
+        }
+        return treatmentEventDTOList;
     }
 
 
@@ -87,13 +88,12 @@ public class NurseServiceImpl implements NurseService {
         logger.info("MedHelper_LOGS: In NurseServiceImpl --> in findAllCompletedTreatmentEvents() method");
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findAllCompletedTreatmentEvents();
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
-        if (treatmentEventList != null) {
+        if (!treatmentEventList.isEmpty()) {
             for (TreatmentEvent tEvent : treatmentEventList) {
                 treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
             }
-            return treatmentEventDTOList;
         }
-        return Collections.emptyList();
+        return treatmentEventDTOList;
     }
 
 
@@ -128,28 +128,12 @@ public class NurseServiceImpl implements NurseService {
         logger.info("MedHelper_LOGS: In NurseServiceImpl --> in findAllTreatmentEvents() method");
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findAllTreatmentEvents();
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
-        if (treatmentEventList != null) {
+        if (!treatmentEventList.isEmpty()) {
             for (TreatmentEvent tEvent : treatmentEventList) {
                 treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
             }
-            return treatmentEventDTOList;
         }
-        return Collections.emptyList();
-    }
-
-
-    @Override
-    public List<TreatmentEventDTO> getUrgentTreatmentEvents() {
-        logger.info("MedHelper_LOGS: In NurseServiceImpl --> in getUrgentTreatmentEvents() method");
-        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findUrgentTreatmentEvents();
-        List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
-        if (treatmentEventList != null) {
-            for (TreatmentEvent tEvent : treatmentEventList) {
-                treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
-            }
-            return treatmentEventDTOList;
-        }
-        return Collections.emptyList();
+        return treatmentEventDTOList;
     }
 
 
@@ -158,13 +142,26 @@ public class NurseServiceImpl implements NurseService {
         logger.info("MedHelper_LOGS: In NurseServiceImpl --> in findTreatmentEventsByPatientsSurname() method");
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findTreatmentEventsByPatientsSurname(surname);
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
-        if (treatmentEventList != null) {
+        if (!treatmentEventList.isEmpty()) {
             for (TreatmentEvent tEvent : treatmentEventList) {
                 treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
             }
-            return treatmentEventDTOList;
         }
-        return Collections.emptyList();
+        return treatmentEventDTOList;
+    }
+
+
+    @Override
+    public List<TreatmentEventDTO> findOverdueTreatmentEvents() {
+        logger.info("MedHelper_LOGS: In NurseServiceImpl --> in findOverdueTreatmentEvents() method");
+        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findOverdueTreatmentEvents();
+        List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
+        if (!treatmentEventList.isEmpty()) {
+            for (TreatmentEvent tEvent : treatmentEventList) {
+                treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
+            }
+        }
+        return treatmentEventDTOList;
     }
 
 

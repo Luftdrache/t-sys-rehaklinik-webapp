@@ -37,7 +37,7 @@
                         <i class="fas fa-clinic-medical"></i><span>Main page</span>
                     </a>
                 </li>
-                <li class="item" id="show-med-record">
+                <li class="item" id="show-edit">
                     <c:set var="emplID" scope="session" value="${employee.employeeId}"></c:set>
                     <c:if test="${empty emplID}">
                         <c:set var="emplID"  value="${employeeID}"/>

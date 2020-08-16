@@ -87,8 +87,10 @@
                 <form:form class="form-inline mr-auto"
                            action="${pageContext.request.contextPath}/nurse/find-events-by-surname"
                            method="get">
-                    <input class="form-control" type="text" placeholder="Enter Surname" aria-label="Search"
+                    <input required class="form-control" type="text" placeholder="Enter Surname" aria-label="Search"
                            name="patientSurname"
+                           oninvalid="this.setCustomValidity('The field is empty')"
+                           oninput="setCustomValidity('')"
                            value="${patientSurname}">
                     <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2"
                             style="background-color: orange"

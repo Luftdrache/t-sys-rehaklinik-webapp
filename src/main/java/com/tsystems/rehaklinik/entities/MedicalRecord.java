@@ -7,6 +7,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
+
+/**
+ * Medical record entity
+ */
 @Entity
 @Table(name = "medical_records", schema = "rehaklinik")
 @Getter

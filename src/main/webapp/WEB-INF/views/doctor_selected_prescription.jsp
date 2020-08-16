@@ -161,7 +161,6 @@
             <div style="color: darkred;font-weight: 700">${message}</div>
         </div>
     </div>
-
 </div>
 <!-- *******MAIN CONTAINER******* -->
 </div>

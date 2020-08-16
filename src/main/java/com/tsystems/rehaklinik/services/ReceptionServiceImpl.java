@@ -50,9 +50,9 @@ public class ReceptionServiceImpl implements ReceptionService {
                 setPassword(passwordEncoder.encode(patientDTO.getAuthenticationDataPatient().getPassword()));
         Patient newPatientToSave = PatientDTOConverter.fromDTO(patientDTO);
         Patient newPatient = patientDAO.createPatient(newPatientToSave);
-        PatientDTO savedPatientDTO = PatientDTOConverter.toDTO(newPatient);
-        return savedPatientDTO;
+        return PatientDTOConverter.toDTO(newPatient);
     }
+
 
     @Override
     public PatientDTO editPatient(PatientDTO patientDTO) {
@@ -61,9 +61,9 @@ public class ReceptionServiceImpl implements ReceptionService {
         Patient patientToEdit = PatientDTOConverter.fromDTO(patientDTO);
         patientToEdit.setAttendingDoctorId(employee);
         Patient edited = patientDAO.updatePatient(patientToEdit);
-        PatientDTO editedPatient = PatientDTOConverter.toDTO(edited);
-        return editedPatient;
+        return PatientDTOConverter.toDTO(edited);
     }
+
 
     @Override
     public List<EmployeeShortViewDTO> getAllDoctors() {
@@ -71,13 +71,15 @@ public class ReceptionServiceImpl implements ReceptionService {
         List<Employee> doctors = employeeDAO.findAllDoctors();
         List<EmployeeShortViewDTO> doctorsDTO = new ArrayList<>();
         if (!doctors.isEmpty()) {
+            logger.info("All doctors found successfully: ");
             for (Employee doc : doctors) {
                 doctorsDTO.add(new EmployeeShortViewDTO(doc));
-                logger.info(doc.toString());
+                logger.info(doc.getSurname());
             }
         }
         return doctorsDTO;
     }
+
 
     @Override
     public String deletePatientById(int id) {
@@ -104,6 +106,7 @@ public class ReceptionServiceImpl implements ReceptionService {
         return Collections.emptyList();
     }
 
+
     @Override
     public PatientDTO setAttendingDoctor(int doctorId, int patientId) {
         logger.info("MedHelper_LOGS: In ReceptionServiceImpl --> in setAttendingDoctor() method");
@@ -112,6 +115,7 @@ public class ReceptionServiceImpl implements ReceptionService {
         Patient patientWithDoctor = patientDAO.updatePatient(patient);
         return PatientDTOConverter.toDTO(patientWithDoctor);
     }
+
 
     @Override
     public List<PatientShortViewDTO> findPatientBySurname(String surname) {
@@ -122,15 +126,14 @@ public class ReceptionServiceImpl implements ReceptionService {
             for (Patient patient : allFoundPatients) {
                 patientShortViewDTOS.add(new PatientShortViewDTO(patient));
             }
-            return patientShortViewDTOS;
         }
-        return null;
+        return patientShortViewDTOS;
     }
+
 
     @Autowired
     public ReceptionServiceImpl(PatientDAO patientDAO,
                                 EmployeeDAO employeeDAO,
-                                AdminService adminService,
                                 PasswordEncoder passwordEncoder) {
         this.patientDAO = patientDAO;
         this.employeeDAO = employeeDAO;

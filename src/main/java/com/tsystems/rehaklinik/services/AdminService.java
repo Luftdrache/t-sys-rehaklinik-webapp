@@ -13,8 +13,20 @@ import java.util.List;
  */
 public interface AdminService {
 
+    /**
+     * Finds employee by employee's id
+     *
+     * @param employeeId employee id
+     * @return EmployeeDTO
+     */
     EmployeeDTO getEmployeeById(int employeeId);
 
+
+    /**
+     *
+     *
+     * @return list with EmployeeShortViewDTO objects
+     */
     List<EmployeeShortViewDTO> showAllEmployees();
 
     EmployeeDTO addNewEmployee(EmployeeDTO employee);

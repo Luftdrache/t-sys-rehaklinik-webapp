@@ -21,6 +21,10 @@ public class TreatmentEventGenerationServiceImpl implements TreatmentEventGenera
 
     private static Logger logger = LoggerFactory.getLogger(TreatmentEventGenerationServiceImpl.class);
 
+    private static final int DEFAULT_HOUR = 7;
+    private static final int DEFAULT_MINUTE = 0;
+    private static final int DEFAULT_SECOND = 0;
+
     /**
      * Generates treatment event(-s) (with status = PLANNED) immediately after a new prescription added to database
      *
@@ -36,10 +40,8 @@ public class TreatmentEventGenerationServiceImpl implements TreatmentEventGenera
 
         LocalTime time = prescription.getTreatmentTimePattern().getPrecisionTime();
         if (prescription.getTreatmentTimePattern().getPrecisionTime() == null) {
-            time = LocalTime.of(7, 0, 0);
+            time = LocalTime.of(DEFAULT_HOUR, DEFAULT_MINUTE, DEFAULT_SECOND);
         }
-
-        int startTime = time.getHour();
 
         int interval = prescription.getTreatmentTimePattern().getIntervalInHours();
 
@@ -50,7 +52,7 @@ public class TreatmentEventGenerationServiceImpl implements TreatmentEventGenera
                     tEvent.setPrescription(prescription);
                     tEvent.setPatient(prescription.getPatient());
                     tEvent.setTreatmentEventDate(treatmentDates.get(i));
-                    tEvent.setTreatmentEventTime(LocalTime.of(j, 0, 0));
+                    tEvent.setTreatmentEventTime(LocalTime.of(j, DEFAULT_MINUTE, DEFAULT_SECOND));
                     tEvent.setTreatmentEventStatus(EventStatus.PLANNED);
                     treatmentEventsList.add(tEvent);
                 }
@@ -59,7 +61,7 @@ public class TreatmentEventGenerationServiceImpl implements TreatmentEventGenera
                 tEvent.setPrescription(prescription);
                 tEvent.setPatient(prescription.getPatient());
                 tEvent.setTreatmentEventDate(treatmentDates.get(i));
-                tEvent.setTreatmentEventTime(LocalTime.of(startTime, 0, 0, 0));
+                tEvent.setTreatmentEventTime(LocalTime.of(time.getHour(), time.getMinute(), DEFAULT_SECOND));
                 tEvent.setTreatmentEventStatus(EventStatus.PLANNED);
                 treatmentEventsList.add(tEvent);
             }
@@ -83,15 +85,15 @@ public class TreatmentEventGenerationServiceImpl implements TreatmentEventGenera
 
         //If we haven't set a specific day/days of the week,
         // the method generates an event for each day within a specified period
-        if(!prescription.getTreatmentTimePattern().isSunday()
+        if (!prescription.getTreatmentTimePattern().isSunday()
                 && !prescription.getTreatmentTimePattern().isMonday()
                 && !prescription.getTreatmentTimePattern().isTuesday()
                 && !prescription.getTreatmentTimePattern().isWednesday()
                 && !prescription.getTreatmentTimePattern().isThursday()
                 && !prescription.getTreatmentTimePattern().isFriday()
                 && !prescription.getTreatmentTimePattern().isSaturday()
-        ){
-            while(!startDate.isAfter(endDate)) {
+        ) {
+            while (!startDate.isAfter(endDate)) {
                 treatmentDates.add(startDate);
                 startDate = startDate.plusDays(1);
             }

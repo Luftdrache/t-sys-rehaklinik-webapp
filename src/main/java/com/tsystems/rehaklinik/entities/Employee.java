@@ -9,6 +9,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+
+/**
+ * Employee entity
+ */
 @Entity
 @Table(name = "employees", schema = "rehaklinik",
         uniqueConstraints =

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Convert;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -42,10 +41,10 @@ public class EmployeeDTO {
     @NotNull(message = "Employee's date of birth must be set")
     @Past(message = "Employee's date of birth must be in the past")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Convert()
     private LocalDate dateOfBirth;
 
     @NotNull(message = "Employee's passport id must be set")
+    @Pattern(regexp = "^[0-9\\sA-Z]+$", message = "Wrong characters in passport id")
     private String passportId;
 
     @NotBlank(message = "Employee's address mustn't be blank or null")
@@ -53,6 +52,8 @@ public class EmployeeDTO {
     private String address;
 
     @NotBlank(message = "Employee's phone number must be set")
+    @Size(min = 10, message = "Phone number length must be no less than 10 digits")
+    @Pattern(regexp = "^[0-9\\s\\-\\(\\)]+$", message = "Wrong characters in phone number")
     private String phoneNumber;
 
     @Pattern(regexp = "(\\w+\\.)*\\w+@(\\w+\\.)+[a-zA-z]{2,}", message = "Wrong employee's email")
@@ -61,7 +62,7 @@ public class EmployeeDTO {
     @NotNull(message = "Employee's authentication data must be set")
     private AuthenticationDataDTO authenticationDataEmployee;
 
-    @Size(max=50, message = "Position length must be no more than 50 characters")
+    @Size(max = 50, message = "Position length must be no more than 50 characters")
     private String position;
 
     @NotNull(message = "Employee's qualification category mustn't be blank or null")

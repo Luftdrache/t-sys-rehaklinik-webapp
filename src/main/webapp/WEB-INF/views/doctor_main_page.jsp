@@ -57,7 +57,10 @@
             <form:form class="form-inline mr-auto"
                        action="${pageContext.request.contextPath}/doctor/find-patient-by-surname"
                        method="get">
-                <input class="form-control" type="text" placeholder="Enter Surname" aria-label="Search" name="surname"
+                <input required class="form-control" type="text" placeholder="Enter Surname" aria-label="Search"
+                       name="surname"
+                       oninvalid="this.setCustomValidity('The field is empty')"
+                       oninput="setCustomValidity('')"
                        value="${surname}">
                 <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2"
                         style="background-color: orange"

@@ -44,7 +44,7 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
                 logger.info("MedHelper_LOGS: PrescriptionDAOImpl: Successful attempt to edit prescription with an id = {}", id);
                 return prescription;
             } catch (PersistenceException exception) {
-                logger.info(exception.getMessage());
+                logger.error(exception.getMessage());
             }
         }
         logger.info("MedHelper_LOGS: PrescriptionDAOImpl: Failed attempt to edit prescription with an id = {}", id);

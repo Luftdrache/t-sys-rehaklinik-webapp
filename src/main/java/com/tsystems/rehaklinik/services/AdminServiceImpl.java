@@ -46,7 +46,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public EmployeeDTO editEmployee(EmployeeDTO employeeDTO) {
         logger.info("MedHelper_LOGS: AdminServiceImpl --> in editEmployee() method");
-        Employee employeeToEdit =  EmployeeMapper.INSTANCE.fromDTO(employeeDTO);
+        Employee employeeToEdit = EmployeeMapper.INSTANCE.fromDTO(employeeDTO);
         Employee editedEmployee = employeeDAO.updateEmployee(employeeToEdit);
         EmployeeDTO editedEmployeeDTO = EmployeeMapper.INSTANCE.toDTO(editedEmployee);
         return editedEmployeeDTO;
@@ -71,10 +71,9 @@ public class AdminServiceImpl implements AdminService {
             for (Employee empl : allEmployeesFound) {
                 employeesDTO.add(new EmployeeShortViewDTO(empl));
             }
-            return employeesDTO;
         }
         logger.info("MedHelper_LOGS: AdminServiceImpl: findEmployeeBySurname() --> operation returned empty list");
-        return null;
+        return employeesDTO;
     }
 
 
@@ -87,10 +86,10 @@ public class AdminServiceImpl implements AdminService {
             for (Employee empl : allEmployeesFound) {
                 employeesDTO.add(new EmployeeShortViewDTO(empl));
             }
-            return employeesDTO;
+        } else {
+            logger.info("MedHelper_LOGS: AdminServiceImpl: findEmployeeBySurname() --> there is no employee with such surname in database");
         }
-        logger.info("MedHelper_LOGS: AdminServiceImpl: findEmployeeBySurname() --> there is no employee with such surname in database");
-        return null;
+        return employeesDTO;
     }
 
 
@@ -98,7 +97,7 @@ public class AdminServiceImpl implements AdminService {
     public EmployeeDTO getEmployeeById(int employeeId) {
         logger.info("MedHelper_LOGS: AdminServiceImpl --> in getEmployeeById() method");
         Employee foundEmployee = employeeDAO.findEmployeeById(employeeId);
-        if(foundEmployee != null) {
+        if (foundEmployee != null) {
             logger.info("MedHelper_LOGS: AdminServiceImpl: getEmployeeById() --> employee was not found");
             return EmployeeDTOConverter.toDTO(foundEmployee);
         }

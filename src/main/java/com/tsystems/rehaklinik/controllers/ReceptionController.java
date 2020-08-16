@@ -52,7 +52,7 @@ public class ReceptionController {
      */
     @GetMapping("/add-patient")
     public String addPatient() {
-        logger.info("MedHelper_LOGS: In HospitalReceptionController - handler method addPatientGetForm(), GET");
+        logger.info("MedHelper_LOGS: In HospitalReceptionController - handler method addPatient(), GET");
         return ADD_NEW_PATIENT_JSP;
     }
 
@@ -62,22 +62,22 @@ public class ReceptionController {
      *
      * @param patientDTO    a new patient data
      * @param bindingResult binding result
-     * @param model         ModelMap model
+     * @param modelMap      ModelMap model
      * @return the next view name to display or an error page in case of error occurred
      */
     @PostMapping("/add-patient")
     public String addPatient(
-            @Valid @ModelAttribute("addPatient") PatientDTO patientDTO, BindingResult bindingResult, ModelMap model) {
+            @Valid @ModelAttribute("addPatient") PatientDTO patientDTO, BindingResult bindingResult, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In HospitalReceptionController:  handler method addPatient(), POST");
-        if (BindingCheck.bindingResultCheck(bindingResult, model)) {
+        if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
             return RECEPTION_ERROR_PAGE;
         }
         logger.info("MedHelper_LOGS: New patient from JSP");
         PatientDTO newPatient = receptionService.addNewPatient(patientDTO);
         logger.info("MedHelper_LOGS: the new patient added successfully (surname = {})",
                 patientDTO.getSurname());
-        model.addAttribute(MESSAGE, "The new patient added successfully: ");
-        model.addAttribute(PATIENT_INFO, newPatient);
+        modelMap.addAttribute(MESSAGE, "The new patient added successfully: ");
+        modelMap.addAttribute(PATIENT_INFO, newPatient);
         return PATIENT_DETAILS_JSP;
     }
 
@@ -91,9 +91,9 @@ public class ReceptionController {
      */
     @GetMapping("/edit-patient-data/{id}")
     public String editPatientData(@PathVariable("id") int id, ModelMap modelMap) {
-        logger.info("MedHelper_LOGS: In ReceptionController - handler method editPatientDataForm(), GET");
+        logger.info("MedHelper_LOGS: In ReceptionController - handler method editPatient(), GET");
         PatientDTO patientToEdit = receptionService.getPatientById(id);
-        if(patientToEdit != null) {
+        if (patientToEdit != null) {
             logger.info("MedHelper_LOGS: In ReceptionController: editPatientData()," +
                     " GET: patient with id = {} found successfully", id);
             modelMap.addAttribute("patientToEdit", patientToEdit);
@@ -102,7 +102,6 @@ public class ReceptionController {
                     "patient with id = {} not found", id);
             modelMap.addAttribute(MESSAGE, "There is no any patient with such id in the database");
         }
-
         return EDIT_PATIENT_JSP;
     }
 
@@ -138,13 +137,13 @@ public class ReceptionController {
     /**
      * Deletes patient with specified id
      *
-     * @param patientIdToDelete patient id to delete
-     * @param redirectAttributes    redirect attributes
+     * @param patientIdToDelete  patient id to delete
+     * @param redirectAttributes redirect attributes
      * @return redirects to main hospital reception page
      */
     @PostMapping("/delete-patient")
     public RedirectView deletePatientById(
-            @RequestParam("patientIdToDelete") int patientIdToDelete,  RedirectAttributes redirectAttributes) {
+            @RequestParam("patientIdToDelete") int patientIdToDelete, RedirectAttributes redirectAttributes) {
         logger.info("MedHelper_LOGS: In ReceptionController - handler method deletePatientById()");
         RedirectView redirectView = new RedirectView("/reception/start-page", true);
         String deletePatientByIdMessage = receptionService.deletePatientById(patientIdToDelete);
@@ -198,6 +197,26 @@ public class ReceptionController {
 
 
     /**
+     * Appoints doctor to patient
+     *
+     * @param doctorId  doctor's id
+     * @param patientId patient's id
+     * @param modelMap  ModelMap
+     * @return page with patient's details
+     */
+    @PostMapping("/appoint-doctor")
+    public String setAttendingDoctor(@RequestParam("doctorId") int doctorId,
+                                     @RequestParam("patientId") int patientId, ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In ReceptionController - handler method setAttendingDoctor(), POST");
+
+        PatientDTO patientWithDoctor = receptionService.setAttendingDoctor(doctorId, patientId);
+        modelMap.addAttribute(PATIENT_INFO, patientWithDoctor);
+        modelMap.addAttribute(MESSAGE, "Attending doctor is appointed");
+        return PATIENT_DETAILS_JSP;
+    }
+
+
+    /**
      * Returns list of all patients found in database
      *
      * @param modelMap ModelMap
@@ -221,26 +240,6 @@ public class ReceptionController {
 
 
     /**
-     * Appoints doctor to patient
-     *
-     * @param doctorId  doctor's id
-     * @param patientId patient's id
-     * @param modelMap  ModelMap
-     * @return page with patient's details
-     */
-    @PostMapping("/appoint-doctor")
-    public String setAttendingDoctor(@RequestParam("doctorId") int doctorId,
-                                     @RequestParam("patientId") int patientId, ModelMap modelMap) {
-        logger.info("MedHelper_LOGS: In ReceptionController - handler method setAttendingDoctor(), POST");
-
-        PatientDTO patientWithDoctor = receptionService.setAttendingDoctor(doctorId, patientId);
-        modelMap.addAttribute(PATIENT_INFO, patientWithDoctor);
-        modelMap.addAttribute(MESSAGE, "Attending doctor is appointed");
-        return PATIENT_DETAILS_JSP;
-    }
-
-
-    /**
      * Returns a patient/patients with specified surname
      *
      * @param surname  Patient's surname
@@ -253,7 +252,7 @@ public class ReceptionController {
         logger.info("MedHelper_LOGS: In ReceptionController - handler method findPatientBySurname()");
         RedirectView redirectView = new RedirectView("/reception/start-page", true);
         List<PatientShortViewDTO> patientsFoundBySurname = receptionService.findPatientBySurname(surname);
-        if (patientsFoundBySurname != null) {
+        if (!patientsFoundBySurname.isEmpty()) {
             redirectAttributes.addFlashAttribute(ALL_PATIENTS_LIST, patientsFoundBySurname);
             logger.info("MedHelper_LOGS: The patient(-s) with surname = {} was(were) found successfully", surname);
             for (PatientShortViewDTO patient : patientsFoundBySurname) {

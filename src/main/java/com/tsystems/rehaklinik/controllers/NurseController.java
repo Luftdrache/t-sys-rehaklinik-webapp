@@ -42,27 +42,27 @@ public class NurseController {
 
 
     /**
-     * Shows overdue treatment events
+     * Returns main nurse's page with all her treatment events that need to be done on it. Start page.
      *
-     * @param modelMap ModelMap
-     * @return page with overdue treatment events
+     * @param modelMap modelMap to add a list of treatment events sorted by date and time
+     * @return main nurse's page
      */
-    @GetMapping("/show-overdue-treatment-events")
-    public String showOverdueTreatmentEvents(ModelMap modelMap) {
-        logger.info("MedHelper_LOGS: In NurseController: handler method showOverdueTreatmentEvents(), GET");
-        List<TreatmentEventDTO> treatmentEventDTOS = nurseService.findOverdueTreatmentEvents();
-        if (!treatmentEventDTOS.isEmpty()) {
-            logger.info("MedHelper_LOGS: In NurseController: The action showOverdueTreatmentEvents() completed successfully");
-            modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
-        } else {
-            logger.info("MedHelper_LOGS: The action showOverdueTreatmentEvents() returned empty list");
-            modelMap.addAttribute(MESSAGE,
-                    "INFO: You don't have overdue treatment events. Nice work!");
+    @GetMapping("/start-page")
+    public String showNursePage(ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In NurseController: handler method showNursePage(), GET");
+        if (modelMap.isEmpty()) {
+            modelMap.addAttribute("tableHeader", "ALL PLANNED TREATMENT EVENTS");
+            List<TreatmentEventDTO> treatmentEventDTOS = nurseService.findAllPlannedTreatmentEvents();
+            if (!treatmentEventDTOS.isEmpty()) {
+                logger.info("MedHelper_LOGS: In NurseController: The action showNursePage() completed successfully");
+                modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
+            } else {
+                logger.info("MedHelper_LOGS: The action showNursePage() returned empty list");
+                modelMap.addAttribute(MESSAGE,
+                        "INFO: You don't have any treatment events yet. Rest a little bit!");
+            }
         }
-        for (TreatmentEventDTO td: treatmentEventDTOS) {
-            logger.info("Overdue {}", td.getTreatmentEventId());
-        }
-        return OVERDUE_TREATMENT_EVENTS_JSP;
+        return MAIN_NURSE_JSP;
     }
 
 
@@ -86,7 +86,6 @@ public class NurseController {
         if (!actionResult) {
             modelMap.addAttribute(MESSAGE, "Failed to change treatment event status");
         }
-        modelMap.addAttribute(MESSAGE, " Treatment event status changed to 'COMPLETED'");
         return "redirect:/nurse/start-page";
     }
 
@@ -138,30 +137,6 @@ public class NurseController {
         return SHOW_COMPLETED_TREATMENT_EVENTS_JSP;
     }
 
-    /**
-     * Returns main nurse's page with all her treatment events that need to be done on it. Start page.
-     *
-     * @param modelMap modelMap to add a list of treatment events sorted by date and time
-     * @return main nurse's page
-     */
-    @GetMapping("/start-page")
-    public String showNursePage(ModelMap modelMap) {
-        logger.info("MedHelper_LOGS: In NurseController: handler method showNursePage(), GET");
-        if(modelMap.isEmpty()) {
-            modelMap.addAttribute("tableHeader", "ALL PLANNED TREATMENT EVENTS");
-            List<TreatmentEventDTO> treatmentEventDTOS = nurseService.findAllPlannedTreatmentEvents();
-            if (!treatmentEventDTOS.isEmpty()) {
-                logger.info("MedHelper_LOGS: In NurseController: The action showNursePage() completed successfully");
-                modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
-            } else {
-                logger.info("MedHelper_LOGS: The action showNursePage() returned empty list");
-                modelMap.addAttribute(MESSAGE,
-                        "INFO: You don't have any treatment events yet. Rest a little bit!");
-            }
-        }
-        return MAIN_NURSE_JSP;
-    }
-
 
     /**
      * Shows urgent treatment events (on a nearest hour)
@@ -199,6 +174,7 @@ public class NurseController {
         if (!treatmentEventDTOS.isEmpty()) {
             logger.info("MedHelper_LOGS: In NurseController: The action getTodayTreatmentEvents() completed successfully");
             modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
+
         } else {
             logger.info("MedHelper_LOGS: The action getTodayTreatmentEvents() returned empty list");
             modelMap.addAttribute(MESSAGE,
@@ -233,7 +209,7 @@ public class NurseController {
     /**
      * Finds patient's treatment events by surname
      *
-     * @param patientSurname patient's surname
+     * @param patientSurname     patient's surname
      * @param redirectAttributes redirect attributes
      * @return search result
      */
@@ -255,6 +231,32 @@ public class NurseController {
         }
         return redirectView;
     }
+
+
+    /**
+     * Shows overdue treatment events
+     *
+     * @param modelMap ModelMap
+     * @return page with overdue treatment events
+     */
+    @GetMapping("/show-overdue-treatment-events")
+    public String showOverdueTreatmentEvents(ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In NurseController: handler method showOverdueTreatmentEvents(), GET");
+        List<TreatmentEventDTO> treatmentEventDTOS = nurseService.findOverdueTreatmentEvents();
+        if (!treatmentEventDTOS.isEmpty()) {
+            logger.info("MedHelper_LOGS: In NurseController: The action showOverdueTreatmentEvents() completed successfully");
+            modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
+        } else {
+            logger.info("MedHelper_LOGS: The action showOverdueTreatmentEvents() returned empty list");
+            modelMap.addAttribute(MESSAGE,
+                    "INFO: You don't have overdue treatment events. Nice work!");
+        }
+        for (TreatmentEventDTO td : treatmentEventDTOS) {
+            logger.info("Overdue {}", td.getTreatmentEventId());
+        }
+        return OVERDUE_TREATMENT_EVENTS_JSP;
+    }
+
 
     @Autowired
     public NurseController(NurseService nurseService) {

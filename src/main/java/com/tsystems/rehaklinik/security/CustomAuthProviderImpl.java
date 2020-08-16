@@ -52,7 +52,7 @@ public class CustomAuthProviderImpl implements AuthenticationProvider {
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         String role;
-        if(user.getEmployee()!=null) {
+        if (user.getEmployee() != null) {
             role = "ROLE_" + user.getEmployee().getRole().toString().toUpperCase();
         } else {
             role = "ROLE_" + user.getPatient().getRole().toString().toUpperCase();

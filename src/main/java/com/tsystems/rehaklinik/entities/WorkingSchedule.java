@@ -9,6 +9,9 @@ import java.time.LocalTime;
 import java.util.List;
 
 
+/**
+ * Working schedule entity
+ */
 @Entity
 @Table(name = "working_schedules", schema = "rehaklinik")
 @Getter

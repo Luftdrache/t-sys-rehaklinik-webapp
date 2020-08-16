@@ -56,7 +56,7 @@
         <div class="container-fluid">
             <div content="container" class="col-sm-8 col-sm-offset-2"
                  style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
-                <form:form action="${pageContext.request.contextPath}/reception/add-patient" modelAttribute="addPatient"
+                <form:form action="${pageContext.request.contextPath}/reception/add-patient"
                       method="post"
                       class="form-horizontal"
                       role="form">

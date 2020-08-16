@@ -1,8 +1,9 @@
+<%@ page import="java.time.LocalTime" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page import="java.time.LocalTime" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -19,8 +20,10 @@
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
           integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <!-- popup style -->
+    <!-- popup cansel style -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/cancel_t_event_popup.css">
+    <!-- popup about style -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/about_popup_style.css">
 
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css"/>
@@ -69,27 +72,45 @@
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container" style="height: 90vh;">
-        <h5>URGENT</h5>
-        <div style="float: right; padding-right: 20px; color: #1d3d4e">
-            <%
-                response.setIntHeader("Refresh", 30);
-                LocalTime now = LocalTime.now();
-                int hour = now.getHour();
-                int minute = now.getMinute();
-                String CT = hour + ":" + minute;
-                out.println("Current time: " + CT + "\n");
-            %>
+    <%--    <c:set var="treatmentEventId" value="7" scope="application"/>--%>
+    <div class="main-container" style="min-height: 90vh; height: auto;">
+        <%
+            response.setIntHeader("Refresh", 300);
+        %>
+        <h5>${tableHeader}</h5>
+        <div>
+            <div style="float:left; margin-bottom: 10px">
+                <form:form class="form-inline mr-auto"
+                           action="${pageContext.request.contextPath}/nurse/find-events-by-surname"
+                           method="get">
+                    <input required class="form-control" type="text" placeholder="Enter Surname" aria-label="Search"
+                           name="patientSurname"
+                           oninvalid="this.setCustomValidity('The field is empty')"
+                           oninput="setCustomValidity('')"
+                           value="${patientSurname}">
+                    <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2"
+                            style="background-color: orange"
+                            type="submit"><i class="fas fa-search"></i> Search
+                    </button>
+                </form:form>
+            </div>
+            <div style="float: right; padding-right: 20px; color: #1d3d4e">
+                <%
+                    response.setIntHeader("Refresh", 30);
+                    LocalTime now = LocalTime.now();
+                    int hour = now.getHour();
+                    int minute = now.getMinute();
+                    String CT = hour + ":" + minute;
+                    out.println("Current time: " + CT + "\n");
+                %>
+            </div>
         </div>
         <br style="clear:both">
-        <div content="container" class="col-sm-8 col-sm-offset-4">
-            <p>${message}</p>
-        </div>
         <div class="card" style="padding: 0 5px 5px; float: bottom">
             <table class="table table-striped table-borderless .table-condensed" id="datatable">
                 <thead style="background: #A4D349">
                 <tr>
-                    <th scope="col"></th>
+                    <th scope="col">Id</th>
                     <th scope="col">Time</th>
                     <th scope="col">Data</th>
                     <th scope="col">Status</th>
@@ -111,29 +132,35 @@
                         <td>${tEvent.treatmentType}</td>
                         <td class="text-right row">
                             <div style='margin-left:20px'>
-                                <form action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
-                                      method="get">
+                                <form:form
+                                        action="${pageContext.request.contextPath}/nurse/treatment-event-details/${tEvent.treatmentEventId}"
+                                        method="get">
                                     <button type="submit" class="btn btn-primary btn-sm" value="Details"
+                                            title="See details"
                                             style="background-color: yellowgreen">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                                </form>
+                                </form:form>
                             </div>
                             <div style='margin-left:10px'>
-                                <form action="${pageContext.request.contextPath}/nurse/treatment-event-set-completed"
-                                      method="post">
-                                    <input type="hidden" name="tEvent" value="${tEvent.treatmentEventId}">
+                                <form:form
+                                        action="${pageContext.request.contextPath}/nurse/treatment-event-set-completed"
+                                        method="post">
+                                    <input type="hidden" id="treatmentEventId" name="treatmentEventId"
+                                           value="${tEvent.treatmentEventId}">
                                     <button type="submit" class="btn btn-primary btn-sm" value="Completed"
+                                            title='Change status to "Completed"'
                                             style="background-color: darkslategray">
                                         <i class="fas fa-check"></i>
                                     </button>
-                                </form>
+                                </form:form>
                             </div>
                             <div style='margin-left:10px'>
-                                <c:set var="treatmentEventId" value="0" scope="page"/>
                                 <button type="submit" id="cancel-button" name="cancel-button"
                                         class="btn btn-primary btn-sm"
-                                        value="Cancel" style="background-color: darkred" onclick="">
+                                        value="Cancel" style="background-color: darkred"
+                                        title="Cancel treatment event"
+                                        onclick="setVariable('${tEvent.treatmentEventId}')">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
@@ -142,6 +169,9 @@
                 </c:forEach>
                 </tbody>
             </table>
+        </div>
+        <div content="container" class="col-sm-8 col-sm-offset-4">
+            <p>${message}</p>
         </div>
     </div>
     <!-- *******MAIN CONTAINER******* -->

@@ -7,6 +7,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 
+/**
+ * Medicine and procedure entity
+ */
 @Entity
 @Table(name = "medicines_and_procedures", schema = "rehaklinik",
         uniqueConstraints = @UniqueConstraint(columnNames = {"medicine_procedure_id", "medicine_procedure_name"},

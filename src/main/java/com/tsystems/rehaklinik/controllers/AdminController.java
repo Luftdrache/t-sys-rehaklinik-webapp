@@ -52,7 +52,7 @@ public class AdminController {
     public String showAllEmployees(ModelMap model) {
         logger.info("MedHelper_LOGS: In AdminController - handler method showAllEmployees()");
         List<EmployeeShortViewDTO> allEmployeesFound = adminService.showAllEmployees();
-        if (allEmployeesFound != null) {
+        if (!allEmployeesFound.isEmpty()) {
             model.addAttribute("allEmployees", allEmployeesFound);
             logger.info("MedHelper_LOGS: The action showAllEmployees() completed successfully");
         } else {
@@ -201,10 +201,10 @@ public class AdminController {
      * @return an employee/employees with specified surname
      */
     @GetMapping(value = "/find-employee-by-surname")
-    public String findEmployeeBySurname(@RequestParam("surname") String surname, ModelMap modelMap) {
+    public String findEmployeeBySurname(@RequestParam(value = "surname", required = false) String surname, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In AdminController - handler method findEmployeeBySurname()");
         List<EmployeeShortViewDTO> employeesFoundBySurname = adminService.findEmployeeBySurname(surname);
-        if (employeesFoundBySurname != null) {
+        if (!employeesFoundBySurname.isEmpty()) {
             modelMap.addAttribute("allEmployees", employeesFoundBySurname);
             logger.info("MedHelper_LOGS: The employee(-s) with surname = {} was(were) found successfully", surname);
             for (EmployeeShortViewDTO empl : employeesFoundBySurname) {

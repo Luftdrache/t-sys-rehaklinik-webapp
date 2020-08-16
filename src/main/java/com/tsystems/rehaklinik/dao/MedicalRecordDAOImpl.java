@@ -33,7 +33,7 @@ public class MedicalRecordDAOImpl implements MedicalRecordDAO {
                         editedMedicalRecord.getMedicalRecordId());
                 return editedMedRec;
             } catch (PersistenceException exception) {
-                logger.info(exception.getMessage());
+                logger.error(exception.getMessage());
             }
         }
         logger.info("MedHelper_LOGS: MedicalRecordDAO: Failed attempt to edit an medical record with an id = {}",
