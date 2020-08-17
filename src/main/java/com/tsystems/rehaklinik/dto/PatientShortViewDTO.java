@@ -27,7 +27,7 @@ public class PatientShortViewDTO {
 
     public PatientShortViewDTO(Patient patient) {
         this.patientId = patient.getPatientId();
-        this.name = patient.getFirstName() + " " + patient.getMiddleName() + " " + patient.getSurname();
+        this.name = patient.getSurname() + ", " + patient.getFirstName() + " " + patient.getMiddleName();
         this.gender = patient.getGender();
         this.age = Period.between(patient.getDateOfBirth(), LocalDate.now()).getYears();
         this.phone = patient.getPhoneNumber();

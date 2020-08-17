@@ -61,11 +61,11 @@
                         <i class="fas fa-list-ol"></i><span>Completed</span>
                     </a>
                 </li>
-                <li class="item" id="overdueEvents">
-                    <a href="${pageContext.request.contextPath}/nurse/show-overdue-treatment-events" class="menu-btn">
-                        <i class="fas fa-hourglass-end"></i><span>Overdue</span>
-                    </a>
-                </li>
+<%--                <li class="item" id="overdueEvents">--%>
+<%--                    <a href="${pageContext.request.contextPath}/nurse/show-overdue-treatment-events" class="menu-btn">--%>
+<%--                        <i class="fas fa-hourglass-end"></i><span>Overdue</span>--%>
+<%--                    </a>--%>
+<%--                </li>--%>
                 <li class="item">
                     <a href="#" class="menu-btn" onclick="showInfo()">
                         <i class="fas fa-info-circle"></i><span>About</span>
