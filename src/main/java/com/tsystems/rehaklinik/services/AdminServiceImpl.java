@@ -39,8 +39,7 @@ public class AdminServiceImpl implements AdminService {
                 .setPassword(passwordEncoder.encode(employeeDTO.getAuthenticationDataEmployee().getPassword()));
         Employee newEmployeeToSave = EmployeeMapper.INSTANCE.fromDTO(employeeDTO);
         Employee newEmployee = employeeDAO.createEmployee(newEmployeeToSave);
-        EmployeeDTO savedEmployee = EmployeeMapper.INSTANCE.toDTO(newEmployee);
-        return savedEmployee;
+        return EmployeeMapper.INSTANCE.toDTO(newEmployee);
     }
 
     @Override
@@ -48,8 +47,7 @@ public class AdminServiceImpl implements AdminService {
         logger.info("MedHelper_LOGS: AdminServiceImpl --> in editEmployee() method");
         Employee employeeToEdit = EmployeeMapper.INSTANCE.fromDTO(employeeDTO);
         Employee editedEmployee = employeeDAO.updateEmployee(employeeToEdit);
-        EmployeeDTO editedEmployeeDTO = EmployeeMapper.INSTANCE.toDTO(editedEmployee);
-        return editedEmployeeDTO;
+        return EmployeeMapper.INSTANCE.toDTO(editedEmployee);
     }
 
     @Override

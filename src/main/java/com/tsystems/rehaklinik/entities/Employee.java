@@ -24,6 +24,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,7 +72,7 @@ public class Employee implements Serializable {
     private int officeOrWardNumber;
 
 
-    @ManyToOne (fetch = FetchType.LAZY,  cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "working_schedule_id", referencedColumnName = "working_schedule_id")
     private WorkingSchedule workingSchedule;
 
@@ -86,5 +87,10 @@ public class Employee implements Serializable {
     private List<Patient> patients;
 
     public Employee(int employeeId) {
+    }
+
+    @PreRemove
+    public void onDeleteSetPatientAttendingDoctorToNull() {
+        patients.forEach(patient -> patient.setAttendingDoctorId(null));
     }
 }

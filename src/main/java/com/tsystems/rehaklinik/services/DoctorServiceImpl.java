@@ -5,6 +5,7 @@ import com.tsystems.rehaklinik.converters.DTOconverters.*;
 import com.tsystems.rehaklinik.dao.*;
 import com.tsystems.rehaklinik.dto.*;
 import com.tsystems.rehaklinik.entities.*;
+import com.tsystems.rehaklinik.jms.MessageSender;
 import com.tsystems.rehaklinik.types.EventStatus;
 import com.tsystems.rehaklinik.types.HospitalStayStatus;
 import com.tsystems.rehaklinik.types.PrescriptionStatus;
@@ -28,6 +29,7 @@ public class DoctorServiceImpl implements DoctorService {
     private final PrescriptionDAO prescriptionDAO;
     private final TreatmentEventGenerationService treatmentEventGenerationService;
     private final TreatmentEventDAO treatmentEventDAO;
+    private final MessageSender messageSender;
 
     private final static int BAD_ID = 0;
 
@@ -62,6 +64,7 @@ public class DoctorServiceImpl implements DoctorService {
         for (TreatmentEvent tEvent : treatmentEventList) {
             treatmentEventDAO.createTreatmentEvent(tEvent);
         }
+
         return savedPrescriptionDTO;
     }
 
@@ -85,6 +88,7 @@ public class DoctorServiceImpl implements DoctorService {
         for (TreatmentEvent tEvent : newTreatmentEvents) {
             treatmentEventDAO.createTreatmentEvent(tEvent);
         }
+        messageSender.send("Message: edit");
         return new PrescriptionShortViewDTO(edited);
     }
 
@@ -336,12 +340,13 @@ public class DoctorServiceImpl implements DoctorService {
                              ClinicalDiagnosisDAO clinicalDiagnosisDAO,
                              PrescriptionDAO prescriptionDAO,
                              TreatmentEventGenerationService treatmentEventGenerationService,
-                             TreatmentEventDAO treatmentEventDAO) {
+                             TreatmentEventDAO treatmentEventDAO, MessageSender messageSender) {
         this.patientDAO = patientDAO;
         this.medicalRecordDAO = medicalRecordDAO;
         this.clinicalDiagnosisDAO = clinicalDiagnosisDAO;
         this.prescriptionDAO = prescriptionDAO;
         this.treatmentEventGenerationService = treatmentEventGenerationService;
         this.treatmentEventDAO = treatmentEventDAO;
+        this.messageSender = messageSender;
     }
 }

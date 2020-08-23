@@ -7,8 +7,9 @@
               role="form">
             <input type="hidden" id="tEvent" name="tEvent"/>
             Please specify the cancel reason:
-            <textarea autofocus rows="4" id="cancelReason"
+            <textarea required autofocus rows="4" id="cancelReason"
                       name="cancelReason"
+                      maxlength="100" minlength="5"
                       class="form-control" style="resize: none"></textarea>
             <div style="padding-left: 40%; padding-top: 2px">
                 <input type="submit" class="btn login_btn" value="Specify"
