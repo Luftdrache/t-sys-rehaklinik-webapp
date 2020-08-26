@@ -64,7 +64,7 @@ public class DoctorServiceImpl implements DoctorService {
         for (TreatmentEvent tEvent : treatmentEventList) {
             treatmentEventDAO.createTreatmentEvent(tEvent);
         }
-
+        messageSender.send("Rehaklinik web-app: Changes in the treatment schedule (adding)");
         return savedPrescriptionDTO;
     }
 
@@ -88,7 +88,7 @@ public class DoctorServiceImpl implements DoctorService {
         for (TreatmentEvent tEvent : newTreatmentEvents) {
             treatmentEventDAO.createTreatmentEvent(tEvent);
         }
-        messageSender.send("Message: edit");
+        messageSender.send("Rehaklinik web-app: Changes in the treatment schedule (editing)");
         return new PrescriptionShortViewDTO(edited);
     }
 
@@ -108,6 +108,7 @@ public class DoctorServiceImpl implements DoctorService {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in deletePrescription() method");
         boolean result = prescriptionDAO.deletePrescriptionById(prescriptionId);
         logger.info("MedHelper_LOGS: DoctorServiceImpl: result of deleting is {}", result);
+        messageSender.send("Rehaklinik web-app: Changes in the treatment schedule (deleting)");
         return result;
     }
 
@@ -130,6 +131,7 @@ public class DoctorServiceImpl implements DoctorService {
                         treatmentEventDAO.cancelTreatmentEvent(tEvent);
                     }
                 }
+                messageSender.send("Rehaklinik web-app: Changes in the treatment schedule (cancelling)");
                 return true;
             }
         }
@@ -147,7 +149,20 @@ public class DoctorServiceImpl implements DoctorService {
         TreatmentEvent cancelled = treatmentEventDAO.cancelTreatmentEvent(treatmentEvent);
         if (cancelled.getTreatmentEventId() == treatmentEvent.getTreatmentEventId() &&
                 cancelled.getTreatmentEventStatus() == treatmentEvent.getTreatmentEventStatus()) {
+            messageSender.send("Rehaklinik web-app: Changes in the treatment schedule (cancelling)");
             return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteTreatmentEvent(int tEventId) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in deleteTreatmentEvent() method");
+        TreatmentEvent treatmentEvent = treatmentEventDAO.findTreatmentEventById(tEventId);
+        if (treatmentEvent != null) {
+            treatmentEvent.setPrescription(null);
+            messageSender.send("Rehaklinik web-app: Changes in the treatment schedule (deleting)");
+            return treatmentEventDAO.deleteTreatmentEvents(treatmentEvent);
         }
         return false;
     }
@@ -241,17 +256,6 @@ public class DoctorServiceImpl implements DoctorService {
         return false;
     }
 
-
-    @Override
-    public boolean deleteTreatmentEvent(int tEventId) {
-        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in deleteTreatmentEvent() method");
-        TreatmentEvent treatmentEvent = treatmentEventDAO.findTreatmentEventById(tEventId);
-        if (treatmentEvent != null) {
-            treatmentEvent.setPrescription(null);
-            return treatmentEventDAO.deleteTreatmentEvents(treatmentEvent);
-        }
-        return false;
-    }
 
     @Override
     public List<PatientShortViewDTO> findPatients() {

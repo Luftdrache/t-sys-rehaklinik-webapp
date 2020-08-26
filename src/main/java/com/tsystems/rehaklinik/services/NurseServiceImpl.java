@@ -3,6 +3,7 @@ package com.tsystems.rehaklinik.services;
 import com.tsystems.rehaklinik.dao.TreatmentEventDAO;
 import com.tsystems.rehaklinik.dto.TreatmentEventDTO;
 import com.tsystems.rehaklinik.entities.TreatmentEvent;
+import com.tsystems.rehaklinik.jms.MessageSender;
 import com.tsystems.rehaklinik.types.EventStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ public class NurseServiceImpl implements NurseService {
     private static Logger logger = LoggerFactory.getLogger(NurseServiceImpl.class);
 
     private final TreatmentEventDAO treatmentEventDAO;
+    private final MessageSender messageSender;
 
 
     @Override
@@ -32,6 +34,7 @@ public class NurseServiceImpl implements NurseService {
         }
         setToCompleted.setTreatmentEventStatus(EventStatus.COMPLETED);
         TreatmentEvent completed = treatmentEventDAO.setCompleted(setToCompleted);
+        messageSender.send("Rehaklinik web-app: Changes in the treatment schedule (completing)");
         return completed.getTreatmentEventId() == (setToCompleted.getTreatmentEventId())
                 && completed.getTreatmentEventStatus().equals(setToCompleted.getTreatmentEventStatus());
     }
@@ -78,6 +81,7 @@ public class NurseServiceImpl implements NurseService {
         treatmentEventToCancel.setCancelReason(cancelReason);
         treatmentEventToCancel.setTreatmentEventStatus(EventStatus.CANCELLED);
         TreatmentEvent canceled = treatmentEventDAO.cancelTreatmentEvent(treatmentEventToCancel);
+        messageSender.send("Rehaklinik web-app: Changes in the treatment schedule (cancelling)");
         return canceled.getTreatmentEventId() == (treatmentEventToCancel.getTreatmentEventId())
                 && canceled.getTreatmentEventStatus().equals(treatmentEventToCancel.getTreatmentEventStatus());
     }
@@ -166,7 +170,8 @@ public class NurseServiceImpl implements NurseService {
 
 
     @Autowired
-    public NurseServiceImpl(TreatmentEventDAO treatmentEventDAO) {
+    public NurseServiceImpl(TreatmentEventDAO treatmentEventDAO, MessageSender messageSender) {
         this.treatmentEventDAO = treatmentEventDAO;
+        this.messageSender = messageSender;
     }
 }
