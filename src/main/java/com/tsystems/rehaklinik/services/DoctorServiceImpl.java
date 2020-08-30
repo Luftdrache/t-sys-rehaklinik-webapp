@@ -40,9 +40,7 @@ public class DoctorServiceImpl implements DoctorService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         int doctorId = ((AuthenticationData) (authentication.getPrincipal())).getEmployee().getEmployeeId();
         logger.info("MedHelper_LOGS: In DoctorServiceImpl: doctor's id = {}", doctorId);
-
         List<Patient> allPatients = patientDAO.findPatientByDoctorId(doctorId);
-        logger.info("MedHelper_LOGS: In DoctorServiceImpl: OOKKK");
         List<PatientShortViewDTO> patientsDTO = new ArrayList<>();
         if (!allPatients.isEmpty()) {
             for (Patient patient : allPatients) {

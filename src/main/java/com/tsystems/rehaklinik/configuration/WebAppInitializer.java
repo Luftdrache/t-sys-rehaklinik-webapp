@@ -8,7 +8,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 
-
 //Works as web.xml
 @Order(1)
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -16,6 +15,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[]{JPAConfig.class, SecurityConfig.class, JMSConfig.class
+                , EmailConfig.class
         };
     }
 
