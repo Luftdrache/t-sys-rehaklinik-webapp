@@ -37,20 +37,36 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public ModelAndView handleException(HttpServletRequest req, Exception ex) {
-        logger.error("MedHelper_LOGS: GlobalExceptionHandler: Error occurred with {} ----> {}",
+        logger.error("MedHelper_LOGS: GlobalExceptionHandler: Error occurred with {} -----> {}",
                 req.getRequestURL(), ex.getMessage());
-        logger.error("MedHelper_LOGS: GlobalExceptionHandler: SEE DETAILS ----> {}", ex.fillInStackTrace());
+        logger.error("MedHelper_LOGS: GlobalExceptionHandler: SEE DETAILS -----> ", ex.fillInStackTrace());
         ModelAndView model = new ModelAndView(COMMON_ERROR_PAGE_JSP);
-        if (ex.getClass().equals(NoHandlerFoundException.class)) {
-            model.addObject(MESSAGE_FIRST_PART, "Sorry, page not found!");
-            model.addObject(MESSAGE_SECOND_PART, "Please check the URL and try again.");
-        } else if (ex.getClass().equals(WrongIdException.class)) {
-            model.addObject(MESSAGE_FIRST_PART, "Operation with an invalid parameter");
-            model.addObject(MESSAGE_SECOND_PART, ex.getMessage());
-        } else {
-            model.addObject(MESSAGE_FIRST_PART, "Something went wrong.");
-            model.addObject(MESSAGE_SECOND_PART, "Don't panic, we'll fix it soon!");
-        }
+        model.addObject(MESSAGE_FIRST_PART, "Something went wrong.");
+        model.addObject(MESSAGE_SECOND_PART, "Don't panic, we'll fix it soon!");
+        return model;
+    }
+
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ModelAndView handleNoHandlerFoundException(HttpServletRequest req, Exception ex) {
+        logger.error("MedHelper_LOGS: GlobalExceptionHandler: Error occurred with {} -----> {}",
+                req.getRequestURL(), ex.getMessage());
+        logger.error("MedHelper_LOGS: GlobalExceptionHandler: SEE DETAILS -----> ", ex.fillInStackTrace());
+        ModelAndView model = new ModelAndView(COMMON_ERROR_PAGE_JSP);
+        model.addObject(MESSAGE_FIRST_PART, "Sorry, page not found!");
+        model.addObject(MESSAGE_SECOND_PART, "Please check the URL and try again.");
+        return model;
+    }
+
+
+    @ExceptionHandler(WrongIdException.class)
+    public ModelAndView handleWrongIdException(HttpServletRequest req, Exception ex) {
+        logger.error("MedHelper_LOGS: GlobalExceptionHandler: Error occurred with {} -----> {}",
+                req.getRequestURL(), ex.getMessage());
+        logger.error("MedHelper_LOGS: GlobalExceptionHandler: SEE DETAILS ----->", ex.fillInStackTrace());
+        ModelAndView model = new ModelAndView(COMMON_ERROR_PAGE_JSP);
+        model.addObject(MESSAGE_FIRST_PART, "Operation with an invalid parameter");
+        model.addObject(MESSAGE_SECOND_PART, ex.getMessage());
         return model;
     }
 }
