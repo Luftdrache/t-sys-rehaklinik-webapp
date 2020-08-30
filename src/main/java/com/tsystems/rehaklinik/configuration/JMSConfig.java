@@ -1,6 +1,7 @@
 package com.tsystems.rehaklinik.configuration;
 
 
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

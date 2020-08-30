@@ -3,6 +3,7 @@ package com.tsystems.rehaklinik.dao;
 
 import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
 import com.tsystems.rehaklinik.entities.Employee;
+import com.tsystems.rehaklinik.exceptions.WrongIdException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -78,7 +79,7 @@ public class ClinicalDiagnosisDAOImpl implements ClinicalDiagnosisDAO {
             return clinicalDiagnose;
         }
         logger.info("MedHelper_LOGS: ClinicalDiagnosisDAOImpl: Clinical diagnose with id = {} not found", id);
-        return null;
+        throw new WrongIdException(id);
     }
 
 

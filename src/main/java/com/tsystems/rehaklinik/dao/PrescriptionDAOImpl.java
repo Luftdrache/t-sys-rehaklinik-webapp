@@ -1,6 +1,7 @@
 package com.tsystems.rehaklinik.dao;
 
 import com.tsystems.rehaklinik.entities.*;
+import com.tsystems.rehaklinik.exceptions.WrongIdException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -74,8 +75,8 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
             logger.info("MedHelper_LOGS: PrescriptionDAOImpl: Prescription with id = {} found successfully", id);
             return prescription;
         }
-        logger.info("MedHelper_LOGS:  PrescriptionDAOImpl: Prescription  with id = {} not found", id);
-        return null;
+        logger.info("MedHelper_LOGS:  PrescriptionDAOImpl: Prescription  with id = {} not found. An exception was thrown", id);
+        throw new WrongIdException(id);
     }
 
 

@@ -25,7 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", LOGIN_PAGE, "/resources/css/**", "/resources/images/**").permitAll()
+                .antMatchers("/", LOGIN_PAGE,
+                        "/resources/css/**", "/resources/images/**", "/rehaklinik/api/**").permitAll()
                 .antMatchers("/", LOGIN_PAGE).anonymous()
                 .antMatchers("/doctor/**").hasRole("DOCTOR")
                 .antMatchers("/admin/**").hasRole("ADMIN")
@@ -51,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AuthenticationSuccessHandler customAuthenticationSuccessHandler(){
+    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return new CustomAuthenticationSuccessHandler();
     }
 

@@ -8,16 +8,13 @@ import com.tsystems.rehaklinik.services.DoctorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -52,7 +49,6 @@ public class DoctorController {
     private static final String TREATMENT_EVENT_LIST = "treatmentEventList";
     private static final String MEDICAL_RECORD = "medicalRecord";
     private static final String MEDICAL_RECORD_ID = "medrec";
-    private static final int BAD_ID = 0;
 
     /**
      * Returns main doctor's page with his patient list on it. Start page.
@@ -84,20 +80,14 @@ public class DoctorController {
      * Shows form for new prescription adding
      *
      * @param id       medical record / patient id
-     * @param request  HttpServletRequest
      * @param modelMap Model Map with patient's id
      * @return form for filling in information about a new prescription
      */
     @GetMapping("/add-prescription/{id}")
     public String addPrescription(
-            @PathVariable("id") int id, HttpServletRequest request, ModelMap modelMap) throws NoHandlerFoundException {
+            @PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: InDoctorController - handler method addPrescription(), GET");
-        MedicalRecordDTO medicalRecord = doctorService.getMedicalRecord(id);
-        if (medicalRecord.getMedicalRecordId() == BAD_ID) {
-            logger.info("MedHelper_LOGS: In DoctorController: medical record with the specified id not found");
-            throw new NoHandlerFoundException(
-                    request.getMethod(), request.getRequestURI(), new ServletServerHttpRequest(request).getHeaders());
-        }
+        doctorService.getMedicalRecord(id);
         modelMap.addAttribute("patientId", id);
         return ADD_PRESCRIPTION_JSP;
     }
@@ -136,20 +126,14 @@ public class DoctorController {
      * Show page with selected prescription details
      *
      * @param id       prescription id
-     * @param request  HttpServletRequest
      * @param modelMap ModelMap
      * @return page with prescription details
      */
     @GetMapping("/prescription-details/{id}")
     public String showPrescriptionDetails(
-            @PathVariable("id") int id, HttpServletRequest request, ModelMap modelMap) throws NoHandlerFoundException {
+            @PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method showPrescriptionDetails(), GET");
         PrescriptionDetailsDTO prescriptionDetails = doctorService.getPrescriptionDetails(id);
-        if (prescriptionDetails.getPrescriptionId() == BAD_ID) {
-            logger.info("MedHelper_LOGS: In DoctorController: medical record with the specified id not found");
-            throw new NoHandlerFoundException(
-                    request.getMethod(), request.getRequestURI(), new ServletServerHttpRequest(request).getHeaders());
-        }
         modelMap.addAttribute(MEDICAL_RECORD_ID, prescriptionDetails.getMedicalRecordId());
         modelMap.addAttribute("prescription", prescriptionDetails);
         return SHOW_SELECTED_PRESCRIPTION_JSP;
@@ -160,21 +144,14 @@ public class DoctorController {
      * Shows page with all patient's prescriptions
      *
      * @param id       patient's id
-     * @param request  HttpServletRequest
      * @param modelMap ModelMap with prescriptions list or a message about no result
      * @return page with all patient's prescriptions
-     * @throws NoHandlerFoundException if requested is not exists
      */
     @GetMapping("/show-prescription/{id}")
     public String showAllPrescriptionByPatientId(
-            @PathVariable("id") int id, HttpServletRequest request, ModelMap modelMap) throws NoHandlerFoundException {
+            @PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method showPrescriptionById(), GET");
-        MedicalRecordDTO medicalRecord = doctorService.getMedicalRecord(id);
-        if (medicalRecord.getMedicalRecordId() == BAD_ID) {
-            logger.info("MedHelper_LOGS: In DoctorController: medical record with the specified id not found");
-            throw new NoHandlerFoundException(
-                    request.getMethod(), request.getRequestURI(), new ServletServerHttpRequest(request).getHeaders());
-        }
+        doctorService.getMedicalRecord(id);
         List<PrescriptionShortViewDTO> prescriptionDTOS = doctorService.findAllPatientsPrescription(id);
         if (!prescriptionDTOS.isEmpty()) {
             modelMap.addAttribute("patientPrescriptionsList", prescriptionDTOS);
@@ -217,24 +194,16 @@ public class DoctorController {
      * Returns form to edit selected prescription
      *
      * @param id       prescription id to edit a prescription
-     * @param request  HttpServletRequest
      * @param modelMap ModelMap with selected prescription data
      * @return form to edit selected prescription
-     * @throws NoHandlerFoundException if request path is incorrect
      */
     @GetMapping("/edit-prescription/{id}")
     public String editSelectedPrescription(
-            @PathVariable("id") int id, HttpServletRequest request, ModelMap modelMap) throws NoHandlerFoundException {
+            @PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method editSelectedPrescription(), GET");
         PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO = doctorService.findPrescriptionById(id);
-        if (prescriptionTreatmentPatternDTO.getPrescriptionId() == BAD_ID) {
-            logger.info("MedHelper_LOGS: In DoctorController: prescription with id = {} not found", id);
-            throw new NoHandlerFoundException(
-                    request.getMethod(), request.getRequestURI(), new ServletServerHttpRequest(request).getHeaders());
-        } else {
-            modelMap.addAttribute("prescriptionToEdit", prescriptionTreatmentPatternDTO);
-            logger.info("MedHelper_LOGS: prescription with id = {}  was found successfully", id);
-        }
+        modelMap.addAttribute("prescriptionToEdit", prescriptionTreatmentPatternDTO);
+        logger.info("MedHelper_LOGS: prescription with id = {}  was found successfully", id);
         return EDIT_SELECTED_PRESCRIPTION_JSP;
     }
 
@@ -284,20 +253,13 @@ public class DoctorController {
      * Shows doctor a patient medical record
      *
      * @param id       patient's id
-     * @param request  HttpServletRequest
      * @param modelMap modelMap to add a medical record info
      * @return page with a patient medical record
      */
     @GetMapping("/medical-record/{id}")
-    public String showMedicalRecord(@PathVariable("id") int id, ModelMap modelMap,
-                                    HttpServletRequest request) throws NoHandlerFoundException {
+    public String showMedicalRecord(@PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method showMedicalRecord(), GET. id = {}", id);
         MedicalRecordDTO medicalRecord = doctorService.getMedicalRecord(id);
-        if (medicalRecord.getMedicalRecordId() == BAD_ID) {
-            logger.info("MedHelper_LOGS: In DoctorController: medical record with the specified id not found");
-            throw new NoHandlerFoundException(
-                    request.getMethod(), request.getRequestURI(), new ServletServerHttpRequest(request).getHeaders());
-        }
         modelMap.addAttribute(MEDICAL_RECORD, medicalRecord);
         return MEDICAL_RECORD_JSP;
     }
@@ -307,20 +269,13 @@ public class DoctorController {
      * Return form to add new clinical diagnosis
      *
      * @param id       current medical record id
-     * @param request  HttpServletRequest
      * @param modelMap ModelMap with current medical record id
      * @return form to add new clinical diagnosis
      */
     @GetMapping("/medical-record/add-diagnosis/{id}")
-    public String addDiagnosis(
-            @PathVariable("id") int id, HttpServletRequest request, ModelMap modelMap) throws NoHandlerFoundException {
+    public String addDiagnosis(@PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method addDiagnosis(), GET");
-        MedicalRecordDTO medicalRecord = doctorService.getMedicalRecord(id);
-        if (medicalRecord.getMedicalRecordId() == BAD_ID) {
-            logger.info("MedHelper_LOGS: In DoctorController: medical record with the specified id not found");
-            throw new NoHandlerFoundException(
-                    request.getMethod(), request.getRequestURI(), new ServletServerHttpRequest(request).getHeaders());
-        }
+        doctorService.getMedicalRecord(id);
         modelMap.addAttribute(MEDICAL_RECORD_ID, id);
         return DIAGNOSIS_JSP;
     }
@@ -352,23 +307,15 @@ public class DoctorController {
      * Provides a form to edit selected clinical diagnosis
      *
      * @param id       clinical diagnosis id
-     * @param request  HttpServletRequest
      * @param modelMap ModelMap
      * @return page to edit selected clinical diagnosis
      */
     @GetMapping("/edit-clinical-diagnosis/{id}")
-    public String editSelectedDiagnosis(
-            @PathVariable("id") int id, HttpServletRequest request, ModelMap modelMap) throws NoHandlerFoundException {
+    public String editSelectedDiagnosis(@PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method editSelectedDiagnosis(), GET");
         ClinicalDiagnosisDTO clinicalDiagnosisDTO = doctorService.getClinicalDiagnosis(id);
-        if (clinicalDiagnosisDTO.getClinicalDiagnosisId() == BAD_ID) {
-            logger.info("MedHelper_LOGS: In DoctorController: bad request - clinical diagnosis with id = {} not found", id);
-            throw new NoHandlerFoundException(
-                    request.getMethod(), request.getRequestURI(), new ServletServerHttpRequest(request).getHeaders());
-        } else {
-            modelMap.addAttribute("CDToEdit", clinicalDiagnosisDTO);
-            logger.info("MedHelper_LOGS: prescription with id = {} was found successfully", id);
-        }
+        modelMap.addAttribute("CDToEdit", clinicalDiagnosisDTO);
+        logger.info("MedHelper_LOGS: prescription with id = {} was found successfully", id);
         return EDIT_CLINICAL_DIAGNOSIS_JSP;
     }
 
@@ -416,20 +363,13 @@ public class DoctorController {
      * Gives form to change hospitalisation data
      *
      * @param id       Medical record id
-     * @param request  HttpServletRequest
      * @param modelMap ModelMap with found hospitalisation data
      * @return form page to change hospitalisation data
      */
     @GetMapping("/medical-record/hospitalisation/{id}")
-    public String editHospitalisation(
-            @PathVariable("id") int id, HttpServletRequest request, ModelMap modelMap) throws NoHandlerFoundException {
+    public String editHospitalisation(@PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method editHospitalisation(), GET");
         MedicalRecordDTO medicalRecord = doctorService.getMedicalRecord(id);
-        if (medicalRecord.getMedicalRecordId() == BAD_ID) {
-            logger.info("MedHelper_LOGS: In DoctorController: bad request - medical record with the specified id not found");
-            throw new NoHandlerFoundException(
-                    request.getMethod(), request.getRequestURI(), new ServletServerHttpRequest(request).getHeaders());
-        }
         modelMap.addAttribute("hospitalisationToEdit", medicalRecord);
         modelMap.addAttribute(MEDICAL_RECORD_ID, id);
         return HOSPITALISATION_JSP;
@@ -490,22 +430,14 @@ public class DoctorController {
      * Shows all found patient's treatment events
      *
      * @param patientId patient id
-     * @param request   HttpServletRequest
      * @param modelMap  ModelMap
      * @return page with all found patient's treatment events
      */
     @GetMapping("/show-patient-treatment-events/{id}")
-    public String showPatientTreatmentEvents(
-            @PathVariable("id") int patientId,
-            HttpServletRequest request, ModelMap modelMap) throws NoHandlerFoundException {
+    public String showPatientTreatmentEvents(@PathVariable("id") int patientId, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method showPatientTreatmentEvents(), GET");
         if (modelMap.isEmpty()) {
-            MedicalRecordDTO medicalRecord = doctorService.getMedicalRecord(patientId);
-            if (medicalRecord.getMedicalRecordId() == BAD_ID) {
-                logger.info("MedHelper_LOGS: In DoctorController: bad request - medical record with the specified id not found");
-                throw new NoHandlerFoundException(
-                        request.getMethod(), request.getRequestURI(), new ServletServerHttpRequest(request).getHeaders());
-            }
+            doctorService.getMedicalRecord(patientId);
             List<TreatmentEventDTO> treatmentEventDTOS = doctorService.findTreatmentEventsByPatientId(patientId);
             if (!treatmentEventDTOS.isEmpty()) {
                 logger.info("MedHelper_LOGS: In DoctorController: " +

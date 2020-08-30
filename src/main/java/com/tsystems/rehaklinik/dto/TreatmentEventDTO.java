@@ -27,7 +27,7 @@ public class TreatmentEventDTO {
     private String hospitalDepartment;
     private String hospitalWard;
     private String treatmentEventDate;
-    private LocalTime treatmentEventTime;
+    private String treatmentEventTime;
     private String medicineProcedureName;
     private TreatmentType treatmentType;
     private String dose;
@@ -42,7 +42,8 @@ public class TreatmentEventDTO {
     private static final String WARD_NUMBER = "0";
 
     public TreatmentEventDTO(TreatmentEvent treatmentEvent) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale("en"));
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale("en"));
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
         this.treatmentEventId = treatmentEvent.getTreatmentEventId();
         this.patientId = treatmentEvent.getPatient().getPatientId();
@@ -53,8 +54,8 @@ public class TreatmentEventDTO {
         if (this.hospitalDepartment == null || this.hospitalDepartment.equals("")) this.hospitalDepartment = LONG_DASH;
         this.hospitalWard = Integer.toString(treatmentEvent.getPrescription().getPatient().getMedicalRecord().getHospitalWard());
         if (this.hospitalWard.equals("") || this.hospitalWard.equals(WARD_NUMBER)) this.hospitalWard = LONG_DASH;
-        this.treatmentEventDate = formatter.format(treatmentEvent.getTreatmentEventDate());
-        this.treatmentEventTime = treatmentEvent.getTreatmentEventTime();
+        this.treatmentEventDate = dateFormatter.format(treatmentEvent.getTreatmentEventDate());
+        this.treatmentEventTime = timeFormatter.format(treatmentEvent.getTreatmentEventTime());
         this.medicineProcedureName = treatmentEvent.getPrescription().getMedicineAndProcedure().getMedicineProcedureName();
         this.treatmentType = treatmentEvent.getPrescription().getMedicineAndProcedure().getTreatmentType();
         this.dose = treatmentEvent.getPrescription().getDose();
@@ -63,7 +64,7 @@ public class TreatmentEventDTO {
         if (this.administeringMedicationMethod.equals("")) this.administeringMedicationMethod = LONG_DASH;
         this.cancelReason = treatmentEvent.getCancelReason();
         this.treatmentEventStatus = treatmentEvent.getTreatmentEventStatus();
-        this.treatmentPeriodStartDate = formatter.format(treatmentEvent.getPrescription().getStartTreatment());
-        this.treatmentPeriodEndDate = formatter.format(treatmentEvent.getPrescription().getEndTreatment());
+        this.treatmentPeriodStartDate = dateFormatter.format(treatmentEvent.getPrescription().getStartTreatment());
+        this.treatmentPeriodEndDate = dateFormatter.format(treatmentEvent.getPrescription().getEndTreatment());
     }
 }

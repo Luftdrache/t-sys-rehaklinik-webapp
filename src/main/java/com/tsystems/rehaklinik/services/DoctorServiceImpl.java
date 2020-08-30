@@ -31,25 +31,20 @@ public class DoctorServiceImpl implements DoctorService {
     private final TreatmentEventDAO treatmentEventDAO;
     private final MessageSender messageSender;
 
-    private final static int BAD_ID = 0;
-
 
     @Override
     public MedicalRecordDTO getMedicalRecord(int patientId) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in getMedicalRecord() method");
         MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(patientId);
-        if (medicalRecord != null) {
-            MedicalRecordDTO medicalRecordDTO = MedicalRecordConverter.toDTO(medicalRecord);
-            medicalRecordDTO.setPatient(PatientDTOConverter.toDTO(patientDAO.findPatientById(patientId)));
-            Set<ClinicalDiagnose> diagnosisSet = medicalRecord.getClinicalDiagnosis();
-            Set<ClinicalDiagnosisDTO> clinicalDiagnosisDTOSet = new HashSet<>();
-            for (ClinicalDiagnose cd : diagnosisSet) {
-                clinicalDiagnosisDTOSet.add(ClinicalDiagnoseMapper.INSTANCE.toDTO(cd));
-            }
-            medicalRecordDTO.setClinicalDiagnosis(clinicalDiagnosisDTOSet);
-            return medicalRecordDTO;
+        MedicalRecordDTO medicalRecordDTO = MedicalRecordConverter.toDTO(medicalRecord);
+        medicalRecordDTO.setPatient(PatientDTOConverter.toDTO(patientDAO.findPatientById(patientId)));
+        Set<ClinicalDiagnose> diagnosisSet = medicalRecord.getClinicalDiagnosis();
+        Set<ClinicalDiagnosisDTO> clinicalDiagnosisDTOSet = new HashSet<>();
+        for (ClinicalDiagnose cd : diagnosisSet) {
+            clinicalDiagnosisDTOSet.add(ClinicalDiagnoseMapper.INSTANCE.toDTO(cd));
         }
-        return new MedicalRecordDTO();
+        medicalRecordDTO.setClinicalDiagnosis(clinicalDiagnosisDTOSet);
+        return medicalRecordDTO;
     }
 
 
@@ -96,10 +91,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public PrescriptionDetailsDTO getPrescriptionDetails(int prescriptionId) {
         PrescriptionTreatmentPatternDTO prescription = findPrescriptionById(prescriptionId);
-        if (prescription.getPrescriptionId() != BAD_ID) {
-            return new PrescriptionDetailsDTO(prescription);
-        }
-        return new PrescriptionDetailsDTO();
+        return new PrescriptionDetailsDTO(prescription);
     }
 
 
@@ -212,10 +204,7 @@ public class DoctorServiceImpl implements DoctorService {
     public ClinicalDiagnosisDTO getClinicalDiagnosis(int clinicalDiagnoseId) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in getClinicalDiagnosisDTO() method");
         ClinicalDiagnose clinicalDiagnose = clinicalDiagnosisDAO.getClinicalDiagnosisById(clinicalDiagnoseId);
-        if (clinicalDiagnose != null) {
-            return ClinicalDiagnoseDTOConverter.toDTO(clinicalDiagnose);
-        }
-        return new ClinicalDiagnosisDTO();
+        return ClinicalDiagnoseDTOConverter.toDTO(clinicalDiagnose);
     }
 
 
@@ -289,10 +278,7 @@ public class DoctorServiceImpl implements DoctorService {
     public PrescriptionTreatmentPatternDTO findPrescriptionById(int prescriptionId) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in PrescriptionTreatmentPatternDTO() method");
         Prescription prescription = prescriptionDAO.findPrescriptionById(prescriptionId);
-        if (prescription != null) {
-            return new PrescriptionTreatmentPatternDTO(prescription);
-        }
-        return new PrescriptionTreatmentPatternDTO();
+        return new PrescriptionTreatmentPatternDTO(prescription);
     }
 
 

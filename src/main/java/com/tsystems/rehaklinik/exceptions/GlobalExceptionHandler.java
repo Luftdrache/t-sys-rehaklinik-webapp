@@ -1,4 +1,4 @@
-package com.tsystems.rehaklinik.exceptionHandlers;
+package com.tsystems.rehaklinik.exceptions;
 
 
 import org.slf4j.Logger;
@@ -24,6 +24,9 @@ public class GlobalExceptionHandler {
     private Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     private static final String COMMON_ERROR_PAGE_JSP = "404_405_500_etc_error_page";
+    private static final String MESSAGE_FIRST_PART = "message";
+    private static final String MESSAGE_SECOND_PART = "message_part2";
+
 
     /**
      * Handles Exception
@@ -39,11 +42,14 @@ public class GlobalExceptionHandler {
         logger.error("MedHelper_LOGS: GlobalExceptionHandler: SEE DETAILS ----> {}", ex.fillInStackTrace());
         ModelAndView model = new ModelAndView(COMMON_ERROR_PAGE_JSP);
         if (ex.getClass().equals(NoHandlerFoundException.class)) {
-            model.addObject("message", "Sorry, page not found!");
-            model.addObject("message_part2", "Please check the URL and try again.");
+            model.addObject(MESSAGE_FIRST_PART, "Sorry, page not found!");
+            model.addObject(MESSAGE_SECOND_PART, "Please check the URL and try again.");
+        } else if (ex.getClass().equals(WrongIdException.class)) {
+            model.addObject(MESSAGE_FIRST_PART, "Operation with an invalid parameter");
+            model.addObject(MESSAGE_SECOND_PART, ex.getMessage());
         } else {
-            model.addObject("message", "Something went wrong.");
-            model.addObject("message_part2", "Don't panic, we'll fix it soon!");
+            model.addObject(MESSAGE_FIRST_PART, "Something went wrong.");
+            model.addObject(MESSAGE_SECOND_PART, "Don't panic, we'll fix it soon!");
         }
         return model;
     }

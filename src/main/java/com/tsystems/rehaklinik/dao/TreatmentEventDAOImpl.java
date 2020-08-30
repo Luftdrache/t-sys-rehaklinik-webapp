@@ -21,6 +21,7 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
 
     private static final String STATUS = "status";
     private static final String TODAY = "today";
+    private static final int NOT_AN_OVERDUE_PERIOD_IN_MINUTES = 59;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -111,7 +112,7 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding all today treatment events");
         LocalDate today = LocalDate.now();
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: current date is {}", today);
-//        checkOverdueTreatmentEvents();
+        checkOverdueTreatmentEvents();
         return entityManager.createQuery(
                 "SELECT t FROM TreatmentEvent t " +
                         "WHERE t.treatmentEventDate = :today " +
@@ -125,7 +126,7 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
     @Override
     public List<TreatmentEvent> findUrgentTreatmentEvents() {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding all urgent treatment events");
-//        checkOverdueTreatmentEvents();
+        checkOverdueTreatmentEvents();
         LocalTime startTimePeriod = LocalTime.now();
         LocalTime endTimePeriod = LocalTime.now().plusHours(1);
         LocalDate today = LocalDate.now();
@@ -164,7 +165,7 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
     @Override
     public List<TreatmentEvent> findAllPlannedTreatmentEvents() {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding all treatment events except cancelled");
-//        checkOverdueTreatmentEvents();
+        checkOverdueTreatmentEvents();
         return entityManager.createQuery(
                 "SELECT t FROM TreatmentEvent t " +
                         "WHERE t.treatmentEventStatus = :statusPlanned " +
@@ -230,13 +231,13 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
      */
     private void checkOverdueTreatmentEvents() {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: checking overdue treatment events");
-        LocalTime overdueTime = LocalTime.now().minusHours(1);
+        LocalTime overdueTime = LocalTime.now().minusMinutes(NOT_AN_OVERDUE_PERIOD_IN_MINUTES);
         LocalDate today = LocalDate.now();
 
         List<TreatmentEvent> overdue = entityManager.createQuery(
                 "SELECT t FROM TreatmentEvent t " +
                         "WHERE t.treatmentEventDate = :today AND t.treatmentEventStatus = :status " +
-                        "AND t.treatmentEventTime  >= :overdueTime " +
+                        "AND t.treatmentEventTime  < :overdueTime " +
                         "ORDER BY t.treatmentEventDate, t.treatmentEventTime",
                 TreatmentEvent.class)
                 .setParameter(STATUS, EventStatus.PLANNED)

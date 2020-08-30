@@ -1,6 +1,7 @@
 package com.tsystems.rehaklinik.dao;
 
 import com.tsystems.rehaklinik.entities.MedicalRecord;
+import com.tsystems.rehaklinik.exceptions.WrongIdException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -47,7 +48,9 @@ public class MedicalRecordDAOImpl implements MedicalRecordDAO {
         logger.info("MedHelper_LOGS: MedicalRecordDAOImpl: Finds a patients medical record (by patient's id)");
         MedicalRecord medicalRecord = entityManager.find(MedicalRecord.class, id);
         if (medicalRecord == null) {
-            logger.info("findMedicalRecordById(int id) returned null");
+            logger.info("MedHelper_LOGS: MedicalRecordDAOImpl: " +
+                    "medical record with the specified id = {} not found. An exception was thrown.", id);
+            throw new WrongIdException(id);
         }
         return medicalRecord;
     }
