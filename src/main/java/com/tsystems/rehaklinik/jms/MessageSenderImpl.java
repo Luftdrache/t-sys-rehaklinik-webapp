@@ -5,11 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.jms.*;
 
-@Component
+@Service
 public class MessageSenderImpl implements MessageSender {
 
     private Logger logger = LoggerFactory.getLogger(MessageSenderImpl.class);

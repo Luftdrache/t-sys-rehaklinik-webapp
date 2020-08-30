@@ -64,4 +64,12 @@ public interface PatientDAO {
      */
     List<Patient> findAll();
 
+
+    /**
+     * Searches for patients being treated by a specific doctor
+     *
+     * @param doctorId
+     * @return
+     */
+    List<Patient> findPatientByDoctorId(int doctorId);
 }

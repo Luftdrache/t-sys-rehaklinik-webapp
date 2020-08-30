@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 
@@ -93,5 +92,17 @@ public class PatientDAOImpl implements PatientDAO {
         }
         logger.info("MedHelper_LOGS: PatientDAO: Patient with id = {} not found", patientId);
         return null;
+    }
+
+
+    @Override
+    public List<Patient> findPatientByDoctorId(int doctorId) {
+        logger.info("MedHelper_LOGS: PatientDAO: Find all patients by doctor's id");
+        return entityManager.createQuery(
+                "SELECT p FROM Patient p " +
+                        "WHERE p.attendingDoctorId.employeeId = :doctorId " +
+                        "ORDER BY p.surname", Patient.class)
+                .setParameter("doctorId", doctorId)
+                .getResultList();
     }
 }

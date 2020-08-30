@@ -12,6 +12,8 @@ import com.tsystems.rehaklinik.types.PrescriptionStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,25 @@ public class DoctorServiceImpl implements DoctorService {
     private final TreatmentEventGenerationService treatmentEventGenerationService;
     private final TreatmentEventDAO treatmentEventDAO;
     private final MessageSender messageSender;
+
+
+    @Override
+    public List<PatientShortViewDTO> findPatients() {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in patients() method");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int doctorId = ((AuthenticationData) (authentication.getPrincipal())).getEmployee().getEmployeeId();
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl: doctor's id = {}", doctorId);
+
+        List<Patient> allPatients = patientDAO.findPatientByDoctorId(doctorId);
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl: OOKKK");
+        List<PatientShortViewDTO> patientsDTO = new ArrayList<>();
+        if (!allPatients.isEmpty()) {
+            for (Patient patient : allPatients) {
+                patientsDTO.add(new PatientShortViewDTO(patient));
+            }
+        }
+        return patientsDTO;
+    }
 
 
     @Override
@@ -243,20 +264,6 @@ public class DoctorServiceImpl implements DoctorService {
             return clinicalDiagnosisDAO.deleteClinicalDiagnosis(clinicalDiagnose);
         }
         return false;
-    }
-
-
-    @Override
-    public List<PatientShortViewDTO> findPatients() {
-        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in patients() method");
-        List<Patient> allPatients = patientDAO.findAll();
-        List<PatientShortViewDTO> patientsDTO = new ArrayList<>();
-        if (!allPatients.isEmpty()) {
-            for (Patient patient : allPatients) {
-                patientsDTO.add(new PatientShortViewDTO(patient));
-            }
-        }
-        return patientsDTO;
     }
 
 
