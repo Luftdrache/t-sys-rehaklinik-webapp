@@ -1,21 +1,21 @@
 package com.tsystems.rehaklinik.services;
 
 
-import com.itextpdf.text.Document;
-import com.tsystems.rehaklinik.dto.MedicalRecordDTO;
-import com.tsystems.rehaklinik.dto.TreatmentEventDTO;
 import com.tsystems.rehaklinik.entities.AuthenticationData;
 import com.tsystems.rehaklinik.entities.Patient;
+import com.tsystems.rehaklinik.util.PDFGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -23,42 +23,47 @@ public class EmailServiceImpl implements EmailService {
     private static Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
 
     private final JavaMailSender emailSender;
-    private final DoctorService doctorService;
+    private final PDFGenerator pdfGenerator;
+
 
     private final static String SENDER = "REHAKLINIK";
     private final static String EMAIL_TITLE = "Rehaklinik info: get your treatment details";
+    private final static String FILE_NAME = "Rehaklinik Treatment Details Report.pdf";
 
     @Override
     public boolean sendEmail() {
         logger.info("MedHelper_LOGS: In EmailServiceImpl - sending an email");
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Patient patient = ((AuthenticationData) (authentication.getPrincipal())).getPatient();
-        String email = patient.getEmail();
-        String patientName = patient.getFirstName();
-        int patientId = patient.getPatientId();
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(SENDER);
-        message.setTo(email);
-        message.setSubject(EMAIL_TITLE);
-        message.setText("Dear, " + patientName + " \n Here is your treatment details:");
-        //formPDF(patientId);
-        emailSender.send(message);
-        return true;
-    }
 
-    //IN PROGRESS
-    private Document formPDF(int patientId) {
-        Document pdf = new Document();
-        MedicalRecordDTO medicalRecordDTO = doctorService.getMedicalRecord(patientId);
-        List<TreatmentEventDTO> treatmentEventDTOS = doctorService.findTreatmentEventsByPatientId(patientId);
-        return pdf;
+        int patientId = patient.getPatientId();
+        String patientName = patient.getFirstName() + " " + patient.getSurname();
+        String email = patient.getEmail();
+
+        MimeMessage message = emailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(SENDER);
+            helper.setTo(email);
+            helper.setSubject(EMAIL_TITLE);
+            helper.setText("Dear " + patientName +
+                    ",\n\nHere is your treatment details in attachment." +
+                    "\n\n\nWe wish you a speedy recovery!\nYours sincerely,\nRehaklinik");
+            final InputStreamSource attachment = pdfGenerator.generatePDF(patientId, patientName);
+            helper.addAttachment(FILE_NAME, attachment);
+            emailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
 
     @Autowired
-    public EmailServiceImpl(JavaMailSender emailSender, DoctorService doctorService) {
+    public EmailServiceImpl(JavaMailSender emailSender, PDFGenerator pdfGenerator) {
         this.emailSender = emailSender;
-        this.doctorService = doctorService;
+        this.pdfGenerator = pdfGenerator;
     }
 
 }

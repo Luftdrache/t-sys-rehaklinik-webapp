@@ -99,9 +99,9 @@
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Time</th>
-                    <th scope="col">Data</th>
+                    <th scope="col">Date</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Cancelled Reason</th>
+                    <th scope="col">Cancel Reason</th>
                     <th scope="col">Treatment</th>
                     <th scope="col">Type</th>
                     <th scope="col">Dose</th>
