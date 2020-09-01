@@ -1,7 +1,18 @@
 package com.tsystems.rehaklinik.jms;
 
+
+/**
+ * Sends message to queue
+ *
+ * @author Julia Dalskaya
+ */
 public interface MessageSender {
 
-    public void send(final String message);
+    /**
+     * Sends message to queue
+     *
+     * @param message message to send
+     */
+    void send(final String message);
 
 }

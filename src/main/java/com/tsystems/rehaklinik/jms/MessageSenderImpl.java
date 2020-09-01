@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 
 import javax.jms.*;
 
+
 @Service
 public class MessageSenderImpl implements MessageSender {
 
     private Logger logger = LoggerFactory.getLogger(MessageSenderImpl.class);
 
     JmsTemplate jmsTemplate;
-
 
     @Override
     public void send(String message) {
