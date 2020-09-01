@@ -18,7 +18,7 @@
     </sec:authorize>
     <sec:authorize access="hasRole('PATIENT')">
         <c:set var="role" scope="session" value="PATIENT"/>
-        <img src="${pageContext.request.contextPath}/resources/images/patient-avt.png" alt="">
+        <img src="${pageContext.request.contextPath}/resources/images/patient-avt.jpg" alt="">
     </sec:authorize>
 
     <c:choose>

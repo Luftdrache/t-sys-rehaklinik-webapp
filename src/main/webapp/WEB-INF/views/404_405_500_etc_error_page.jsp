@@ -17,13 +17,13 @@
         background-size: 100% auto; background-position: top; background-repeat: no-repeat;">
 <div class="container-fluid" style="padding: 0;  margin-right: 0px">
     <div class="exceptionMessage" style="padding-top: 30px; padding-left: 20px">
-        <h5>${message}</h5>
+        <h5 id="error-message-part-1">${message}</h5>
     </div>
     <div style="padding-left: 50px">
-        <h5>${message_part2}</h5>
+        <h5 id="error-message-part-2">${message_part2}</h5>
     </div>
     <div style="padding-left: 90px;">
-        <button type="button" class="btn btn-warning"
+        <button id="get-back button" type="button" class="btn btn-warning"
                 onclick="javascript:history.go(-1)">GET BACK
         </button>
     </div>

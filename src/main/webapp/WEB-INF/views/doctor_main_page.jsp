@@ -42,7 +42,7 @@
                     </a>
                 </li>
                 <li class="item">
-                    <a href="#" class="menu-btn" onclick="showInfo()">
+                    <a id="about-popup" href="#" class="menu-btn" onclick="showInfo()">
                         <i class="fas fa-info-circle"></i><span>About</span>
                     </a>
                 </li>
@@ -57,85 +57,89 @@
             <form:form class="form-inline mr-auto"
                        action="${pageContext.request.contextPath}/doctor/find-patient-by-surname"
                        method="get">
-                <input required class="form-control" type="text" placeholder="Enter Surname" aria-label="Search"
+                <input id="search-input" required class="form-control" type="text" placeholder="Enter Surname"
+                       aria-label="Search"
                        name="surname"
                        oninvalid="this.setCustomValidity('The field is empty')"
                        oninput="setCustomValidity('')"
                        value="${surname}">
-                <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2"
+                <button id="search-button" class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2"
                         style="background-color: orange"
                         type="submit"><i class="fas fa-search"></i> Search
                 </button>
             </form:form>
         </div>
         <div content="container" class="col-sm-8 col-sm-offset-4">
-            <p>${message}</p>
+            <p id="message-not-found">${message}</p>
         </div>
         <div>
             <div class="card" style="padding: 0 5px 5px;">
                 <table class="table table-striped table-borderless .table-condensed" id="datatable">
-                        <thead style="background: #A4D349">
+                    <thead style="background: #A4D349">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Insurance Company</th>
+                        <th scope="col">Insurance Policy</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table table-hover">
+                    <c:forEach items="${doctorsPatients}" var="pat" varStatus="status">
                         <tr>
-                            <th scope="col">Id</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Gender</th>
-                            <th scope="col">Age</th>
-                            <th scope="col">Phone</th>
-                            <th scope="col">Insurance Company</th>
-                            <th scope="col">Insurance Policy</th>
-                            <th scope="col">Actions</th>
+                            <td>${status.count}</td>
+                            <td>${pat.name}</td>
+                            <td>${pat.gender.toString()}</td>
+                            <td>${pat.age}</td>
+                            <td>${pat.phone}</td>
+                            <td>${pat.insuranceCompany}</td>
+                            <td>${pat.insurancePolicyCode}</td>
+                            <td class="text-right row padding-right: 5px">
+                                <div style='margin-left:10px'>
+                                    <form:form
+                                            action="${pageContext.request.contextPath}/doctor/medical-record/${pat.patientId}"
+                                            method="get">
+                                        <button id="medical-record-button" type="submit" class="btn btn-primary btn-sm"
+                                                value="Medical Record"
+                                                style="background-color: yellowgreen"
+                                                title="Show patient's medical record">
+                                            <i class="fas fa-file-medical-alt"></i>
+                                        </button>
+                                    </form:form>
+                                </div>
+                                <div style='margin-left:10px'>
+                                    <form:form
+                                            action="${pageContext.request.contextPath}/doctor/show-prescription/${pat.patientId}"
+                                            method="get">
+                                        <button id="show-prescriptions-button" type="submit"
+                                                class="btn btn-primary btn-sm" value="Prescriptions"
+                                                style="background-color: yellowgreen"
+                                                title="Show patient's prescriptions">
+                                            <i class="fas fa-tablets"></i>
+                                        </button>
+                                    </form:form>
+                                </div>
+                                <div style='margin-left:10px'>
+                                    <form:form
+                                            action="${pageContext.request.contextPath}/doctor/show-patient-treatment-events/${pat.patientId}"
+                                            method="get">
+                                        <button id="show-treatment-events-button" type="submit"
+                                                class="btn btn-primary btn-sm"
+                                                value="Treatment Events"
+                                                style="background-color: yellowgreen"
+                                                title="Show patient's treatment events">
+                                            <i class="fas fa-list-ul"></i>
+                                        </button>
+                                    </form:form>
+                                </div>
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody class="table table-hover">
-                        <c:forEach items="${doctorsPatients}" var="pat" varStatus="status">
-                            <tr>
-                                <td>${status.count}</td>
-                                <td>${pat.name}</td>
-                                <td>${pat.gender.toString()}</td>
-                                <td>${pat.age}</td>
-                                <td>${pat.phone}</td>
-                                <td>${pat.insuranceCompany}</td>
-                                <td>${pat.insurancePolicyCode}</td>
-                                <td class="text-right row padding-right: 5px">
-                                    <div style='margin-left:10px'>
-                                        <form:form
-                                                action="${pageContext.request.contextPath}/doctor/medical-record/${pat.patientId}"
-                                                method="get">
-                                            <button type="submit" class="btn btn-primary btn-sm" value="Medical Record"
-                                                    style="background-color: yellowgreen"
-                                                    title="Show patient's medical record">
-                                                <i class="fas fa-file-medical-alt"></i>
-                                            </button>
-                                        </form:form>
-                                    </div>
-                                    <div style='margin-left:10px'>
-                                        <form:form
-                                                action="${pageContext.request.contextPath}/doctor/show-prescription/${pat.patientId}"
-                                                method="get">
-                                            <button type="submit" class="btn btn-primary btn-sm" value="Prescriptions"
-                                                    style="background-color: yellowgreen"
-                                                    title="Show patient's prescriptions">
-                                                <i class="fas fa-tablets"></i>
-                                            </button>
-                                        </form:form>
-                                    </div>
-                                    <div style='margin-left:10px'>
-                                        <form:form
-                                                action="${pageContext.request.contextPath}/doctor/show-patient-treatment-events/${pat.patientId}"
-                                                method="get">
-                                            <button type="submit" class="btn btn-primary btn-sm"
-                                                    value="Treatment Events"
-                                                    style="background-color: yellowgreen"
-                                                    title="Show patient's treatment events">
-                                                <i class="fas fa-list-ul"></i>
-                                            </button>
-                                        </form:form>
-                                    </div>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+                    </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

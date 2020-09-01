@@ -192,7 +192,7 @@
                                 <div class="col-md-3" style="color: darkred; font-weight: 400">
                                     Main Disease:
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-5" id="main-disease">
                                         ${diagnosis.mainDisease}
                                 </div>
                             </div>
@@ -226,7 +226,7 @@
                                 <form:form
                                         action="${pageContext.request.contextPath}/doctor/edit-clinical-diagnosis/${diagnosis.clinicalDiagnosisId}"
                                         method="get">
-                                    <button type="submit" class="btn btn-primary btn-sm"
+                                    <button id="edit-diagnosis-button" type="submit" class="btn btn-primary btn-sm"
                                             style="background-color: yellowgreen">
                                         <i class="fas fa-edit"> Edit</i>
                                     </button>

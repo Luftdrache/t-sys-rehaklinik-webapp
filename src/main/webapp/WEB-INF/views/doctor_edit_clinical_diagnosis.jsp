@@ -109,7 +109,7 @@
                             </div>
                         </div>
                         <div style="padding-left: 50%">
-                            <input type="submit" class="btn login_btn" value="Edit"
+                            <input id="submit-edit-diagnosis" type="submit" class="btn login_btn" value="Edit"
                                    style="background-color: orange; opacity: 0.9;"/>
                         </div>
                     </c:if>

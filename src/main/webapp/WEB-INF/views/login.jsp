@@ -43,7 +43,7 @@
     </div>
     <div class="error" style="left: 43%; top: 34%; width: 20%; position: absolute;">
         <c:if test="${param.error != null}">
-            <i>You entered invalid <br> username or password</i>
+            <i id="error-message">You entered invalid <br> username or password</i>
         </c:if>
     </div>
     <div style="left: 41%; top: 44%; width: 22%; position: absolute;">
@@ -67,7 +67,7 @@
                 </label>
             </div>
             <div class="form-group" style="position: center">
-                <input type="submit" value="Sign in" class="btn login_btn"
+                <input id="sign-in-button" type="submit" value="Sign in" class="btn login_btn"
                        style="background-color: orange; margin-left: 24%; opacity: 0.9">
             </div>
         </form:form>

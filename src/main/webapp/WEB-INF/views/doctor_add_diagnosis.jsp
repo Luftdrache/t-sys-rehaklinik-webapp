@@ -63,9 +63,10 @@
             <div content="container" class="col-sm-8 col-sm-offset-2"
                  style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
                 <form:form action="${pageContext.request.contextPath}/doctor/medical-record/add-diagnosis/${medrec}"
-                      method="post"
-                      class="form-horizontal"
-                      role="form">
+                           id="add-diagnosis-form"
+                           method="post"
+                           class="form-horizontal"
+                           role="form">
                     <div style="padding-left: 20%">
                         <h2>Specify Diagnosis</h2>
                         <span class="help-block">*Required fields</span>
@@ -115,7 +116,7 @@
                         </div>
                     </div>
                     <div style="padding-left: 50%">
-                        <input type="submit" class="btn login_btn" value="Set Diagnosis"
+                        <input id="set-new-diagnosis" type="submit" class="btn login_btn" value="Set Diagnosis"
                                style="background-color: orange; opacity: 0.9;"/>
                     </div>
                 </form:form>

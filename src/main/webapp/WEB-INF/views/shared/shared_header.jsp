@@ -4,8 +4,9 @@
         <ul>
             <li>
                 <form:form action="${pageContext.request.contextPath}/logout" method="post">
-                <input type="submit" value="Sign out" class="btn login_btn"
-                       style="background-color: orange; padding: 5px; margin-top: 15px">
+                    <input type="submit" value="Sign out" class="btn login_btn" id="sign_out_button"
+                           name="sign_out_button"
+                           style="background-color: orange; padding: 5px; margin-top: 15px">
                 </form:form>
             </li>
         </ul>
