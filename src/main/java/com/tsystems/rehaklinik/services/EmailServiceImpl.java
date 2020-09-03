@@ -25,10 +25,9 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender emailSender;
     private final PDFGenerator pdfGenerator;
 
-
-    private final static String SENDER = "REHAKLINIK";
-    private final static String EMAIL_TITLE = "Rehaklinik info: get your treatment details";
-    private final static String FILE_NAME = "Rehaklinik Treatment Details Report.pdf";
+    private static final String SENDER = "REHAKLINIK";
+    private static final String EMAIL_TITLE = "Rehaklinik info: get your treatment details";
+    private static final String FILE_NAME = "Rehaklinik Treatment Details Report.pdf";
 
     @Override
     public boolean sendEmail() {

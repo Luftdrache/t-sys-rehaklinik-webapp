@@ -86,7 +86,7 @@ public class ReceptionServiceImpl implements ReceptionService {
         logger.info("MedHelper_LOGS: In ReceptionServiceImpl --> in deletePatientById() method");
         boolean result = patientDAO.deletePatient(id);
         if (result) {
-            return "patient with id = " + id + "deleted successfully";
+            return "patient with id = " + id + " deleted successfully";
         }
         return "Failed attempt to delete patient with id = " + id + " (patient does not exist)";
     }

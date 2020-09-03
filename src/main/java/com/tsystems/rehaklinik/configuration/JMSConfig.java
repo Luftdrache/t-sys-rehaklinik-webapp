@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter;
 import org.springframework.jms.core.JmsTemplate;
 
@@ -18,6 +19,7 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan(basePackages = "com.tsystems.rehaklinik")
+@EnableJms
 @PropertySource("classpath:jms.properties")
 public class JMSConfig {
 

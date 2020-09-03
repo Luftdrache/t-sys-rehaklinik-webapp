@@ -10,17 +10,17 @@ import static com.tsystems.rehaklinik.fillers.AuthenticationDataFiller.getAuthen
 
 
 public class EmployeeFiller {
-    public static final int ID = 1;
-    public static final String FIRST_NAME = "Robert";
-    public static final String SURNAME = "Young";
-    public static final LocalDate BIRTHDAY = LocalDate.of(1988, 07, 12);
-    public static final String PHONE_NUMBER = "(020) 1234-1726";
-    public static final String ADDRESS = "294 King Street London SE47 3FO";
-    public static final String EMAIL = "robertyoung@rehaklinik.com";
-    public static final String PASSPORT_ID = "1234879345";
-    public static final String POSITION = "Cardiologist";
-    public static final QualificationCategories CATEGORY = QualificationCategories.FIRST;
-    public static final Roles ROLE = Roles.DOCTOR;
+    private static final int ID = 1;
+    private static final String FIRST_NAME = "Albert";
+    private static final String SURNAME = "Young";
+    private static final LocalDate BIRTHDAY = LocalDate.of(1988, 10, 12);
+    private static final String PHONE_NUMBER = "(020) 1234-1726";
+    private static final String ADDRESS = "294 King Street London SE47 3FO";
+    private static final String EMAIL = "robertyoung@rehaklinik.com";
+    private static final String PASSPORT_ID = "1234879345";
+    private static final String POSITION = "Cardiologist";
+    private static final QualificationCategories CATEGORY = QualificationCategories.FIRST;
+    private static final Roles ROLE = Roles.DOCTOR;
 
     public EmployeeFiller() {
     }

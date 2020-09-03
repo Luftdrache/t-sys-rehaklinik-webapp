@@ -29,7 +29,7 @@ public class AdminServiceImpl implements AdminService {
     private static Logger logger = LoggerFactory.getLogger(AdminServiceImpl.class);
 
     private EmployeeDAO employeeDAO;
-    private final PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
 
     @Override

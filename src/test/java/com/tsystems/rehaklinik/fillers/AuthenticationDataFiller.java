@@ -3,9 +3,9 @@ package com.tsystems.rehaklinik.fillers;
 import com.tsystems.rehaklinik.entities.AuthenticationData;
 
 public class AuthenticationDataFiller {
-    public static final int ID = 1;
-    public static final String USERNAME = "robertyoung";
-    public static final String PASSWORD = "robertyoung";
+    private static final int ID = 1;
+    private static final String USERNAME = "albertyoung";
+    private static final String PASSWORD = "albertyoung";
 
     public AuthenticationDataFiller() {
     }
