@@ -1,5 +1,7 @@
 package com.tsystems.rehaklinik.fillers;
 
+import com.tsystems.rehaklinik.dto.AuthenticationDataDTO;
+import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.types.QualificationCategories;
 import com.tsystems.rehaklinik.types.Roles;
@@ -40,6 +42,23 @@ public class EmployeeFiller {
         employee.setRole(ROLE);
         employee.setAuthenticationDataEmployee(getAuthenticationData());
         return employee;
+    }
+
+    public static EmployeeDTO getEmployeeDTO() {
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setEmployeeId(ID);
+        employeeDTO.setFirstName(FIRST_NAME);
+        employeeDTO.setSurname(SURNAME);
+        employeeDTO.setDateOfBirth(BIRTHDAY);
+        employeeDTO.setPhoneNumber(PHONE_NUMBER);
+        employeeDTO.setAddress(ADDRESS);
+        employeeDTO.setEmail(EMAIL);
+        employeeDTO.setPassportId(PASSPORT_ID);
+        employeeDTO.setPosition(POSITION);
+        employeeDTO.setQualificationCategory(CATEGORY);
+        employeeDTO.setRole(ROLE);
+        employeeDTO.setAuthenticationDataEmployee(AuthenticationDataFiller.getAuthenticationDataDTO());
+        return employeeDTO;
     }
 }
 

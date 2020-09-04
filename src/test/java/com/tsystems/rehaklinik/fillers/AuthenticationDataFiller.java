@@ -1,5 +1,6 @@
 package com.tsystems.rehaklinik.fillers;
 
+import com.tsystems.rehaklinik.dto.AuthenticationDataDTO;
 import com.tsystems.rehaklinik.entities.AuthenticationData;
 
 public class AuthenticationDataFiller {
@@ -12,6 +13,14 @@ public class AuthenticationDataFiller {
 
     public static AuthenticationData getAuthenticationData() {
         AuthenticationData authenticationData = new AuthenticationData();
+        authenticationData.setAuthenticationDataId(ID);
+        authenticationData.setUsername(USERNAME);
+        authenticationData.setPassword(PASSWORD);
+        return authenticationData;
+    }
+
+    public static AuthenticationDataDTO getAuthenticationDataDTO() {
+        AuthenticationDataDTO authenticationData = new AuthenticationDataDTO();
         authenticationData.setAuthenticationDataId(ID);
         authenticationData.setUsername(USERNAME);
         authenticationData.setPassword(PASSWORD);

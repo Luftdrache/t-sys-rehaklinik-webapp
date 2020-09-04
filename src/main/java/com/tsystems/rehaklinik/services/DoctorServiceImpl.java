@@ -25,13 +25,13 @@ public class DoctorServiceImpl implements DoctorService {
 
     private static Logger logger = LoggerFactory.getLogger(DoctorServiceImpl.class);
 
-    private final PatientDAO patientDAO;
-    private final MedicalRecordDAO medicalRecordDAO;
-    private final ClinicalDiagnosisDAO clinicalDiagnosisDAO;
-    private final PrescriptionDAO prescriptionDAO;
-    private final TreatmentEventGenerationService treatmentEventGenerationService;
-    private final TreatmentEventDAO treatmentEventDAO;
-    private final MessageSender messageSender;
+    private PatientDAO patientDAO;
+    private MedicalRecordDAO medicalRecordDAO;
+    private ClinicalDiagnosisDAO clinicalDiagnosisDAO;
+    private PrescriptionDAO prescriptionDAO;
+    private TreatmentEventGenerationService treatmentEventGenerationService;
+    private TreatmentEventDAO treatmentEventDAO;
+    private MessageSender messageSender;
 
 
     @Override
@@ -150,7 +150,6 @@ public class DoctorServiceImpl implements DoctorService {
         return false;
     }
 
-
     @Override
     public boolean cancelTreatmentEvent(int tEventId) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in cancelTreatmentEvent() method");
@@ -178,7 +177,6 @@ public class DoctorServiceImpl implements DoctorService {
         return false;
     }
 
-
     @Override
     public ClinicalDiagnosisDTO editClinicalDiagnosis(ClinicalDiagnosisDTO clinicalDiagnosisDTO) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in editClinicalDiagnosis() method");
@@ -188,7 +186,6 @@ public class DoctorServiceImpl implements DoctorService {
         clinicalDiagnoseToEdit.setMedicalRecord(medicalRecord);
         return ClinicalDiagnoseDTOConverter.toDTO(clinicalDiagnosisDAO.updateClinicalDiagnosis(clinicalDiagnoseToEdit));
     }
-
 
     @Override
     public MedicalRecordDTO setHospitalisation(MedicalRecordDTO medicalRecordDTO) {
@@ -218,14 +215,12 @@ public class DoctorServiceImpl implements DoctorService {
         return medicalRecordDTO;
     }
 
-
     @Override
     public ClinicalDiagnosisDTO getClinicalDiagnosis(int clinicalDiagnoseId) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in getClinicalDiagnosisDTO() method");
         ClinicalDiagnose clinicalDiagnose = clinicalDiagnosisDAO.getClinicalDiagnosisById(clinicalDiagnoseId);
         return ClinicalDiagnoseDTOConverter.toDTO(clinicalDiagnose);
     }
-
 
     @Override
     public MedicalRecordDTO setNewDiagnosis(ClinicalDiagnosisDTO clinicalDiagnosisDTO, int medRecordId) {
@@ -245,25 +240,22 @@ public class DoctorServiceImpl implements DoctorService {
             clinicalDiagnosisDTOSet.add(ClinicalDiagnoseMapper.INSTANCE.toDTO(cd));
         }
         medicalRecordDTO.setClinicalDiagnosis(clinicalDiagnosisDTOSet);
-
         return medicalRecordDTO;
     }
-
 
     @Override
     public boolean deleteClinicalDiagnosisById(int clinicalDiagnosisId) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in deleteClinicalDiagnosisById() method");
         ClinicalDiagnose clinicalDiagnose = clinicalDiagnosisDAO.getClinicalDiagnosisById(clinicalDiagnosisId);
-        MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(
-                clinicalDiagnose.getMedicalRecord().getMedicalRecordId());
-        medicalRecord.setClinicalDiagnosis(null);
         if (clinicalDiagnose != null) {
+            MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(
+                    clinicalDiagnose.getMedicalRecord().getMedicalRecordId());
+            medicalRecord.setClinicalDiagnosis(null);
             clinicalDiagnose.setMedicalRecord(null);
             return clinicalDiagnosisDAO.deleteClinicalDiagnosis(clinicalDiagnose);
         }
         return false;
     }
-
 
     @Override
     public List<PatientShortViewDTO> findPatientBySurname(String surname) {
@@ -278,14 +270,12 @@ public class DoctorServiceImpl implements DoctorService {
         return patientShortViewDTOS;
     }
 
-
     @Override
     public PrescriptionTreatmentPatternDTO findPrescriptionById(int prescriptionId) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in PrescriptionTreatmentPatternDTO() method");
         Prescription prescription = prescriptionDAO.findPrescriptionById(prescriptionId);
         return new PrescriptionTreatmentPatternDTO(prescription);
     }
-
 
     @Override
     public List<PrescriptionShortViewDTO> findAllPatientsPrescription(int patientId) {
@@ -320,7 +310,7 @@ public class DoctorServiceImpl implements DoctorService {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in findTreatmentEventByName() method");
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findTreatmentEventByName(tEventName);
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
-        if (treatmentEventList.isEmpty()) {
+        if (!treatmentEventList.isEmpty()) {
             for (TreatmentEvent tEvent : treatmentEventList) {
                 treatmentEventDTOList.add(new TreatmentEventDTO(tEvent));
             }

@@ -8,7 +8,6 @@ import com.tsystems.rehaklinik.dto.PatientShortViewDTO;
 import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.entities.Patient;
 import com.tsystems.rehaklinik.fillers.EmployeeFiller;
-import com.tsystems.rehaklinik.fillers.PatientDTOFiller;
 import com.tsystems.rehaklinik.fillers.PatientFiller;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,7 +54,7 @@ class ReceptionServiceTest {
             patient.setSurname("Fletcher");
             return patient;
         });
-        PatientDTO patientDTO = PatientDTOFiller.getPatientDTO();
+        PatientDTO patientDTO = PatientFiller.getPatientDTO();
         PatientDTO createdPatient = receptionService.addNewPatient(patientDTO);
         assertNotNull(createdPatient);
         assertEquals(2, createdPatient.getPatientId());
@@ -73,7 +72,7 @@ class ReceptionServiceTest {
             patient.setInsurancePolicyCode("AB886749123SG");
             return patient;
         });
-        PatientDTO patientDTO = PatientDTOFiller.getPatientDTO();
+        PatientDTO patientDTO = PatientFiller.getPatientDTO();
         assertEquals("Viva Medicare", patientDTO.getInsuranceCompany());
         PatientDTO editedPatient = receptionService.editPatient(patientDTO);
         assertNotNull(editedPatient);

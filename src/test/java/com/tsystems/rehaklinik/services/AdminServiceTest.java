@@ -1,7 +1,6 @@
 package com.tsystems.rehaklinik.services;
 
 import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
-import com.tsystems.rehaklinik.fillers.EmployeeDTOFiller;
 import com.tsystems.rehaklinik.fillers.EmployeeFiller;
 import com.tsystems.rehaklinik.dao.EmployeeDAO;
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
@@ -49,7 +48,7 @@ class AdminServiceTest {
             employee.setPosition("Cardiologist");
             return employee;
         });
-        EmployeeDTO employeeDTO = EmployeeDTOFiller.getEmployeeDTO();
+        EmployeeDTO employeeDTO = EmployeeFiller.getEmployeeDTO();
         EmployeeDTO createdEmployee = adminService.addNewEmployee(employeeDTO);
         assertNotNull(createdEmployee);
         assertEquals("Albert", createdEmployee.getFirstName());
@@ -66,13 +65,12 @@ class AdminServiceTest {
             employee.setSurname("Robertson");
             return employee;
         });
-        EmployeeDTO employeeDTO = EmployeeDTOFiller.getEmployeeDTO();
+        EmployeeDTO employeeDTO = EmployeeFiller.getEmployeeDTO();
         assertEquals("Young", employeeDTO.getSurname());
         EmployeeDTO editedEmployee = adminService.editEmployee(employeeDTO);
         assertNotNull(editedEmployee);
         assertEquals("Robertson", editedEmployee.getSurname());
     }
-
 
     @Test
     void deleteEmployeeById_should_return_successful_message() {
