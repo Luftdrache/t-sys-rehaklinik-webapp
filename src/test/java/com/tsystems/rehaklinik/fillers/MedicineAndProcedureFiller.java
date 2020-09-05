@@ -1,5 +1,6 @@
 package com.tsystems.rehaklinik.fillers;
 
+import com.tsystems.rehaklinik.dto.MedicineAndProcedureDTO;
 import com.tsystems.rehaklinik.entities.MedicineAndProcedure;
 import com.tsystems.rehaklinik.entities.TreatmentEvent;
 import com.tsystems.rehaklinik.types.TreatmentType;
@@ -15,6 +16,14 @@ public class MedicineAndProcedureFiller {
         medicineAndProcedure.setMedicineProcedureName(NAME);
         medicineAndProcedure.setTreatmentType(TYPE);
         return medicineAndProcedure;
+    }
+
+    public static MedicineAndProcedureDTO getMedicineAndProcedureDTO() {
+        MedicineAndProcedureDTO medicineAndProcedureDTO = new MedicineAndProcedureDTO();
+        medicineAndProcedureDTO.setMedicineProcedureId(ID);
+        medicineAndProcedureDTO.setMedicineProcedureName(NAME);
+        medicineAndProcedureDTO.setTreatmentType(TYPE);
+        return medicineAndProcedureDTO;
     }
 
 }

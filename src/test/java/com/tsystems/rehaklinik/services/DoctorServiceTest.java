@@ -1,12 +1,12 @@
 package com.tsystems.rehaklinik.services;
 
-import com.tsystems.rehaklinik.converters.DTOconverters.ClinicalDiagnoseDTOConverter;
 import com.tsystems.rehaklinik.dao.*;
 import com.tsystems.rehaklinik.dto.*;
 import com.tsystems.rehaklinik.entities.*;
 import com.tsystems.rehaklinik.fillers.*;
 import com.tsystems.rehaklinik.jms.MessageSender;
 import com.tsystems.rehaklinik.types.EventStatus;
+import com.tsystems.rehaklinik.types.HospitalStayStatus;
 import com.tsystems.rehaklinik.types.PrescriptionStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,11 +18,13 @@ import org.mockito.quality.Strictness;
 import org.mockito.stubbing.Answer;
 import org.slf4j.Logger;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.validation.constraints.AssertTrue;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -53,25 +55,73 @@ class DoctorServiceTest {
     private Logger mockLogger;
     @Mock
     Authentication authentication;
+    @Mock
+    SecurityContext securityContext;
+
 
     @InjectMocks
     private DoctorServiceImpl doctorService;
 
 
     @Test
-    void setHospitalisation() {
-
+    void setHospitalisation_should_change_hospitalisation_status() {
+        Patient patient = PatientFiller.getPatient();
+        given(patientDAO.findPatientById(TEST_ID)).willReturn(patient);
+        Set<ClinicalDiagnose> clinicalDiagnosisSet = new HashSet<>();
+        clinicalDiagnosisSet.add(ClinicalDiagnosisFiller.getClinicalDiagnosis());
+        given(clinicalDiagnosisDAO.getAllPatientClinicalDiagnosis(TEST_ID)).willReturn(clinicalDiagnosisSet);
+        when(medicalRecordDAO.updateMedicalRecord(any(MedicalRecord.class)))
+                .thenAnswer((Answer<MedicalRecord>) invocation -> {
+                    MedicalRecord medicalRecord = (MedicalRecord) invocation.getArguments()[0];
+                    medicalRecord.setClinicalDiagnosis(clinicalDiagnosisSet);
+                    medicalRecord.setHospitalStayStatus(HospitalStayStatus.DISCHARGED);
+                    return medicalRecord;
+                });
+        MedicalRecordDTO medicalRecordDTO = MedicalRecordFiller.getMedicalRecordDTO();
+        medicalRecordDTO.setHospitalStayStatus(HospitalStayStatus.DISCHARGED);
+        MedicalRecordDTO updated = doctorService.setHospitalisation(medicalRecordDTO);
+        assertEquals(HospitalStayStatus.DISCHARGED, updated.getHospitalStayStatus());
     }
 
 
     @Test
-    void addPrescription() {
+    void editPrescription_should_return_updated_prescription() {
+        Prescription prescription = PrescriptionFiller.getPrescription();
+        given(prescriptionDAO.findPrescriptionById(TEST_ID)).willReturn(prescription);
+        given(prescriptionDAO.updatePrescription(prescription)).willAnswer((Answer<Prescription>) invocation -> {
+            Prescription updated = (Prescription) invocation.getArguments()[0];
+            updated.setDose("100 mg");
+            return updated;
+        });
+
+        List<TreatmentEvent> treatmentEventList = new ArrayList<>();
+        TreatmentEvent treatmentEvent = TreatmentEventFiller.getTreatmentEvent();
+        treatmentEventList.add(treatmentEvent);
+        given(treatmentEventDAO.findPlannedTreatmentEventsByPrescriptionId(TEST_ID)).willReturn(treatmentEventList);
+        given(treatmentEventDAO.deletePrescriptionPlannedTreatmentEvents(treatmentEventList)).willReturn(false);
+
+        PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO = PrescriptionFiller.getPrescriptionTreatmentPatternDTO();
+        assertEquals("50 mg", prescriptionTreatmentPatternDTO.getDose());
+        PrescriptionShortViewDTO prescriptionShortViewDTO = doctorService.editPrescription(prescriptionTreatmentPatternDTO);
+        assertEquals(TEST_ID, prescriptionShortViewDTO.getPrescriptionId());
+        assertEquals("100 mg", prescriptionShortViewDTO.getDose());
     }
 
+
     @Test
-    void editPrescription() {
-
-
+    void addPrescription_should_return_created_prescription() {
+        given(prescriptionDAO.createPrescription(any(Prescription.class))).willAnswer((Answer<Prescription>) invocation -> {
+            Prescription prescription = (Prescription) invocation.getArguments()[0];
+            prescription.setPrescriptionStatus(PrescriptionStatus.TBD);
+            return prescription;
+        });
+        messageSender.send("Updated");
+        PrescriptionDTO prescriptionDTO = PrescriptionFiller.getPrescriptionDTO();
+        doctorService.addPrescription(prescriptionDTO);
+        assertEquals(prescriptionDTO.getPrescriptionId(),
+                doctorService.addPrescription(prescriptionDTO).getPrescriptionId());
+        assertEquals(PrescriptionStatus.TBD,
+                doctorService.addPrescription(prescriptionDTO).getPrescriptionStatus());
     }
 
 
@@ -189,19 +239,17 @@ class DoctorServiceTest {
     @Test
     void findPatients_should_return_doctor_all_his_patients() {
         mockLogger.info("Logging");
+        given(securityContext.getAuthentication()).willReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        AuthenticationData authenticationData = AuthenticationDataFiller.getAuthenticationData();
+        authenticationData.setEmployee(EmployeeFiller.getEmployee());
+        given(authentication.getPrincipal()).willReturn(authenticationData);
         List<Patient> allDoctorsPatients = new ArrayList<>();
         allDoctorsPatients.add(PatientFiller.getPatient());
         given(patientDAO.findPatientByDoctorId(TEST_ID)).willReturn(allDoctorsPatients);
-        List<Patient> foundPatients = patientDAO.findPatientByDoctorId(TEST_ID);
-        assertEquals(TEST_ID, foundPatients.get(0).getAttendingDoctorId().getEmployeeId());
-    }
-
-    @Test
-    void findPatients_should_return_an_empty_list() {
-        List<Patient> allDoctorsPatients = new ArrayList<>();
-        given(patientDAO.findPatientByDoctorId(TEST_ID)).willReturn(allDoctorsPatients);
-        List<Patient> foundPatients = patientDAO.findPatientByDoctorId(TEST_ID);
-        assertTrue(foundPatients.isEmpty());
+        List<PatientShortViewDTO> foundPatients = doctorService.findPatients();
+        System.out.println();
+        assertFalse(foundPatients.isEmpty());
     }
 
     @Test

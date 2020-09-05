@@ -1,5 +1,6 @@
 package com.tsystems.rehaklinik.fillers;
 
+import com.tsystems.rehaklinik.dto.TreatmentTimePatternDTO;
 import com.tsystems.rehaklinik.entities.Prescription;
 import com.tsystems.rehaklinik.entities.TreatmentTimePattern;
 
@@ -10,5 +11,11 @@ public class TreatmentTimePatternFiller {
         TreatmentTimePattern treatmentTimePattern = new TreatmentTimePattern();
         treatmentTimePattern.setTreatmentTimePatternId(ID);
         return treatmentTimePattern;
+    }
+
+    public static TreatmentTimePatternDTO getPTreatmentTimePatternDTO() {
+        TreatmentTimePatternDTO treatmentTimePatternDTO = new TreatmentTimePatternDTO();
+        treatmentTimePatternDTO.setTreatmentTimePatternId(ID);
+        return treatmentTimePatternDTO;
     }
 }
