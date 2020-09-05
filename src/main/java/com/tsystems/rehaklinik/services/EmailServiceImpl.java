@@ -22,8 +22,8 @@ public class EmailServiceImpl implements EmailService {
 
     private static Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
 
-    private final JavaMailSender emailSender;
-    private final PDFGenerator pdfGenerator;
+    private JavaMailSender emailSender;
+    private PDFGenerator pdfGenerator;
 
     private static final String SENDER = "REHAKLINIK";
     private static final String EMAIL_TITLE = "Rehaklinik info: get your treatment details";

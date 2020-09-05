@@ -32,7 +32,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
 class DoctorServiceTest {
 
     private final static int TEST_ID = 1;
@@ -54,9 +53,9 @@ class DoctorServiceTest {
     @Mock
     private Logger mockLogger;
     @Mock
-    Authentication authentication;
+    private Authentication authentication;
     @Mock
-    SecurityContext securityContext;
+    private SecurityContext securityContext;
 
 
     @InjectMocks
@@ -70,8 +69,8 @@ class DoctorServiceTest {
         Set<ClinicalDiagnose> clinicalDiagnosisSet = new HashSet<>();
         clinicalDiagnosisSet.add(ClinicalDiagnosisFiller.getClinicalDiagnosis());
         given(clinicalDiagnosisDAO.getAllPatientClinicalDiagnosis(TEST_ID)).willReturn(clinicalDiagnosisSet);
-        when(medicalRecordDAO.updateMedicalRecord(any(MedicalRecord.class)))
-                .thenAnswer((Answer<MedicalRecord>) invocation -> {
+        given(medicalRecordDAO.updateMedicalRecord(any(MedicalRecord.class)))
+                .willAnswer((Answer<MedicalRecord>) invocation -> {
                     MedicalRecord medicalRecord = (MedicalRecord) invocation.getArguments()[0];
                     medicalRecord.setClinicalDiagnosis(clinicalDiagnosisSet);
                     medicalRecord.setHospitalStayStatus(HospitalStayStatus.DISCHARGED);

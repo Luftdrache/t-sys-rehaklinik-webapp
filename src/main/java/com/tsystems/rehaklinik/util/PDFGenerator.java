@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamSource;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
@@ -40,7 +41,7 @@ public class PDFGenerator {
     private static final Font PLAIN_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL);
 
 
-    public ByteArrayResource generatePDF(int patientId, String patientName) {
+    public  InputStreamSource generatePDF(int patientId, String patientName) {
         logger.info("MedHelper_LOGS: In PDFGenerator: starting to generate a PDF");
         Document pdf = new Document(PageSize.A4.rotate());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
