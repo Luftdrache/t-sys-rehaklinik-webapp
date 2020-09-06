@@ -44,11 +44,15 @@ public class DoctorController {
     private static final String EDIT_CLINICAL_DIAGNOSIS_JSP = "doctor_edit_clinical_diagnosis";
     private static final String SHOW_PATIENT_TREATMENT_EVENTS_JSP = "doctor_patient_treatment_events";
     private static final String TREATMENT_EVENT_DETAILS_JSP = "nurse_event_details";
+    private static final String REDIRECT_TO_PRESCRIPTION_DETAILS_JSP = "redirect:/doctor/show-prescription/";
+    private static final String REDIRECT_TO_TREATMENT_EVENTS_JSP = "redirect:/doctor/show-patient-treatment-events/";
+    private static final String REDIRECT_TO_MEDICAL_RECORD_JSP = "redirect:/doctor/medical-record/";
 
     private static final String MESSAGE = "message";
     private static final String TREATMENT_EVENT_LIST = "treatmentEventList";
     private static final String MEDICAL_RECORD = "medicalRecord";
     private static final String MEDICAL_RECORD_ID = "medrec";
+
 
     /**
      * Returns main doctor's page with his patient list on it. Start page.
@@ -118,7 +122,7 @@ public class DoctorController {
             logger.info("MedHelper_LOGS: DoctorController: addPrescription(POST): failed attempt to add " +
                     "new prescription");
         }
-        return "redirect:/doctor/show-prescription/" + id;
+        return REDIRECT_TO_PRESCRIPTION_DETAILS_JSP + id;
     }
 
 
@@ -186,7 +190,7 @@ public class DoctorController {
         } else {
             logger.info("MedHelper_LOGS: deletePrescriptionById() action was completed successfully");
         }
-        return "redirect:/doctor/show-prescription/" + patientId;
+        return REDIRECT_TO_PRESCRIPTION_DETAILS_JSP + patientId;
     }
 
 
@@ -225,7 +229,7 @@ public class DoctorController {
         }
         int patientId = prescriptionTreatmentPatternDTO.getPatientId();
         doctorService.editPrescription(prescriptionTreatmentPatternDTO);
-        return "redirect:/doctor/show-prescription/" + patientId;
+        return REDIRECT_TO_PRESCRIPTION_DETAILS_JSP + patientId;
     }
 
 
@@ -243,7 +247,7 @@ public class DoctorController {
         logger.info("MedHelper_LOGS: In DoctorController - handler method cancelSelectedPrescription(), POST");
         boolean opCancellingResult = doctorService.cancelPrescription(prescriptionIdToCancel);
         logger.info("Cancelling result: {}", opCancellingResult);
-        return "redirect:/doctor/show-prescription/" + patientId;
+        return REDIRECT_TO_PRESCRIPTION_DETAILS_JSP + patientId;
     }
 
 
@@ -300,7 +304,7 @@ public class DoctorController {
         }
         MedicalRecordDTO medicalRecord = doctorService.setNewDiagnosis(clinicalDiagnosis, medRecordId);
         modelMap.addAttribute(MEDICAL_RECORD, medicalRecord);
-        return "redirect:/doctor/medical-record/" + medRecordId;
+        return REDIRECT_TO_MEDICAL_RECORD_JSP + medRecordId;
     }
 
     /**
@@ -338,7 +342,7 @@ public class DoctorController {
         }
         doctorService.editClinicalDiagnosis(clinicalDiagnosisDTO);
         int medicalRecordId = clinicalDiagnosisDTO.getMedicalRecord().getMedicalRecordId();
-        return "redirect:/doctor/medical-record/" + medicalRecordId;
+        return REDIRECT_TO_MEDICAL_RECORD_JSP + medicalRecordId;
     }
 
 
@@ -355,7 +359,7 @@ public class DoctorController {
         logger.info("MedHelper_LOGS: In DoctorController - handler method deleteClinicalDiagnosisById(), POST");
         boolean deletingResult = doctorService.deleteClinicalDiagnosisById(cDiagnosisIdToDelete);
         logger.info("Deleting result: {}", deletingResult);
-        return "redirect:/doctor/medical-record/" + medRecId;
+        return REDIRECT_TO_MEDICAL_RECORD_JSP + medRecId;
     }
 
 
@@ -396,7 +400,7 @@ public class DoctorController {
         logger.info("MedHelper_LOGS: In DoctorController: set new data about hospitalisation");
         modelMap.addAttribute(MEDICAL_RECORD_ID, medRecordId);
         modelMap.addAttribute(MEDICAL_RECORD, medicalRecord);
-        return "redirect:/doctor/medical-record/" + medRecordId;
+        return REDIRECT_TO_MEDICAL_RECORD_JSP + medRecordId;
     }
 
     //-------------------- Other ----------------------------------------------------------
@@ -490,17 +494,17 @@ public class DoctorController {
      * @return page with treatment event's details
      */
     @GetMapping("/treatment-event-details/{id}")
-    public String showSelectedTreatmentDetails(
+    public String showTreatmentEventDetails(
             @PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController: handler method showSelectedTreatmentDetails(), GET");
 
         TreatmentEventDTO treatmentEventDTO = nurseService.findTreatmentEventById(id);
-        if (treatmentEventDTO != null) {
-            logger.info("MedHelper_LOGS: In DoctorController: handler method showSelectedTreatmentDetails() " +
-                    "returns treatment event found by id");
-            modelMap.addAttribute("treatmentEventDetails", treatmentEventDTO);
-        } else {
+        if (treatmentEventDTO == null) {
             modelMap.addAttribute(MESSAGE, "Treatment event with specified id was not found");
+        } else {
+            modelMap.addAttribute("treatmentEventDetails", treatmentEventDTO);
+            logger.info("MedHelper_LOGS: In DoctorController: showSelectedTreatmentDetails() " +
+                    "returns treatment event found by id");
         }
         return TREATMENT_EVENT_DETAILS_JSP;
     }
@@ -509,7 +513,7 @@ public class DoctorController {
     /**
      * Change treatment event's status to 'COMPLETED'
      *
-     * @param tEventId
+     * @param tEventId      treatment event's id
      * @param patientId     patient's id
      * @param bindingResult binding result
      * @param modelMap      ModelMap
@@ -530,7 +534,7 @@ public class DoctorController {
             modelMap.addAttribute(MESSAGE, "Failed to change treatment event status");
         }
         logger.info("MedHelper_LOGS: In DoctorController - Treatment event status changed to 'COMPLETED'");
-        return "redirect:/doctor/show-patient-treatment-events/" + patientId;
+        return REDIRECT_TO_TREATMENT_EVENTS_JSP + patientId;
     }
 
 
@@ -556,7 +560,7 @@ public class DoctorController {
         } else {
             logger.info("MedHelper_LOGS: deleteTreatmentEvent() action was completed successfully");
         }
-        return "redirect:/doctor/show-patient-treatment-events/" + patientId;
+        return REDIRECT_TO_TREATMENT_EVENTS_JSP + patientId;
     }
 
 
@@ -582,7 +586,7 @@ public class DoctorController {
             logger.info("MedHelper_LOGS: In DoctorController - Failed to cancel treatment event");
             modelMap.addAttribute(MESSAGE, "Failed to cancel treatment event");
         }
-        return "redirect:/doctor/show-patient-treatment-events/" + patientId;
+        return REDIRECT_TO_TREATMENT_EVENTS_JSP + patientId;
     }
 
 

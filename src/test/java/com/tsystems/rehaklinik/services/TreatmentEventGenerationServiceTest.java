@@ -1,14 +1,11 @@
 package com.tsystems.rehaklinik.services;
 
 import com.tsystems.rehaklinik.entities.Prescription;
-import com.tsystems.rehaklinik.entities.TreatmentEvent;
 import com.tsystems.rehaklinik.fillers.PrescriptionFiller;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -59,7 +59,7 @@ public class NurseServiceImpl implements NurseService {
         logger.info("MedHelper_LOGS: In NurseServiceImpl --> in getUrgentTreatmentEvents() method");
         List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findUrgentTreatmentEvents();
         if (treatmentEventList.isEmpty()) {
-            logger.info(treatmentEventList + " EMPTY");
+            logger.info("MedHelper_LOGS: In NurseServiceImpl --> treatmentEventList is empty");
         }
         List<TreatmentEventDTO> treatmentEventDTOList = new ArrayList<>();
         if (!treatmentEventList.isEmpty()) {

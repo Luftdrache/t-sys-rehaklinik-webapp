@@ -29,8 +29,23 @@
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.language>java</sonar.language>
-
-<!--        <sonar.jacoco.excludes>*webapp*</sonar.jacoco.excludes>-->
+        <sonar.sources>
+            src/main/java/com/tsystems/rehaklinik/services/,src/main/java/com/tsystems/rehaklinik/dao/,src/main/java/com/tsystems/rehaklinik/controllers,src/main/java/com/tsystems/rehaklinik/util
+        </sonar.sources>
+        <sonar.coverage.exclusions>
+            **src/main/java/com/tsystems/rehaklinik/configuration/*,
+            **src/main/java/com/tsystems/rehaklinik/controllers/rest/*,
+            **src/main/java/com/tsystems/rehaklinik/controllers/*,
+            **src/main/java/com/tsystems/rehaklinik/converters/**/*,
+            **src/main/java/com/tsystems/rehaklinik/dao/*,
+            **src/main/java/com/tsystems/rehaklinik/dto/*,
+            **src/main/java/com/tsystems/rehaklinik/entities/*,
+            **src/main/java/com/tsystems/rehaklinik/exceptions/*,
+            **src/main/java/com/tsystems/rehaklinik/jms/*,
+            **src/main/java/com/tsystems/rehaklinik/security/*,
+            **src/main/java/com/tsystems/rehaklinik/types/*,
+            **src/main/java/com/tsystems/rehaklinik/util/*
+        </sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
@@ -55,13 +70,13 @@
             <version>3.5.7</version>
             <scope>test</scope>
         </dependency>
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.mockito/mockito-core &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.mockito</groupId>-->
-<!--            <artifactId>mockito-core</artifactId>-->
-<!--            <version>3.5.6</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
+        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.mockito/mockito-core &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.mockito</groupId>-->
+        <!--            <artifactId>mockito-core</artifactId>-->
+        <!--            <version>3.5.6</version>-->
+        <!--            <scope>test</scope>-->
+        <!--        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/org.jacoco/org.jacoco.agent -->
         <dependency>
@@ -329,6 +344,11 @@
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.0.0-M4</version>
+                    <configuration>
+                        <excludes>
+
+                        </excludes>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>

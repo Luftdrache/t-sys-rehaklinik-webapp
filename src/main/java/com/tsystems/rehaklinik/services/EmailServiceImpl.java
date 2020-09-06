@@ -52,8 +52,8 @@ public class EmailServiceImpl implements EmailService {
             final InputStreamSource attachment = pdfGenerator.generatePDF(patientId, patientName);
             helper.addAttachment(FILE_NAME, attachment);
             emailSender.send(message);
-        } catch (MessagingException e) {
-            e.printStackTrace();
+        } catch (MessagingException exception) {
+            logger.error("MedHelper_LOGS: ERROR in EmailServiceImpl -->", exception.fillInStackTrace());
         }
         return true;
     }

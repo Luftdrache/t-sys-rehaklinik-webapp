@@ -1,10 +1,14 @@
 package com.tsystems.rehaklinik.util;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+
 
 public class BindingCheck {
 
@@ -15,14 +19,14 @@ public class BindingCheck {
      * Checks if there is any binding errors
      *
      * @param bindingResult the binding results
-     * @param modelMap ModelMap
+     * @param modelMap      ModelMap
      * @return boolean result
      */
     public static boolean bindingResultCheck(BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
-            for (Object object : bindingResult.getAllErrors()) {
-                if (object instanceof FieldError) {
-                    FieldError fieldError = (FieldError) object;
+            for (ObjectError objectError : bindingResult.getAllErrors()) {
+                if (objectError instanceof FieldError) {
+                    FieldError fieldError = (FieldError) objectError;
                     modelMap.addAttribute("message", "<p>Details: </p>" + fieldError.getDefaultMessage());
                     logger.error("BindingResult Error: {}. Details: {} ", fieldError.getCode(), fieldError.getDefaultMessage());
                     return true;
@@ -30,5 +34,8 @@ public class BindingCheck {
             }
         }
         return false;
+    }
+
+    private BindingCheck() {
     }
 }

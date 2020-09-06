@@ -207,9 +207,6 @@ public class AdminController {
         if (!employeesFoundBySurname.isEmpty()) {
             modelMap.addAttribute("allEmployees", employeesFoundBySurname);
             logger.info("MedHelper_LOGS: The employee(-s) with surname = {} was(were) found successfully", surname);
-            for (EmployeeShortViewDTO empl : employeesFoundBySurname) {
-                logger.info(empl.toString());
-            }
         } else {
             modelMap.addAttribute(MESSAGE, "There is no employee with surname = " + surname +
                     "  in database");

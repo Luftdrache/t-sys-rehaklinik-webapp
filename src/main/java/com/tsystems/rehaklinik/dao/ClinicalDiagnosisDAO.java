@@ -1,7 +1,6 @@
 package com.tsystems.rehaklinik.dao;
 
 import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
-import com.tsystems.rehaklinik.exceptions.WrongIdException;
 
 import java.util.Set;
 
@@ -46,7 +45,7 @@ public interface ClinicalDiagnosisDAO {
      * @param id clinical diagnosis id
      * @return clinical diagnosis found by id
      */
-    ClinicalDiagnose getClinicalDiagnosisById(int id) throws WrongIdException;
+    ClinicalDiagnose getClinicalDiagnosisById(int id);
 
 
     /**

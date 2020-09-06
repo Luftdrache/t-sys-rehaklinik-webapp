@@ -13,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -55,7 +54,7 @@ public class PatientController {
 
     @GetMapping("/send-email")
     public String sendInfoToPatientsEmail(ModelMap modelMap) {
-        boolean sendingEmailResult = emailService.sendEmail();
+        emailService.sendEmail();
         modelMap.addAttribute("message", "Information was send. Check your email.");
         return PATIENT_PAGE_JSP;
     }
