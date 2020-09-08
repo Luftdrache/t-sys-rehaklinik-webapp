@@ -38,7 +38,7 @@ public class TreatmentEventDTO {
     private String treatmentPeriodEndDate;
 
 
-    private static final String LONG_DASH = "&mdash;";
+    private static final String LONG_DASH = "--";
     private static final String WARD_NUMBER = "0";
 
     public TreatmentEventDTO(TreatmentEvent treatmentEvent) {

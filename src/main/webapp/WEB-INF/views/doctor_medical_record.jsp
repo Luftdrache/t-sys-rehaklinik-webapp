@@ -25,6 +25,8 @@
 </head>
 <body>
 <!--wrapper start-->
+<c:set var="docId" scope="page"><sec:authentication
+        property="principal.employee.employeeId"/></c:set>
 <div class="wrapper">
     <%@include file="shared/shared_header.jsp" %>
     <!--sidebar start-->
@@ -43,28 +45,32 @@
                         <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
                     </a>
                 </li>
-                <li class="item" id="#hospitalisation">
-                    <a href="${pageContext.request.contextPath}/doctor/medical-record/hospitalisation/${medicalRecord.medicalRecordId}"
-                       class="menu-btn"><i class="fas fa-procedures"></i><span>Hospitalisation</span>
-                    </a>
-                </li>
-                <li class="item" id="#add-diagnosis">
-                    <a href="${pageContext.request.contextPath}/doctor/medical-record/add-diagnosis/${medicalRecord.medicalRecordId}"
-                       class="menu-btn">
-                        <i class="fas fa-stethoscope"></i><span>Add diagnosis</span>
-                    </a>
-                </li>
+                <c:if test="${docId eq medicalRecord.patient.attendingDoctorId.employeeId}">
+                    <li class="item" id="#hospitalisation">
+                        <a href="${pageContext.request.contextPath}/doctor/medical-record/hospitalisation/${medicalRecord.medicalRecordId}"
+                           class="menu-btn"><i class="fas fa-procedures"></i><span>Hospitalisation</span>
+                        </a>
+                    </li>
+                    <li class="item" id="#add-diagnosis">
+                        <a href="${pageContext.request.contextPath}/doctor/medical-record/add-diagnosis/${medicalRecord.medicalRecordId}"
+                           class="menu-btn">
+                            <i class="fas fa-stethoscope"></i><span>Add diagnosis</span>
+                        </a>
+                    </li>
+                </c:if>
                 <li class="item" id="#show-prescriptions">
                     <a href="${pageContext.request.contextPath}/doctor/show-prescription/${medicalRecord.medicalRecordId}"
                        class="menu-btn"><i class="fas fa-prescription"></i>Prescriptions</span>
                     </a>
                 </li>
-                <li class="item" id="#add-prescription">
-                    <a href="${pageContext.request.contextPath}/doctor/add-prescription/${medicalRecord.medicalRecordId}"
-                       class="menu-btn">
-                        <i class="fas fa-tablets"></i><span>Add prescription</span>
-                    </a>
-                </li>
+                <c:if test="${docId eq medicalRecord.patient.attendingDoctorId.employeeId}">
+                    <li class="item" id="#add-prescription">
+                        <a href="${pageContext.request.contextPath}/doctor/add-prescription/${medicalRecord.medicalRecordId}"
+                           class="menu-btn">
+                            <i class="fas fa-tablets"></i><span>Add prescription</span>
+                        </a>
+                    </li>
+                </c:if>
                 <li class="item" id="#events">
                     <a href="${pageContext.request.contextPath}/doctor/show-patient-treatment-events/${medicalRecord.medicalRecordId}"
                        class="menu-btn">
@@ -221,31 +227,34 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" style="padding-top: 15px; padding-left: 30px">
-                            <div class="col-sm-offset-1">
-                                <form:form
-                                        action="${pageContext.request.contextPath}/doctor/edit-clinical-diagnosis/${diagnosis.clinicalDiagnosisId}"
-                                        method="get">
-                                    <button id="edit-diagnosis-button" type="submit" class="btn btn-primary btn-sm"
-                                            style="background-color: yellowgreen">
-                                        <i class="fas fa-edit"> Edit</i>
-                                    </button>
-                                </form:form>
+
+                        <c:if test="${docId eq medicalRecord.patient.attendingDoctorId.employeeId}">
+                            <div class="row" style="padding-top: 15px; padding-left: 30px">
+                                <div class="col-sm-offset-1">
+                                    <form:form
+                                            action="${pageContext.request.contextPath}/doctor/edit-clinical-diagnosis/${diagnosis.clinicalDiagnosisId}"
+                                            method="get">
+                                        <button id="edit-diagnosis-button" type="submit" class="btn btn-primary btn-sm"
+                                                style="background-color: yellowgreen">
+                                            <i class="fas fa-edit"> Edit</i>
+                                        </button>
+                                    </form:form>
+                                </div>
+                                <div class="col-sm-2">
+                                    <form:form action="${pageContext.request.contextPath}/doctor/delete-diagnosis"
+                                               method="post">
+                                        <input type="hidden" id="cDiagnosisIdToDelete" name="cDiagnosisIdToDelete"
+                                               value="${diagnosis.clinicalDiagnosisId}">
+                                        <input type="hidden" id="medRecId" name="medRecId"
+                                               value="${medicalRecord.medicalRecordId}">
+                                        <button type="submit" class="btn btn-primary btn-sm"
+                                                style="background-color: darkorange; color: black">
+                                            <i class="fas fa-trash"> Delete</i>
+                                        </button>
+                                    </form:form>
+                                </div>
                             </div>
-                            <div class="col-sm-2">
-                                <form:form action="${pageContext.request.contextPath}/doctor/delete-diagnosis"
-                                           method="post">
-                                    <input type="hidden" id="cDiagnosisIdToDelete" name="cDiagnosisIdToDelete"
-                                           value="${diagnosis.clinicalDiagnosisId}">
-                                    <input type="hidden" id="medRecId" name="medRecId"
-                                           value="${medicalRecord.medicalRecordId}">
-                                    <button type="submit" class="btn btn-primary btn-sm"
-                                            style="background-color: darkorange; color: black">
-                                        <i class="fas fa-trash"> Delete</i>
-                                    </button>
-                                </form:form>
-                            </div>
-                        </div>
+                        </c:if>
                     </div>
                 </c:forEach>
             </c:otherwise>

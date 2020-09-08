@@ -71,6 +71,11 @@ public class DoctorServiceImpl implements DoctorService {
     public PrescriptionDTO addPrescription(PrescriptionDTO prescriptionDTO) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in addPrescription() method");
         Prescription prescription = PrescriptionMapper.INSTANCE.fromDTO(prescriptionDTO);
+        //checks
+        prescriptionDAO.checkTheDuplicatePrescriptionAssignment(prescription.getPatient().getPatientId(),
+                prescription.getMedicineAndProcedure().getMedicineProcedureName(),
+                prescription.getStartTreatment(), prescription.getEndTreatment());
+        //checks
         prescription.setPrescriptionStatus(PrescriptionStatus.TBD);
         Prescription newPrescription = prescriptionDAO.createPrescription(prescription);
         PrescriptionDTO savedPrescriptionDTO = PrescriptionMapper.INSTANCE.toDTO(newPrescription);

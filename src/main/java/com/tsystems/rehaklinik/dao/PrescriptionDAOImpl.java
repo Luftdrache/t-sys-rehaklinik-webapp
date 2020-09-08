@@ -1,6 +1,7 @@
 package com.tsystems.rehaklinik.dao;
 
 import com.tsystems.rehaklinik.entities.*;
+import com.tsystems.rehaklinik.exceptions.DuplicatePrescriptionException;
 import com.tsystems.rehaklinik.exceptions.WrongIdException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -87,5 +89,44 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
                 "SELECT p FROM Prescription p WHERE p.patient.patientId = :patientId " +
                         "ORDER BY p.prescriptionStatus asc, p.startTreatment",
                 Prescription.class).setParameter("patientId", id).getResultList();
+    }
+
+
+    /**
+     * Checks whether such a prescription is already in the database
+     *
+     * @param medicineOrProcedureName name of a medicine or a procedure
+     * @param startTreatment          date of a start  treatment period
+     * @param endTreatment            date of an end  treatment period
+     * @return
+     */
+    @Override
+    public boolean checkTheDuplicatePrescriptionAssignment(
+            int patientId,
+            String medicineOrProcedureName,
+            LocalDate startTreatment,
+            LocalDate endTreatment) {
+
+        logger.info("MedHelper_LOGS: PrescriptionDAOImpl: in checkTheDuplicatePrescriptionAssignment()");
+        List<Prescription> existedPrescription = entityManager.createQuery("SELECT p FROM Prescription p " +
+                "WHERE p.patient.patientId =:patientId " +
+                "AND lower(p.medicineAndProcedure.medicineProcedureName) LIKE lower(:name) " +
+                "AND (( :startDate BETWEEN p.startTreatment AND p.endTreatment) " +
+                "OR (:endDate BETWEEN p.startTreatment AND p.endTreatment))")
+                .setParameter("patientId", patientId)
+                .setParameter("name", medicineOrProcedureName)
+                .setParameter("startDate", startTreatment)
+                .setParameter("endDate", endTreatment)
+                .getResultList();
+        if (!existedPrescription.isEmpty()) {
+            logger.error("MedHelper_LOGS: PrescriptionDAOImpl: DuplicatePrescriptionException thrown");
+            StringBuilder sb = new StringBuilder();
+            for (Prescription prescription : existedPrescription) {
+                sb.append("'" + medicineOrProcedureName + "', start period: " + prescription.getStartTreatment() +
+                        ", end period: " + prescription.getEndTreatment());
+            }
+            throw new DuplicatePrescriptionException(sb.toString());
+        }
+        return false;
     }
 }

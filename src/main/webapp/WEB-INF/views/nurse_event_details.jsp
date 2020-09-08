@@ -105,7 +105,8 @@
             <div class="row">
                 <div class="col-sm-offset-1">
                 <span class="details-title" style="font-weight: 700">
-                TREATMENT EVENT DETAILS </span>
+                TREATMENT EVENT DETAILS
+                </span>
                 </div>
                 <sec:authorize access="hasRole('NURSE')">
                     <c:set var="status" value="${treatmentEventDetails.treatmentEventStatus}"></c:set>
@@ -121,7 +122,6 @@
                     </c:if>
                 </sec:authorize>
             </div>
-            <br><br>
             <div class="row">
                 <div class="col-md-4" style="color: darkred; font-weight: 700">
                     <i class="fas fa-user"></i>&emsp;Patient:
@@ -209,6 +209,15 @@
                 </div>
                 <div class="col-md-6">
                     <p class="font-italic">${treatmentEventDetails.treatmentEventStatus}</p>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4" style="color: darkred; font-weight: 700">
+                    <i class="fas fa-ban"></i>&emsp;Cancellation Reason:
+                </div>
+                <div class="col-md-6">
+                    <p class="font-italic">${treatmentEventDetails.cancelReason}</p>
                 </div>
             </div>
             <br>

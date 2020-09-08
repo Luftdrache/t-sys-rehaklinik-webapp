@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- * ControllerAdvice. Handles all type HTTP exceptions, except 403 Forbidden
+ * ControllerAdvice. Handles all type HTTP exceptions, except 403 Forbidden, and some custom exceptions
  *
  * @author Julia Dalskaya
  */
@@ -46,7 +46,13 @@ public class GlobalExceptionHandler {
         return model;
     }
 
-
+    /**
+     * Handles NoHandlerFoundException
+     *
+     * @param req HttpServletRequest
+     * @param ex  Exception
+     * @return common error page
+     */
     @ExceptionHandler(NoHandlerFoundException.class)
     public ModelAndView handleNoHandlerFoundException(HttpServletRequest req, Exception ex) {
         logger.error("MedHelper_LOGS: GlobalExceptionHandler: Error occurred with {} -----> {}",
@@ -58,7 +64,13 @@ public class GlobalExceptionHandler {
         return model;
     }
 
-
+    /**
+     * Handles WrongIdException
+     *
+     * @param req HttpServletRequest
+     * @param ex  Exception
+     * @return common error page
+     */
     @ExceptionHandler(WrongIdException.class)
     public ModelAndView handleWrongIdException(HttpServletRequest req, Exception ex) {
         logger.error("MedHelper_LOGS: GlobalExceptionHandler: Error occurred with {} -----> {}",
@@ -66,6 +78,26 @@ public class GlobalExceptionHandler {
         logger.error("MedHelper_LOGS: GlobalExceptionHandler: SEE DETAILS ----->", ex.fillInStackTrace());
         ModelAndView model = new ModelAndView(COMMON_ERROR_PAGE_JSP);
         model.addObject(MESSAGE_FIRST_PART, "Operation with an invalid parameter");
+        model.addObject(MESSAGE_SECOND_PART, ex.getMessage());
+        return model;
+    }
+
+    /**
+     * Handles DuplicatePrescriptionException
+     *
+     * @param req HttpServletRequest
+     * @param ex  Exception
+     * @return common error page
+     */
+    @ExceptionHandler(DuplicatePrescriptionException.class)
+    public ModelAndView handleDuplicatePrescriptionException(HttpServletRequest req, Exception ex) {
+        logger.error("MedHelper_LOGS: GlobalExceptionHandler: Error occurred with {} -----> {}",
+                req.getRequestURL(), ex.getMessage());
+        logger.error("MedHelper_LOGS: GlobalExceptionHandler: SEE DETAILS ----->", ex.fillInStackTrace());
+        ModelAndView model = new ModelAndView(COMMON_ERROR_PAGE_JSP);
+        model.addObject(MESSAGE_FIRST_PART,
+                "Prescription similar to what you are trying to add is already in the database. " +
+                        "Edit an existing one:\n\n");
         model.addObject(MESSAGE_SECOND_PART, ex.getMessage());
         return model;
     }

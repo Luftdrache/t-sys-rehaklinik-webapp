@@ -47,6 +47,15 @@
                         <i class="fas fa-user-plus"></i><span>Add new</span>
                     </a>
                 </li>
+                <li class="item" id="settings">
+                    <a href="#settings" class="menu-btn">
+                        <i class="fas fa-cog"></i><span>Settings <i class="fas fa-chevron-down drop-down"></i></span>
+                    </a>
+                    <div class="sub-menu">
+                        <a href="#"><i class="fas fa-lock"></i><span>Password</span></a>
+                        <a href="#"><i class="fas fa-language"></i><span>Language</span></a>
+                    </div>
+                </li>
                 <li class="item">
                     <a href="#" class="menu-btn" onclick="showInfo()">
                         <i class="fas fa-info-circle"></i><span>About</span>

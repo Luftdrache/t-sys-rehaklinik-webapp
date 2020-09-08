@@ -19,7 +19,7 @@
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
           integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <!-- popup cansel style -->
+    <!-- popup cancel style -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/cancel_t_event_popup.css">
     <!-- popup about style -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/about_popup_style.css">
