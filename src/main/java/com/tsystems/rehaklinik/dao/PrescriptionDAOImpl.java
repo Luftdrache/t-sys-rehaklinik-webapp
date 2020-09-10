@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -29,10 +30,8 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
     public Prescription createPrescription(Prescription prescription) {
         logger.info("MedHelper_LOGS: PrescriptionDAO: Add new prescription");
         entityManager.persist(prescription);
-        logger.info("MedHelper_LOGS:  PrescriptionDAO: Added new prescription for patient: {}",
-                prescription.getPatient().getFirstName() + " "
-                        + prescription.getPatient().getMiddleName() + " "
-                        + prescription.getPatient().getSurname());
+        logger.info("MedHelper_LOGS:  PrescriptionDAO: Added new prescription: {}",
+                prescription.getMedicineAndProcedure().getMedicineProcedureName());
         return prescription;
     }
 
@@ -92,14 +91,6 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
     }
 
 
-    /**
-     * Checks whether such a prescription is already in the database
-     *
-     * @param medicineOrProcedureName name of a medicine or a procedure
-     * @param startTreatment          date of a start  treatment period
-     * @param endTreatment            date of an end  treatment period
-     * @return
-     */
     @Override
     public boolean checkTheDuplicatePrescriptionAssignment(
             int patientId,
@@ -128,5 +119,25 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
             throw new DuplicatePrescriptionException(sb.toString());
         }
         return false;
+    }
+
+
+    @Override
+    public List<Prescription> checkOtherPrescriptionOnSameDateAndTime(
+            int patientId,
+            LocalDate startTreatment,
+            LocalDate endTreatment,
+            LocalTime time) {
+        logger.info("MedHelper_LOGS: PrescriptionDAOImpl: in checkOtherPrescriptionOnSameDateAndTime()");
+        return entityManager.createQuery("SELECT p FROM Prescription p " +
+                "WHERE p.patient.patientId =:patientId " +
+                "AND p.treatmentTimePattern.precisionTime = :time " +
+                "AND (( :startDate BETWEEN p.startTreatment AND p.endTreatment) " +
+                "OR (:endDate BETWEEN p.startTreatment AND p.endTreatment))")
+                .setParameter("patientId", patientId)
+                .setParameter("time", time)
+                .setParameter("startDate", startTreatment)
+                .setParameter("endDate", endTreatment)
+                .getResultList();
     }
 }

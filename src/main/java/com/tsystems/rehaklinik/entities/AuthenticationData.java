@@ -4,6 +4,7 @@ package com.tsystems.rehaklinik.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 
@@ -25,6 +26,7 @@ public class AuthenticationData implements Serializable {
     @Column(name = "authentication_data_id", nullable = false, length = 11)
     private int authenticationDataId;
 
+    @Size(min = 5, max = 35, message = "Login length must be no less than 5 and no more than 35 characters")
     @Column(name = "username", nullable = false, length = 35)
     private String username;
 

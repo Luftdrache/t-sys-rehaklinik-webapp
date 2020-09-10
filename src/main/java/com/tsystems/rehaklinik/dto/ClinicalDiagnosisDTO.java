@@ -1,6 +1,6 @@
 package com.tsystems.rehaklinik.dto;
 
-import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
+import com.tsystems.rehaklinik.entities.ClinicalDiagnosis;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
 import lombok.*;
 
@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
- * DTO for {@link ClinicalDiagnose} objects
+ * DTO for {@link ClinicalDiagnosis} objects
  *
  * @author Julia Dalskaya
  */

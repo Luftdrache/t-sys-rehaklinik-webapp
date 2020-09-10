@@ -42,6 +42,8 @@ public class PrescriptionTreatmentPatternDTOConverter {
                 setAfterMeals(prescriptionTreatmentPatternDTO.isAfterMeals());
         prescriptionToEdit.getTreatmentTimePattern().
                 setAtMeals(prescriptionTreatmentPatternDTO.isAtMeals());
+        prescriptionToEdit.getTreatmentTimePattern().
+                setPrecisionTime(prescriptionTreatmentPatternDTO.getPrecisionTime());
         return prescriptionToEdit;
     }
 

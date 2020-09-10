@@ -31,6 +31,8 @@
     <title>MedHelper</title>
 </head>
 <body>
+<c:set var="docId" scope="page"><sec:authentication
+        property="principal.employee.employeeId"/></c:set>
 <!--wrapper start-->
 <div class="wrapper">
     <%@include file="shared/shared_header.jsp" %>
@@ -113,54 +115,57 @@
                                     </button>
                                 </form:form>
                             </div>
-                            <c:if test="${tEvent.treatmentEventStatus != 'CANCELLED' && tEvent.treatmentEventStatus != 'COMPLETED'}">
+                            <c:if test="${docId eq attendingDoctorId}">
+                                <c:if test="${tEvent.treatmentEventStatus != 'CANCELLED' && tEvent.treatmentEventStatus != 'COMPLETED'}">
+                                    <div style='margin-left:10px'>
+                                        <form:form
+                                                action="${pageContext.request.contextPath}/doctor/treatment-event-set-completed"
+                                                method="post">
+                                            <input type="hidden" id="treatmentEventId" name="treatmentEventId"
+                                                   value="${tEvent.treatmentEventId}">
+                                            <input type="hidden" id="patientId" name="patientId"
+                                                   value="${tEvent.patientId}">
+                                            <button type="submit" class="btn btn-primary btn-sm" value="Completed"
+                                                    title='Change status to "Completed"'
+                                                    style="background-color: yellowgreen">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </form:form>
+                                    </div>
+                                    <div style='margin-left:10px'>
+                                        <form:form
+                                                action="${pageContext.request.contextPath}/doctor/cancel-treatment-event"
+                                                method="post"
+                                                class="form-horizontal"
+                                                role="form">
+                                            <input type="hidden" id="tEvent" name="tEvent"
+                                                   value="${tEvent.treatmentEventId}"/>
+                                            <input type="hidden" id="patientId" name="patientId"
+                                                   value="${tEvent.patientId}"/>
+                                            <button type="submit" id="cancel-button" name="cancel-button"
+                                                    class="btn btn-primary btn-sm"
+                                                    value="Cancel" style="background-color: yellowgreen"
+                                                    title="Cancel treatment event">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </form:form>
+                                    </div>
+                                </c:if>
                                 <div style='margin-left:10px'>
-                                    <form:form
-                                            action="${pageContext.request.contextPath}/doctor/treatment-event-set-completed"
-                                            method="post">
-                                        <input type="hidden" id="treatmentEventId" name="treatmentEventId"
+                                    <form:form action="${pageContext.request.contextPath}/doctor/delete-treatment-event"
+                                               method="post">
+                                        <input type="hidden" id="tEventIdToDelete" name="tEventIdToDelete"
                                                value="${tEvent.treatmentEventId}">
-                                        <input type="hidden" id="patientId" name="patientId"
+                                        <input type="hidden" id="patient" name="patient"
                                                value="${tEvent.patientId}">
-                                        <button type="submit" class="btn btn-primary btn-sm" value="Completed"
-                                                title='Change status to "Completed"'
-                                                style="background-color: yellowgreen">
-                                            <i class="fas fa-check"></i>
-                                        </button>
-                                    </form:form>
-                                </div>
-                                <div style='margin-left:10px'>
-                                    <form:form action="${pageContext.request.contextPath}/doctor/cancel-treatment-event"
-                                               method="post"
-                                               class="form-horizontal"
-                                               role="form">
-                                        <input type="hidden" id="tEvent" name="tEvent"
-                                               value="${tEvent.treatmentEventId}"/>
-                                        <input type="hidden" id="patientId" name="patientId"
-                                               value="${tEvent.patientId}"/>
-                                        <button type="submit" id="cancel-button" name="cancel-button"
-                                                class="btn btn-primary btn-sm"
-                                                value="Cancel" style="background-color: yellowgreen"
-                                                title="Cancel treatment event">
-                                            <i class="fas fa-times"></i>
+                                        <button type="submit" class="btn btn-primary btn-sm"
+                                                title="Delete treatment event"
+                                                style="background-color: yellowgreen; color: black">
+                                            <i class="fas fa-trash"></i>
                                         </button>
                                     </form:form>
                                 </div>
                             </c:if>
-                            <div style='margin-left:10px'>
-                                <form:form action="${pageContext.request.contextPath}/doctor/delete-treatment-event"
-                                           method="post">
-                                    <input type="hidden" id="tEventIdToDelete" name="tEventIdToDelete"
-                                           value="${tEvent.treatmentEventId}">
-                                    <input type="hidden" id="patient" name="patient"
-                                           value="${tEvent.patientId}">
-                                    <button type="submit" class="btn btn-primary btn-sm"
-                                            title="Delete treatment event"
-                                            style="background-color: yellowgreen; color: black">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form:form>
-                            </div>
                         </td>
                     </tr>
                 </c:forEach>

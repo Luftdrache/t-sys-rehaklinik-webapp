@@ -40,6 +40,8 @@ public interface DoctorService {
 
     List<PatientShortViewDTO> findPatients();
 
+    List<PatientShortViewDTO> findAllPatients();
+
     List<PrescriptionShortViewDTO> findAllPatientsPrescription(int patientId);
 
     PrescriptionTreatmentPatternDTO findPrescriptionById(int prescriptionId);
@@ -49,5 +51,9 @@ public interface DoctorService {
     List<TreatmentEventDTO> findTreatmentEventsByPatientId(int id);
 
     List<TreatmentEventDTO> findTreatmentEventByName(String tEventName);
+
+    boolean checkTheDuplicatePrescriptionAssignment(PrescriptionDTO prescriptionDTO);
+
+    List<PrescriptionShortViewDTO> checkOtherPrescriptionsOnSameDateAndTime(PrescriptionDTO prescriptionDTO);
 
 }

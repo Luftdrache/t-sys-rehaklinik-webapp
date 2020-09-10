@@ -1,7 +1,6 @@
 package com.tsystems.rehaklinik.dto;
 
 import com.tsystems.rehaklinik.entities.Employee;
-import com.tsystems.rehaklinik.entities.WorkingSchedule;
 import com.tsystems.rehaklinik.types.QualificationCategories;
 import com.tsystems.rehaklinik.types.Roles;
 import lombok.AllArgsConstructor;
@@ -70,8 +69,6 @@ public class EmployeeDTO {
 
     @PositiveOrZero(message = "Doctor's office or ward number must be zero or positive")
     private int officeOrWardNumber;
-
-    private WorkingSchedule workingSchedule;
 
     @NotNull(message = "Role must be set")
     private Roles role;

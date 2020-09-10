@@ -53,7 +53,7 @@
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container" style="height: 90vh; background-image: url('/resources/images/icon_med_helper.png');
+    <div class="main-container" style="min-height: 90vh; height: auto; background-image: url('/resources/images/icon_med_helper.png');
 background-size: contain; background-repeat: no-repeat; background-position: right">
         <div class="card" style="font-size: 18px; width: 60%; padding-left: 5%">
             <span class="details-title" style="font-weight: 700">PATIENT PROFILE:</span>
@@ -142,6 +142,7 @@ background-size: contain; background-repeat: no-repeat; background-position: rig
                         <h6 style="color: darkred; font-weight: 700">
                             <i class="fas fa-user-nurse"></i> Attending
                             doctor: ${patientInfo.attendingDoctorId.surname} ${patientInfo.attendingDoctorId.firstName}
+                            <c:if test="${not empty patientInfo.attendingDoctorId.surname}">,</c:if>
                                 ${patientInfo.attendingDoctorId.position}
                         </h6>
                     </c:otherwise>

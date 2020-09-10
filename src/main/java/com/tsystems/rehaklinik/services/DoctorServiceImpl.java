@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
 import java.util.*;
 
 @Service("DoctorService")
@@ -34,13 +35,31 @@ public class DoctorServiceImpl implements DoctorService {
     private MessageSender messageSender;
 
 
+    private static final int DEFAULT_HOUR = 7;
+    private static final int DEFAULT_MINUTES = 0;
+    private static final int DEFAULT_SECONDS = 0;
+
+
     @Override
     public List<PatientShortViewDTO> findPatients() {
-        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in patients() method");
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in findPatients() method");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         int doctorId = ((AuthenticationData) (authentication.getPrincipal())).getEmployee().getEmployeeId();
         logger.info("MedHelper_LOGS: In DoctorServiceImpl: doctor's id = {}", doctorId);
-        List<Patient> allPatients = patientDAO.findPatientByDoctorId(doctorId);
+        List<Patient> patientList = patientDAO.findPatientByDoctorId(doctorId);
+        List<PatientShortViewDTO> patientsDTO = new ArrayList<>();
+        if (!patientList.isEmpty()) {
+            for (Patient patient : patientList) {
+                patientsDTO.add(new PatientShortViewDTO(patient));
+            }
+        }
+        return patientsDTO;
+    }
+
+    @Override
+    public List<PatientShortViewDTO> findAllPatients() {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in findAllPatients() method");
+        List<Patient> allPatients = patientDAO.findAll();
         List<PatientShortViewDTO> patientsDTO = new ArrayList<>();
         if (!allPatients.isEmpty()) {
             for (Patient patient : allPatients) {
@@ -57,9 +76,9 @@ public class DoctorServiceImpl implements DoctorService {
         MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(patientId);
         MedicalRecordDTO medicalRecordDTO = MedicalRecordConverter.toDTO(medicalRecord);
         medicalRecordDTO.setPatient(PatientDTOConverter.toDTO(patientDAO.findPatientById(patientId)));
-        Set<ClinicalDiagnose> diagnosisSet = medicalRecord.getClinicalDiagnosis();
+        Set<ClinicalDiagnosis> diagnosisSet = medicalRecord.getClinicalDiagnosis();
         Set<ClinicalDiagnosisDTO> clinicalDiagnosisDTOSet = new HashSet<>();
-        for (ClinicalDiagnose cd : diagnosisSet) {
+        for (ClinicalDiagnosis cd : diagnosisSet) {
             clinicalDiagnosisDTOSet.add(ClinicalDiagnoseMapper.INSTANCE.toDTO(cd));
         }
         medicalRecordDTO.setClinicalDiagnosis(clinicalDiagnosisDTOSet);
@@ -71,12 +90,11 @@ public class DoctorServiceImpl implements DoctorService {
     public PrescriptionDTO addPrescription(PrescriptionDTO prescriptionDTO) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in addPrescription() method");
         Prescription prescription = PrescriptionMapper.INSTANCE.fromDTO(prescriptionDTO);
-        //checks
-        prescriptionDAO.checkTheDuplicatePrescriptionAssignment(prescription.getPatient().getPatientId(),
-                prescription.getMedicineAndProcedure().getMedicineProcedureName(),
-                prescription.getStartTreatment(), prescription.getEndTreatment());
-        //checks
         prescription.setPrescriptionStatus(PrescriptionStatus.TBD);
+        if (prescription.getTreatmentTimePattern().getPrecisionTime() == null) {
+            prescription.getTreatmentTimePattern()
+                    .setPrecisionTime(LocalTime.of(DEFAULT_HOUR, DEFAULT_MINUTES, DEFAULT_SECONDS));
+        }
         Prescription newPrescription = prescriptionDAO.createPrescription(prescription);
         PrescriptionDTO savedPrescriptionDTO = PrescriptionMapper.INSTANCE.toDTO(newPrescription);
         List<TreatmentEvent> treatmentEventList = treatmentEventGenerationService.generateTreatmentEvents(newPrescription);
@@ -87,6 +105,41 @@ public class DoctorServiceImpl implements DoctorService {
         return savedPrescriptionDTO;
     }
 
+    @Override
+    public List<PrescriptionShortViewDTO> checkOtherPrescriptionsOnSameDateAndTime(PrescriptionDTO prescriptionDTO) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in checkOtherPrescriptionOnSameDateAndTime() method");
+        Prescription prescription = PrescriptionMapper.INSTANCE.fromDTO(prescriptionDTO);
+        LocalTime specifiedTime = prescription.getTreatmentTimePattern().getPrecisionTime() == null
+                ? LocalTime.of(DEFAULT_HOUR, DEFAULT_MINUTES, DEFAULT_SECONDS)
+                : prescription.getTreatmentTimePattern().getPrecisionTime();
+        List<Prescription> otherPrescriptionOnSameDateAndTimeList = prescriptionDAO.checkOtherPrescriptionOnSameDateAndTime(
+                prescription.getPatient().getPatientId(),
+                prescription.getStartTreatment(),
+                prescription.getEndTreatment(),
+                specifiedTime
+        );
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> checkOtherPrescriptionOnSameDateAndTime() returns {}",
+                otherPrescriptionOnSameDateAndTimeList.isEmpty());
+        if (otherPrescriptionOnSameDateAndTimeList.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            List<PrescriptionShortViewDTO> prescriptionDTOS = new ArrayList<>();
+            for (Prescription p : otherPrescriptionOnSameDateAndTimeList) {
+                prescriptionDTOS.add(new PrescriptionShortViewDTO(p));
+            }
+            return prescriptionDTOS;
+        }
+    }
+
+    @Override
+    public boolean checkTheDuplicatePrescriptionAssignment(PrescriptionDTO prescriptionDTO) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in checkTheDuplicatePrescriptionAssignment() method");
+        Prescription prescription = PrescriptionMapper.INSTANCE.fromDTO(prescriptionDTO);
+        return prescriptionDAO.checkTheDuplicatePrescriptionAssignment(prescription.getPatient().getPatientId(),
+                prescription.getMedicineAndProcedure().getMedicineProcedureName(),
+                prescription.getStartTreatment(), prescription.getEndTreatment());
+    }
+
 
     @Override
     public PrescriptionShortViewDTO editPrescription(PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO) {
@@ -95,6 +148,7 @@ public class DoctorServiceImpl implements DoctorService {
                 prescriptionTreatmentPatternDTO.getPrescriptionId());
         prescriptionToEdit =
                 PrescriptionTreatmentPatternDTOConverter.convertFromDTO(prescriptionToEdit, prescriptionTreatmentPatternDTO);
+        logger.info("!!!!! {}", prescriptionToEdit.getTreatmentTimePattern().getPrecisionTime());
         prescriptionToEdit.setPrescriptionStatus(PrescriptionStatus.TBD);
         Prescription edited = prescriptionDAO.updatePrescription(prescriptionToEdit);
         List<TreatmentEvent> treatmentEventList =
@@ -185,7 +239,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public ClinicalDiagnosisDTO editClinicalDiagnosis(ClinicalDiagnosisDTO clinicalDiagnosisDTO) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in editClinicalDiagnosis() method");
-        ClinicalDiagnose clinicalDiagnoseToEdit = ClinicalDiagnoseDTOConverter.fromDTO(clinicalDiagnosisDTO);
+        ClinicalDiagnosis clinicalDiagnoseToEdit = ClinicalDiagnoseDTOConverter.fromDTO(clinicalDiagnosisDTO);
         MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(
                 clinicalDiagnosisDTO.getMedicalRecord().getMedicalRecordId());
         clinicalDiagnoseToEdit.setMedicalRecord(medicalRecord);
@@ -199,8 +253,8 @@ public class DoctorServiceImpl implements DoctorService {
         Patient patient = patientDAO.findPatientById(id);
         medicalRecordDTO.setPatient(PatientDTOConverter.toDTO(patient));
         Set<ClinicalDiagnosisDTO> clinicalDiagnosisDTOSet = new HashSet<>();
-        Set<ClinicalDiagnose> clinicalDiagnoseSet = clinicalDiagnosisDAO.getAllPatientClinicalDiagnosis(id);
-        for (ClinicalDiagnose cd : clinicalDiagnoseSet) {
+        Set<ClinicalDiagnosis> clinicalDiagnoseSet = clinicalDiagnosisDAO.getAllPatientClinicalDiagnosis(id);
+        for (ClinicalDiagnosis cd : clinicalDiagnoseSet) {
             clinicalDiagnosisDTOSet.add(ClinicalDiagnoseMapper.INSTANCE.toDTO(cd));
         }
         medicalRecordDTO.setClinicalDiagnosis(clinicalDiagnosisDTOSet);
@@ -223,7 +277,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public ClinicalDiagnosisDTO getClinicalDiagnosis(int clinicalDiagnoseId) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in getClinicalDiagnosisDTO() method");
-        ClinicalDiagnose clinicalDiagnose = clinicalDiagnosisDAO.getClinicalDiagnosisById(clinicalDiagnoseId);
+        ClinicalDiagnosis clinicalDiagnose = clinicalDiagnosisDAO.getClinicalDiagnosisById(clinicalDiagnoseId);
         return ClinicalDiagnoseDTOConverter.toDTO(clinicalDiagnose);
     }
 
@@ -231,17 +285,17 @@ public class DoctorServiceImpl implements DoctorService {
     public MedicalRecordDTO setNewDiagnosis(ClinicalDiagnosisDTO clinicalDiagnosisDTO, int medRecordId) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in setNewDiagnosis() method");
         MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(medRecordId);
-        Set<ClinicalDiagnose> diagnosisSet = medicalRecord.getClinicalDiagnosis();
-        ClinicalDiagnose clinicalDiagnose = ClinicalDiagnoseMapper.INSTANCE.fromDTO(clinicalDiagnosisDTO);
-        ClinicalDiagnose diagnosis = clinicalDiagnosisDAO.createClinicalDiagnosis(clinicalDiagnose);
+        Set<ClinicalDiagnosis> diagnosisSet = medicalRecord.getClinicalDiagnosis();
+        ClinicalDiagnosis clinicalDiagnose = ClinicalDiagnoseMapper.INSTANCE.fromDTO(clinicalDiagnosisDTO);
+        ClinicalDiagnosis diagnosis = clinicalDiagnosisDAO.createClinicalDiagnosis(clinicalDiagnose);
         diagnosis.setMedicalRecord(medicalRecord);
-        ClinicalDiagnose updatedClinicalDiagnosis = clinicalDiagnosisDAO.updateClinicalDiagnosis(diagnosis);
+        ClinicalDiagnosis updatedClinicalDiagnosis = clinicalDiagnosisDAO.updateClinicalDiagnosis(diagnosis);
         diagnosisSet.add(updatedClinicalDiagnosis);
         medicalRecord.setClinicalDiagnosis(diagnosisSet);
         MedicalRecordDTO medicalRecordDTO = MedicalRecordConverter.toDTO(medicalRecordDAO.updateMedicalRecord(medicalRecord));
         medicalRecordDTO.setPatient(PatientDTOConverter.toDTO(patientDAO.findPatientById(medRecordId)));
         Set<ClinicalDiagnosisDTO> clinicalDiagnosisDTOSet = new HashSet<>();
-        for (ClinicalDiagnose cd : diagnosisSet) {
+        for (ClinicalDiagnosis cd : diagnosisSet) {
             clinicalDiagnosisDTOSet.add(ClinicalDiagnoseMapper.INSTANCE.toDTO(cd));
         }
         medicalRecordDTO.setClinicalDiagnosis(clinicalDiagnosisDTOSet);
@@ -251,7 +305,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public boolean deleteClinicalDiagnosisById(int clinicalDiagnosisId) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in deleteClinicalDiagnosisById() method");
-        ClinicalDiagnose clinicalDiagnose = clinicalDiagnosisDAO.getClinicalDiagnosisById(clinicalDiagnosisId);
+        ClinicalDiagnosis clinicalDiagnose = clinicalDiagnosisDAO.getClinicalDiagnosisById(clinicalDiagnosisId);
         if (clinicalDiagnose != null) {
             MedicalRecord medicalRecord = medicalRecordDAO.findMedicalRecordById(
                     clinicalDiagnose.getMedicalRecord().getMedicalRecordId());
@@ -286,6 +340,9 @@ public class DoctorServiceImpl implements DoctorService {
     public List<PrescriptionShortViewDTO> findAllPatientsPrescription(int patientId) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in findAllPatientsPrescription() method");
         List<Prescription> prescriptionsList = prescriptionDAO.fidAllPrescriptionsByPatientId(patientId);
+        for (Prescription prescription : prescriptionsList) {
+            checkIsPrescriptionDone(prescription);
+        }
         List<PrescriptionShortViewDTO> prescriptionDTOS = new ArrayList<>();
         if (!prescriptionsList.isEmpty()) {
             for (Prescription p : prescriptionsList) {
@@ -293,6 +350,23 @@ public class DoctorServiceImpl implements DoctorService {
             }
         }
         return prescriptionDTOS;
+    }
+
+    private boolean checkIsPrescriptionDone(Prescription prescription) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in checkPrescriptionStatus() method");
+        if (prescription.getPrescriptionStatus().equals(PrescriptionStatus.CANCELLED)) {
+            return false;
+        }
+        int prescriptionId = prescription.getPrescriptionId();
+        List<TreatmentEvent> treatmentEventList = treatmentEventDAO.findAllTreatmentEventsByPrescriptionId(prescriptionId);
+        for (TreatmentEvent tEvent : treatmentEventList) {
+            if (tEvent.getTreatmentEventStatus().equals(EventStatus.PLANNED) ||
+                    (tEvent.getTreatmentEventStatus().equals(EventStatus.OVERDUE))) {
+                return false;
+            }
+        }
+        prescription.setPrescriptionStatus(PrescriptionStatus.DONE);
+        return true;
     }
 
 

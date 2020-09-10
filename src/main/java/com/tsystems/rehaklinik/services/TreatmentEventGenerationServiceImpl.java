@@ -20,8 +20,7 @@ import java.util.List;
 public class TreatmentEventGenerationServiceImpl implements TreatmentEventGenerationService {
 
     private static Logger logger = LoggerFactory.getLogger(TreatmentEventGenerationServiceImpl.class);
-
-    private static final int DEFAULT_HOUR = 7;
+    
     private static final int DEFAULT_MINUTE = 0;
     private static final int DEFAULT_SECOND = 0;
 
@@ -39,15 +38,12 @@ public class TreatmentEventGenerationServiceImpl implements TreatmentEventGenera
         List<LocalDate> treatmentDates = defineTreatmentDates(prescription);
 
         LocalTime time = prescription.getTreatmentTimePattern().getPrecisionTime();
-        if (prescription.getTreatmentTimePattern().getPrecisionTime() == null) {
-            time = LocalTime.of(DEFAULT_HOUR, DEFAULT_MINUTE, DEFAULT_SECOND);
-        }
 
         int interval = prescription.getTreatmentTimePattern().getIntervalInHours();
 
         for (int i = 0; i < treatmentDates.size(); i++) { //days
             if (interval != 0) {
-                for (int j = time.getHour() + 1; j <= 24; j += interval) { // hours
+                for (int j = time.getHour() ; j < 24; j += interval) { // hours
                     TreatmentEvent tEvent = new TreatmentEvent();
                     tEvent.setPrescription(prescription);
                     tEvent.setPatient(prescription.getPatient());

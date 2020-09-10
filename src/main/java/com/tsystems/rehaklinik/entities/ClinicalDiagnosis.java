@@ -17,7 +17,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClinicalDiagnose implements Serializable {
+public class ClinicalDiagnosis implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "clinical_diagnosis_id", nullable = false, length = 11)
@@ -46,7 +46,7 @@ public class ClinicalDiagnose implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ClinicalDiagnose that = (ClinicalDiagnose) o;
+        ClinicalDiagnosis that = (ClinicalDiagnosis) o;
         return icd10Code.equals(that.icd10Code);
     }
 

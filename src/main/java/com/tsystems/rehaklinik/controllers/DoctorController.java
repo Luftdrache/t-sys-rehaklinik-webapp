@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -58,10 +59,11 @@ public class DoctorController {
      * Returns main doctor's page with his patient list on it. Start page.
      *
      * @param modelMap modelMap to add a list of doctor's patients into it
+     * @param request  HttpServletRequest
      * @return main doctor's page
      */
     @GetMapping("/start-page")
-    public String showDoctorsPatients(ModelMap modelMap) {
+    public String showDoctorsPatients(ModelMap modelMap, HttpServletRequest request) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method showDoctorsPatients(), GET");
         List<PatientShortViewDTO> doctorsPatients = doctorService.findPatients();
         if (modelMap.isEmpty()) {
@@ -72,6 +74,30 @@ public class DoctorController {
                 modelMap.addAttribute(MESSAGE,
                         "INFO: You don't have any patients yet");
                 logger.info("MedHelper_LOGS: The action showDoctorsPatients() returned null");
+            }
+        }
+        removeSessionAttributes(request);
+        return MAIN_DOCTOR_JSP;
+    }
+
+    /**
+     * Returns main doctor's page with his patient list on it. Start page.
+     *
+     * @param modelMap modelMap to add a list of doctor's patients into it
+     * @return main doctor's page
+     */
+    @GetMapping("/start-page/all-patients")
+    public String showAllPatients(ModelMap modelMap) {
+        logger.info("MedHelper_LOGS: In DoctorController - handler method showAllPatients(), GET");
+        List<PatientShortViewDTO> patients = doctorService.findAllPatients();
+        if (modelMap.isEmpty()) {
+            if (!patients.isEmpty()) {
+                logger.info("MedHelper_LOGS: The action showAllPatients() completed successfully");
+                modelMap.addAttribute("doctorsPatients", patients);
+            } else {
+                modelMap.addAttribute(MESSAGE,
+                        "INFO: There is no any information about patients yet");
+                logger.info("MedHelper_LOGS: The action showAllPatients() returned null");
             }
         }
         return MAIN_DOCTOR_JSP;
@@ -91,8 +117,10 @@ public class DoctorController {
     public String addPrescription(
             @PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: InDoctorController - handler method addPrescription(), GET");
-        doctorService.getMedicalRecord(id);
+        MedicalRecordDTO medicalRecordDTO = doctorService.getMedicalRecord(id);
         modelMap.addAttribute("patientId", id);
+        modelMap.addAttribute("attendingDoctorId",
+                medicalRecordDTO.getPatient().getAttendingDoctorId().getEmployeeId());
         return ADD_PRESCRIPTION_JSP;
     }
 
@@ -107,12 +135,25 @@ public class DoctorController {
      */
     @PostMapping("/add-prescription")
     public String addPrescription(@Valid @ModelAttribute("newPrescription") PrescriptionDTO prescriptionDTO,
+                                  HttpServletRequest request,
                                   @ModelAttribute("patient.patientId") int id,
                                   BindingResult bindingResult, ModelMap modelMap) {
 
         logger.info("MedHelper_LOGS: In DoctorController - handler method addPrescription(), POST");
         if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
             return ERROR_PAGE_JSP;
+        }
+        doctorService.checkTheDuplicatePrescriptionAssignment(prescriptionDTO);
+
+        if (request.getSession().getAttribute("isSameTimeCheck") == null) {
+            List<PrescriptionShortViewDTO> prescriptionShortViewDTOList =
+                    doctorService.checkOtherPrescriptionsOnSameDateAndTime(prescriptionDTO);
+            if (!prescriptionShortViewDTOList.isEmpty()) {
+                request.getSession().setAttribute("prescriptionInputData", prescriptionDTO);
+                request.getSession().setAttribute("isSameTimeCheck", false);
+                request.getSession().setAttribute("isShowWarningPopup", "true");
+                return "redirect:/doctor/add-prescription/" + id;
+            }
         }
         PrescriptionDTO newPrescription = doctorService.addPrescription(prescriptionDTO);
         if (newPrescription != null) {
@@ -122,9 +163,20 @@ public class DoctorController {
             logger.info("MedHelper_LOGS: DoctorController: addPrescription(POST): failed attempt to add " +
                     "new prescription");
         }
+        removeSessionAttributes(request);
         return REDIRECT_TO_PRESCRIPTION_DETAILS_JSP + id;
     }
 
+    /**
+     * Removes session attributes
+     *
+     * @param request HttpServletRequest
+     */
+    private void removeSessionAttributes(HttpServletRequest request) {
+        request.getSession().removeAttribute("isSameTimeCheck");
+        request.getSession().removeAttribute("prescriptionInputData");
+        request.getSession().removeAttribute("isShowWarningPopup");
+    }
 
     /**
      * Show page with selected prescription details
@@ -155,7 +207,7 @@ public class DoctorController {
     public String showAllPrescriptionByPatientId(
             @PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method showPrescriptionById(), GET");
-        doctorService.getMedicalRecord(id);
+        MedicalRecordDTO medicalRecordDTO = doctorService.getMedicalRecord(id);
         List<PrescriptionShortViewDTO> prescriptionDTOS = doctorService.findAllPatientsPrescription(id);
         if (!prescriptionDTOS.isEmpty()) {
             modelMap.addAttribute("patientPrescriptionsList", prescriptionDTOS);
@@ -166,6 +218,8 @@ public class DoctorController {
             logger.info("MedHelper_LOGS: The action showPrescriptionById() returned null");
         }
         modelMap.addAttribute("patientId", id);
+        modelMap.addAttribute("attendingDoctorId",
+                medicalRecordDTO.getPatient().getAttendingDoctorId().getEmployeeId());
         return PATIENT_PRESCRIPTIONS_JSP;
     }
 
@@ -206,7 +260,10 @@ public class DoctorController {
             @PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method editSelectedPrescription(), GET");
         PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO = doctorService.findPrescriptionById(id);
+        MedicalRecordDTO medicalRecordDTO = doctorService.getMedicalRecord(prescriptionTreatmentPatternDTO.getPatientId());
         modelMap.addAttribute("prescriptionToEdit", prescriptionTreatmentPatternDTO);
+        modelMap.addAttribute(modelMap.addAttribute("attendingDoctorId",
+                medicalRecordDTO.getPatient().getAttendingDoctorId().getEmployeeId()));
         logger.info("MedHelper_LOGS: prescription with id = {}  was found successfully", id);
         return EDIT_SELECTED_PRESCRIPTION_JSP;
     }
@@ -258,13 +315,15 @@ public class DoctorController {
      *
      * @param id       patient's id
      * @param modelMap modelMap to add a medical record info
+     * @param request  HttpServletRequest
      * @return page with a patient medical record
      */
     @GetMapping("/medical-record/{id}")
-    public String showMedicalRecord(@PathVariable("id") int id, ModelMap modelMap) {
+    public String showMedicalRecord(@PathVariable("id") int id, ModelMap modelMap, HttpServletRequest request) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method showMedicalRecord(), GET. id = {}", id);
         MedicalRecordDTO medicalRecord = doctorService.getMedicalRecord(id);
         modelMap.addAttribute(MEDICAL_RECORD, medicalRecord);
+        removeSessionAttributes(request);
         return MEDICAL_RECORD_JSP;
     }
 
@@ -279,8 +338,10 @@ public class DoctorController {
     @GetMapping("/medical-record/add-diagnosis/{id}")
     public String addDiagnosis(@PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method addDiagnosis(), GET");
-        doctorService.getMedicalRecord(id);
+        MedicalRecordDTO medicalRecordDTO = doctorService.getMedicalRecord(id);
         modelMap.addAttribute(MEDICAL_RECORD_ID, id);
+        modelMap.addAttribute("attendingDoctorId",
+                medicalRecordDTO.getPatient().getAttendingDoctorId().getEmployeeId());
         return DIAGNOSIS_JSP;
     }
 
@@ -318,7 +379,9 @@ public class DoctorController {
     public String editSelectedDiagnosis(@PathVariable("id") int id, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method editSelectedDiagnosis(), GET");
         ClinicalDiagnosisDTO clinicalDiagnosisDTO = doctorService.getClinicalDiagnosis(id);
+        int attendingDoctorId = clinicalDiagnosisDTO.getMedicalRecord().getPatient().getAttendingDoctorId().getEmployeeId();
         modelMap.addAttribute("CDToEdit", clinicalDiagnosisDTO);
+        modelMap.addAttribute("attendingDoctorId", attendingDoctorId);
         logger.info("MedHelper_LOGS: prescription with id = {} was found successfully", id);
         return EDIT_CLINICAL_DIAGNOSIS_JSP;
     }
@@ -375,6 +438,8 @@ public class DoctorController {
         logger.info("MedHelper_LOGS: In DoctorController - handler method editHospitalisation(), GET");
         MedicalRecordDTO medicalRecord = doctorService.getMedicalRecord(id);
         modelMap.addAttribute("hospitalisationToEdit", medicalRecord);
+        modelMap.addAttribute("attendingDoctorId",
+                medicalRecord.getPatient().getAttendingDoctorId().getEmployeeId());
         modelMap.addAttribute(MEDICAL_RECORD_ID, id);
         return HOSPITALISATION_JSP;
     }
@@ -441,12 +506,14 @@ public class DoctorController {
     public String showPatientTreatmentEvents(@PathVariable("id") int patientId, ModelMap modelMap) {
         logger.info("MedHelper_LOGS: In DoctorController - handler method showPatientTreatmentEvents(), GET");
         if (modelMap.isEmpty()) {
-            doctorService.getMedicalRecord(patientId);
+            MedicalRecordDTO medicalRecordDTO = doctorService.getMedicalRecord(patientId);
             List<TreatmentEventDTO> treatmentEventDTOS = doctorService.findTreatmentEventsByPatientId(patientId);
             if (!treatmentEventDTOS.isEmpty()) {
                 logger.info("MedHelper_LOGS: In DoctorController: " +
                         "The action showPatientTreatmentEvents() completed successfully");
                 modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
+                modelMap.addAttribute("attendingDoctorId",
+                        medicalRecordDTO.getPatient().getAttendingDoctorId().getEmployeeId());
             } else {
                 logger.info("MedHelper_LOGS: The action showPatientTreatmentEvents() returned empty list");
                 modelMap.addAttribute(MESSAGE,

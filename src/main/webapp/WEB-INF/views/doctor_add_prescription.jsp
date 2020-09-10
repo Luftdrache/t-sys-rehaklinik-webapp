@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page import="com.tsystems.rehaklinik.types.TreatmentType" %>
-<html>
+<html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -27,6 +27,8 @@
     <title>MedHelper</title>
 </head>
 <body>
+<c:set var="docId" scope="page"><sec:authentication
+        property="principal.employee.employeeId"/></c:set>
 <!--wrapper start-->
 <div class="wrapper">
     <%@include file="shared/shared_header.jsp" %>
@@ -47,189 +49,286 @@
                         <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
                     </a>
                 </li>
-                <li class="item" id="add-prescription" style="font-size: 20px;">
-                    <a href="${pageContext.request.contextPath}/doctor/add-prescription/${patientId}" class="menu-btn">
-                        <i class="fas fa-tablets"></i><span>Add prescription</span>
-                    </a>
-                </li>
             </ul>
         </div>
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container" style="background-color: #DEF0FF; height: auto">
+    <div class="main-container" style="background-color: #DEF0FF; min-height: 90vh; height: auto">
         <div class="container-fluid">
             <div content="container" class="col-sm-8 col-sm-offset-2"
                  style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
-                <form:form action="${pageContext.request.contextPath}/doctor/add-prescription" method="post"
-                           class="form-horizontal"
-                           role="form">
-                    <div style="padding-left: 20%">
-                        <h2>Add Prescription</h2>
-                        <span class="help-block">*Required fields</span>
+                <c:if test="${docId ne attendingDoctorId}">
+                    <div style="color: indianred; font-weight: bold; background-color: #fff">
+                        <h3>Sorry, you are not allowed to make changes for this patient</h3>
                     </div>
-                    <div class="form-group">
-                        <label for="medicineProcedureName" class="col-sm-4 control-label">Name*</label>
-                        <div class="col-sm-6">
-                            <input required type="text" id="medicineProcedureName"
-                                   name="medicineAndProcedure.medicineProcedureName"
-                                   placeholder="Name"
-                                   oninvalid="this.setCustomValidity('Please enter a medicine or procedure name')"
-                                   oninput="setCustomValidity('')"
-                                   class="form-control" autofocus>
+                </c:if>
+                <c:if test="${docId eq attendingDoctorId}">
+                    <form:form action="${pageContext.request.contextPath}/doctor/add-prescription" method="post"
+                               class="form-horizontal"
+                               role="form"
+                               lang="en">
+                        <div style="padding-left: 20%">
+                            <h2>Add Prescription</h2>
+                            <span class="help-block">*Required fields</span>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="treatmentType" class="col-sm-4 control-label">Treatment Type*</label>
-                        <div class="col-sm-6">
-                            <select id="treatmentType" name="medicineAndProcedure.treatmentType"
-                                    class="form-control">
-                                <c:forEach items="${TreatmentType.values()}" var="type">
-                                    <option selected>${type.toString()}</option>
-                                </c:forEach>
-                            </select>
+                        <div class="form-group">
+                            <label for="medicineProcedureName" class="col-sm-4 control-label">Name*</label>
+                            <div class="col-sm-6">
+                                <input required type="text" id="medicineProcedureName"
+                                       name="medicineAndProcedure.medicineProcedureName"
+                                       placeholder="Name"
+                                       value="${sessionScope.prescriptionInputData.medicineAndProcedure.medicineProcedureName}"
+                                       oninvalid="this.setCustomValidity('Please enter a medicine or procedure name')"
+                                       oninput="setCustomValidity('')"
+                                       class="form-control" autofocus>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="dose" class="col-sm-4 control-label">Dose</label>
-                        <div class="col-sm-6">
-                            <input type="text" id="dose" name="dose" placeholder="Dose" class="form-control">
+                        <div class="form-group">
+                            <label for="treatmentType" class="col-sm-4 control-label">Treatment Type*</label>
+                            <div class="col-sm-6">
+                                <select id="treatmentType" name="medicineAndProcedure.treatmentType"
+                                        class="form-control">
+                                    <c:forEach items="${TreatmentType.values()}" var="type">
+                                        <option selected>${type.toString()}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="administeringMedicationMethod" class="col-sm-4 control-label">Administering
-                            Medication Method</label>
-                        <div class="col-sm-6">
-                            <input type="text" id="administeringMedicationMethod" name="administeringMedicationMethod"
-                                   placeholder="Administering Medication Method" class="form-control">
+                        <div class="form-group">
+                            <label for="dose" class="col-sm-4 control-label">Dose</label>
+                            <div class="col-sm-6">
+                                <input type="text" id="dose"
+                                       name="dose"
+                                       placeholder="Dose"
+                                       class="form-control"
+                                       value="${sessionScope.prescriptionInputData.dose}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="startTreatment" class="col-sm-4 control-label">Start Treatment*</label>
-                        <div class="col-sm-6">
-                            <input required type="date" id="startTreatment" name="startTreatment"
-                                   min=""
-                                   oninvalid="this.setCustomValidity('Please set a start treatment date')"
-                                   oninput="setCustomValidity('')"
-                                   class="form-control">
+                        <div class="form-group">
+                            <label for="administeringMedicationMethod" class="col-sm-4 control-label">Administering
+                                Medication Method</label>
+                            <div class="col-sm-6">
+                                <input type="text" id="administeringMedicationMethod"
+                                       name="administeringMedicationMethod"
+                                       placeholder="Administering Medication Method" class="form-control"
+                                       value="${sessionScope.prescriptionInputData.administeringMedicationMethod}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="endTreatment" class="col-sm-4 control-label">End Treatment*</label>
-                        <div class="col-sm-6">
-                            <input required type="date" id="endTreatment" name="endTreatment"
-                                   min=""
-                                   max="2021-08-16"
-                                   oninvalid="this.setCustomValidity('Please set valid end treatment date')"
-                                   oninput="setCustomValidity('')"
-                                   class="form-control">
+                        <div class="form-group">
+                            <label for="startTreatment" class="col-sm-4 control-label">Start Treatment*</label>
+                            <div class="col-sm-6">
+                                <input required type="date" id="startTreatment" name="startTreatment"
+                                       min=""
+                                       oninvalid="this.setCustomValidity('Please set a start treatment date')"
+                                       oninput="setCustomValidity('')"
+                                       class="form-control"
+                                       value="${sessionScope.prescriptionInputData.startTreatment}">
+                            </div>
                         </div>
-                    </div>
-                    <input type="hidden" id="patient"
-                           name="patient.patientId" value="${patientId}"/>
-                    <div class="form-group">
-                        <label for="intervalInHours" class="col-sm-4 control-label">Interval in Hours</label>
-                        <div class="col-sm-6">
-                            <input type="number" id="intervalInHours" name="treatmentTimePattern.intervalInHours"
-                                   placeholder="Interval In Hours" class="form-control"
-                                   value="0" min="0">
+                        <div class="form-group">
+                            <label for="endTreatment" class="col-sm-4 control-label">End Treatment*</label>
+                            <div class="col-sm-6">
+                                <input required type="date" id="endTreatment" name="endTreatment"
+                                       min=""
+                                       max="2021-08-16"
+                                       oninvalid="this.setCustomValidity('Please set valid end treatment date')"
+                                       oninput="setCustomValidity('')"
+                                       class="form-control"
+                                       value="${sessionScope.prescriptionInputData.endTreatment}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="precisionTime" class="col-sm-4 control-label">Start Interval/precision Time</label>
-                        <div class="col-sm-6">
-                            <input type="time" id="precisionTime" name="treatmentTimePattern.precisionTime"
-                                   class="form-control">
+                        <input type="hidden" id="patient"
+                               name="patient.patientId" value="${patientId}"/>
+                        <div class="form-group">
+                            <label for="intervalInHours" class="col-sm-4 control-label">Interval in Hours</label>
+                            <div class="col-sm-6">
+                                <input type="number" id="intervalInHours" name="treatmentTimePattern.intervalInHours"
+                                       placeholder="Interval In Hours" class="form-control"
+                                       value="0" min="0">
+                            </div>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label for="precisionTime" class="col-sm-4 control-label">Start Interval/precision
+                                Time</label>
+                            <div class="col-sm-6">
+                                <input type="time" id="precisionTime" name="treatmentTimePattern.precisionTime"
+                                       class="form-control"
+                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.precisionTime}">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-sm-offset-2"><p style="color: #285e8e; font-weight: 700">DAYS:</p></div>
+
+                        <div class="form-group">
+                            <label for="Sunday" class="col-sm-4 control-label">Sunday</label>
+                            <div class="col-sm-6">
+                                <c:set var="sunday"
+                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.sunday eq null ?
+                                   false : true}">
+                                </c:set>
+                                <c:choose>
+                                    <c:when test="${sunday == true}">
+                                        <input type="checkbox" id="sunday" checked name="treatmentTimePattern.Sunday"
+                                               placeholder="Sunday">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="checkbox" id="sunday" name="treatmentTimePattern.Sunday"
+                                               placeholder="Sunday">
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Monday" class="col-sm-4 control-label">Monday</label>
+                            <div class="col-sm-6">
+                                <c:set var="monday"
+                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.monday eq null ?
+                                   false : true}">
+                                </c:set>
+                                <c:choose>
+                                    <c:when test="${monday == true}">
+                                        <input type="checkbox" id="Monday" checked name="treatmentTimePattern.Monday"
+                                               placeholder="Monday">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="checkbox" id="Monday" name="treatmentTimePattern.Monday"
+                                               placeholder="Monday">
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Tuesday" class="col-sm-4 control-label">Tuesday</label>
+                            <div class="col-sm-6">
+                                <c:set var="tuesday"
+                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.tuesday eq null ?
+                                   false : true}">
+                                </c:set>
+                                <input type="checkbox" id="Tuesday"
+                                       name="treatmentTimePattern.Tuesday">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Wednesday" class="col-sm-4 control-label">Wednesday</label>
+                            <div class="col-sm-6">
+                                <c:set var="wednesday"
+                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.wednesday eq null ?
+                                   false : true}">
+                                </c:set>
+                                <input type="checkbox" id="Wednesday"
+                                       name="treatmentTimePattern.Wednesday">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Thursday" class="col-sm-4 control-label">Thursday</label>
+                            <div class="col-sm-6">
+                                <c:set var="thursday"
+                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.thursday eq null ?
+                                   false : true}">
+                                </c:set>
+                                <input type="checkbox" id="Thursday"
+                                       name="treatmentTimePattern.Thursday">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Friday" class="col-sm-4 control-label">Friday</label>
+                            <div class="col-sm-6">
+                                <c:set var="friday"
+                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.friday eq null ?
+                                   false : true}">
+                                </c:set>
+                                <input type="checkbox" id="Friday"
+                                       name="treatmentTimePattern.Friday">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Saturday" class="col-sm-4 control-label">Saturday</label>
+                            <div class="col-sm-6">
+                                <c:set var="saturday"
+                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.sunday eq null ?
+                                   false : true}">
+                                </c:set>
+                                <input type="checkbox" id="Saturday"
+                                       name="treatmentTimePattern.Saturday">
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="col-sm-offset-2"><p style="color: #285e8e; font-weight: 700">ADDITIONAL:</p></div>
+                        <div class="form-group">
+                            <label for="beforeMeals" class="col-sm-4 control-label">Before Meals</label>
+                            <div class="col-sm-6">
+                                <c:set var="before"
+                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.beforeMeals eq null ?
+                                   false : true}">
+                                </c:set>
+                                <input type="checkbox" id="beforeMeals"
+                                       name="treatmentTimePattern.beforeMeals">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="atMeals" class="col-sm-4 control-label">At Meals</label>
+                            <div class="col-sm-6">
+                                <c:set var="intime"
+                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.atMeals eq null ?
+                                   false : true}">
+                                </c:set>
+                                <input type="checkbox" id="atMeals"
+                                       name="treatmentTimePattern.atMeals">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="afterMeals" class="col-sm-4 control-label">After Meals</label>
+                            <div class="col-sm-6">
+                                <c:set var="after"
+                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.afterMeals eq null ?
+                                   false : true}">
+                                </c:set>
+                                <input type="checkbox" id="afterMeals"
+                                       name="treatmentTimePattern.afterMeals">
+                            </div>
+                        </div>
+
+                        <div style="padding-left: 50%">
+                            <input type="submit" class="btn login_btn"
+                                   id="primaryButton"
+                                   value="Add prescription"
+                                   style="background-color: orange; opacity: 0.9;"/>
+                        </div>
+                    </form:form>
+                </c:if>
+            </div>
+            <div class="warning-message" style="float: right;  display: none;">
+                <div class="card" style="width: 200px; color: indianred; font-weight: bold;margin-top: 10%">
                     <br>
-                    <div class="col-sm-offset-2"><p style="color: #285e8e; font-weight: 700">DAYS:</p></div>
-
-                    <div class="form-group">
-                        <label for="Sunday" class="col-sm-4 control-label">Sunday</label>
-                        <div class="col-sm-6">
-                            <input type="checkbox" id="Sunday"
-                                   name="treatmentTimePattern.Sunday">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="Monday" class="col-sm-4 control-label">Monday</label>
-                        <div class="col-sm-6">
-                            <input type="checkbox" id="Monday"
-                                   name="treatmentTimePattern.Monday">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="Tuesday" class="col-sm-4 control-label">Tuesday</label>
-                        <div class="col-sm-6">
-                            <input type="checkbox" id="Tuesday"
-                                   name="treatmentTimePattern.Tuesday">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="Wednesday" class="col-sm-4 control-label">Wednesday</label>
-                        <div class="col-sm-6">
-                            <input type="checkbox" id="Wednesday"
-                                   name="treatmentTimePattern.Wednesday">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="Thursday" class="col-sm-4 control-label">Thursday</label>
-                        <div class="col-sm-6">
-                            <input type="checkbox" id="Thursday"
-                                   name="treatmentTimePattern.Thursday">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="Friday" class="col-sm-4 control-label">Friday</label>
-                        <div class="col-sm-6">
-                            <input type="checkbox" id="Friday"
-                                   name="treatmentTimePattern.Friday">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="Saturday" class="col-sm-4 control-label">Saturday</label>
-                        <div class="col-sm-6">
-                            <input type="checkbox" id="Saturday"
-                                   name="treatmentTimePattern.Saturday">
-                        </div>
-                    </div>
-
+                    <h4>The patient already has a treatment event for this time.</h4>
                     <br>
-                    <div class="col-sm-offset-2"><p style="color: #285e8e; font-weight: 700">ADDITIONAL:</p></div>
-                    <div class="form-group">
-                        <label for="beforeMeals" class="col-sm-4 control-label">Before Meals</label>
-                        <div class="col-sm-6">
-                            <input type="checkbox" id="beforeMeals"
-                                   name="treatmentTimePattern.beforeMeals">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="atMeals" class="col-sm-4 control-label">At Meals</label>
-                        <div class="col-sm-6">
-                            <input type="checkbox" id="atMeals"
-                                   name="treatmentTimePattern.atMeals">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="afterMeals" class="col-sm-4 control-label">After Meals</label>
-                        <div class="col-sm-6">
-                            <input type="checkbox" id="afterMeals"
-                                   name="treatmentTimePattern.afterMeals">
-                        </div>
-                    </div>
-
-                    <div style="padding-left: 50%">
-                        <input type="submit" class="btn login_btn" value="Add prescription"
-                               style="background-color: orange; opacity: 0.9;"/>
-                    </div>
-                </form:form>
+                    <h4>Are you sure you want to add another one?</h4>
+                </div>
             </div>
         </div>
         <!-- *******MAIN CONTAINER******* -->
     </div>
+    <c:set var="check" value='${sessionScope.isShowWarningPopup}' scope="page"></c:set>
+    <script>
+        function checkExistedPrescriptions() {
+            document.querySelector(".warning-message").style.display = "flex";
+        }
+
+        function hideWarning() {
+            document.querySelector(".warning-message").style.display = "none";
+        }
+    </script>
+    <c:choose>
+        <c:when test="${check eq 'true'}">
+            <script> checkExistedPrescriptions() </script>
+        </c:when>
+    </c:choose>
+
     <!--wrapper end-->
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -240,6 +339,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
+
 
 <script src="${pageContext.request.contextPath}/resources/js/today_date.js"></script>
 </body>

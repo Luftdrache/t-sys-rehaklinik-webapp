@@ -38,7 +38,12 @@
             <ul>
                 <li class="item" id="#patients">
                     <a href="${pageContext.request.contextPath}/doctor/start-page" class="menu-btn">
-                        <i class="fas fa-users"></i><span>My patients</span>
+                        <i class="fas fa-user-friends"></i><span>My patients</span>
+                    </a>
+                </li>
+                <li class="item" id="#all-patients">
+                    <a href="${pageContext.request.contextPath}/doctor/start-page/all-patients" class="menu-btn">
+                        <i class="fas fa-users"></i><span>All patients</span>
                     </a>
                 </li>
                 <li class="item">

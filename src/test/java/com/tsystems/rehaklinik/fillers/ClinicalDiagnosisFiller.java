@@ -1,8 +1,7 @@
 package com.tsystems.rehaklinik.fillers;
 
 import com.tsystems.rehaklinik.dto.ClinicalDiagnosisDTO;
-import com.tsystems.rehaklinik.dto.MedicalRecordDTO;
-import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
+import com.tsystems.rehaklinik.entities.ClinicalDiagnosis;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
 import lombok.NoArgsConstructor;
 
@@ -12,8 +11,8 @@ public class ClinicalDiagnosisFiller {
     private static final String MAIN_DISEASE = "Cardiomyopathy";
     private static final String ICD_10_CODE = "I43.1";
 
-    public static ClinicalDiagnose getClinicalDiagnosis() {
-        ClinicalDiagnose clinicalDiagnosis = new ClinicalDiagnose();
+    public static ClinicalDiagnosis getClinicalDiagnosis() {
+        ClinicalDiagnosis clinicalDiagnosis = new ClinicalDiagnosis();
         clinicalDiagnosis.setClinicalDiagnosisId(ID);
         clinicalDiagnosis.setMainDisease(MAIN_DISEASE);
         clinicalDiagnosis.setIcd10Code(ICD_10_CODE);

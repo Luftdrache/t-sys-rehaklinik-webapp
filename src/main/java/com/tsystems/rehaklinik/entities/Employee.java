@@ -71,17 +71,10 @@ public class Employee implements Serializable {
     @Column(name = "office_or_ward_number", length = 3)
     private int officeOrWardNumber;
 
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "working_schedule_id", referencedColumnName = "working_schedule_id")
-    private WorkingSchedule workingSchedule;
-
-
     @Enumerated(EnumType.STRING)
     @Column(name = "role", columnDefinition = "ENUM('ADMIN', 'RECEPTIONIST', 'DOCTOR', 'NURSE')",
             nullable = false, length = 25)
     private Roles role;
-
 
     @OneToMany(mappedBy = "attendingDoctorId", fetch = FetchType.LAZY)
     private List<Patient> patients;

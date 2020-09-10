@@ -1,7 +1,7 @@
 package com.tsystems.rehaklinik.converters.DTOconverters;
 
 import com.tsystems.rehaklinik.dto.ClinicalDiagnosisDTO;
-import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
+import com.tsystems.rehaklinik.entities.ClinicalDiagnosis;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -10,7 +10,7 @@ public interface ClinicalDiagnoseMapper {
 
     ClinicalDiagnoseMapper INSTANCE = Mappers.getMapper(ClinicalDiagnoseMapper.class);
 
-    ClinicalDiagnosisDTO toDTO(ClinicalDiagnose clinicalDiagnose);
+    ClinicalDiagnosisDTO toDTO(ClinicalDiagnosis clinicalDiagnose);
 
-    ClinicalDiagnose fromDTO(ClinicalDiagnosisDTO clinicalDiagnosisDTO);
+    ClinicalDiagnosis fromDTO(ClinicalDiagnosisDTO clinicalDiagnosisDTO);
 }

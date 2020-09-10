@@ -1,7 +1,7 @@
 package com.tsystems.rehaklinik.dao;
 
 
-import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
+import com.tsystems.rehaklinik.entities.ClinicalDiagnosis;
 import com.tsystems.rehaklinik.exceptions.WrongIdException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ public class ClinicalDiagnosisDAOImpl implements ClinicalDiagnosisDAO {
     private EntityManager entityManager;
 
     @Override
-    public ClinicalDiagnose createClinicalDiagnosis(ClinicalDiagnose clinicalDiagnosis) {
+    public ClinicalDiagnosis createClinicalDiagnosis(ClinicalDiagnosis clinicalDiagnosis) {
         logger.info("MedHelper_LOGS: ClinicalDiagnosisDAOImpl: Add new diagnosis");
         entityManager.persist(clinicalDiagnosis);
         logger.info("MedHelper_LOGS:  ClinicalDiagnosisDAOImpl: Added new diagnosis");
@@ -34,12 +34,12 @@ public class ClinicalDiagnosisDAOImpl implements ClinicalDiagnosisDAO {
 
 
     @Override
-    public ClinicalDiagnose updateClinicalDiagnosis(ClinicalDiagnose clinicalDiagnose) {
+    public ClinicalDiagnosis updateClinicalDiagnosis(ClinicalDiagnosis clinicalDiagnose) {
         logger.info("MedHelper_LOGS: ClinicalDiagnosisDAOImpl: updating clinical diagnosis");
         if (clinicalDiagnose.getClinicalDiagnosisId() != 0
-                && entityManager.find(ClinicalDiagnose.class, clinicalDiagnose.getClinicalDiagnosisId()) != null) {
+                && entityManager.find(ClinicalDiagnosis.class, clinicalDiagnose.getClinicalDiagnosisId()) != null) {
             try {
-                ClinicalDiagnose updClinicalDiagnosis = entityManager.merge(clinicalDiagnose);
+                ClinicalDiagnosis updClinicalDiagnosis = entityManager.merge(clinicalDiagnose);
                 logger.info("MedHelper_LOGS: ClinicalDiagnosisDAOImpl: " +
                         "Successful attempt to edit a clinical diagnosis with an id = {} ", clinicalDiagnose.getClinicalDiagnosisId());
                 return updClinicalDiagnosis;
@@ -54,11 +54,11 @@ public class ClinicalDiagnosisDAOImpl implements ClinicalDiagnosisDAO {
 
 
     @Override
-    public boolean deleteClinicalDiagnosis(ClinicalDiagnose clinicalDiagnose) {
+    public boolean deleteClinicalDiagnosis(ClinicalDiagnosis clinicalDiagnose) {
         logger.info("MedHelper_LOGS: ClinicalDiagnosisDAOImpl: Deleting diagnosis by id");
         int id = clinicalDiagnose.getClinicalDiagnosisId();
         entityManager.remove(clinicalDiagnose);
-        ClinicalDiagnose deleted = entityManager.find(ClinicalDiagnose.class, id);
+        ClinicalDiagnosis deleted = entityManager.find(ClinicalDiagnosis.class, id);
         if (deleted == null) {
             logger.info("MedHelper_LOGS: ClinicalDiagnosisDAOImpl: Clinical Diagnosis with id = {} deleted", id);
             return true;
@@ -70,9 +70,9 @@ public class ClinicalDiagnosisDAOImpl implements ClinicalDiagnosisDAO {
 
 
     @Override
-    public ClinicalDiagnose getClinicalDiagnosisById(int id) {
+    public ClinicalDiagnosis getClinicalDiagnosisById(int id) {
         logger.info("MedHelper_LOGS: ClinicalDiagnosisDAOImpl: getting diagnosis by id");
-        ClinicalDiagnose clinicalDiagnose = entityManager.find(ClinicalDiagnose.class, id);
+        ClinicalDiagnosis clinicalDiagnose = entityManager.find(ClinicalDiagnosis.class, id);
         if (clinicalDiagnose != null) {
             logger.info("MedHelper_LOGS: ClinicalDiagnosisDAOImpl: Clinical diagnose with id = {} found successfully", id);
             return clinicalDiagnose;
@@ -83,12 +83,12 @@ public class ClinicalDiagnosisDAOImpl implements ClinicalDiagnosisDAO {
 
 
     @Override
-    public Set<ClinicalDiagnose> getAllPatientClinicalDiagnosis(int medicalRecordId) {
+    public Set<ClinicalDiagnosis> getAllPatientClinicalDiagnosis(int medicalRecordId) {
         logger.info("MedHelper_LOGS: ClinicalDiagnosisDAO: finding clinical diagnosis by medical record id");
         return new HashSet<>(
                 entityManager.createQuery(
-                        "SELECT cd FROM ClinicalDiagnose cd WHERE cd.medicalRecord.medicalRecordId = :medicalRecordId",
-                        ClinicalDiagnose.class)
+                        "SELECT cd FROM ClinicalDiagnosis cd WHERE cd.medicalRecord.medicalRecordId = :medicalRecordId",
+                        ClinicalDiagnosis.class)
                         .setParameter("medicalRecordId", medicalRecordId).getResultList());
     }
 }

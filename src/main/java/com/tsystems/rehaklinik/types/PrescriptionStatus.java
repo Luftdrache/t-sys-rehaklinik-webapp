@@ -2,7 +2,8 @@ package com.tsystems.rehaklinik.types;
 
 public enum PrescriptionStatus {
     TBD("To be done"),
-    CANCELLED("Cancelled");
+    CANCELLED("Cancelled"),
+    DONE("Done");
 
     private String prescriptionStatus;
 
@@ -22,6 +23,5 @@ public enum PrescriptionStatus {
     public String toString() {
         return prescriptionStatus;
     }
-
 
 }

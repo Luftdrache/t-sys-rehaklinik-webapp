@@ -190,6 +190,16 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
 
 
     @Override
+    public List<TreatmentEvent> findAllTreatmentEventsByPrescriptionId(int prescriptionId) {
+        logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding all treatment events by prescription id");
+        return entityManager.createQuery("SELECT t FROM TreatmentEvent t " +
+                "WHERE t.prescription.prescriptionId = :prescriptionId", TreatmentEvent.class)
+                .setParameter("prescriptionId", prescriptionId)
+                .getResultList();
+    }
+
+
+    @Override
     public TreatmentEvent findTreatmentEventById(int treatmentEventId) {
         logger.info("MedHelper_LOGS: TreatmentEventDAOImpl: finding treatment event by id");
         TreatmentEvent foundTreatmentEvent = entityManager.find(TreatmentEvent.class, treatmentEventId);
@@ -208,7 +218,7 @@ public class TreatmentEventDAOImpl implements TreatmentEventDAO {
         return entityManager.createQuery(
                 "select t from TreatmentEvent t where lower(t.patient.surname) LIKE lower(:surname) " +
                         "ORDER BY t.treatmentEventStatus asc, t.treatmentEventDate, t.treatmentEventTime", TreatmentEvent.class)
-                .setParameter("surname", surname)
+                .setParameter("surname", "%" + surname + "%")
                 .getResultList();
     }
 

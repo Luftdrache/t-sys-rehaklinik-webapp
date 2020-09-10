@@ -27,6 +27,8 @@
     <title>MedHelper</title>
 </head>
 <body>
+<c:set var="docId" scope="page"><sec:authentication
+        property="principal.employee.employeeId"/></c:set>
 <!--wrapper start-->
 <div class="wrapper">
     <%@include file="shared/shared_header.jsp" %>
@@ -56,64 +58,70 @@
         <div class="container-fluid">
             <div content="container" class="col-sm-8 col-sm-offset-2"
                  style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
-                <form:form action="${pageContext.request.contextPath}/doctor/edit-clinical-diagnosis" method="post"
-                           class="form-horizontal"
-                           role="form">
-                    <div style="padding-left: 20%">
-                        <h2>Edit Clinical Diagnosis</h2>
-                        <span class="help-block">*Required fields</span>
-                    </div>
-                    <div style="color: indianred;font-weight: 700; font-size: 20px"><p>${message}</p></div>
-                    <c:set var="cDiagnosisIdToEdit" value="${message}"/>
-                    <c:if test="${empty cDiagnosisIdToEdit}">
-                        <!-- HIDDEN -->
-                        <input type="hidden" id="clinicalDiagnosisId" name="clinicalDiagnosisId"
-                               value="${CDToEdit.clinicalDiagnosisId}"/>
-                        <input type="hidden" id="medicalRecord.medicalRecordId" name="medicalRecord.medicalRecordId"
-                               value="${CDToEdit.medicalRecord.medicalRecordId}"/>
-                        <div class="form-group">
-                            <label for="mainDisease" class="col-sm-4 control-label">Main Disease*</label>
-                            <div class="col-sm-6">
-                                <input type="text" id="mainDisease" value="${CDToEdit.mainDisease}"
-                                       name="mainDisease" placeholder="Main Disease" class="form-control"
-                                       autofocus>
-                            </div>
+                <c:if test="${docId ne attendingDoctorId}">
+                    <h4>Sorry, you are not allowed to make changes for this patient</h4>
+                </c:if>
+                <c:if test="${docId eq attendingDoctorId}">
+                    <form:form action="${pageContext.request.contextPath}/doctor/edit-clinical-diagnosis" method="post"
+                               class="form-horizontal"
+                               role="form">
+                        <div style="padding-left: 20%">
+                            <h2>Edit Clinical Diagnosis</h2>
+                            <span class="help-block">*Required fields</span>
                         </div>
-                        <div class="form-group">
-                            <label for="icd10Code" class="col-sm-4 control-label">ICD-10 Code*</label>
-                            <div class="col-sm-6">
-                                <input type="text" id="icd10Code" value="${CDToEdit.icd10Code}"
-                                       name="icd10Code" placeholder="ICD-10 Code" class="form-control"
-                                       autofocus>
+                        <div style="color: indianred;font-weight: 700; font-size: 20px"><p>${message}</p></div>
+                        <c:set var="cDiagnosisIdToEdit" value="${message}"/>
+                        <c:if test="${empty cDiagnosisIdToEdit}">
+                            <!-- HIDDEN -->
+                            <input type="hidden" id="clinicalDiagnosisId" name="clinicalDiagnosisId"
+                                   value="${CDToEdit.clinicalDiagnosisId}"/>
+                            <input type="hidden" id="medicalRecord.medicalRecordId" name="medicalRecord.medicalRecordId"
+                                   value="${CDToEdit.medicalRecord.medicalRecordId}"/>
+                            <div class="form-group">
+                                <label for="mainDisease" class="col-sm-4 control-label">Main Disease*</label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="mainDisease" value="${CDToEdit.mainDisease}"
+                                           name="mainDisease" placeholder="Main Disease" class="form-control"
+                                           autofocus>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="accompanyingPathology" class="col-sm-4 control-label">Accompanying
-                                Pathology</label>
-                            <div class="col-sm-6">
-                                <input type="text" id="accompanyingPathology" value="${CDToEdit.accompanyingPathology}"
-                                       name="accompanyingPathology" placeholder="Accompanying Pathology"
-                                       class="form-control"
-                                       autofocus>
+                            <div class="form-group">
+                                <label for="icd10Code" class="col-sm-4 control-label">ICD-10 Code*</label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="icd10Code" value="${CDToEdit.icd10Code}"
+                                           name="icd10Code" placeholder="ICD-10 Code" class="form-control"
+                                           autofocus>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="fullDiagnosisDescription" class="col-sm-4 control-label">
-                                Full Diagnosis Description
-                            </label>
-                            <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="accompanyingPathology" class="col-sm-4 control-label">Accompanying
+                                    Pathology</label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="accompanyingPathology"
+                                           value="${CDToEdit.accompanyingPathology}"
+                                           name="accompanyingPathology" placeholder="Accompanying Pathology"
+                                           class="form-control"
+                                           autofocus>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="fullDiagnosisDescription" class="col-sm-4 control-label">
+                                    Full Diagnosis Description
+                                </label>
+                                <div class="col-sm-6">
                             <textarea rows="8" id="fullDiagnosisDescription"
                                       name="fullDiagnosisDescription"
                                       placeholder="Full Diagnosis Description"
                                       class="form-control">${CDToEdit.fullDiagnosisDescription}</textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div style="padding-left: 50%">
-                            <input id="submit-edit-diagnosis" type="submit" class="btn login_btn" value="Edit"
-                                   style="background-color: orange; opacity: 0.9;"/>
-                        </div>
-                    </c:if>
-                </form:form>
+                            <div style="padding-left: 50%">
+                                <input id="submit-edit-diagnosis" type="submit" class="btn login_btn" value="Edit"
+                                       style="background-color: orange; opacity: 0.9;"/>
+                            </div>
+                        </c:if>
+                    </form:form>
+                </c:if>
             </div>
         </div>
         <!-- *******MAIN CONTAINER******* -->

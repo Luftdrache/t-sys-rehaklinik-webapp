@@ -27,7 +27,7 @@ public class MedicalRecord implements Serializable{
     private Patient patient;
 
     @OneToMany (mappedBy = "medicalRecord", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<ClinicalDiagnose> clinicalDiagnosis;
+    private Set<ClinicalDiagnosis> clinicalDiagnosis;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "hospital_stay_status", columnDefinition ="ENUM ('NEW', 'BEING_TREATED', 'DISCHARGED') default 'NEW'",

@@ -4,6 +4,7 @@ package com.tsystems.rehaklinik.dao;
 import com.tsystems.rehaklinik.entities.Prescription;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -65,8 +66,14 @@ public interface PrescriptionDAO {
      * @param medicineOrProcedureName name of a medicine or a procedure
      * @param startTreatment          date of a start  treatment period
      * @param endTreatment            date of an end  treatment period
-     * @return
+     * @return boolean result of operation
      */
     boolean checkTheDuplicatePrescriptionAssignment(
             int patientId, String medicineOrProcedureName, LocalDate startTreatment, LocalDate endTreatment);
+
+
+    List<Prescription> checkOtherPrescriptionOnSameDateAndTime(
+            int patientId, LocalDate startTreatment, LocalDate endTreatment, LocalTime time);
+
+
 }

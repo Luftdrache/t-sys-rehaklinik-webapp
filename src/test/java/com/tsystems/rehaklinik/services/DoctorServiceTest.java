@@ -64,7 +64,7 @@ class DoctorServiceTest {
     void setHospitalisation_should_change_hospitalisation_status() {
         Patient patient = PatientFiller.getPatient();
         given(patientDAO.findPatientById(TEST_ID)).willReturn(patient);
-        Set<ClinicalDiagnose> clinicalDiagnosisSet = new HashSet<>();
+        Set<ClinicalDiagnosis> clinicalDiagnosisSet = new HashSet<>();
         clinicalDiagnosisSet.add(ClinicalDiagnosisFiller.getClinicalDiagnosis());
         given(clinicalDiagnosisDAO.getAllPatientClinicalDiagnosis(TEST_ID)).willReturn(clinicalDiagnosisSet);
         given(medicalRecordDAO.updateMedicalRecord(any(MedicalRecord.class)))
@@ -284,7 +284,7 @@ class DoctorServiceTest {
 
     @Test
     void getClinicalDiagnosis_should_return_clinical_diagnosis_by_id() {
-        ClinicalDiagnose clinicalDiagnose = ClinicalDiagnosisFiller.getClinicalDiagnosis();
+        ClinicalDiagnosis clinicalDiagnose = ClinicalDiagnosisFiller.getClinicalDiagnosis();
         given(clinicalDiagnosisDAO.getClinicalDiagnosisById(TEST_ID)).willReturn(clinicalDiagnose);
         ClinicalDiagnosisDTO cdFoundById = doctorService.getClinicalDiagnosis(TEST_ID);
         assertEquals(clinicalDiagnose.getClinicalDiagnosisId(), cdFoundById.getClinicalDiagnosisId());
@@ -297,17 +297,17 @@ class DoctorServiceTest {
     void setNewDiagnosis_should_return_medical_record_with_diagnosis() {
         MedicalRecord medicalRecord = MedicalRecordFiller.getMedicalRecord();
         given(medicalRecordDAO.findMedicalRecordById(TEST_ID)).willReturn(medicalRecord);
-        when(clinicalDiagnosisDAO.createClinicalDiagnosis(any(ClinicalDiagnose.class)))
-                .thenAnswer((Answer<ClinicalDiagnose>) invocation -> {
-                    ClinicalDiagnose clinicalDiagnosis = (ClinicalDiagnose) invocation.getArguments()[0];
+        when(clinicalDiagnosisDAO.createClinicalDiagnosis(any(ClinicalDiagnosis.class)))
+                .thenAnswer((Answer<ClinicalDiagnosis>) invocation -> {
+                    ClinicalDiagnosis clinicalDiagnosis = (ClinicalDiagnosis) invocation.getArguments()[0];
                     clinicalDiagnosis.setClinicalDiagnosisId(1);
                     clinicalDiagnosis.setMainDisease("Cardiomyopathy");
                     clinicalDiagnosis.setIcd10Code("I43.1");
                     return clinicalDiagnosis;
                 });
-        when(clinicalDiagnosisDAO.updateClinicalDiagnosis(any(ClinicalDiagnose.class)))
-                .thenAnswer((Answer<ClinicalDiagnose>) invocation -> {
-                    ClinicalDiagnose clinicalDiagnose = (ClinicalDiagnose) invocation.getArguments()[0];
+        when(clinicalDiagnosisDAO.updateClinicalDiagnosis(any(ClinicalDiagnosis.class)))
+                .thenAnswer((Answer<ClinicalDiagnosis>) invocation -> {
+                    ClinicalDiagnosis clinicalDiagnose = (ClinicalDiagnosis) invocation.getArguments()[0];
                     clinicalDiagnose.setMainDisease("Disease");
                     return clinicalDiagnose;
                 });
@@ -323,10 +323,10 @@ class DoctorServiceTest {
 
     @Test
     void editClinicalDiagnosis_should_return_edited_clinical_diagnosis() {
-        ClinicalDiagnose clinicalDiagnoseToEdit = ClinicalDiagnosisFiller.getClinicalDiagnosis();
+        ClinicalDiagnosis clinicalDiagnoseToEdit = ClinicalDiagnosisFiller.getClinicalDiagnosis();
         MedicalRecord medicalRecord = MedicalRecordFiller.getMedicalRecord();
         given(medicalRecordDAO.findMedicalRecordById(1)).willReturn(medicalRecord);
-        ClinicalDiagnose editedTest = ClinicalDiagnosisFiller.getClinicalDiagnosis();
+        ClinicalDiagnosis editedTest = ClinicalDiagnosisFiller.getClinicalDiagnosis();
         given(clinicalDiagnosisDAO.updateClinicalDiagnosis(clinicalDiagnoseToEdit)).willReturn(editedTest);
         ClinicalDiagnosisDTO clinicalDiagnosisDTO = ClinicalDiagnosisFiller.ClinicalDiagnosisDTO();
         ClinicalDiagnosisDTO edited = doctorService.editClinicalDiagnosis(clinicalDiagnosisDTO);
@@ -335,7 +335,7 @@ class DoctorServiceTest {
 
     @Test
     void deleteClinicalDiagnosisById_should_return_true() {
-        ClinicalDiagnose clinicalDiagnose = ClinicalDiagnosisFiller.getClinicalDiagnosis();
+        ClinicalDiagnosis clinicalDiagnose = ClinicalDiagnosisFiller.getClinicalDiagnosis();
         given(clinicalDiagnosisDAO.getClinicalDiagnosisById(TEST_ID)).willReturn(clinicalDiagnose);
         MedicalRecord medicalRecord = MedicalRecordFiller.getMedicalRecord();
         given(medicalRecordDAO.findMedicalRecordById(TEST_ID)).willReturn(medicalRecord);

@@ -1,12 +1,12 @@
 package com.tsystems.rehaklinik.dao;
 
-import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
+import com.tsystems.rehaklinik.entities.ClinicalDiagnosis;
 
 import java.util.Set;
 
 
 /**
- * DAO for {@link ClinicalDiagnose} objects
+ * DAO for {@link ClinicalDiagnosis} objects
  *
  * @author Julia Dalskaya
  */
@@ -18,7 +18,7 @@ public interface ClinicalDiagnosisDAO {
      * @param clinicalDiagnosis clinical diagnosis
      * @return created clinical diagnosis
      */
-    ClinicalDiagnose createClinicalDiagnosis(ClinicalDiagnose clinicalDiagnosis);
+    ClinicalDiagnosis createClinicalDiagnosis(ClinicalDiagnosis clinicalDiagnosis);
 
 
     /**
@@ -27,7 +27,7 @@ public interface ClinicalDiagnosisDAO {
      * @param clinicalDiagnose clinical diagnosis
      * @return updated clinical diagnosis
      */
-    ClinicalDiagnose updateClinicalDiagnosis(ClinicalDiagnose clinicalDiagnose);
+    ClinicalDiagnosis updateClinicalDiagnosis(ClinicalDiagnosis clinicalDiagnose);
 
 
     /**
@@ -36,7 +36,7 @@ public interface ClinicalDiagnosisDAO {
      * @param clinicalDiagnose clinical diagnosis to delete
      * @return boolean result of deleting operation
      */
-    boolean deleteClinicalDiagnosis(ClinicalDiagnose clinicalDiagnose);
+    boolean deleteClinicalDiagnosis(ClinicalDiagnosis clinicalDiagnose);
 
 
     /**
@@ -45,7 +45,7 @@ public interface ClinicalDiagnosisDAO {
      * @param id clinical diagnosis id
      * @return clinical diagnosis found by id
      */
-    ClinicalDiagnose getClinicalDiagnosisById(int id);
+    ClinicalDiagnosis getClinicalDiagnosisById(int id);
 
 
     /**
@@ -54,5 +54,5 @@ public interface ClinicalDiagnosisDAO {
      * @param medicalRecordId medical record id
      * @return Finds clinical diagnosis by its id
      */
-    Set<ClinicalDiagnose> getAllPatientClinicalDiagnosis(int medicalRecordId);
+    Set<ClinicalDiagnosis> getAllPatientClinicalDiagnosis(int medicalRecordId);
 }

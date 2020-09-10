@@ -1,7 +1,7 @@
 package com.tsystems.rehaklinik.fillers;
 
 import com.tsystems.rehaklinik.dto.MedicalRecordDTO;
-import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
+import com.tsystems.rehaklinik.entities.ClinicalDiagnosis;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
 import com.tsystems.rehaklinik.types.HospitalStayStatus;
 
@@ -26,7 +26,7 @@ public class MedicalRecordFiller {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setMedicalRecordId(ID);
         medicalRecord.setHospitalStayStatus(STATUS);
-        Set<ClinicalDiagnose> clinicalDiagnoseSet = new HashSet<>();
+        Set<ClinicalDiagnosis> clinicalDiagnoseSet = new HashSet<>();
         clinicalDiagnoseSet.add(ClinicalDiagnosisFiller.getClinicalDiagnosis());
         medicalRecord.setClinicalDiagnosis(clinicalDiagnoseSet);
         return medicalRecord;

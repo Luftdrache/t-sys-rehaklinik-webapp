@@ -1,12 +1,12 @@
 package com.tsystems.rehaklinik.converters.DTOconverters;
 
 import com.tsystems.rehaklinik.dto.ClinicalDiagnosisDTO;
-import com.tsystems.rehaklinik.entities.ClinicalDiagnose;
+import com.tsystems.rehaklinik.entities.ClinicalDiagnosis;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
 
 
 public class ClinicalDiagnoseDTOConverter {
-    public static ClinicalDiagnosisDTO toDTO(ClinicalDiagnose clinicalDiagnose) {
+    public static ClinicalDiagnosisDTO toDTO(ClinicalDiagnosis clinicalDiagnose) {
         ClinicalDiagnosisDTO clinicalDiagnosisDTO = new ClinicalDiagnosisDTO();
         clinicalDiagnosisDTO.setClinicalDiagnosisId(clinicalDiagnose.getClinicalDiagnosisId());
         clinicalDiagnosisDTO.setMainDisease(clinicalDiagnose.getMainDisease());
@@ -17,8 +17,8 @@ public class ClinicalDiagnoseDTOConverter {
         return clinicalDiagnosisDTO;
     }
 
-    public static ClinicalDiagnose fromDTO(ClinicalDiagnosisDTO clinicalDiagnosisDTO) {
-        ClinicalDiagnose clinicalDiagnose = new ClinicalDiagnose();
+    public static ClinicalDiagnosis fromDTO(ClinicalDiagnosisDTO clinicalDiagnosisDTO) {
+        ClinicalDiagnosis clinicalDiagnose = new ClinicalDiagnosis();
         clinicalDiagnose.setClinicalDiagnosisId(clinicalDiagnosisDTO.getClinicalDiagnosisId());
         clinicalDiagnose.setMainDisease(clinicalDiagnosisDTO.getMainDisease());
         clinicalDiagnose.setIcd10Code(clinicalDiagnosisDTO.getIcd10Code());

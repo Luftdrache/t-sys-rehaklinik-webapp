@@ -128,6 +128,14 @@ public interface TreatmentEventDAO {
 
 
     /**
+     * Searches for all treatment events by selected prescription id
+     *
+     * @return planned treatment events list
+     */
+    List<TreatmentEvent> findAllTreatmentEventsByPrescriptionId(int prescriptionId);
+
+
+    /**
      * Searches for all planned treatment events by selected patient id
      *
      * @param id patient id

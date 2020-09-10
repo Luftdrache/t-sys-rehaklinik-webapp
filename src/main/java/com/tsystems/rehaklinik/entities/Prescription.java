@@ -41,7 +41,7 @@ public class Prescription implements Serializable {
     private LocalDate endTreatment;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "prescription_status", columnDefinition = "ENUM('TBD', 'CANCELLED')", nullable = false)
+    @Column(name = "prescription_status", columnDefinition = "ENUM('TBD', 'CANCELLED', 'DONE')", nullable = false)
     private PrescriptionStatus prescriptionStatus;
 
     @ManyToOne

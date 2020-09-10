@@ -28,6 +28,8 @@
     <title>MedHelper</title>
 </head>
 <body>
+<c:set var="docId" scope="page"><sec:authentication
+        property="principal.employee.employeeId"/></c:set>
 <!--wrapper start-->
 <div class="wrapper">
     <%@include file="shared/shared_header.jsp" %>
@@ -48,11 +50,13 @@
                         <i class="fas fa-file-medical-alt"></i><span>Medical Record</span>
                     </a>
                 </li>
-                <li class="item" id="add-prescription" style="font-size: 20px;">
-                    <a href="${pageContext.request.contextPath}/doctor/add-prescription/${medrec}" class="menu-btn">
-                        <i class="fas fa-tablets"></i><span>Add prescription</span>
-                    </a>
-                </li>
+                <c:if test="${docId eq attendingDoctorId}">
+                    <li class="item" id="add-prescription" style="font-size: 20px;">
+                        <a href="${pageContext.request.contextPath}/doctor/add-prescription/${medrec}" class="menu-btn">
+                            <i class="fas fa-tablets"></i><span>Add prescription</span>
+                        </a>
+                    </li>
+                </c:if>
             </ul>
         </div>
     </div>
@@ -62,64 +66,69 @@
         <div class="container-fluid">
             <div content="container" class="col-sm-8 col-sm-offset-2"
                  style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
-                <form:form action="${pageContext.request.contextPath}/doctor/medical-record/add-diagnosis/${medrec}"
-                           id="add-diagnosis-form"
-                           method="post"
-                           class="form-horizontal"
-                           role="form">
-                    <div style="padding-left: 20%">
-                        <h2>Specify Diagnosis</h2>
-                        <span class="help-block">*Required fields</span>
-                    </div>
+                <c:if test="${docId ne attendingDoctorId}">
+                    <h4>Sorry, you are not allowed to make changes for this patient</h4>
+                </c:if>
+                <c:if test="${docId eq attendingDoctorId}">
+                    <form:form action="${pageContext.request.contextPath}/doctor/medical-record/add-diagnosis/${medrec}"
+                               id="add-diagnosis-form"
+                               method="post"
+                               class="form-horizontal"
+                               role="form">
+                        <div style="padding-left: 20%">
+                            <h2>Specify Diagnosis</h2>
+                            <span class="help-block">*Required fields</span>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="mainDisease" class="col-sm-4 control-label">
-                            Main Disease*
-                        </label>
-                        <div class="col-sm-6">
-                            <input required type="text" id="mainDisease"
-                                   name="mainDisease"
-                                   placeholder="Main Disease"
-                                   oninvalid="this.setCustomValidity('Please enter a main disease')"
-                                   oninput="setCustomValidity('')"
-                                   class="form-control">
+                        <div class="form-group">
+                            <label for="mainDisease" class="col-sm-4 control-label">
+                                Main Disease*
+                            </label>
+                            <div class="col-sm-6">
+                                <input required type="text" id="mainDisease"
+                                       name="mainDisease"
+                                       placeholder="Main Disease"
+                                       oninvalid="this.setCustomValidity('Please enter a main disease')"
+                                       oninput="setCustomValidity('')"
+                                       class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="icd10Code" class="col-sm-4 control-label">ICD-10*</label>
-                        <div class="col-sm-6">
-                            <input required type="text" id="icd10Code" name="icd10Code"
-                                   placeholder="ICD-10"
-                                   oninvalid="this.setCustomValidity('Please enter a ICD-10 code')"
-                                   oninput="setCustomValidity('')"
-                                   class="form-control">
+                        <div class="form-group">
+                            <label for="icd10Code" class="col-sm-4 control-label">ICD-10*</label>
+                            <div class="col-sm-6">
+                                <input required type="text" id="icd10Code" name="icd10Code"
+                                       placeholder="ICD-10"
+                                       oninvalid="this.setCustomValidity('Please enter a ICD-10 code')"
+                                       oninput="setCustomValidity('')"
+                                       class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="accompanyingPathology" class="col-sm-4 control-label">
-                            Accompanying Pathology
-                        </label>
-                        <div class="col-sm-6">
-                            <input type="text" id="accompanyingPathology"
-                                   name="accompanyingPathology"
-                                   placeholder="Accompanying Pathology" class="form-control">
+                        <div class="form-group">
+                            <label for="accompanyingPathology" class="col-sm-4 control-label">
+                                Accompanying Pathology
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" id="accompanyingPathology"
+                                       name="accompanyingPathology"
+                                       placeholder="Accompanying Pathology" class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="fullDiagnosisDescription" class="col-sm-4 control-label">
-                            Full Diagnosis Description
-                        </label>
-                        <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="fullDiagnosisDescription" class="col-sm-4 control-label">
+                                Full Diagnosis Description
+                            </label>
+                            <div class="col-sm-6">
                             <textarea rows="8" id="fullDiagnosisDescription"
                                       name="fullDiagnosisDescription"
                                       placeholder="Full Diagnosis Description" class="form-control"></textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div style="padding-left: 50%">
-                        <input id="set-new-diagnosis" type="submit" class="btn login_btn" value="Set Diagnosis"
-                               style="background-color: orange; opacity: 0.9;"/>
-                    </div>
-                </form:form>
+                        <div style="padding-left: 50%">
+                            <input id="set-new-diagnosis" type="submit" class="btn login_btn" value="Set Diagnosis"
+                                   style="background-color: orange; opacity: 0.9;"/>
+                        </div>
+                    </form:form>
+                </c:if>
             </div>
         </div>
         <!-- *******MAIN CONTAINER******* -->

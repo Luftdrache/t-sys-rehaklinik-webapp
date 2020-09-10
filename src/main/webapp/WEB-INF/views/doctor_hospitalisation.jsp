@@ -27,6 +27,8 @@
     <title>MedHelper</title>
 </head>
 <body>
+<c:set var="docId" scope="page"><sec:authentication
+        property="principal.employee.employeeId"/></c:set>
 <!--wrapper start-->
 <div class="wrapper">
     <%@include file="shared/shared_header.jsp" %>
@@ -68,57 +70,70 @@
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container" style="height: 90vh;">
-        <form:form action="${pageContext.request.contextPath}/doctor/medical-record/hospitalisation/" method="post"
-                   class="form-horizontal"
-                   role="form">
-            <div style="padding-left: 20%">
-                <h2>Hospitalisation settings
-                    for patient ${hospitalisationToEdit.patient.firstName} ${hospitalisationToEdit.patient.surname}</h2>
-                <span class="help-block">*Required fields</span>
+    <div class="main-container" style="background-color: #DEF0FF; height: 90vh;">
+        <div class="container-fluid">
+            <div content="container" class="col-sm-8 col-sm-offset-2"
+                 style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
+                <c:if test="${docId ne attendingDoctorId}">
+                    <h4>Sorry, you are not allowed to make changes for this patient</h4>
+                </c:if>
+                <c:if test="${docId eq attendingDoctorId}">
+                    <form:form action="${pageContext.request.contextPath}/doctor/medical-record/hospitalisation/"
+                               method="post"
+                               class="form-horizontal"
+                               role="form">
+                        <div style="padding-left: 20%">
+                            <h2>Hospitalisation settings
+                                for
+                                patient ${hospitalisationToEdit.patient.firstName} ${hospitalisationToEdit.patient.surname}</h2>
+                            <span class="help-block">*Required fields</span>
+                        </div>
+                        <!-- HIDDEN-->
+                        <input type="hidden" id="MedRecId" name="medicalRecordId"
+                               value="${hospitalisationToEdit.medicalRecordId}"/>
+                        <input type="hidden" id="patientId" name="patient.patientId"
+                               value="${hospitalisationToEdit.patient.patientId}">
+                        <!-- HIDDEN-->
+                        <div class="form-group">
+                            <label for="hospitalStayStatus" class="col-sm-4 control-label">Stay Status*</label>
+                            <div class="col-sm-6">
+                                <select id="hospitalStayStatus" name="hospitalStayStatus"
+                                        value="${hospitalisationToEdit.hospitalStayStatus}"
+                                        class="form-control">
+                                    <c:forEach items="${HospitalStayStatus.values()}" var="hStayStatus">
+                                        <c:if test="${hStayStatus ne hospitalisationToEdit.hospitalStayStatus}">
+                                            <option>${hStayStatus.toString()}</option>
+                                        </c:if>
+                                    </c:forEach>
+                                    <option selected>${hospitalisationToEdit.hospitalStayStatus.toString()}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="hospitalDepartment" class="col-sm-4 control-label">Hospital Department</label>
+                            <div class="col-sm-6">
+                                <input type="text" id="hospitalDepartment"
+                                       value="${hospitalisationToEdit.hospitalDepartment}"
+                                       name="hospitalDepartment" placeholder="Hospital Department" class="form-control"
+                                       autofocus>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="hospitalWard" class="col-sm-4 control-label">Ward</label>
+                            <div class="col-sm-6">
+                                <input type="number" min="0" id="hospitalWard" name="hospitalWard"
+                                       value="${hospitalisationToEdit.hospitalWard}"
+                                       placeholder="Ward" class="form-control" autofocus>
+                            </div>
+                        </div>
+                        <div style="padding-left: 50%">
+                            <input type="submit" class="btn login_btn" value="Set Changes"
+                                   style="background-color: orange; opacity: 0.9;"/>
+                        </div>
+                    </form:form>
+                </c:if>
             </div>
-            <!-- HIDDEN-->
-            <input type="hidden" id="MedRecId" name="medicalRecordId"
-                   value="${hospitalisationToEdit.medicalRecordId}"/>
-            <input type="hidden" id="patientId" name="patient.patientId"
-                   value="${hospitalisationToEdit.patient.patientId}">
-            <!-- HIDDEN-->
-            <div class="form-group">
-                <label for="hospitalStayStatus" class="col-sm-4 control-label">Stay Status*</label>
-                <div class="col-sm-6">
-                    <select id="hospitalStayStatus" name="hospitalStayStatus"
-                            value="${hospitalisationToEdit.hospitalStayStatus}"
-                            class="form-control">
-                        <c:forEach items="${HospitalStayStatus.values()}" var="hStayStatus">
-                            <c:if test="${hStayStatus ne hospitalisationToEdit.hospitalStayStatus}">
-                                <option>${hStayStatus.toString()}</option>
-                            </c:if>
-                        </c:forEach>
-                        <option selected>${hospitalisationToEdit.hospitalStayStatus.toString()}</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="hospitalDepartment" class="col-sm-4 control-label">Hospital Department</label>
-                <div class="col-sm-6">
-                    <input type="text" id="hospitalDepartment" value="${hospitalisationToEdit.hospitalDepartment}"
-                           name="hospitalDepartment" placeholder="Hospital Department" class="form-control"
-                           autofocus>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="hospitalWard" class="col-sm-4 control-label">Ward</label>
-                <div class="col-sm-6">
-                    <input type="number" min="0" id="hospitalWard" name="hospitalWard"
-                           value="${hospitalisationToEdit.hospitalWard}"
-                           placeholder="Ward" class="form-control" autofocus>
-                </div>
-            </div>
-            <div style="padding-left: 50%">
-                <input type="submit" class="btn login_btn" value="Set Changes"
-                       style="background-color: orange; opacity: 0.9;"/>
-            </div>
-        </form:form>
+        </div>
     </div>
     <!-- *******MAIN CONTAINER******* -->
 </div>
