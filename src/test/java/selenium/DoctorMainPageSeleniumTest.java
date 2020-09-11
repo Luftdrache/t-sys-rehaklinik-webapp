@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 
 
 class DoctorMainPageSeleniumTest extends WebDriverSettings {
-//
+
 //    @Test
 //    void shouldSignOut_WhenClickedTest() {
 //        driver.get(URLs.LOGIN_PAGE_URL);

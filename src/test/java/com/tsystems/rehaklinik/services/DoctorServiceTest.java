@@ -19,10 +19,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalTime;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -220,10 +218,45 @@ class DoctorServiceTest {
         prescriptionsList.add(PrescriptionFiller.getPrescription());
         prescriptionsList.add(PrescriptionFiller.getPrescription());
         given(prescriptionDAO.fidAllPrescriptionsByPatientId(TEST_ID)).willReturn(prescriptionsList);
+
+        for (Prescription prescription : prescriptionsList) {
+            List<TreatmentEvent> treatmentEventList = new ArrayList<>();
+            TreatmentEvent treatmentEvent = TreatmentEventFiller.getTreatmentEvent();
+            treatmentEventList.add(treatmentEvent);
+            treatmentEventList.add(treatmentEvent);
+            given(treatmentEventDAO.findAllTreatmentEventsByPrescriptionId(prescription.getPrescriptionId()))
+                    .willReturn(treatmentEventList);
+        }
+
         List<PrescriptionShortViewDTO> prescriptionDTOS = doctorService.findAllPatientsPrescription(TEST_ID);
         assertFalse(prescriptionDTOS.isEmpty());
         assertEquals(2, prescriptionDTOS.size());
     }
+
+
+    @Test
+    void checkIsPrescriptionDone_should_return_done_prescription() {
+
+        List<Prescription> prescriptionsList = new ArrayList<>();
+        prescriptionsList.add(PrescriptionFiller.getPrescription());
+        prescriptionsList.add(PrescriptionFiller.getPrescription());
+        given(prescriptionDAO.fidAllPrescriptionsByPatientId(TEST_ID)).willReturn(prescriptionsList);
+
+        for (Prescription prescription : prescriptionsList) {
+            List<TreatmentEvent> treatmentEventList = new ArrayList<>();
+            TreatmentEvent treatmentEvent = TreatmentEventFiller.getTreatmentEvent();
+            treatmentEvent.setTreatmentEventStatus(EventStatus.COMPLETED);
+            treatmentEventList.add(treatmentEvent);
+            treatmentEventList.add(treatmentEvent);
+            given(treatmentEventDAO.findAllTreatmentEventsByPrescriptionId(prescription.getPrescriptionId()))
+                    .willReturn(treatmentEventList);
+        }
+
+        List<PrescriptionShortViewDTO> prescriptionDTOS = doctorService.findAllPatientsPrescription(TEST_ID);
+        assertFalse(prescriptionDTOS.isEmpty());
+        assertEquals(PrescriptionStatus.DONE, prescriptionDTOS.get(0).getPrescriptionStatus());
+    }
+
 
     @Test
     void findAllPatientsPrescription_should_find_empty_list() {
@@ -245,8 +278,19 @@ class DoctorServiceTest {
         allDoctorsPatients.add(PatientFiller.getPatient());
         given(patientDAO.findPatientByDoctorId(TEST_ID)).willReturn(allDoctorsPatients);
         List<PatientShortViewDTO> foundPatients = doctorService.findPatients();
-        System.out.println();
         assertFalse(foundPatients.isEmpty());
+    }
+
+
+    @Test
+    void findAllPatients_should_return_an_emptyList() {
+        mockLogger.info("Logging");
+        List<Patient> allPatientsInDatabase = new ArrayList<>();
+        allPatientsInDatabase.add(PatientFiller.getPatient());
+        given(patientDAO.findAll()).willReturn(allPatientsInDatabase);
+        List<PatientShortViewDTO> foundPatients = doctorService.findAllPatients();
+        assertFalse(foundPatients.isEmpty());
+
     }
 
     @Test
@@ -390,5 +434,17 @@ class DoctorServiceTest {
         given(treatmentEventDAO.findTreatmentEventByPatientId(TEST_ID)).willReturn(treatmentEventList);
         List<TreatmentEventDTO> foundEvents = doctorService.findTreatmentEventsByPatientId(TEST_ID);
         assertTrue(foundEvents.isEmpty());
+    }
+
+    @Test
+    void checkOtherPrescriptionsOnSameDateAndTime_should_return_an_empty_list() {
+        Prescription prescription = PrescriptionFiller.getPrescription();
+        prescription.getTreatmentTimePattern().setPrecisionTime(null);
+        given(prescriptionDAO.checkOtherPrescriptionOnSameDateAndTime(prescription.getPatient().getPatientId(),
+                prescription.getStartTreatment(),
+                prescription.getEndTreatment(), LocalTime.of(7, 0, 0))).willReturn(Collections.emptyList());
+        PrescriptionDTO prescriptionDTO = PrescriptionFiller.getPrescriptionDTO();
+        List<PrescriptionShortViewDTO> found = doctorService.checkOtherPrescriptionsOnSameDateAndTime(prescriptionDTO);
+        assertTrue(found.isEmpty());
     }
 }

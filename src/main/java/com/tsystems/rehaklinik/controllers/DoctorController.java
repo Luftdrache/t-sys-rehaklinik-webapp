@@ -53,6 +53,9 @@ public class DoctorController {
     private static final String TREATMENT_EVENT_LIST = "treatmentEventList";
     private static final String MEDICAL_RECORD = "medicalRecord";
     private static final String MEDICAL_RECORD_ID = "medrec";
+    private static final String DOCTOR_S_PATIENTS = "doctorsPatients";
+    private static final String ATTENDING_DOCTOR_ID = "attendingDoctorId";
+    private static final String IS_SAME_TIME_PRESCRIPTION_CHECK = "isSameTimeCheck";
 
 
     /**
@@ -69,7 +72,7 @@ public class DoctorController {
         if (modelMap.isEmpty()) {
             if (!doctorsPatients.isEmpty()) {
                 logger.info("MedHelper_LOGS: The action showDoctorsPatients() completed successfully");
-                modelMap.addAttribute("doctorsPatients", doctorsPatients);
+                modelMap.addAttribute(DOCTOR_S_PATIENTS, doctorsPatients);
             } else {
                 modelMap.addAttribute(MESSAGE,
                         "INFO: You don't have any patients yet");
@@ -93,7 +96,7 @@ public class DoctorController {
         if (modelMap.isEmpty()) {
             if (!patients.isEmpty()) {
                 logger.info("MedHelper_LOGS: The action showAllPatients() completed successfully");
-                modelMap.addAttribute("doctorsPatients", patients);
+                modelMap.addAttribute(DOCTOR_S_PATIENTS, patients);
             } else {
                 modelMap.addAttribute(MESSAGE,
                         "INFO: There is no any information about patients yet");
@@ -119,7 +122,7 @@ public class DoctorController {
         logger.info("MedHelper_LOGS: InDoctorController - handler method addPrescription(), GET");
         MedicalRecordDTO medicalRecordDTO = doctorService.getMedicalRecord(id);
         modelMap.addAttribute("patientId", id);
-        modelMap.addAttribute("attendingDoctorId",
+        modelMap.addAttribute(ATTENDING_DOCTOR_ID,
                 medicalRecordDTO.getPatient().getAttendingDoctorId().getEmployeeId());
         return ADD_PRESCRIPTION_JSP;
     }
@@ -144,14 +147,14 @@ public class DoctorController {
         if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
             return ERROR_PAGE_JSP;
         }
-        request.getSession().getAttribute("isSameTimeCheck");
+        request.getSession().getAttribute(IS_SAME_TIME_PRESCRIPTION_CHECK);
 
-        if (request.getSession().getAttribute("isSameTimeCheck") == null) {
+        if (request.getSession().getAttribute(IS_SAME_TIME_PRESCRIPTION_CHECK) == null) {
             List<PrescriptionShortViewDTO> prescriptionShortViewDTOList =
                     doctorService.checkOtherPrescriptionsOnSameDateAndTime(prescriptionDTO);
             if (!prescriptionShortViewDTOList.isEmpty()) {
                 request.getSession().setAttribute("prescriptionInputData", prescriptionDTO);
-                request.getSession().setAttribute("isSameTimeCheck", false);
+                request.getSession().setAttribute(IS_SAME_TIME_PRESCRIPTION_CHECK, false);
                 request.getSession().setAttribute("isShowWarningPopup", "true");
                 return "redirect:/doctor/add-prescription/" + id;
             }
@@ -174,7 +177,7 @@ public class DoctorController {
      * @param request HttpServletRequest
      */
     private void removeSessionAttributes(HttpServletRequest request) {
-        request.getSession().removeAttribute("isSameTimeCheck");
+        request.getSession().removeAttribute(IS_SAME_TIME_PRESCRIPTION_CHECK);
         request.getSession().removeAttribute("prescriptionInputData");
         request.getSession().removeAttribute("isShowWarningPopup");
     }
@@ -219,7 +222,7 @@ public class DoctorController {
             logger.info("MedHelper_LOGS: The action showPrescriptionById() returned null");
         }
         modelMap.addAttribute("patientId", id);
-        modelMap.addAttribute("attendingDoctorId",
+        modelMap.addAttribute(ATTENDING_DOCTOR_ID,
                 medicalRecordDTO.getPatient().getAttendingDoctorId().getEmployeeId());
         return PATIENT_PRESCRIPTIONS_JSP;
     }
@@ -263,7 +266,7 @@ public class DoctorController {
         PrescriptionTreatmentPatternDTO prescriptionTreatmentPatternDTO = doctorService.findPrescriptionById(id);
         MedicalRecordDTO medicalRecordDTO = doctorService.getMedicalRecord(prescriptionTreatmentPatternDTO.getPatientId());
         modelMap.addAttribute("prescriptionToEdit", prescriptionTreatmentPatternDTO);
-        modelMap.addAttribute(modelMap.addAttribute("attendingDoctorId",
+        modelMap.addAttribute(modelMap.addAttribute(ATTENDING_DOCTOR_ID,
                 medicalRecordDTO.getPatient().getAttendingDoctorId().getEmployeeId()));
         logger.info("MedHelper_LOGS: prescription with id = {}  was found successfully", id);
         return EDIT_SELECTED_PRESCRIPTION_JSP;
@@ -341,7 +344,7 @@ public class DoctorController {
         logger.info("MedHelper_LOGS: In DoctorController - handler method addDiagnosis(), GET");
         MedicalRecordDTO medicalRecordDTO = doctorService.getMedicalRecord(id);
         modelMap.addAttribute(MEDICAL_RECORD_ID, id);
-        modelMap.addAttribute("attendingDoctorId",
+        modelMap.addAttribute(ATTENDING_DOCTOR_ID,
                 medicalRecordDTO.getPatient().getAttendingDoctorId().getEmployeeId());
         return DIAGNOSIS_JSP;
     }
@@ -382,7 +385,7 @@ public class DoctorController {
         ClinicalDiagnosisDTO clinicalDiagnosisDTO = doctorService.getClinicalDiagnosis(id);
         int attendingDoctorId = clinicalDiagnosisDTO.getMedicalRecord().getPatient().getAttendingDoctorId().getEmployeeId();
         modelMap.addAttribute("CDToEdit", clinicalDiagnosisDTO);
-        modelMap.addAttribute("attendingDoctorId", attendingDoctorId);
+        modelMap.addAttribute(ATTENDING_DOCTOR_ID, attendingDoctorId);
         logger.info("MedHelper_LOGS: prescription with id = {} was found successfully", id);
         return EDIT_CLINICAL_DIAGNOSIS_JSP;
     }
@@ -439,7 +442,7 @@ public class DoctorController {
         logger.info("MedHelper_LOGS: In DoctorController - handler method editHospitalisation(), GET");
         MedicalRecordDTO medicalRecord = doctorService.getMedicalRecord(id);
         modelMap.addAttribute("hospitalisationToEdit", medicalRecord);
-        modelMap.addAttribute("attendingDoctorId",
+        modelMap.addAttribute(ATTENDING_DOCTOR_ID,
                 medicalRecord.getPatient().getAttendingDoctorId().getEmployeeId());
         modelMap.addAttribute(MEDICAL_RECORD_ID, id);
         return HOSPITALISATION_JSP;
@@ -485,7 +488,7 @@ public class DoctorController {
         RedirectView redirectView = new RedirectView("/doctor/start-page", true);
         List<PatientShortViewDTO> patientShortViewDTOS = doctorService.findPatientBySurname(surname);
         if (!patientShortViewDTOS.isEmpty()) {
-            redirectAttributes.addFlashAttribute("doctorsPatients", patientShortViewDTOS);
+            redirectAttributes.addFlashAttribute(DOCTOR_S_PATIENTS, patientShortViewDTOS);
             logger.info("MedHelper_LOGS: The patient(-s) with surname = {} was(were) found successfully", surname);
         } else {
             redirectAttributes.addFlashAttribute(MESSAGE, "You don't have a patient with surname = " + surname +
@@ -513,7 +516,7 @@ public class DoctorController {
                 logger.info("MedHelper_LOGS: In DoctorController: " +
                         "The action showPatientTreatmentEvents() completed successfully");
                 modelMap.addAttribute(TREATMENT_EVENT_LIST, treatmentEventDTOS);
-                modelMap.addAttribute("attendingDoctorId",
+                modelMap.addAttribute(ATTENDING_DOCTOR_ID,
                         medicalRecordDTO.getPatient().getAttendingDoctorId().getEmployeeId());
             } else {
                 logger.info("MedHelper_LOGS: The action showPatientTreatmentEvents() returned empty list");

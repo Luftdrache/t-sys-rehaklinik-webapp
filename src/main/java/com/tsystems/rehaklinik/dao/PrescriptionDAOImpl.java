@@ -85,9 +85,9 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
     public List<Prescription> fidAllPrescriptionsByPatientId(int id) {
         logger.info("MedHelper_LOGS: PrescriptionDAOImpl: Finds all patient's prescriptions (by patient's id)");
         return entityManager.createQuery(
-                "SELECT p FROM Prescription p WHERE p.patient.patientId = :patientId " +
+                "SELECT p FROM Prescription p WHERE p.patient.patientId = :patId " +
                         "ORDER BY p.prescriptionStatus asc, p.startTreatment",
-                Prescription.class).setParameter("patientId", id).getResultList();
+                Prescription.class).setParameter("patId", id).getResultList();
     }
 
 
@@ -130,11 +130,11 @@ public class PrescriptionDAOImpl implements PrescriptionDAO {
             LocalTime time) {
         logger.info("MedHelper_LOGS: PrescriptionDAOImpl: in checkOtherPrescriptionOnSameDateAndTime()");
         return entityManager.createQuery("SELECT p FROM Prescription p " +
-                "WHERE p.patient.patientId =:patientId " +
+                "WHERE p.patient.patientId =:pId " +
                 "AND p.treatmentTimePattern.precisionTime = :time " +
                 "AND (( :startDate BETWEEN p.startTreatment AND p.endTreatment) " +
                 "OR (:endDate BETWEEN p.startTreatment AND p.endTreatment))")
-                .setParameter("patientId", patientId)
+                .setParameter("pId", patientId)
                 .setParameter("time", time)
                 .setParameter("startDate", startTreatment)
                 .setParameter("endDate", endTreatment)

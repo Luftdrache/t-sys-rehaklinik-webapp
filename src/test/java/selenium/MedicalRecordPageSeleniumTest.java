@@ -5,27 +5,30 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
 
+import java.util.concurrent.TimeUnit;
+
 
 class MedicalRecordPageSeleniumTest extends WebDriverSettings {
-//
+
 //    private static final String ERROR_MESSAGE = "Operation with an invalid parameter";
 //
-//
+////Commented because of sql constraint error (unique key)
 //    @Test
 //    void shouldAddDiagnosisTest() {
-//        driver.get(URLs.LOGIN_PAGE_URL);
-//        driver.findElement(By.xpath("//*[@id=\"username\"]")).sendKeys(TestCredentials.TEST_USERNAME);
-//        driver.findElement(By.xpath("//*[@id=\"password\"]")).sendKeys(TestCredentials.TEST_PASSWORD);
-//        driver.findElement(By.xpath("//*[@id=\"sign-in-button\"]")).click();
-//        driver.findElement(By.xpath("//*[@id=\"medical-record-button\"]/i")).click();
-//        driver.findElement(By.xpath("//*[@id=\"#add-diagnosis\"]")).click();
-//        Assertions.assertTrue(driver.getCurrentUrl().contains(URLs.ADD_DIAGNOSIS_PAGE));
-//        String newDisease = "Cardiomyopathy";
-//        driver.findElement(By.xpath("//*[@id=\"mainDisease\"]")).sendKeys(newDisease);
-//        driver.findElement(By.xpath("//*[@id=\"icd10Code\"]")).sendKeys("I43.1");
-//        driver.findElement(By.xpath("//*[@id=\"set-new-diagnosis\"]")).click();
-//        Assertions.assertTrue(driver.getCurrentUrl().contains(URLs.MEDICAL_RECORD_PAGE));
-//        Assertions.assertEquals(newDisease, driver.findElement(By.xpath("//*[@id=\"main-disease\"]")).getText());
+////        driver.get(URLs.LOGIN_PAGE_URL);
+////        driver.findElement(By.xpath("//*[@id=\"username\"]")).sendKeys(TestCredentials.TEST_USERNAME);
+////        driver.findElement(By.xpath("//*[@id=\"password\"]")).sendKeys(TestCredentials.TEST_PASSWORD);
+////        driver.findElement(By.xpath("//*[@id=\"sign-in-button\"]")).click();
+////        driver.findElement(By.xpath("//*[@id=\"medical-record-button\"]/i")).click();
+////        driver.findElement(By.xpath("//*[@id=\"#add-diagnosis\"]")).click();
+////        Assertions.assertTrue(driver.getCurrentUrl().contains(URLs.ADD_DIAGNOSIS_PAGE));
+////        String newDisease = "Aortic (valve) stenosis";
+////        driver.findElement(By.xpath("//*[@id=\"mainDisease\"]")).sendKeys(newDisease);
+////        driver.findElement(By.xpath("//*[@id=\"icd10Code\"]")).sendKeys("I35.0");
+////        driver.findElement(By.xpath("//*[@id=\"set-new-diagnosis\"]")).click();
+////        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+////        Assertions.assertTrue(driver.getCurrentUrl().contains(URLs.MEDICAL_RECORD_PAGE));
+////        Assertions.assertEquals(newDisease, driver.findElement(By.xpath("//*[@id=\"main-disease\"]")).getText());
 //    }
 //
 //
