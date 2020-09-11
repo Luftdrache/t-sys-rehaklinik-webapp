@@ -163,48 +163,20 @@
                         <div class="form-group">
                             <label for="Sunday" class="col-sm-4 control-label">Sunday</label>
                             <div class="col-sm-6">
-                                <c:set var="sunday"
-                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.sunday eq null ?
-                                   false : true}">
-                                </c:set>
-                                <c:choose>
-                                    <c:when test="${sunday == true}">
-                                        <input type="checkbox" id="sunday" checked name="treatmentTimePattern.Sunday"
-                                               placeholder="Sunday">
-                                    </c:when>
-                                    <c:otherwise>
-                                        <input type="checkbox" id="sunday" name="treatmentTimePattern.Sunday"
-                                               placeholder="Sunday">
-                                    </c:otherwise>
-                                </c:choose>
+                                <input type="checkbox" id="Sunday"
+                                       name="treatmentTimePattern.Sunday">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="Monday" class="col-sm-4 control-label">Monday</label>
                             <div class="col-sm-6">
-                                <c:set var="monday"
-                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.monday eq null ?
-                                   false : true}">
-                                </c:set>
-                                <c:choose>
-                                    <c:when test="${monday == true}">
-                                        <input type="checkbox" id="Monday" checked name="treatmentTimePattern.Monday"
-                                               placeholder="Monday">
-                                    </c:when>
-                                    <c:otherwise>
-                                        <input type="checkbox" id="Monday" name="treatmentTimePattern.Monday"
-                                               placeholder="Monday">
-                                    </c:otherwise>
-                                </c:choose>
+                                <input type="checkbox" id="Monday"
+                                       name="treatmentTimePattern.Monday">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="Tuesday" class="col-sm-4 control-label">Tuesday</label>
                             <div class="col-sm-6">
-                                <c:set var="tuesday"
-                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.tuesday eq null ?
-                                   false : true}">
-                                </c:set>
                                 <input type="checkbox" id="Tuesday"
                                        name="treatmentTimePattern.Tuesday">
                             </div>
@@ -212,10 +184,6 @@
                         <div class="form-group">
                             <label for="Wednesday" class="col-sm-4 control-label">Wednesday</label>
                             <div class="col-sm-6">
-                                <c:set var="wednesday"
-                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.wednesday eq null ?
-                                   false : true}">
-                                </c:set>
                                 <input type="checkbox" id="Wednesday"
                                        name="treatmentTimePattern.Wednesday">
                             </div>
@@ -223,10 +191,6 @@
                         <div class="form-group">
                             <label for="Thursday" class="col-sm-4 control-label">Thursday</label>
                             <div class="col-sm-6">
-                                <c:set var="thursday"
-                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.thursday eq null ?
-                                   false : true}">
-                                </c:set>
                                 <input type="checkbox" id="Thursday"
                                        name="treatmentTimePattern.Thursday">
                             </div>
@@ -234,10 +198,6 @@
                         <div class="form-group">
                             <label for="Friday" class="col-sm-4 control-label">Friday</label>
                             <div class="col-sm-6">
-                                <c:set var="friday"
-                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.friday eq null ?
-                                   false : true}">
-                                </c:set>
                                 <input type="checkbox" id="Friday"
                                        name="treatmentTimePattern.Friday">
                             </div>
@@ -245,10 +205,6 @@
                         <div class="form-group">
                             <label for="Saturday" class="col-sm-4 control-label">Saturday</label>
                             <div class="col-sm-6">
-                                <c:set var="saturday"
-                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.sunday eq null ?
-                                   false : true}">
-                                </c:set>
                                 <input type="checkbox" id="Saturday"
                                        name="treatmentTimePattern.Saturday">
                             </div>
@@ -259,10 +215,6 @@
                         <div class="form-group">
                             <label for="beforeMeals" class="col-sm-4 control-label">Before Meals</label>
                             <div class="col-sm-6">
-                                <c:set var="before"
-                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.beforeMeals eq null ?
-                                   false : true}">
-                                </c:set>
                                 <input type="checkbox" id="beforeMeals"
                                        name="treatmentTimePattern.beforeMeals">
                             </div>
@@ -270,10 +222,6 @@
                         <div class="form-group">
                             <label for="atMeals" class="col-sm-4 control-label">At Meals</label>
                             <div class="col-sm-6">
-                                <c:set var="intime"
-                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.atMeals eq null ?
-                                   false : true}">
-                                </c:set>
                                 <input type="checkbox" id="atMeals"
                                        name="treatmentTimePattern.atMeals">
                             </div>
@@ -281,10 +229,6 @@
                         <div class="form-group">
                             <label for="afterMeals" class="col-sm-4 control-label">After Meals</label>
                             <div class="col-sm-6">
-                                <c:set var="after"
-                                       value="${sessionScope.prescriptionInputData.treatmentTimePattern.afterMeals eq null ?
-                                   false : true}">
-                                </c:set>
                                 <input type="checkbox" id="afterMeals"
                                        name="treatmentTimePattern.afterMeals">
                             </div>

@@ -52,8 +52,6 @@ public interface DoctorService {
 
     List<TreatmentEventDTO> findTreatmentEventByName(String tEventName);
 
-    boolean checkTheDuplicatePrescriptionAssignment(PrescriptionDTO prescriptionDTO);
-
     List<PrescriptionShortViewDTO> checkOtherPrescriptionsOnSameDateAndTime(PrescriptionDTO prescriptionDTO);
 
 }

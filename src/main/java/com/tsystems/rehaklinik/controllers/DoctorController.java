@@ -143,7 +143,7 @@ public class DoctorController {
         if (BindingCheck.bindingResultCheck(bindingResult, modelMap)) {
             return ERROR_PAGE_JSP;
         }
-        doctorService.checkTheDuplicatePrescriptionAssignment(prescriptionDTO);
+        request.getSession().getAttribute("isSameTimeCheck");
 
         if (request.getSession().getAttribute("isSameTimeCheck") == null) {
             List<PrescriptionShortViewDTO> prescriptionShortViewDTOList =

@@ -90,6 +90,9 @@ public class DoctorServiceImpl implements DoctorService {
     public PrescriptionDTO addPrescription(PrescriptionDTO prescriptionDTO) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in addPrescription() method");
         Prescription prescription = PrescriptionMapper.INSTANCE.fromDTO(prescriptionDTO);
+
+        checkTheDuplicatePrescriptionAssignment(prescription);
+
         prescription.setPrescriptionStatus(PrescriptionStatus.TBD);
         if (prescription.getTreatmentTimePattern().getPrecisionTime() == null) {
             prescription.getTreatmentTimePattern()
@@ -104,6 +107,21 @@ public class DoctorServiceImpl implements DoctorService {
         messageSender.send("Rehaklinik web-app: Changes in the treatment schedule (adding)");
         return savedPrescriptionDTO;
     }
+
+
+    /**
+     * Checks is there already same prescription in database on specified dates
+     *
+     * @param prescription prescription
+     * @return boolean operation result
+     */
+    private boolean checkTheDuplicatePrescriptionAssignment(Prescription prescription) {
+        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in checkTheDuplicatePrescriptionAssignment() method");
+        return prescriptionDAO.checkTheDuplicatePrescriptionAssignment(prescription.getPatient().getPatientId(),
+                prescription.getMedicineAndProcedure().getMedicineProcedureName(),
+                prescription.getStartTreatment(), prescription.getEndTreatment());
+    }
+
 
     @Override
     public List<PrescriptionShortViewDTO> checkOtherPrescriptionsOnSameDateAndTime(PrescriptionDTO prescriptionDTO) {
@@ -129,15 +147,6 @@ public class DoctorServiceImpl implements DoctorService {
             }
             return prescriptionDTOS;
         }
-    }
-
-    @Override
-    public boolean checkTheDuplicatePrescriptionAssignment(PrescriptionDTO prescriptionDTO) {
-        logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in checkTheDuplicatePrescriptionAssignment() method");
-        Prescription prescription = PrescriptionMapper.INSTANCE.fromDTO(prescriptionDTO);
-        return prescriptionDAO.checkTheDuplicatePrescriptionAssignment(prescription.getPatient().getPatientId(),
-                prescription.getMedicineAndProcedure().getMedicineProcedureName(),
-                prescription.getStartTreatment(), prescription.getEndTreatment());
     }
 
 
@@ -352,6 +361,13 @@ public class DoctorServiceImpl implements DoctorService {
         return prescriptionDTOS;
     }
 
+
+    /**
+     * Checks  that a prescription has already been completed
+     *
+     * @param prescription prescription to check
+     * @return boolean result of operation
+     */
     private boolean checkIsPrescriptionDone(Prescription prescription) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in checkPrescriptionStatus() method");
         if (prescription.getPrescriptionStatus().equals(PrescriptionStatus.CANCELLED)) {
