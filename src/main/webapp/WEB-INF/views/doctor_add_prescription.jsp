@@ -66,6 +66,7 @@
                 <c:if test="${docId eq attendingDoctorId}">
                     <form:form action="${pageContext.request.contextPath}/doctor/add-prescription" method="post"
                                class="form-horizontal"
+                               id="myForm"
                                role="form"
                                lang="en">
                         <div style="padding-left: 20%">
@@ -132,9 +133,9 @@
                                 <input required type="date" id="endTreatment" name="endTreatment"
                                        min=""
                                        max="2021-08-16"
-                                       oninvalid="this.setCustomValidity('Please set valid end treatment date')"
-                                       oninput="setCustomValidity('')"
                                        class="form-control"
+                                       oninvalid="this.setCustomValidity('Please set an end treatment date')"
+                                       oninput="setCustomValidity('')"
                                        value="${sessionScope.prescriptionInputData.endTreatment}">
                             </div>
                         </div>
@@ -251,41 +252,37 @@
                     <h4>Are you sure you want to add another one?</h4>
                 </div>
             </div>
+            <!-- *******MAIN CONTAINER******* -->
         </div>
-        <!-- *******MAIN CONTAINER******* -->
+        <c:set var="check" value='${sessionScope.isShowWarningPopup}' scope="page"></c:set>
+        <script>
+            function checkExistedPrescriptions() {
+                document.querySelector(".warning-message").style.display = "flex";
+            }
+
+            function hideWarning() {
+                document.querySelector(".warning-message").style.display = "none";
+            }
+        </script>
+        <script src="${pageContext.request.contextPath}/resources/js/check_end_date.js"></script>
+        <c:choose>
+            <c:when test="${check eq 'true'}">
+                <script> checkExistedPrescriptions() </script>
+            </c:when>
+        </c:choose>
+
+        <!--wrapper end-->
     </div>
-    <c:set var="check" value='${sessionScope.isShowWarningPopup}' scope="page"></c:set>
-    <script>
-        function checkExistedPrescriptions() {
-            document.querySelector(".warning-message").style.display = "flex";
-        }
-
-        function hideWarning() {
-            document.querySelector(".warning-message").style.display = "none";
-        }
-    </script>
-    <c:choose>
-        <c:when test="${check eq 'true'}">
-            <script> checkExistedPrescriptions() </script>
-        </c:when>
-    </c:choose>
-
-    <!--wrapper end-->
-</div>
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
-
-
-<script src="${pageContext.request.contextPath}/resources/js/today_date.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/today_date.js"></script>
 </body>
 </html>
 

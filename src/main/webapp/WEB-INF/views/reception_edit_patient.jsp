@@ -107,7 +107,11 @@
                             <div class="col-sm-5">
                                 <input type="date" id="dateOfBirth" name="dateOfBirth"
                                        value="${patientToEdit.dateOfBirth}"
-                                       class="form-control">
+                                       class="form-control"
+                                       min="1900-01-01"
+                                       oninvalid="this.setCustomValidity('Please set a date of birth ' +
+                                    'Date of birth must not be less than \'1920-01-01\'')"
+                                       oninput="setCustomValidity('')">
                             </div>
                         </div>
                         <div class="form-group">

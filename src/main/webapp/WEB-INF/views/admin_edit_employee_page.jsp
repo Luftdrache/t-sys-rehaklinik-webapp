@@ -114,7 +114,12 @@
                             <label for="dateOfBirth" class="col-sm-4 control-label">Date of Birth*</label>
                             <div class="col-sm-6">
                                 <input type="date" id="dateOfBirth" value="${employeeToEdit.dateOfBirth}"
-                                       name="dateOfBirth" class="form-control">
+                                       name="dateOfBirth" class="form-control"
+                                       min="1920-01-01"
+                                       max="2005-01-01"
+                                       oninvalid="this.setCustomValidity('Please enter a correct date of birth. ' +
+                                    'Date of birth must not be less than \'1920-01-01\' and more than \'2005-01-01\'')"
+                                       oninput="setCustomValidity('')">
                             </div>
                         </div>
                         <div class="form-group">

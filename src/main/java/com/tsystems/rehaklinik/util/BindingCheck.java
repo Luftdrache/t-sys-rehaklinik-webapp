@@ -1,7 +1,5 @@
 package com.tsystems.rehaklinik.util;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.ModelMap;

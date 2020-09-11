@@ -129,6 +129,7 @@ public class DoctorController {
      * Adds new prescription
      *
      * @param prescriptionDTO PrescriptionDTO
+     * @param request         HttpServletRequest
      * @param bindingResult   binding result
      * @param modelMap        ModelMap
      * @return page with all patient's prescriptions

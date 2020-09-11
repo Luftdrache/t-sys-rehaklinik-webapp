@@ -31,22 +31,22 @@
 <body>
 <!--wrapper start-->
 <div class="wrapper">
-    <%@include file="shared/shared_header.jsp"%>
+    <%@include file="shared/shared_header.jsp" %>
     <!--sidebar start-->
     <div class="sidebar">
         <div class="sidebar-menu">
             <%@include file="shared/profile.jsp" %>
             <ul>
-            <li class="item" id="#employees" style="font-size: 20px">
-                <a href="${pageContext.request.contextPath}/reception/start-page" class="menu-btn">
-                    <i class="fas fa-users"></i><span>Patients</span>
-                </a>
-            </li>
-            <li class="item" id="#prescriptions" style="font-size: 20px">
-                <a href="${pageContext.request.contextPath}/reception/add-patient" class="menu-btn">
-                    <i class="fas fa-user-plus"></i><span>Add new</span>
-                </a>
-            </li>
+                <li class="item" id="#employees" style="font-size: 20px">
+                    <a href="${pageContext.request.contextPath}/reception/start-page" class="menu-btn">
+                        <i class="fas fa-users"></i><span>Patients</span>
+                    </a>
+                </li>
+                <li class="item" id="#prescriptions" style="font-size: 20px">
+                    <a href="${pageContext.request.contextPath}/reception/add-patient" class="menu-btn">
+                        <i class="fas fa-user-plus"></i><span>Add new</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -57,9 +57,9 @@
             <div content="container" class="col-sm-8 col-sm-offset-2"
                  style="background-color: #c9e9ff; margin-top: 10px; border-radius: 20px">
                 <form:form action="${pageContext.request.contextPath}/reception/add-patient"
-                      method="post"
-                      class="form-horizontal"
-                      role="form">
+                           method="post"
+                           class="form-horizontal"
+                           role="form">
                     <div style="padding-left: 10%">
                         <h2>Add Patient</h2>
                         <span class="help-block">*Required fields</span>
@@ -105,7 +105,9 @@
                         <label for="dateOfBirth" class="col-sm-4 control-label">Date of Birth*</label>
                         <div class="col-sm-5">
                             <input required type="date" id="dateOfBirth" name="dateOfBirth"
-                                   oninvalid="this.setCustomValidity('Please set a date of birth')"
+                                   min="1900-01-01"
+                                   oninvalid="this.setCustomValidity('Please set a date of birth ' +
+                                    'Date of birth must not be less than \'1900-01-01\'')"
                                    oninput="setCustomValidity('')"
                                    class="form-control">
                         </div>
