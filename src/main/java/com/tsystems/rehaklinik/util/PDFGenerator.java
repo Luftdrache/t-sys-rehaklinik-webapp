@@ -167,8 +167,9 @@ public class PDFGenerator {
     private static void createDiagnosisList(MedicalRecordDTO medicalRecordDTO, Paragraph paragraph) {
 
         com.itextpdf.text.List pdfList = new com.itextpdf.text.List(false, false, 10);
+        Set<ClinicalDiagnosisDTO> clinicalDiagnosisDTOS = medicalRecordDTO.getClinicalDiagnosis();
 
-        for (ClinicalDiagnosisDTO diagnosisDTO : medicalRecordDTO.getClinicalDiagnosis()) {
+        for (ClinicalDiagnosisDTO diagnosisDTO : clinicalDiagnosisDTOS) {
             paragraph.add(new Paragraph("Diagnosis:  ", SUB_FONT));
             pdfList.add(new ListItem("Main Disease: " + diagnosisDTO.getMainDisease()));
             pdfList.add(new ListItem("ICD-10 Code: " + diagnosisDTO.getIcd10Code()));

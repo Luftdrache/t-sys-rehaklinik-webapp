@@ -2,7 +2,7 @@ package com.tsystems.rehaklinik.services.implementations;
 
 import com.tsystems.rehaklinik.converters.DTOconverters.EmployeeDTOConverter;
 import com.tsystems.rehaklinik.converters.DTOconverters.EmployeeMapper;
-import com.tsystems.rehaklinik.dao.EmployeeDAO;
+import com.tsystems.rehaklinik.dao.interfaces.EmployeeDAO;
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
 import com.tsystems.rehaklinik.entities.Employee;

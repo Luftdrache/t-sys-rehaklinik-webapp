@@ -1,5 +1,6 @@
-package com.tsystems.rehaklinik.dao;
+package com.tsystems.rehaklinik.dao.implementations;
 
+import com.tsystems.rehaklinik.dao.interfaces.EmployeeDAO;
 import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.types.Roles;
 import org.slf4j.Logger;

@@ -110,7 +110,7 @@
                             <td>${empl.phone}</td>
                             <td>${empl.email}</td>
                             <td>${empl.role}</td>
-                            <td class="text-right row padding-right: 5px">
+                            <td class="text-right row padding-right: 5px" style="width: max-content">
                                 <form:form
                                         action="${pageContext.request.contextPath}/admin/employee-details/${empl.employeeId}"
                                         method="get">

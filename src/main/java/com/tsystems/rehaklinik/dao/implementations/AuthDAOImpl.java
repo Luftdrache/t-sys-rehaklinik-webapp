@@ -1,6 +1,7 @@
-package com.tsystems.rehaklinik.dao;
+package com.tsystems.rehaklinik.dao.implementations;
 
 
+import com.tsystems.rehaklinik.dao.interfaces.AuthDAO;
 import com.tsystems.rehaklinik.entities.AuthenticationData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

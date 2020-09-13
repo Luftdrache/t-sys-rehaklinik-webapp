@@ -1,5 +1,6 @@
-package com.tsystems.rehaklinik.dao;
+package com.tsystems.rehaklinik.dao.implementations;
 
+import com.tsystems.rehaklinik.dao.interfaces.MedicalRecordDAO;
 import com.tsystems.rehaklinik.entities.MedicalRecord;
 import com.tsystems.rehaklinik.exceptions.WrongIdException;
 import org.slf4j.Logger;

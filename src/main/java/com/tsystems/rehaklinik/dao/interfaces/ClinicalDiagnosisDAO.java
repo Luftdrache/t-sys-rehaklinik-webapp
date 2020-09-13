@@ -1,4 +1,4 @@
-package com.tsystems.rehaklinik.dao;
+package com.tsystems.rehaklinik.dao.interfaces;
 
 import com.tsystems.rehaklinik.entities.ClinicalDiagnosis;
 

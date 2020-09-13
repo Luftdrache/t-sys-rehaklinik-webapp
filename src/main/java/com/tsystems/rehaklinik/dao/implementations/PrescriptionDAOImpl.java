@@ -1,5 +1,6 @@
-package com.tsystems.rehaklinik.dao;
+package com.tsystems.rehaklinik.dao.implementations;
 
+import com.tsystems.rehaklinik.dao.interfaces.PrescriptionDAO;
 import com.tsystems.rehaklinik.entities.*;
 import com.tsystems.rehaklinik.exceptions.DuplicatePrescriptionException;
 import com.tsystems.rehaklinik.exceptions.WrongIdException;

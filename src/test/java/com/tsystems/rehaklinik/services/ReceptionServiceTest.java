@@ -1,7 +1,7 @@
 package com.tsystems.rehaklinik.services;
 
-import com.tsystems.rehaklinik.dao.EmployeeDAO;
-import com.tsystems.rehaklinik.dao.PatientDAO;
+import com.tsystems.rehaklinik.dao.interfaces.EmployeeDAO;
+import com.tsystems.rehaklinik.dao.interfaces.PatientDAO;
 import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
 import com.tsystems.rehaklinik.dto.PatientDTO;
 import com.tsystems.rehaklinik.dto.PatientShortViewDTO;

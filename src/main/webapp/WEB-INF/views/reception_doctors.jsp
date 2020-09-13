@@ -48,7 +48,7 @@
     </div>
     <!--sidebar end-->
     <!-- *******MAIN CONTAINER******* -->
-    <div class="main-container" style="height: 90vh; background-image: url('/resources/images/icon_med_helper.png');
+    <div class="main-container" style="min-height: 90vh; height:auto; background-image: url('/resources/images/icon_med_helper.png');
     background-size: contain; background-repeat: no-repeat; background-position: right">
         <div class="card" style="font-size: 16px; width: 60%; padding-left: 5%">
             <span class="details-title" style="font-weight: 700">AVAILABLE DOCTORS</span><br>

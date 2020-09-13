@@ -1,6 +1,6 @@
 package com.tsystems.rehaklinik.services;
 
-import com.tsystems.rehaklinik.dao.*;
+import com.tsystems.rehaklinik.dao.interfaces.*;
 import com.tsystems.rehaklinik.dto.*;
 import com.tsystems.rehaklinik.entities.*;
 import com.tsystems.rehaklinik.fillers.*;

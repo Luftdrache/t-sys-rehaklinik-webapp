@@ -1,5 +1,6 @@
-package com.tsystems.rehaklinik.dao;
+package com.tsystems.rehaklinik.dao.implementations;
 
+import com.tsystems.rehaklinik.dao.interfaces.TreatmentEventDAO;
 import com.tsystems.rehaklinik.entities.TreatmentEvent;
 import com.tsystems.rehaklinik.types.EventStatus;
 import org.slf4j.Logger;
