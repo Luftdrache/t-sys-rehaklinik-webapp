@@ -1,7 +1,8 @@
-package com.tsystems.rehaklinik.services;
+package com.tsystems.rehaklinik.services.implementations;
 
 import com.tsystems.rehaklinik.dao.AuthDAO;
 import com.tsystems.rehaklinik.entities.AuthenticationData;
+import com.tsystems.rehaklinik.services.interfaces.AuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

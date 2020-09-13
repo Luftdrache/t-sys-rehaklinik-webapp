@@ -1,9 +1,10 @@
-package com.tsystems.rehaklinik.services;
+package com.tsystems.rehaklinik.services.implementations;
 
 import com.tsystems.rehaklinik.dao.TreatmentEventDAO;
 import com.tsystems.rehaklinik.dto.TreatmentEventDTO;
 import com.tsystems.rehaklinik.entities.TreatmentEvent;
 import com.tsystems.rehaklinik.jms.MessageSender;
+import com.tsystems.rehaklinik.services.interfaces.NurseService;
 import com.tsystems.rehaklinik.types.EventStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

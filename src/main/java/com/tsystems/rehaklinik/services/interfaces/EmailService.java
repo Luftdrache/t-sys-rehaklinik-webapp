@@ -1,4 +1,4 @@
-package com.tsystems.rehaklinik.services;
+package com.tsystems.rehaklinik.services.interfaces;
 
 /**
  * Sending Email Service

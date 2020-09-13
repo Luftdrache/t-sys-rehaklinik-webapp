@@ -1,7 +1,8 @@
-package com.tsystems.rehaklinik.services;
+package com.tsystems.rehaklinik.services.implementations;
 
 import com.tsystems.rehaklinik.entities.Prescription;
 import com.tsystems.rehaklinik.entities.TreatmentEvent;
+import com.tsystems.rehaklinik.services.interfaces.TreatmentEventGenerationService;
 import com.tsystems.rehaklinik.types.EventStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

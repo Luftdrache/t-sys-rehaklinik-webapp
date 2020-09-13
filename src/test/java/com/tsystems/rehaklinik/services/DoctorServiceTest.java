@@ -5,6 +5,8 @@ import com.tsystems.rehaklinik.dto.*;
 import com.tsystems.rehaklinik.entities.*;
 import com.tsystems.rehaklinik.fillers.*;
 import com.tsystems.rehaklinik.jms.MessageSender;
+import com.tsystems.rehaklinik.services.implementations.DoctorServiceImpl;
+import com.tsystems.rehaklinik.services.interfaces.TreatmentEventGenerationService;
 import com.tsystems.rehaklinik.types.EventStatus;
 import com.tsystems.rehaklinik.types.HospitalStayStatus;
 import com.tsystems.rehaklinik.types.PrescriptionStatus;

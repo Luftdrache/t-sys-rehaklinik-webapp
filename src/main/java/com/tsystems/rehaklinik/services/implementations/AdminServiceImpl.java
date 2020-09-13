@@ -1,4 +1,4 @@
-package com.tsystems.rehaklinik.services;
+package com.tsystems.rehaklinik.services.implementations;
 
 import com.tsystems.rehaklinik.converters.DTOconverters.EmployeeDTOConverter;
 import com.tsystems.rehaklinik.converters.DTOconverters.EmployeeMapper;
@@ -6,6 +6,7 @@ import com.tsystems.rehaklinik.dao.EmployeeDAO;
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
 import com.tsystems.rehaklinik.entities.Employee;
+import com.tsystems.rehaklinik.services.interfaces.AdminService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

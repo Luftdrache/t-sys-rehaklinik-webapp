@@ -1,8 +1,9 @@
-package com.tsystems.rehaklinik.services;
+package com.tsystems.rehaklinik.services.implementations;
 
 
 import com.tsystems.rehaklinik.entities.AuthenticationData;
 import com.tsystems.rehaklinik.entities.Patient;
+import com.tsystems.rehaklinik.services.interfaces.EmailService;
 import com.tsystems.rehaklinik.util.PDFGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

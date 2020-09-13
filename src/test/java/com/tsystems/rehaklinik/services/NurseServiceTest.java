@@ -5,6 +5,7 @@ import com.tsystems.rehaklinik.dto.TreatmentEventDTO;
 import com.tsystems.rehaklinik.entities.TreatmentEvent;
 import com.tsystems.rehaklinik.fillers.TreatmentEventFiller;
 import com.tsystems.rehaklinik.jms.MessageSender;
+import com.tsystems.rehaklinik.services.implementations.NurseServiceImpl;
 import com.tsystems.rehaklinik.types.EventStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

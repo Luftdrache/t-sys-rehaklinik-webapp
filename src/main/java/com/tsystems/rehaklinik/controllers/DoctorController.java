@@ -1,9 +1,9 @@
 package com.tsystems.rehaklinik.controllers;
 
 import com.tsystems.rehaklinik.dto.*;
-import com.tsystems.rehaklinik.services.NurseService;
+import com.tsystems.rehaklinik.services.interfaces.NurseService;
 import com.tsystems.rehaklinik.util.BindingCheck;
-import com.tsystems.rehaklinik.services.DoctorService;
+import com.tsystems.rehaklinik.services.interfaces.DoctorService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

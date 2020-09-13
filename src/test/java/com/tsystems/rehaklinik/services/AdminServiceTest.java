@@ -5,6 +5,8 @@ import com.tsystems.rehaklinik.fillers.EmployeeFiller;
 import com.tsystems.rehaklinik.dao.EmployeeDAO;
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.entities.Employee;
+import com.tsystems.rehaklinik.services.implementations.AdminServiceImpl;
+import com.tsystems.rehaklinik.services.interfaces.AdminService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,7 +1,7 @@
 package com.tsystems.rehaklinik.controllers.rest;
 
 import com.tsystems.rehaklinik.dto.TreatmentEventDTO;
-import com.tsystems.rehaklinik.services.NurseService;
+import com.tsystems.rehaklinik.services.interfaces.NurseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

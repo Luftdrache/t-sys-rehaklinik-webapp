@@ -1,4 +1,4 @@
-package com.tsystems.rehaklinik.services;
+package com.tsystems.rehaklinik.services.interfaces;
 
 
 import com.tsystems.rehaklinik.dto.EmployeeDTO;

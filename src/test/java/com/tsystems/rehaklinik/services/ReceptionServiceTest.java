@@ -9,6 +9,7 @@ import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.entities.Patient;
 import com.tsystems.rehaklinik.fillers.EmployeeFiller;
 import com.tsystems.rehaklinik.fillers.PatientFiller;
+import com.tsystems.rehaklinik.services.implementations.ReceptionServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

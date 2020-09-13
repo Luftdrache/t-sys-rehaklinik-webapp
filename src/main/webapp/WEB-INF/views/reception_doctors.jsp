@@ -50,8 +50,8 @@
     <!-- *******MAIN CONTAINER******* -->
     <div class="main-container" style="height: 90vh; background-image: url('/resources/images/icon_med_helper.png');
     background-size: contain; background-repeat: no-repeat; background-position: right">
-        <div class="card" style="font-size: 16px; width: 60%; padding-left: 5px">
-            <span class="details-title" style="font-weight: 500"> Available doctors:</span><br>
+        <div class="card" style="font-size: 16px; width: 60%; padding-left: 5%">
+            <span class="details-title" style="font-weight: 700">AVAILABLE DOCTORS</span><br>
             <c:forEach items="${doctors}" var="doctor">
                 <div class="row">
                     <div class="col-md-4">

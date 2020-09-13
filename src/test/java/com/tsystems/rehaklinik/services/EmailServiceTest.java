@@ -3,6 +3,7 @@ package com.tsystems.rehaklinik.services;
 import com.tsystems.rehaklinik.entities.AuthenticationData;
 import com.tsystems.rehaklinik.fillers.AuthenticationDataFiller;
 import com.tsystems.rehaklinik.fillers.PatientFiller;
+import com.tsystems.rehaklinik.services.implementations.EmailServiceImpl;
 import com.tsystems.rehaklinik.util.PDFGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

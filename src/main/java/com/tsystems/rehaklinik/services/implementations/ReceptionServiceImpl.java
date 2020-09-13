@@ -1,4 +1,4 @@
-package com.tsystems.rehaklinik.services;
+package com.tsystems.rehaklinik.services.implementations;
 
 
 import com.tsystems.rehaklinik.dao.EmployeeDAO;
@@ -9,6 +9,7 @@ import com.tsystems.rehaklinik.converters.DTOconverters.PatientDTOConverter;
 import com.tsystems.rehaklinik.dto.PatientShortViewDTO;
 import com.tsystems.rehaklinik.entities.Employee;
 import com.tsystems.rehaklinik.entities.Patient;
+import com.tsystems.rehaklinik.services.interfaces.ReceptionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

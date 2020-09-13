@@ -46,15 +46,6 @@
                         <i class="fas fa-user-plus"></i><span>Add new</span>
                     </a>
                 </li>
-                <%--                <li class="item" id="settings">--%>
-                <%--                    <a href="#settings" class="menu-btn">--%>
-                <%--                        <i class="fas fa-cog"></i><span>Settings <i class="fas fa-chevron-down drop-down"></i></span>--%>
-                <%--                    </a>--%>
-                <%--                    <div class="sub-menu">--%>
-                <%--                        <a href="#"><i class="fas fa-lock"></i><span>Password</span></a>--%>
-                <%--                        <a href="#"><i class="fas fa-language"></i><span>Language</span></a>--%>
-                <%--                    </div>--%>
-                <%--                </li>--%>
                 <li class="item">
                     <a href="#" class="menu-btn" onclick="showInfo()">
                         <i class="fas fa-info-circle"></i><span>About</span>
@@ -113,12 +104,12 @@
                             <td>${pat.insuranceCompany}</td>
                             <td>${pat.insurancePolicyCode}</td>
                             <td>${pat.attendingDoctor}</td>
-                            <td class="text-right row padding-right: 5px">
+                            <td class="text-right row padding-right: 5px" style="width: max-content">
                                 <form:form
                                         action="${pageContext.request.contextPath}/reception/patient-details/${pat.patientId}"
                                         method="get">
                                     <button type="submit" class="btn btn-primary btn-sm" value="Profile"
-                                            style="background-color: yellowgreen">
+                                            style="background-color: yellowgreen; margin-left: 10px">
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </form:form>
@@ -126,7 +117,7 @@
                                         action="${pageContext.request.contextPath}/reception/edit-patient-data/${pat.patientId}"
                                         method="get">
                                     <button type="submit" class="btn btn-primary btn-sm" value="Edit"
-                                            style="background-color: yellowgreen">
+                                            style="background-color: yellowgreen; margin-left: 10px">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </form:form>
@@ -134,7 +125,7 @@
                                            method="post">
                                     <input type="hidden" name="patientIdToDelete" value="${pat.patientId}">
                                     <button type="submit" class="btn btn-primary btn-sm" value="Delete"
-                                            style="background-color: yellowgreen">
+                                            style="background-color: yellowgreen; margin-left: 10px">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </form:form>

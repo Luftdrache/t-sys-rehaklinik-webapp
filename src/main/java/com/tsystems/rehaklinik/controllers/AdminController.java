@@ -3,7 +3,7 @@ package com.tsystems.rehaklinik.controllers;
 import com.tsystems.rehaklinik.dto.EmployeeDTO;
 import com.tsystems.rehaklinik.util.BindingCheck;
 import com.tsystems.rehaklinik.dto.EmployeeShortViewDTO;
-import com.tsystems.rehaklinik.services.AdminService;
+import com.tsystems.rehaklinik.services.interfaces.AdminService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

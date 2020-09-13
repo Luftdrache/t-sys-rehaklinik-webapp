@@ -1,4 +1,4 @@
-package com.tsystems.rehaklinik.services;
+package com.tsystems.rehaklinik.services.implementations;
 
 
 import com.tsystems.rehaklinik.converters.DTOconverters.*;
@@ -6,6 +6,8 @@ import com.tsystems.rehaklinik.dao.*;
 import com.tsystems.rehaklinik.dto.*;
 import com.tsystems.rehaklinik.entities.*;
 import com.tsystems.rehaklinik.jms.MessageSender;
+import com.tsystems.rehaklinik.services.interfaces.DoctorService;
+import com.tsystems.rehaklinik.services.interfaces.TreatmentEventGenerationService;
 import com.tsystems.rehaklinik.types.EventStatus;
 import com.tsystems.rehaklinik.types.HospitalStayStatus;
 import com.tsystems.rehaklinik.types.PrescriptionStatus;
@@ -195,7 +197,9 @@ public class DoctorServiceImpl implements DoctorService {
     public boolean cancelPrescription(int prescriptionId) {
         logger.info("MedHelper_LOGS: In DoctorServiceImpl  --> in cancelPrescription() method");
         Prescription prescription = prescriptionDAO.findPrescriptionById(prescriptionId);
-        prescription.setPrescriptionStatus(PrescriptionStatus.CANCELLED);
+        if (!prescription.getPrescriptionStatus().equals(PrescriptionStatus.DONE)) {
+            prescription.setPrescriptionStatus(PrescriptionStatus.CANCELLED);
+        }
         Prescription cancelled = prescriptionDAO.updatePrescription(prescription);
         if (cancelled.getPrescriptionId() == prescription.getPrescriptionId()
                 && cancelled.getPrescriptionStatus() == prescription.getPrescriptionStatus()) {
@@ -276,6 +280,7 @@ public class DoctorServiceImpl implements DoctorService {
                     medicalRecord.getPatient().getPatientId());
             if (prescriptionList != null) {
                 for (Prescription p : prescriptionList) {
+                    p.setPrescriptionStatus(PrescriptionStatus.DONE);
                     cancelPrescription(p.getPrescriptionId());
                 }
             }
