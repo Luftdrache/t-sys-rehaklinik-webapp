@@ -23,18 +23,46 @@ public interface AdminService {
 
 
     /**
-     *
+     * Finds all employees
      *
      * @return list with EmployeeShortViewDTO objects
      */
     List<EmployeeShortViewDTO> showAllEmployees();
 
+
+    /**
+     * Business logic for adding a new employee
+     *
+     * @param employee EmployeeDTO
+     * @return EmployeeDTO
+     */
     EmployeeDTO addNewEmployee(EmployeeDTO employee);
 
+
+    /**
+     * Business logic for deleting an employee
+     *
+     * @param id employee id
+     * @return message about operation result
+     */
     String deleteEmployeeById(int id);
 
+
+    /**
+     * Business logic for finding an employee by surname
+     *
+     * @param surname employee's surname
+     * @return EmployeeShortViewDTO
+     */
     List<EmployeeShortViewDTO> findEmployeeBySurname(String surname);
 
+
+    /**
+     * Business logic for editing an employee
+     *
+     * @param editedEmployee Employee to edit
+     * @return EmployeeDTO - edited
+     */
     EmployeeDTO editEmployee(EmployeeDTO editedEmployee);
 
 }
